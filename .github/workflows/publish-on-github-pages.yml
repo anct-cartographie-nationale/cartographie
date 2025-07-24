@@ -32,6 +32,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo NEXT_PUBLIC_BASE_PATH="${{ vars.NEXT_PUBLIC_BASE_PATH }}" >> .env
+
       - name: Build
         run: pnpm build
 
