@@ -13,13 +13,13 @@ suivantes.
 Le copyright précédent et cette autorisation doivent être distribués dans
 toute copie entière ou substantielle de ce Programme.
 
-Le Programme est fourni en l'état, sans garantie d'aucune sorte, explicite ou
-implicite, y compris les garanties de commercialisation ou d'adaptation dans
-un but particulier et l'absence de contrefaçon. En aucun cas les auteurs ou
-ayants droit ne seront tenus responsables de réclamations, dommages ou autres,
-que ce soit dans une action de nature contractuelle, préjudiciable ou autres
-façons, découlant de, hors ou en connexion avec le Programme ou l'utilisation
-ou autres modifications du Programme.
+LE PROGRAMME EST FOURNI EN L'ÉTAT, SANS GARANTIE D'AUCUNE SORTE, EXPLICITE OU
+IMPLICITE, Y COMPRIS LES GARANTIES DE COMMERCIALISATION OU D'ADAPTATION DANS
+UN BUT PARTICULIER ET L'ABSENCE DE CONTREFAÇON. EN AUCUN CAS LES AUTEURS OU
+AYANTS DROIT NE SERONT TENUS RESPONSABLES DE RÉCLAMATIONS, DOMMAGES OU AUTRES,
+QUE CE SOIT DANS UNE ACTION DE NATURE CONTRACTUELLE, PRÉJUDICIABLE OU AUTRES
+FAÇONS, DÉCOULANT DE, HORS OU EN CONNEXION AVEC LE PROGRAMME OU L'UTILISATION
+OU AUTRES MODIFICATIONS DU PROGRAMME.
 
 En cas de litige, seule la version originale de cette page a valeur juridique.
 

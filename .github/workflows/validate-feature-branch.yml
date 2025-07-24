@@ -1,0 +1,124 @@
+---
+name: Validate feature branch
+
+on:
+  push:
+    branches:
+      - 'build/*'
+      - 'chore/*'
+      - 'ci/*'
+      - 'docs/*'
+      - 'feat/*'
+      - 'fix/*'
+      - 'perf/*'
+      - 'refactor/*'
+      - 'revert/*'
+      - 'style/*'
+      - 'test/*'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  code-check:
+    name: Code check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Biome
+        run: pnpm biome:ci --reporter=github
+
+  commit-check:
+    name: Commit check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: CommitLint
+        run: pnpm lint:commit
+
+#   test:
+#     name: Test
+#     runs-on: ubuntu-latest
+#
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+#
+#       - name: Install pnpm
+#         uses: pnpm/action-setup@v4
+#         with:
+#           version: latest
+#
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: latest
+#           cache: 'pnpm'
+#
+#       - name: Install dependencies
+#         run: pnpm install
+#
+#       - name: Test
+#         run: pnpm test
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm build
