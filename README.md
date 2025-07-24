@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cartographie nationale des lieux d’inclusion numérique
 
-## Getting Started
+<h2 id="about">🪧 À propos</h2>
 
-First, run the development server:
+**La Cartographie nationale des lieux d’inclusion numérique** répond à un besoin clair : proposer une solution simple, accessible et ouverte pour référencer et valoriser les lieux qui œuvrent en faveur de l'inclusion numérique partout en France. Conçu comme un outil open source, ce projet vise à fournir une base solide et facile à adapter pour recenser ces lieux et en afficher les informations de manière claire et efficace.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Pour atteindre cet objectif, nous avons développé cette cartographie à partir du framework Next.js, et de l’écosystème React. L’application récupère et affiche les données consolidées provenant de l’entrepôt des données de l’inclusion numérique de l’ANCT. Cela garantit une information à jour, fiable et homogène, sans que les utilisateurs n’aient à gérer eux-mêmes la mise à jour des données ou une infrastructure complexe.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📑 Table des matières
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 🪧 [À propos](#about)
+- ✨ [Fonctionnalités](#features)
+- 🤗 [Contribuer](#contributing)
+- 📝 [Licence](#license)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+<h2 id="features">✨ Fonctionnalités</h2>
 
-## Learn More
+- **Simplicité avant tout** : nous misons sur une interface sobre et épurée, qui va à l'essentiel. Pas de fonctionnalités superflues : l’utilisateur accède facilement aux informations dont il a besoin.
+- **Next.js Powered** : grâce à Next.js, le site est rapide, léger, et facilement déployable sur différents hébergements.
+- **Piloté par les données** : l’ensemble des contenus (lieux, services, horaires, coordonnées…) provient de l’entrepôt des données de l’inclusion numérique de l’ANCT, qui centralise et consolide les informations issues de différentes sources partenaires.
+- **Personnalisable** chaque territoire, chaque structure a ses spécificités. Ce projet a été pensé pour être facilement adapté à différents besoins ou identités visuelles.
 
-To learn more about Next.js, take a look at the following resources:
+<h2 id="contributing">🤗 Contribuer</h2>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Que vous soyez développeur ou développeuse, designer, rédacteur ou rédactrice, ou tout simplement intéressé par l’inclusion numérique, vous êtes les bienvenus dans ce projet open source.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Pour commencer, consultez le [guide de contribution](./CONTRIBUTING.md).
 
-## Deploy on Vercel
+<h2 id="license">📝 Licence</h2>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Consultez le fichier [LICENSE.md](./LICENSE.md) du dépôt pour plus d'informations.
