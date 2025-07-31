@@ -1,0 +1,11 @@
+.badge-primary.badge-soft {
+  background-color: var(--color-primary-subtle);
+}
+
+a.badge-primary.badge-soft:hover {
+  background-color: var(--color-primary-subtle-high);
+}
+
+a.badge-primary.badge-soft:active {
+  background-color: var(--color-primary-subtle-low);
+}
