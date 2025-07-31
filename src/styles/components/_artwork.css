@@ -1,0 +1,15 @@
+.artwork-decorative {
+  fill: var(--color-primary-subtle);
+}
+
+.artwork-minor {
+  fill: var(--color-secondary);
+}
+
+.artwork-major {
+  fill: var(--color-primary);
+}
+
+.artwork-text {
+  fill: var(--color-base-content);
+}

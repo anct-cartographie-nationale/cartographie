@@ -1,0 +1,8 @@
+.badge {
+  padding: var(--bage-padding-y) var(--bage-padding-x);
+  height: auto;
+}
+
+a.badge-soft:hover {
+  background-color: color-mix(in oklab, var(--badge-color, var(--color-base-content)) 18%, var(--color-base-100));
+}

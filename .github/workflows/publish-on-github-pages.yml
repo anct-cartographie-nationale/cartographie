@@ -36,6 +36,7 @@ jobs:
         run: |
           touch .env
           echo NEXT_PUBLIC_BASE_PATH="${{ vars.NEXT_PUBLIC_BASE_PATH }}" >> .env
+          echo NEXT_PUBLIC_APP_NAME="${{ vars.NEXT_PUBLIC_APP_NAME }}" >> .env
 
       - name: Build
         run: pnpm build
