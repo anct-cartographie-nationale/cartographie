@@ -1,15 +1,16 @@
-const hostnameFromEnv = () => process.env.HOSTNAME ?? 'localhost';
+export const url = (protocol, hostname, port, basePath) =>
+  [protocol, '://', hostname, port ? `:${port}` : '', basePath ? basePath.replace(/\/$/, '') : ''].join('');
 
-const portFromEnv = () => (process.env.PORT ? +process.env.PORT : undefined);
+export const urlFromEnv = () => {
+  console.log(process.env);
 
-const isSecureProtocolFromEnv = () => process.env.PROTOCOL === 'https';
-
-const protocol = (isSecure) => `http${isSecure ? 's' : ''}`;
-
-export const url = (hostname, port, isSecure = true) =>
-  port ? `${protocol(isSecure)}://${hostname}:${port}` : `${protocol(isSecure)}://${hostname}`;
-
-export const urlFromEnv = () => url(hostnameFromEnv(), portFromEnv(), isSecureProtocolFromEnv());
+  return url(
+    process.env.PROTOCOL ?? 'https',
+    process.env.HOSTNAME ?? 'localhost',
+    process.env.PORT,
+    process.env.NEXT_PUBLIC_BASE_PATH
+  );
+};
 
 /** @type {import('next-sitemap').IConfig} */
 export default {
