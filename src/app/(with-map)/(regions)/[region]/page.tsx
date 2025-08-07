@@ -2,12 +2,13 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { RegionPage } from '@/features/cartographie/region.page';
 import departements from '@/features/collectivites-territoriales/departements.json';
+import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
 import { appPageTitle } from '@/libraries/utils';
 
 export const generateMetadata = async ({ params }: { params: Promise<{ region: string }> }): Promise<Metadata> => {
-  const slug = (await params).region;
-  const region = regions.find((r) => r.slug === slug);
+  const slug: string = (await params).region;
+  const region: Region | undefined = regions.find(regionMatchingSlug(slug));
 
   if (!region) return notFound();
 
@@ -17,11 +18,11 @@ export const generateMetadata = async ({ params }: { params: Promise<{ region: s
   };
 };
 
-export const generateStaticParams = () => regions.map(({ slug }) => ({ region: slug }));
+export const generateStaticParams = () => regions.map(({ slug }: Region) => ({ region: slug }));
 
 const Page = async ({ params }: { params: Promise<{ region: string }> }) => {
-  const slug = (await params).region;
-  const region = regions.find((r) => r.slug === slug);
+  const slug: string = (await params).region;
+  const region: Region | undefined = regions.find(regionMatchingSlug(slug));
 
   if (!region) return notFound();
 

@@ -3,7 +3,7 @@
     "code": "250",
     "nom": "France métropolitaine",
     "regions": ["84", "32", "93", "44", "76", "28", "75", "24", "27", "53", "94", "52", "11"],
-    "zoom": 6,
+    "zoom": 5.5,
     "localisation": {
       "longitude": 2.4326,
       "latitude": 46.7684

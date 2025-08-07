@@ -21,3 +21,7 @@
 .artwork-motif {
   fill: var(--color-base-300);
 }
+
+.artwork-content {
+  fill: var(--color-primary-content);
+}
