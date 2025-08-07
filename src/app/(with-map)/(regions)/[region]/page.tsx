@@ -25,9 +25,7 @@ const Page = async ({ params }: { params: Promise<{ region: string }> }) => {
 
   if (!region) return notFound();
 
-  const regionDepartements = departements.filter(({ code }) => region.departements.includes(code));
-
-  return <RegionPage region={region} departements={regionDepartements} />;
+  return <RegionPage region={region} departements={departements.filter(({ code }) => region.departements.includes(code))} />;
 };
 
 export default Page;

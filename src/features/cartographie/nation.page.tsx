@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
-import { LocationFranceIcon } from '@/libraries/ui/pictograms/map/LocationFranceIcon';
+import { LocationFranceIllustration } from '@/libraries/ui/pictograms/map/location-france.illustration';
 
 export const NationPage = ({ regions }: { regions: { slug: string; nom: string }[] }) => (
   <>
     <SkipLinksPortal />
-    <LocationFranceIcon className='mb-6 mt-19' />
+    <LocationFranceIllustration className='mb-6 mt-19' />
     <main id={contentId}>
       <h1 className='mb-12 text-3xl font-bold'>
         17345 lieux

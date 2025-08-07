@@ -13,3 +13,11 @@
 .artwork-text {
   fill: var(--color-base-content);
 }
+
+.artwork-background {
+  fill: var(--color-base-200);
+}
+
+.artwork-motif {
+  fill: var(--color-base-300);
+}
