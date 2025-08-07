@@ -25,7 +25,6 @@
     "noPropertyAccessFromIndexSignature": true,
     "allowUnusedLabels": false,
     "allowUnreachableCode": true,
-
     "plugins": [
       {
         "name": "next"

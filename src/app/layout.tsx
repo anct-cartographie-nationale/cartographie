@@ -22,7 +22,7 @@ const RootLayout = ({
       <ThemeProvider attribute='data-theme' defaultTheme='dark' enableSystem disableTransitionOnChange>
         <div className='h-screen flex flex-col'>
           <div id='skip-links' />
-          <div className='navbar bg-navbar px-8 py-4 shadow sticky'>
+          <div className='navbar bg-navbar px-8 py-4 shadow sticky z-1'>
             <div className='navbar-start'>
               <Link href='/' title='Retour à l’accueil' className='font-bold text-xl flex items-center gap-2' kind='link-hover'>
                 <Logo />
@@ -36,7 +36,7 @@ const RootLayout = ({
           <Footer>
             <div className='flex items-center justify-between gap-12 w-full'>
               <LogoRepubliqueFrancaise />
-              <p className='w-128 text-base-content'>
+              <p className='md:w-128 text-base-content'>
                 Vous souhaitez apparaître sur la cartographie ? il vous suffit de renseigner vos données sur{' '}
                 <Link
                   target='_blank'

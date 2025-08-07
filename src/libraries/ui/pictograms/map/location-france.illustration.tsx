@@ -1,6 +1,6 @@
 import type { Pictogram } from '../pictogram';
 
-export const LocationFranceIcon: Pictogram = ({ width = 80, height = 80, ...props }) => (
+export const LocationFranceIllustration: Pictogram = ({ width = 80, height = 80, ...props }) => (
   <svg width={width} height={height} {...props} viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'>
     <title>Contour de la France parsemé de points de localisation</title>
     <path

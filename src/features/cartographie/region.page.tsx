@@ -1,6 +1,6 @@
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
-import { LocationFranceIcon } from '@/libraries/ui/pictograms/map/LocationFranceIcon';
+import { LocationFranceIllustration } from '@/libraries/ui/pictograms/map/location-france.illustration';
 import { Link } from '@/libraries/ui/primitives/link';
 
 export const RegionPage = ({
@@ -20,7 +20,7 @@ export const RegionPage = ({
         <li>{region.nom}</li>
       </ul>
     </div>
-    <LocationFranceIcon className='mt-10 mb-6' />
+    <LocationFranceIllustration className='mt-10 mb-6' />
     <main id={contentId}>
       <h1 className='mb-12 text-3xl font-light'>
         {region.nom}
@@ -31,7 +31,7 @@ export const RegionPage = ({
       <div className='flex flex-wrap gap-1.5'>
         {departements.map((departement) => (
           <Link
-            href={`${region.slug}/${departement.slug}`}
+            href={`/${region.slug}/${departement.slug}`}
             key={departement.code}
             kind='link-hover'
             className='badge badge-primary badge-soft'
