@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { RegionPage } from '@/features/cartographie/region.page';
+import { DepartementsPage } from '@/features/cartographie/departements.page';
 import departements from '@/features/collectivites-territoriales/departements.json';
 import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
@@ -26,7 +26,9 @@ const Page = async ({ params }: { params: Promise<{ region: string }> }) => {
 
   if (!region) return notFound();
 
-  return <RegionPage region={region} departements={departements.filter(({ code }) => region.departements.includes(code))} />;
+  return (
+    <DepartementsPage region={region} departements={departements.filter(({ code }) => region.departements.includes(code))} />
+  );
 };
 
 export default Page;

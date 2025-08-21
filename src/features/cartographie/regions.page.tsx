@@ -12,7 +12,7 @@ import { CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID } from './cartographie-ids';
 
 const config = france.find(({ nom }): boolean => nom === 'France métropolitaine');
 
-export const NationPage = ({ regions }: { regions: Region[] }): ReactNode => {
+export const RegionsPage = ({ regions }: { regions: Region[] }): ReactNode => {
   const map = useMap()[CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID];
 
   if (!config) return null;
@@ -26,17 +26,17 @@ export const NationPage = ({ regions }: { regions: Region[] }): ReactNode => {
   return (
     <>
       <SkipLinksPortal />
-      <LocationFranceIllustration className='mb-6 mt-20' />
+      <LocationFranceIllustration className='mb-6 mt-18' />
       <main id={contentId}>
-        <h1 className='mb-12 text-3xl font-bold'>
+        <h1 className='mb-12 text-3xl text-base-title font-bold'>
           17345 lieux
           <br />
           d’inclusion numérique
         </h1>
-        <h2 className='font-bold uppercase text-xs mb-3'>Filtrer par région</h2>
+        <h2 className='font-bold uppercase text-xs text-base-title mb-3'>Filtrer par région</h2>
         <div className='flex flex-wrap gap-1.5'>
-          {regions.map(({ nom, slug }: Region) => (
-            <Link href={slug} key={slug} className='badge badge-primary badge-soft'>
+          {regions.map(({ nom, slug, code }: Region) => (
+            <Link href={slug} key={code} className='tag badge-primary badge-soft'>
               {nom}
             </Link>
           ))}

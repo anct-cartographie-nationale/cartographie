@@ -1,6 +1,6 @@
 import type { ReactNode, SVGProps } from 'react';
 
-export const Logo = (props: SVGProps<SVGSVGElement>): ReactNode => (
+export const AppLogo = (props: SVGProps<SVGSVGElement>): ReactNode => (
   <svg width='42' height='40' {...props} viewBox='0 0 42 40' fill='none' xmlns='http://www.w3.org/2000/svg'>
     <title>Logo de la cartographie nationale des lieux d’inclusion numérique</title>
     <path

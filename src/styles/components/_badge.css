@@ -1,5 +1,6 @@
 .badge {
   padding: var(--bage-padding-y) var(--bage-padding-x);
+  border-radius: var(--bage-radius);
   height: auto;
 }
 

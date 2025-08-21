@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import type { ReactNode } from 'react';
-import { Logo } from '@/features/brand/use-cases/illustrations/logo';
-import { LogoRepubliqueFrancaise } from '@/features/brand/use-cases/illustrations/logo-republique-francaise';
+import { AppLogo, RepubliqueFrancaiseLogo } from '@/features/brand/use-cases/logos';
 import { Footer, FooterLegal } from '@/libraries/ui/blocks/footer';
 import { footerId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import { ThemeChanger } from '@/libraries/ui/blocks/theme-changer';
@@ -24,8 +23,13 @@ const RootLayout = ({
           <div id='skip-links' />
           <div className='navbar bg-navbar px-8 py-4 shadow sticky z-1'>
             <div className='navbar-start'>
-              <Link href='/' title='Retour à l’accueil' className='font-bold text-xl flex items-center gap-2' kind='link-hover'>
-                <Logo />
+              <Link
+                href='/'
+                title='Retour à l’accueil'
+                className='font-bold text-xl text-base-title flex items-center gap-2'
+                kind='link-hover'
+              >
+                <AppLogo />
                 Lieux d’inclusion numérique
               </Link>
             </div>
@@ -35,7 +39,7 @@ const RootLayout = ({
         <div className='border-t-2 border-solid border-primary text-muted' id={footerId}>
           <Footer>
             <div className='flex items-center justify-between gap-12 w-full'>
-              <LogoRepubliqueFrancaise />
+              <RepubliqueFrancaiseLogo />
               <p className='md:w-128 text-base-content'>
                 Vous souhaitez apparaître sur la cartographie ? il vous suffit de renseigner vos données sur{' '}
                 <Link
