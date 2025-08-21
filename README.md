@@ -10,6 +10,8 @@ Pour atteindre cet objectif, nous avons développé cette cartographie à partir
 
 - 🪧 [À propos](#about)
 - ✨ [Fonctionnalités](#features)
+- 🎬 [Démo](#demo)
+- 🎨 [Design & prototype](#design)
 - 🤗 [Contribuer](#contributing)
 - 📝 [Licence](#license)
 
@@ -19,6 +21,19 @@ Pour atteindre cet objectif, nous avons développé cette cartographie à partir
 - **Next.js Powered** : grâce à Next.js, le site est rapide, léger, et facilement déployable sur différents hébergements.
 - **Piloté par les données** : l’ensemble des contenus (lieux, services, horaires, coordonnées…) provient de l’entrepôt des données de l’inclusion numérique de l’ANCT, qui centralise et consolide les informations issues de différentes sources partenaires.
 - **Personnalisable** chaque territoire, chaque structure a ses spécificités. Ce projet a été pensé pour être facilement adapté à différents besoins ou identités visuelles.
+
+<h2 id="demo">🎬 Démo</h2>
+
+Découvrez la version en ligne de la cartographie :  
+👉 [Accéder à la démo](https://anct-cartographie-nationale.github.io/cartographie/)
+
+N’hésitez pas à explorer ses fonctionnalités et à partager vos retours ! 🚀
+
+<h2 id="design">🎨 Design & prototype</h2>
+
+Les maquettes et le prototype interactif sont disponibles sur Figma :
+- [Lien vers les maquettes Figma](https://www.figma.com/design/IFH80doDOEvJvbMlUnQIOC/%E2%AD%90%EF%B8%8F-Outil-gestionnaire-FNE?node-id=12382-58602&t=fqUCwIdmPZpHHArx-4)
+- [Lien vers le prototype interactif](https://www.figma.com/proto/IFH80doDOEvJvbMlUnQIOC/%E2%AD%90%EF%B8%8F-Outil-gestionnaire-FNE?page-id=10781%3A56285&node-id=12382-58603&viewport=-12465%2C25248%2C0.49&t=b7DcLpZyD3fz353L-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=12382%3A58603&show-proto-sidebar=1)
 
 <h2 id="contributing">🤗 Contribuer</h2>
 
