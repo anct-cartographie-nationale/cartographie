@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { DepartementPage } from '@/features/cartographie/departement.page';
 import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
 import departements from '@/features/collectivites-territoriales/departements.json';
 import { type Region, regionMatchingDepartement, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
+import { LieuxPage } from '@/features/lieux-inclusion-numerique/lieux.page';
 import { appPageTitle } from '@/libraries/utils';
 
 export const generateMetadata = async ({ params }: { params: Promise<{ departement: string }> }): Promise<Metadata> => {
@@ -39,7 +39,7 @@ const Page = async ({ params }: { params: Promise<{ region: string; departement:
 
   if (!region || !departement) return notFound();
 
-  return <DepartementPage region={region} departement={departement} />;
+  return <LieuxPage region={region} departement={departement} />;
 };
 
 export default Page;

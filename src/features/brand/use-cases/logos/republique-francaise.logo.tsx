@@ -1,6 +1,6 @@
 import type { ReactNode, SVGProps } from 'react';
 
-export const LogoRepubliqueFrancaise = (props: SVGProps<SVGSVGElement>): ReactNode => (
+export const RepubliqueFrancaiseLogo = (props: SVGProps<SVGSVGElement>): ReactNode => (
   <svg width='127' height='111' viewBox='0 0 127 111' fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
     <title>Logo République Française</title>
     <rect width='55' height='20' fill='white' />
