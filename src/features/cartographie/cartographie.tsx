@@ -38,14 +38,19 @@ export const Cartographie = ({ selectedRegion }: { selectedRegion: Region | unde
           {(map?.getZoom() ?? 0) <= 7 &&
             regions.map(({ code, localisation, slug, nom }) => (
               <Link href={`/${slug}`} key={code}>
-                <CollectiviteTerritorialeMarker className='cursor-pointer' title={`Région ${nom}`} {...localisation}>
+                <CollectiviteTerritorialeMarker
+                  className='cursor-pointer'
+                  title={`Région ${nom}`}
+                  isMuted={selectedRegion != null && selectedRegion.code !== code}
+                  {...localisation}
+                >
                   {code}
                 </CollectiviteTerritorialeMarker>
               </Link>
             ))}
           {(map?.getZoom() ?? 0) > 7 &&
             departements.map(({ code, localisation, slug, nom }) => (
-              <Link href={`${regions.find(departementMatchingCode(code))?.slug}/${slug}`} key={code}>
+              <Link href={`/${regions.find(departementMatchingCode(code))?.slug}/${slug}`} key={code}>
                 <CollectiviteTerritorialeMarker
                   className='cursor-pointer'
                   title={`Département ${nom}`}

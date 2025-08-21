@@ -11,6 +11,11 @@ export type Departement = {
   };
 };
 
+export const departementMatchingSlug =
+  (slug: string) =>
+  (departement: Departement): boolean =>
+    departement.slug === slug;
+
 export const departementMatchingCode =
   (code: string) =>
   ({ departements }: Region): boolean =>

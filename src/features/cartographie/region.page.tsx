@@ -40,7 +40,7 @@ export const RegionPage = ({ region, departements }: { region: Region; departeme
         <h2 className='font-bold uppercase text-xs mb-3'>Filtrer par département</h2>
         <div className='flex flex-wrap gap-1.5'>
           {departements.map(({ code, slug, nom }) => (
-            <Link href={`/${slug}/${slug}`} key={code} kind='link-hover' className='badge badge-primary badge-soft'>
+            <Link href={`/${region.slug}/${slug}`} key={code} kind='link-hover' className='badge badge-primary badge-soft'>
               ({code}) {nom}
             </Link>
           ))}
