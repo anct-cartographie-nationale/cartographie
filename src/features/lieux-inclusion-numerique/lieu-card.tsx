@@ -1,37 +1,47 @@
 import type { ReactNode } from 'react';
+import { RiMapPin2Line, RiPhoneLine } from 'react-icons/ri';
 import { ConumLogo, FranceServicesLogo } from '@/features/brand/use-cases/logos';
 import { LieuLogo } from '@/features/brand/use-cases/logos/lieu.logo';
 import { Badge } from '@/libraries/ui/primitives/badge';
 import { Card } from '@/libraries/ui/primitives/card';
+import { cn } from '@/libraries/utils';
 
 type LieuCardProps = {
   nom: string;
+  adresse: string;
   commune: string;
+  codePostal: string;
+  phone?: string;
   distance?: number;
   isOpen?: boolean;
   isByAppointment?: boolean;
   isFranceServices?: boolean;
   isConum?: boolean;
+  size: 'md' | 'lg';
   className?: string;
 };
 
 export const LieuCard = ({
   nom,
+  adresse,
   commune,
+  codePostal,
+  phone,
   distance,
   isOpen,
   isByAppointment,
   isFranceServices,
   isConum,
+  size,
   className
 }: LieuCardProps): ReactNode => (
   <Card kind='card-border' className={className}>
     <div className='card-body'>
       <div className='flex justify-between gap-4'>
         <div>
-          <h2 className='card-title text-primary'>{nom}</h2>
+          <h2 className={cn('card-title text-primary', size === 'lg' && 'text-xl')}>{nom}</h2>
           {(isOpen || isByAppointment) && (
-            <div className='flex gap-2 mt-2'>
+            <div className={cn('flex gap-2', size === 'md' && 'mt-2', size === 'lg' && 'mt-3')}>
               {isOpen && (
                 <Badge color='badge-success' scale='badge-sm' className='font-bold uppercase'>
                   Ouvert
@@ -51,10 +61,25 @@ export const LieuCard = ({
           {!isFranceServices && !isConum && <LieuLogo />}
         </div>
       </div>
-      <div className='flex gap-1 justify-between text-muted'>
-        <div>{commune}</div>
-        {distance && <div>à {distance} Km</div>}
-      </div>
+      {size === 'md' && (
+        <div className='flex gap-1 justify-between text-muted'>
+          <div>{commune}</div>
+          {distance && <div>à {distance} Km</div>}
+        </div>
+      )}
+      {size === 'lg' && (
+        <div className='text-base'>
+          {phone && (
+            <div className='flex gap-2 items-center'>
+              <RiPhoneLine /> {phone}
+            </div>
+          )}
+          <div className='flex gap-2 items-center'>
+            <RiMapPin2Line />
+            {adresse}, {codePostal} {commune}
+          </div>
+        </div>
+      )}
     </div>
   </Card>
 );

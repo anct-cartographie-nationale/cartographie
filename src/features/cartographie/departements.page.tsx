@@ -8,6 +8,7 @@ import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
 import { LocationFranceIllustration } from '@/libraries/ui/pictograms/map/location-france.illustration';
+import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { Link } from '@/libraries/ui/primitives/link';
 import { CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID } from './cartographie-ids';
 
@@ -23,21 +24,28 @@ export const DepartementsPage = ({ region, departements }: { region: Region; dep
   return (
     <>
       <SkipLinksPortal />
-      <Breadcrumbs items={[{ label: 'France', href: '/' }, { label: region.nom }]} />
-      <LocationFranceIllustration className='mt-10 mb-6' />
-      <main id={contentId}>
-        <h1 className='mb-12 text-3xl text-base-title font-light'>
-          {region.nom}
-          <br />
-          <span className='font-bold'>1065 lieux d’inclusion numérique</span>
-        </h1>
-        <h2 className='font-bold uppercase text-xs text-base-title mb-3'>Filtrer par département</h2>
-        <div className='flex flex-wrap gap-1.5'>
-          {departements.map(({ code, slug, nom }) => (
-            <Link href={`/${region.slug}/${slug}`} key={code} className='tag badge-primary badge-soft'>
-              ({code}) {nom}
-            </Link>
-          ))}
+      <main id={contentId} className='flex flex-col justify-between h-full gap-16'>
+        <div>
+          <Breadcrumbs items={[{ label: 'France', href: '/' }, { label: region.nom }]} />
+          <LocationFranceIllustration className='mt-10 mb-6' />
+          <h1 className='mb-12 text-3xl text-base-title font-light'>
+            {region.nom}
+            <br />
+            <span className='font-bold'>1065 lieux d’inclusion numérique</span>
+          </h1>
+          <h2 className='font-bold uppercase text-xs text-base-title mb-3'>Filtrer par département</h2>
+          <div className='flex flex-wrap gap-1.5'>
+            {departements.map(({ code, slug, nom }) => (
+              <Link href={`/${region.slug}/${slug}`} key={code} className='tag badge-primary badge-soft'>
+                ({code}) {nom}
+              </Link>
+            ))}
+          </div>
+        </div>
+        <div>
+          <ButtonLink className='border-base-200' kind='btn-outline' color='btn-primary' href={`/${region.slug}/lieux`}>
+            Afficher la liste des 1065 lieux
+          </ButtonLink>
         </div>
       </main>
     </>

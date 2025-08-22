@@ -1,0 +1,67 @@
+[
+  {
+    "id": "a7dff9b0-3c1f-4d2a-8c5e-6f7b8c9d0e1f",
+    "nom": "France services marianne",
+    "adresse": "19 Rue Proudhon",
+    "commune": "Eloie",
+    "codePostal": "90300",
+    "phone": "+33 (0)3 50 59 43 14",
+    "distance": 5,
+    "isFranceServices": true,
+    "isOpen": true,
+    "region": "bourgogne-franche-comté",
+    "departement": "territoire-de-belfort"
+  },
+  {
+    "id": "b8dff9b0-3c1f-4d2a-8c5e-6f7b8c9d0e2f",
+    "nom": "Agence postale intercommunale arcey",
+    "adresse": "2 Rue de la Mairie",
+    "commune": "Chaux",
+    "codePostal": "90100",
+    "phone": "+33 (0)3 84 29 00 00",
+    "distance": 7,
+    "isConum": true,
+    "isByAppointment": true,
+    "region": "bourgogne-franche-comté",
+    "departement": "territoire-de-belfort"
+  },
+  {
+    "id": "c9dff9b0-3c1f-4d2a-8c5e-6f7b8c9d0e3f",
+    "nom": "La ressourcerie 90",
+    "adresse": "Rue de la République",
+    "commune": "Valdoie",
+    "codePostal": "90300",
+    "phone": "+33 (0)3 84 58 00 00",
+    "distance": 8,
+    "isConum": true,
+    "isOpen": true,
+    "isByAppointment": true,
+    "region": "bourgogne-franche-comté",
+    "departement": "territoire-de-belfort"
+  },
+  {
+    "id": "d0dff9b0-3c1f-4d2a-8c5e-6f7b8c9d0e4f",
+    "nom": "Centre communal d’action sociale",
+    "adresse": "Place de la République",
+    "commune": "Cravanche",
+    "codePostal": "90300",
+    "phone": "+33 (0)3 84 58 00 00",
+    "distance": 18,
+    "isByAppointment": true,
+    "region": "bourgogne-franche-comté",
+    "departement": "territoire-de-belfort"
+  },
+  {
+    "id": "e1dff9b0-3c1f-4d2a-8c5e-6f7b8c9d0e5f",
+    "nom": "Antenne locale héricourt",
+    "adresse": "Place de la République",
+    "commune": "Belfort",
+    "codePostal": "90000",
+    "phone": "+33 (0)3 84 58 00 00",
+    "distance": 19,
+    "isConum": true,
+    "isByAppointment": true,
+    "region": "bourgogne-franche-comté",
+    "departement": "territoire-de-belfort"
+  }
+]

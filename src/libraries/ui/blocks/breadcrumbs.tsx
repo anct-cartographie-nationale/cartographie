@@ -7,22 +7,23 @@ type BreadcrumbsProps = {
   }[];
 };
 
-export const Breadcrumbs = ({ items }: BreadcrumbsProps) => (
-  <div className='breadcrumbs text-xs'>
-    <ul>
-      {items.map(({ label, href }) =>
-        href ? (
-          <li key={href}>
-            <Link href={href} className='text-muted'>
+export const Breadcrumbs = ({ items }: BreadcrumbsProps) =>
+  items.length > 0 && (
+    <div className='flex breadcrumbs text-xs'>
+      <ul>
+        {items.map(({ label, href }) =>
+          href ? (
+            <li key={href}>
+              <Link href={href} className='text-muted'>
+                {label}
+              </Link>
+            </li>
+          ) : (
+            <li key={label} className='text-base-title'>
               {label}
-            </Link>
-          </li>
-        ) : (
-          <li key={label} className='text-base-title'>
-            {label}
-          </li>
-        )
-      )}
-    </ul>
-  </div>
-);
+            </li>
+          )
+        )}
+      </ul>
+    </div>
+  );

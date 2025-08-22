@@ -1,6 +1,4 @@
 import type { ReactNode } from 'react';
-import type { Departement } from '@/features/collectivites-territoriales/departement';
-import type { Region } from '@/features/collectivites-territoriales/region';
 import { Link } from '@/libraries/ui/primitives/link';
 import { LieuCard } from './lieu-card';
 
@@ -8,24 +6,29 @@ type LieuxListProps = {
   lieux: {
     id: string;
     nom: string;
+    adresse: string;
     commune: string;
-    departement: Departement;
-    region: Region;
+    codePostal: string;
+    phone?: string;
+    departement: string;
+    region: string;
     distance?: number;
     isOpen?: boolean;
     isByAppointment?: boolean;
     isFranceServices?: boolean;
     isConum?: boolean;
   }[];
+  size?: 'md' | 'lg';
+  className?: string;
 };
 
-export const LieuxList = ({ lieux }: LieuxListProps): ReactNode => (
-  <ul className='flex flex-col gap-2'>
+export const LieuxList = ({ lieux, size = 'md', className }: LieuxListProps): ReactNode => (
+  <ul className={className}>
     {lieux.map(
       ({ id, region, departement, ...lieu }): ReactNode => (
         <li key={id}>
-          <Link className='no-underline' href={`/${region.slug}/${departement.slug}/lieux/${id}`}>
-            <LieuCard className='hover:bg-base-300' {...lieu} />
+          <Link className='no-underline' href={`/${region}/${departement}/lieux/${id}`}>
+            <LieuCard className='hover:bg-base-300 h-full' {...lieu} size={size} />
           </Link>
         </li>
       )

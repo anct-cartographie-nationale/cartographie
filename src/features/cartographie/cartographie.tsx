@@ -6,11 +6,13 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
-import { departementMatchingCode } from '@/features/collectivites-territoriales/departement';
+import { RiListUnordered } from 'react-icons/ri';
+import { type Departement, departementMatchingCode } from '@/features/collectivites-territoriales/departement';
 import departements from '@/features/collectivites-territoriales/departements.json';
 import france from '@/features/collectivites-territoriales/france.json';
 import type { Region } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
+import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { cn } from '@/libraries/utils';
 import { ClientOnly } from '@/libraries/utils/client-only';
 import { CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID } from './cartographie-ids';
@@ -18,7 +20,13 @@ import { CollectiviteTerritorialeMarker } from './markers/collectivite-territori
 
 const config = france.find(({ nom }) => nom === 'France métropolitaine');
 
-export const Cartographie = ({ selectedRegion }: { selectedRegion: Region | undefined }) => {
+export const Cartographie = ({
+  selectedRegion,
+  selectedDepartement
+}: {
+  selectedRegion: Region | undefined;
+  selectedDepartement: Departement | undefined;
+}) => {
   const { theme } = useTheme();
   const [zoom, setZoom] = useState(config?.zoom ?? 0);
   const map = useMap()[CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID];
@@ -28,6 +36,16 @@ export const Cartographie = ({ selectedRegion }: { selectedRegion: Region | unde
   return (
     <ClientOnly>
       <div className={cn('w-full h-full', theme === 'dark' && 'invert-90')}>
+        {selectedRegion && selectedDepartement && (
+          <ButtonLink
+            href={`/${selectedRegion.slug}/${selectedDepartement.slug}/lieux`}
+            color='btn-primary'
+            className='absolute right-0 m-6 z-1'
+          >
+            <RiListUnordered />
+            Afficher la liste
+          </ButtonLink>
+        )}
         <MapLibre
           onZoomEnd={() => setZoom(map?.getZoom() ?? config.zoom)}
           id={CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID}
