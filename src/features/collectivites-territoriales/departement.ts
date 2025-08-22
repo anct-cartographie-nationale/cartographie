@@ -12,7 +12,7 @@ export type Departement = {
 };
 
 export const departementMatchingSlug =
-  (slug: string) =>
+  (slug: string | undefined) =>
   (departement: Departement): boolean =>
     departement.slug === slug;
 

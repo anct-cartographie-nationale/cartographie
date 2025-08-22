@@ -4,7 +4,7 @@ import { type Departement, departementMatchingSlug } from '@/features/collectivi
 import departements from '@/features/collectivites-territoriales/departements.json';
 import { type Region, regionMatchingDepartement, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
-import { DepartementLieuxPage } from '@/features/lieux-inclusion-numerique/departement-lieux.page';
+import { LieuxPage } from '@/features/lieux-inclusion-numerique/lieux.page';
 import { appPageTitle } from '@/libraries/utils';
 
 export const generateMetadata = async ({ params }: { params: Promise<{ departement: string }> }): Promise<Metadata> => {
@@ -12,10 +12,9 @@ export const generateMetadata = async ({ params }: { params: Promise<{ departeme
   const departement: Departement | undefined = departements.find(departementMatchingSlug(slug));
 
   if (!departement) return notFound();
-
   return {
-    title: appPageTitle(departement.nom),
-    description: `Consultez les lieux d'inclusion numérique du département ${departement.nom}.`
+    title: appPageTitle('Liste des lieux', departement.nom),
+    description: `Consultez la liste de tous les lieux d'inclusion numérique du département ${departement.nom}.`
   };
 };
 
@@ -39,7 +38,16 @@ const Page = async ({ params }: { params: Promise<{ region: string; departement:
 
   if (!region || !departement) return notFound();
 
-  return <DepartementLieuxPage region={region} departement={departement} />;
+  return (
+    <LieuxPage
+      breadcrumbsItems={[
+        { label: 'France', href: '/' },
+        { label: region.nom, href: `/${region.slug}` },
+        { label: departement.nom }
+      ]}
+      mapHref={`/${region.slug}/${departement.slug}`}
+    />
+  );
 };
 
 export default Page;
