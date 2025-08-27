@@ -1,0 +1,68 @@
+{
+  "nom": "France services Valdoie Maison Marianne",
+  "osmOpeningHours": "Mo,Tu,Th 09:30-13:00,13:30-17:00; We 09:30-13:00; Fr 13:30-17:00; Sa,Su off; Mo[1] off",
+  "isFranceServices": true,
+  "latitude": 47.662097659108674,
+  "longitude": 6.8484236829453815,
+  "adresse": "19 Rue Proudhon, 90300 Eloie",
+  "siteInternet": "https://maisondelamarianne.fr/france-services-valdoie/",
+  "accessibilite": "https://www.accessibilite.gouv.fr",
+  "telephone": "03 84 58 58 58",
+  "courriel": "contact@maisondelamarianne.fr",
+  "priseRDV": "https://maisondelamarianne.fr/france-services-valdoie/rdv/",
+  "labels": ["Aidants Connect"],
+  "services": {
+    "competences": [
+      "Aide aux démarches administratives",
+      "Maîtrise des outils numériques du quotidien",
+      "Insertion professionnelle via le numérique",
+      "Utilisation sécurisée du numérique",
+      "Parentalité et éducation avec le numérique"
+    ],
+    "cultureNumerique": ["Loisirs et créations numériques", "Compréhension du monde numérique"],
+    "materielInformatique": ["Accès internet et matériel informatique", "Acquisition de matériel informatique à prix solidaire"]
+  },
+  "typesAccompagnement": ["Accompagnement individuel", "Dans un atelier collectif", "En autonomie", "À distance"],
+  "publicsSpecifiques": [],
+  "fraisACharge": ["Gratuit", "Gratuit sous condition", "Payant"],
+  "modalitesAcces": [
+    "Se présenter",
+    "Téléphoner",
+    "Contacter par mail",
+    "Prendre un RDV en ligne",
+    "Envoyer un mail avec une fiche de prescription",
+    "Ce lieu n’accueille pas de public"
+  ],
+  "prisesEnChargeSpecifiques": [
+    "Surdité",
+    "Handicaps moteurs",
+    "Handicaps mentaux",
+    "Illettrisme",
+    "Langues étrangères (anglais)",
+    "Langues étrangères (autres)",
+    "Déficience visuelle"
+  ],
+  "description": "L’Atelier Numérique est un espace de médiation et de ressource numérique labellisé « Espace Public Numérique ». Sesdomaines d’intervention sont la médiation numérique, l’insertion socio-professionnelle, l’Education aux Médias et àl’Information. Nous accompagnons les habitants de tout âge à la découverte et l’utilisation des outils numérique, via desaccès libres Mus in sagittis pellentesque auctor in. Quam vel purus fames est accumsan vel id ipsum dolor. Rutrum egestasin elementum platea erat pellentesque id ut at. Duis tincidunt bibendum diam proin. Velit feugiat cursus nisi neque siteget. Volutpat massa commodo eu quam pulvinar. Nulla dolor diam sem proin in purus bibendum orci pretium. Magna et turpisgravida ultrices hendrerit pellentesque lobortis bibendum lacus. Id nisl odio magna commodo massa amet massa. Ut a enimsodales id commodo massa nec. Mattis non integer quis libero lectus diam. Sit dolor suspendisse consectetur lobortis namvitae. Dictum purus lectus vel blandit duis molestie ac vulputate. Nunc molestie iaculis parturient commodo consequatdolor rhoncus lectus. Arcu odio morbi felis senectus dolor eu in",
+  "mediateurs": [
+    {
+      "name": "Bruno Desmarais",
+      "labels": ["Conseiller Numérique", "Aidants Connect"],
+      "email": "nomprenom@mail.com",
+      "phone": "06 12 34 56 78"
+    },
+    {
+      "name": "Sofia Ben Youssef-Dubois",
+      "labels": ["Aidants Connect"],
+      "email": "nomprenom@mail.com",
+      "phone": "06 98 76 54 32"
+    },
+    {
+      "name": "Lucie Marchand",
+      "labels": ["Conseiller Numérique"]
+    },
+    { "name": "Yassine Trabelsi" },
+    { "name": "Claire Martin" },
+    { "name": "Théo Moreau" },
+    { "name": "Omar Gharbi" }
+  ]
+}

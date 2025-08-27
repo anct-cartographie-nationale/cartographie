@@ -42,7 +42,7 @@ export const Cartographie = ({
             color='btn-primary'
             className='absolute right-0 m-6 z-1'
           >
-            <RiListUnordered />
+            <RiListUnordered aria-hidden={true} />
             Afficher la liste
           </ButtonLink>
         )}

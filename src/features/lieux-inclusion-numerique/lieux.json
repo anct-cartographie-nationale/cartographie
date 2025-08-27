@@ -9,7 +9,7 @@
     "distance": 5,
     "isFranceServices": true,
     "isOpen": true,
-    "region": "bourgogne-franche-comté",
+    "region": "bourgogne-franche-comte",
     "departement": "territoire-de-belfort"
   },
   {
@@ -22,7 +22,7 @@
     "distance": 7,
     "isConum": true,
     "isByAppointment": true,
-    "region": "bourgogne-franche-comté",
+    "region": "bourgogne-franche-comte",
     "departement": "territoire-de-belfort"
   },
   {
@@ -36,7 +36,7 @@
     "isConum": true,
     "isOpen": true,
     "isByAppointment": true,
-    "region": "bourgogne-franche-comté",
+    "region": "bourgogne-franche-comte",
     "departement": "territoire-de-belfort"
   },
   {
@@ -48,7 +48,7 @@
     "phone": "+33 (0)3 84 58 00 00",
     "distance": 18,
     "isByAppointment": true,
-    "region": "bourgogne-franche-comté",
+    "region": "bourgogne-franche-comte",
     "departement": "territoire-de-belfort"
   },
   {
@@ -61,7 +61,7 @@
     "distance": 19,
     "isConum": true,
     "isByAppointment": true,
-    "region": "bourgogne-franche-comté",
+    "region": "bourgogne-franche-comte",
     "departement": "territoire-de-belfort"
   }
 ]
