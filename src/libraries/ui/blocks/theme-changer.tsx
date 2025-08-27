@@ -11,7 +11,7 @@ export const ThemeChanger = () => {
   return (
     <ClientOnly>
       <Button scale='btn-xs' kind='btn-ghost' onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
-        {theme === 'dark' ? <RiSunLine /> : <RiMoonClearLine />}
+        {theme === 'dark' ? <RiSunLine aria-hidden={true} /> : <RiMoonClearLine aria-hidden={true} />}
         Basculer en thème {theme === 'dark' ? 'clair' : 'sombre'}
       </Button>
     </ClientOnly>

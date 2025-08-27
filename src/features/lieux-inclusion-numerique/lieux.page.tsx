@@ -19,7 +19,7 @@ export const LieuxPage = ({ breadcrumbsItems = [], mapHref }: LieuxPageProps): R
       <div className='py-6 flex justify-between align-center gap-4'>
         <Breadcrumbs items={breadcrumbsItems} />
         <ButtonLink color='btn-primary' href={mapHref} className='ml-auto'>
-          <RiRoadMapLine />
+          <RiRoadMapLine aria-hidden={true} />
           Afficher la carte
         </ButtonLink>
       </div>

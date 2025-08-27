@@ -71,11 +71,11 @@ export const LieuCard = ({
         <div className='text-base'>
           {phone && (
             <div className='flex gap-2 items-center'>
-              <RiPhoneLine /> {phone}
+              <RiPhoneLine aria-hidden={true} /> {phone}
             </div>
           )}
           <div className='flex gap-2 items-center'>
-            <RiMapPin2Line />
+            <RiMapPin2Line aria-hidden={true} />
             {adresse}, {codePostal} {commune}
           </div>
         </div>
