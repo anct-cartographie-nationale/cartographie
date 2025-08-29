@@ -9,7 +9,8 @@ type OpeningStateProps = {
 };
 
 export const OpeningState = ({ osmOpeningHours }: OpeningStateProps) => {
-  const state = openingState(new Date())(osmOpeningHours);
+  const today = new Date();
+  const state = openingState(today)(osmOpeningHours);
 
   return (
     state && (
@@ -34,7 +35,8 @@ export const OpeningState = ({ osmOpeningHours }: OpeningStateProps) => {
             </Badge>
             {state.time && (
               <span className='font-semibold'>
-                Ouvre {days[state.day]} à {state.time.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                Ouvre {today.getDay() === state.day ? 'aujourd’hui' : days[state.day]} à{' '}
+                {state.time.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
               </span>
             )}
           </>
