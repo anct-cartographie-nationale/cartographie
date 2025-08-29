@@ -66,38 +66,32 @@ export const ContactCard = ({
           <h2 className='text-xl text-base-title font-bold'>{nom}</h2>
           <ul className='text-base leading-7'>
             <li className='flex items-center gap-2'>
-              <RiMapPin2Line aria-hidden={true} />
+              <div aria-hidden={true}>
+                <RiMapPin2Line />
+              </div>
               <span className='sr-only'>Adresse&nbsp;:</span>
               {adresse}
             </li>
             {siteInternet && (
               <li className='flex items-center gap-2'>
-                <RiGlobalLine size={16} aria-hidden={true} />
+                <div aria-hidden={true}>
+                  <RiGlobalLine />
+                </div>
                 <span className='sr-only'>Site internet&nbsp;:</span>
-                <Link
-                  className='flex items-center gap-1 break-words'
-                  color='link-primary'
-                  href={siteInternet}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  {siteInternet}
-                  <RiExternalLinkLine aria-hidden={true} />
+                <Link color='link-primary' href={siteInternet} target='_blank' rel='noopener noreferrer'>
+                  {siteInternet}&nbsp;
+                  <RiExternalLinkLine className='inline-flex' aria-hidden={true} />
                 </Link>
               </li>
             )}
             {accessibilite && (
               <li className='flex items-center gap-2'>
-                <RiWheelchairLine aria-hidden={true} />
-                <Link
-                  className='flex items-center gap-1'
-                  color='link-primary'
-                  href={accessibilite}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  Informations d’accessibilité du lieu
-                  <RiExternalLinkLine aria-hidden={true} />
+                <div aria-hidden={true}>
+                  <RiWheelchairLine />
+                </div>
+                <Link color='link-primary' href={accessibilite} target='_blank' rel='noopener noreferrer'>
+                  Informations d’accessibilité du lieu&nbsp;
+                  <RiExternalLinkLine className='inline-flex' aria-hidden={true} />
                 </Link>
               </li>
             )}
@@ -111,18 +105,22 @@ export const ContactCard = ({
               <ul className='text-base leading-7'>
                 {telephone && (
                   <li className='flex items-center gap-2'>
-                    <RiPhoneLine aria-hidden={true} />
+                    <div aria-hidden={true}>
+                      <RiPhoneLine />
+                    </div>
                     <span className='sr-only'>Numéro de téléphone&nbsp;:</span>
                     {telephone}
                   </li>
                 )}
                 {courriel && (
                   <li className='flex items-center gap-2'>
-                    <RiMailLine aria-hidden={true} />
+                    <div aria-hidden={true}>
+                      <RiMailLine />
+                    </div>
                     <span className='sr-only'>Courriel&nbsp;:</span>
-                    <Link className='flex items-center gap-1' color='link-primary' href={`mailto:${courriel}`}>
-                      {courriel}
-                      <RiExternalLinkLine aria-hidden={true} />
+                    <Link color='link-primary' href={`mailto:${courriel}`}>
+                      {courriel}&nbsp;
+                      <RiExternalLinkLine className='inline-flex' aria-hidden={true} />
                     </Link>
                   </li>
                 )}
