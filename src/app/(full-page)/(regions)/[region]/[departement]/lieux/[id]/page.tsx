@@ -11,14 +11,6 @@ export const generateMetadata = async ({ params }: { params: Promise<{ id: strin
   };
 };
 
-export const generateStaticParams = () => [
-  {
-    region: 'bourgogne-franche-comte',
-    departement: 'territoire-de-belfort',
-    id: 'c9dff9b0-3c1f-4d2a-8c5e-6f7b8c9d0e3f'
-  }
-];
-
 const Page = async () => (
   <FicheLieuPage
     breadcrumbsItems={[

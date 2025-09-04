@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import {
   dateTimeFor,
   dayOfTheWeek,
@@ -15,6 +15,10 @@ import {
 } from './opening-hours.presenter';
 
 describe('horaires presenter', (): void => {
+  beforeEach(() => {
+    process.env.TZ = 'UTC';
+  });
+
   it('should get time table opening hours from osm opening hours, open every working day', (): void => {
     const openingHours: string = 'Mo-Fr 09:00-12:00,14:00-18:30';
     const date: Date = new Date('2022-07-22T09:00:00.000Z');
@@ -139,7 +143,7 @@ describe('horaires presenter', (): void => {
 
     expect(status).toStrictEqual({
       isOpen: true,
-      time: new Date('2022-07-22T10:00:00.000Z')
+      time: new Date('2022-07-22T12:00:00.000Z')
     });
   });
 
@@ -152,7 +156,7 @@ describe('horaires presenter', (): void => {
     expect(status).toStrictEqual({
       day: 5,
       isOpen: false,
-      time: new Date('2022-07-22T07:00:00.000Z')
+      time: new Date('2022-07-22T09:00:00.000Z')
     });
   });
 
@@ -165,7 +169,7 @@ describe('horaires presenter', (): void => {
     expect(status).toStrictEqual({
       isOpen: false,
       day: 1,
-      time: new Date('2022-07-25T07:00:00.000Z')
+      time: new Date('2022-07-25T09:00:00.000Z')
     });
   });
 
