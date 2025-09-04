@@ -168,7 +168,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: Next build
-          path: _next/
+          path: .next/
 
       - name: Preview infrastructure deployment
         uses: pulumi/actions@v6
