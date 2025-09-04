@@ -77,7 +77,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: Next build
-          path: _next/
+          path: .next/
 
       - name: Deploy infrastructure
         uses: pulumi/actions@v6
