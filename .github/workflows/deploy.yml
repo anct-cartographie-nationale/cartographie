@@ -99,4 +99,4 @@ jobs:
           aws-secret-access-key: ${{ secrets.SCW_SECRET_KEY }}
 
       - name: Sync static files to application object storage
-        run: aws --endpoint-url https://s3.fr-par.scw.cloud s3 sync _next/static s3://cartographie-static/_next/static --acl public-read
+        run: aws --endpoint-url https://s3.fr-par.scw.cloud s3 sync _next/static s3://cartographie-prod-app-static-bucket/_next/static --acl public-read

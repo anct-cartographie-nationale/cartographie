@@ -1,19 +1,20 @@
 import * as docker from '@pulumi/docker';
 import { registry } from '@pulumiverse/scaleway';
 import { config } from '../config';
+import { name } from '../utils/name';
 import { scalewayProvider } from './scaleway.provider';
 
 const namespace = new registry.Namespace(
-  `${config.projectSlug}-registry-namespace`,
+  name('registry-namespace'),
   {
-    name: `${config.projectSlug}-container-registry`,
+    name: name('app-image-registry-namespace'),
     description: `${config.projectName} container registry`,
     isPublic: false
   },
   { provider: scalewayProvider }
 );
 
-const image = new docker.Image(`${config.projectSlug}-image`, {
+const image = new docker.Image(name('image'), {
   build: {
     context: '../',
     dockerfile: '../Dockerfile',
