@@ -8,6 +8,9 @@ const envSchema = z.object({
   NEXT_PUBLIC_APP_NAME: z.string().min(1, { message: 'App name must not be empty' }),
   NEXT_PUBLIC_BASE_PATH: z.string().refine((val) => val === '' || val.startsWith('/'), {
     message: "Must be empty or start with '/'"
+  }),
+  NEXT_ASSET_PREFIX: z.string().refine((val) => val === '' || val.length > 0, {
+    message: 'Must be empty or a valid prefix'
   })
 });
 

@@ -1,103 +1,12 @@
 ---
-name: Validate feature branch
+name: Build and deploy
 
 on:
   push:
     branches:
-      - 'build/*'
-      - 'chore/*'
-      - 'ci/*'
-      - 'docs/*'
-      - 'feat/*'
-      - 'fix/*'
-      - 'perf/*'
-      - 'refactor/*'
-      - 'revert/*'
-      - 'style/*'
-      - 'test/*'
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+      - 'main'
 
 jobs:
-  code-check:
-    name: Code check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: latest
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: latest
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Biome
-        run: pnpm biome:ci --reporter=github
-
-  commit-check:
-    name: Commit check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: latest
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: latest
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: CommitLint
-        run: pnpm lint:commit
-
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: latest
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: latest
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Test
-        run: pnpm test
-
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -140,8 +49,8 @@ jobs:
             name: Next build
             path: _next/
 
-  deploy-preview:
-    name: Deploy Preview
+  deploy:
+    name: Deploy
     needs: build
     runs-on: ubuntu-latest
 
@@ -170,10 +79,10 @@ jobs:
           name: Next build
           path: _next/
 
-      - name: Preview infrastructure deployment
+      - name: Deploy infrastructure
         uses: pulumi/actions@v6
         with:
-          command: preview
+          command: up
           stack-name: marc-gavanier/cartographie/prod
           work-dir: infrastructure
         env:
@@ -183,3 +92,11 @@ jobs:
           SCW_DEFAULT_PROJECT_ID: ${{ secrets.SCW_DEFAULT_PROJECT_ID }}
           TAGS: ${{ vars.TAGS }}
 
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.SCW_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.SCW_SECRET_KEY }}
+
+      - name: Sync static files to application object storage
+        run: aws --endpoint-url https://s3.fr-par.scw.cloud s3 sync _next/static s3://cartographie-static/_next/static --acl public-read

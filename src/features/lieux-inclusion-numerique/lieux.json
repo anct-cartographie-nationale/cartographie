@@ -1,6 +1,6 @@
 [
   {
-    "id": "c9dff9b0-3c1f-4d2a-8c5e-6f7b8c9d0e3f",
+    "id": "a7dff9b0-3c1f-4d2a-8c5e-6f7b8c9d0e1f",
     "nom": "France services marianne",
     "adresse": "19 Rue Proudhon",
     "commune": "Eloie",
@@ -13,7 +13,7 @@
     "departement": "territoire-de-belfort"
   },
   {
-    "id": "c9dff9b0-3c1f-4d2a-8c5e-6f7b8c9d0e3f",
+    "id": "b8dff9b0-3c1f-4d2a-8c5e-6f7b8c9d0e2f",
     "nom": "Agence postale intercommunale arcey",
     "adresse": "2 Rue de la Mairie",
     "commune": "Chaux",
@@ -40,7 +40,7 @@
     "departement": "territoire-de-belfort"
   },
   {
-    "id": "c9dff9b0-3c1f-4d2a-8c5e-6f7b8c9d0e3f",
+    "id": "d0dff9b0-3c1f-4d2a-8c5e-6f7b8c9d0e4f",
     "nom": "Centre communal d’action sociale",
     "adresse": "Place de la République",
     "commune": "Cravanche",
@@ -52,7 +52,7 @@
     "departement": "territoire-de-belfort"
   },
   {
-    "id": "c9dff9b0-3c1f-4d2a-8c5e-6f7b8c9d0e3f",
+    "id": "e1dff9b0-3c1f-4d2a-8c5e-6f7b8c9d0e5f",
     "nom": "Antenne locale héricourt",
     "adresse": "Place de la République",
     "commune": "Belfort",
