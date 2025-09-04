@@ -1,19 +1,21 @@
 import { object } from '@pulumiverse/scaleway';
 import { config } from '../config';
+import { name } from '../utils/name';
 import { scalewayProvider } from './scaleway.provider';
 
 const bucket = new object.Bucket(
-  `${config.projectSlug}-static-bucket`,
+  name('app-static-bucket'),
   {
     tags: Object.fromEntries(config.tags.map((tag) => [tag, tag])),
-    name: `${config.projectSlug}-static`,
+    name: name('app-static-bucket'),
     region: 'fr-par'
   },
   { provider: scalewayProvider }
 );
 
 new object.BucketAcl(
-  `${config.projectSlug}-static-bucket-acl`,
+  name('app-static-bucket-acl'),
+
   {
     bucket: bucket.id,
     acl: 'public-read'

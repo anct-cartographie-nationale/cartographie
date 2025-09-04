@@ -1,12 +1,13 @@
 import { containers } from '@pulumiverse/scaleway';
 import { config } from '../config';
+import { name } from '../utils/name';
 import { APP_IMAGE_NAME } from './image';
 import { scalewayProvider } from './scaleway.provider';
 
 const namespace = new containers.Namespace(
-  `${config.projectSlug}-container-namespace`,
+  name('container-namespace'),
   {
-    name: `${config.projectSlug}-namespace`,
+    name: name('app-container-namespace'),
     description: `${config.projectName} serverless container namespace`,
     tags: config.tags
   },
@@ -14,9 +15,9 @@ const namespace = new containers.Namespace(
 );
 
 const container = new containers.Container(
-  `${config.projectSlug}-app-container`,
+  name('container'),
   {
-    name: config.projectSlug,
+    name: name('app-container'),
     description: `${config.projectName} serverless container instance`,
     tags: config.tags,
     namespaceId: namespace.id,
