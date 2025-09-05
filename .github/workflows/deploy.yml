@@ -7,18 +7,22 @@ on:
       - 'main'
 
 jobs:
-  build:
-    name: Build
+  deploy:
+    name: Build and Deploy
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install pnpm
+      - name: Install app dependencies
         uses: pnpm/action-setup@v4
         with:
           version: latest
+
+      - name: Install infrastructure dependencies
+        run: pnpm install --frozen-lockfile
+        working-directory: infrastructure
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -40,48 +44,6 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Prepare build artifact
-        run: mv .next _next
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-            name: Next build
-            path: _next/
-
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: latest
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: latest
-          cache: 'pnpm'
-
-      - name: Install app dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Install infrastructure dependencies
-        run: pnpm install --frozen-lockfile
-        working-directory: infrastructure
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: Next build
-          path: .next/
-
       - name: Deploy infrastructure
         uses: pulumi/actions@v6
         with:
@@ -96,7 +58,7 @@ jobs:
           TAGS: ${{ vars.TAGS }}
 
       - name: Remove previous static files
-        run: aws --endpoint-url https://s3.fr-par.scw.cloud s3 rm s3://cartographie-dev-app-static-bucket --recursive
+        run: aws --endpoint-url https://s3.fr-par.scw.cloud s3 rm s3://cartographie-prod-app-static-bucket --recursive
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.SCW_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.SCW_SECRET_KEY }}
