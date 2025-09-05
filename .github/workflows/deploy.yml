@@ -69,7 +69,10 @@ jobs:
           node-version: latest
           cache: 'pnpm'
 
-      - name: Install dependencies
+      - name: Install app dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install infrastructure dependencies
         run: pnpm install --frozen-lockfile
         working-directory: infrastructure
 
