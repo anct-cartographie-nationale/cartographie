@@ -8,10 +8,20 @@ import type { Region } from '@/features/collectivites-territoriales/region';
 import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
-import lieux from './lieux.json';
+import type { LieuPreview } from './lieu-preview';
 import { LieuxList } from './lieux-list';
 
-export const DepartementLieuxPage = ({ region, departement }: { region: Region; departement: Departement }): ReactNode => {
+export const DepartementLieuxPage = ({
+  region,
+  departement,
+  totalLieux,
+  lieux
+}: {
+  region: Region;
+  departement: Departement;
+  totalLieux: number;
+  lieux: LieuPreview[];
+}): ReactNode => {
   const map = useMap()[CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID];
 
   map?.flyTo({
@@ -28,7 +38,7 @@ export const DepartementLieuxPage = ({ region, departement }: { region: Region; 
       />
       <main id={contentId}>
         <h1 className='font-bold uppercase text-xs text-base-title my-6'>
-          <span className='sr-only'>{departement.nom}</span> 25 lieux trouvés
+          <span className='sr-only'>{departement.nom}</span> {totalLieux} lieux trouvés
         </h1>
         <LieuxList lieux={lieux} className='flex flex-col gap-2' />
       </main>

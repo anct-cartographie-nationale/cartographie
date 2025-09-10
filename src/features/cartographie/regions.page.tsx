@@ -13,7 +13,7 @@ import { CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID } from './cartographie-ids';
 
 const config = france.find(({ nom }): boolean => nom === 'France métropolitaine');
 
-export const RegionsPage = ({ regions }: { regions: Region[] }): ReactNode => {
+export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regions: Region[] }): ReactNode => {
   const map = useMap()[CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID];
 
   if (!config) return null;
@@ -31,13 +31,13 @@ export const RegionsPage = ({ regions }: { regions: Region[] }): ReactNode => {
         <div>
           <LocationFranceIllustration className='mb-6 mt-18' />
           <h1 className='mb-12 text-3xl text-base-title font-bold'>
-            17345 lieux
+            {totalLieux} lieux
             <br />
             d’inclusion numérique
           </h1>
           <h2 className='font-bold uppercase text-xs text-base-title mb-3'>Filtrer par région</h2>
           <div className='flex flex-wrap gap-1.5'>
-            {regions.map(({ nom, slug, code }: Region) => (
+            {regions.map(({ nom, slug, code }) => (
               <Link href={slug} key={code} className='tag badge-primary badge-soft'>
                 {nom}
               </Link>
@@ -46,7 +46,7 @@ export const RegionsPage = ({ regions }: { regions: Region[] }): ReactNode => {
         </div>
         <div>
           <ButtonLink className='border-base-200' kind='btn-outline' color='btn-primary' href='/lieux'>
-            Afficher la liste des 17345 lieux
+            Afficher la liste des {totalLieux} lieux
           </ButtonLink>
         </div>
       </main>

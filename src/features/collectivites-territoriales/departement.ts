@@ -1,5 +1,3 @@
-import type { Region } from './region';
-
 export type Departement = {
   code: string;
   nom: string;
@@ -11,12 +9,17 @@ export type Departement = {
   };
 };
 
-export const departementMatchingSlug =
-  (slug: string | undefined) =>
-  (departement: Departement): boolean =>
-    departement.slug === slug;
-
 export const departementMatchingCode =
   (code: string) =>
-  ({ departements }: Region): boolean =>
-    departements.includes(code);
+  (departement: { code: string }): boolean =>
+    departement.code === code;
+
+export const departementMatchingSlug =
+  (slug: string | undefined) =>
+  (departement: { slug: string }): boolean =>
+    departement.slug === slug;
+
+export const matchingDepartementCode =
+  (departement: Departement) =>
+  ({ code }: { code: string }): boolean =>
+    departement.code === code;

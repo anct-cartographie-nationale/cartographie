@@ -1,5 +1,3 @@
-import type { Departement } from '@/features/collectivites-territoriales/departement';
-
 export type Region = {
   code: string;
   departements: string[];
@@ -14,10 +12,20 @@ export type Region = {
 
 export const regionMatchingSlug =
   (slug: string | undefined) =>
-  (region: Region): boolean =>
+  (region: { slug: string }): boolean =>
     region.slug === slug;
 
-export const regionMatchingDepartement =
-  ({ code }: Departement) =>
-  ({ departements }: Region): boolean =>
+export const matchingDepartementsFrom =
+  ({ departements }: { departements: string[] }) =>
+  ({ code }: { code: string }): boolean =>
     departements.includes(code);
+
+export const regionMatchingDepartement =
+  ({ code }: { code: string }) =>
+  ({ departements }: { departements: string[] }): boolean =>
+    departements.includes(code);
+
+export const matchingRegionCode =
+  (region: { code: string }) =>
+  ({ code }: { code: string }): boolean =>
+    region.code === code;

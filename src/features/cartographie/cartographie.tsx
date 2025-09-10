@@ -8,10 +8,8 @@ import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import { RiListUnordered } from 'react-icons/ri';
 import { type Departement, departementMatchingCode } from '@/features/collectivites-territoriales/departement';
-import departements from '@/features/collectivites-territoriales/departements.json';
 import france from '@/features/collectivites-territoriales/france.json';
 import type { Region } from '@/features/collectivites-territoriales/region';
-import regions from '@/features/collectivites-territoriales/regions.json';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { cn } from '@/libraries/utils';
 import { ClientOnly } from '@/libraries/utils/client-only';
@@ -21,9 +19,13 @@ import { CollectiviteTerritorialeMarker } from './markers/collectivite-territori
 const config = france.find(({ nom }) => nom === 'France métropolitaine');
 
 export const Cartographie = ({
+  regions,
+  departements,
   selectedRegion,
   selectedDepartement
 }: {
+  regions: (Region & { nombreLieux: number })[];
+  departements: (Departement & { nombreLieux: number })[];
   selectedRegion: Region | undefined;
   selectedDepartement: Departement | undefined;
 }) => {
@@ -54,7 +56,7 @@ export const Cartographie = ({
           mapStyle={mapStyles.simple}
         >
           {(map?.getZoom() ?? 0) <= 7 &&
-            regions.map(({ code, localisation, slug, nom }) => (
+            regions.map(({ code, localisation, slug, nom, nombreLieux }) => (
               <Link href={`/${slug}`} key={code}>
                 <CollectiviteTerritorialeMarker
                   className='cursor-pointer'
@@ -62,12 +64,12 @@ export const Cartographie = ({
                   isMuted={selectedRegion != null && selectedRegion.code !== code}
                   {...localisation}
                 >
-                  {code}
+                  {nombreLieux}
                 </CollectiviteTerritorialeMarker>
               </Link>
             ))}
           {(map?.getZoom() ?? 0) > 7 &&
-            departements.map(({ code, localisation, slug, nom }) => (
+            departements.map(({ code, localisation, slug, nom, nombreLieux }) => (
               <Link href={`/${regions.find(departementMatchingCode(code))?.slug}/${slug}`} key={code}>
                 <CollectiviteTerritorialeMarker
                   className='cursor-pointer'
@@ -75,7 +77,7 @@ export const Cartographie = ({
                   isMuted={!selectedRegion?.departements.includes(code)}
                   {...localisation}
                 >
-                  {code}
+                  {nombreLieux}
                 </CollectiviteTerritorialeMarker>
               </Link>
             ))}
