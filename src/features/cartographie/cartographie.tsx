@@ -7,9 +7,9 @@ import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import { RiListUnordered } from 'react-icons/ri';
-import { type Departement, departementMatchingCode } from '@/features/collectivites-territoriales/departement';
+import type { Departement } from '@/features/collectivites-territoriales/departement';
 import france from '@/features/collectivites-territoriales/france.json';
-import type { Region } from '@/features/collectivites-territoriales/region';
+import { type Region, regionMatchingDepartement } from '@/features/collectivites-territoriales/region';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { cn } from '@/libraries/utils';
 import { ClientOnly } from '@/libraries/utils/client-only';
@@ -70,7 +70,7 @@ export const Cartographie = ({
             ))}
           {(map?.getZoom() ?? 0) > 7 &&
             departements.map(({ code, localisation, slug, nom, nombreLieux }) => (
-              <Link href={`/${regions.find(departementMatchingCode(code))?.slug}/${slug}`} key={code}>
+              <Link href={`/${regions.find(regionMatchingDepartement({ code }))?.slug}/${slug}`} key={code}>
                 <CollectiviteTerritorialeMarker
                   className='cursor-pointer'
                   title={`Département ${nom}`}
