@@ -1,10 +1,11 @@
 import { OvoidBackground } from '@/libraries/ui/backgrounds/ovoid.background';
+import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import { TechnicalErrorIllustration } from '@/libraries/ui/pictograms/system/technical-error.illustration';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 
 const NotFound = async () => {
   return (
-    <main id='content' className='overflow-scroll flex h-full'>
+    <main id={contentId} className='overflow-scroll flex h-full'>
       <div className='container m-auto'>
         <div className='grid grid-cols-1 md:grid-cols-5 xl:gap-42 gap-21 mt-12 mb-48 items-center 2xl:mx-68 xl:mx-36 lg:mx-24 md:mx-20 mx-4'>
           <div className='md:col-span-3'>

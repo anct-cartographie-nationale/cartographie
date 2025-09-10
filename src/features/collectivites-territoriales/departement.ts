@@ -18,8 +18,3 @@ export const departementMatchingSlug =
   (slug: string | undefined) =>
   (departement: { slug: string }): boolean =>
     departement.slug === slug;
-
-export const matchingDepartementCode =
-  (departement: Departement) =>
-  ({ code }: { code: string }): boolean =>
-    departement.code === code;

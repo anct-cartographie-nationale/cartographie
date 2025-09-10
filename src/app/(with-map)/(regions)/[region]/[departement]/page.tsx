@@ -4,8 +4,8 @@ import { DEPARTEMENTS_ROUTE, inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/a
 import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
 import {
   type Departement,
-  departementMatchingSlug,
-  matchingDepartementCode
+  departementMatchingCode,
+  departementMatchingSlug
 } from '@/features/collectivites-territoriales/departement';
 import departements from '@/features/collectivites-territoriales/departements.json';
 import { type Region, regionMatchingDepartement, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
@@ -70,7 +70,7 @@ const Page = async ({ params }: { params: Promise<{ region: string; departement:
   return (
     <DepartementLieuxPage
       lieux={lieux.map(appendCollectivites)}
-      totalLieux={departementRouteResponse.find(matchingDepartementCode(departement))?.nombre_lieux ?? 0}
+      totalLieux={departementRouteResponse.find(departementMatchingCode(departement.code))?.nombre_lieux ?? 0}
       region={region}
       departement={departement}
     />

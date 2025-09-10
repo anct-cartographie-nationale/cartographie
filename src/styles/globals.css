@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/correctness/noUnknownProperty:  Biome does not support custom properties in CSS */
+/* biome-ignore-all lint: Biome does not support custom properties in CSS*/
 
 @import "tailwindcss";
 @import "./components/components.css";
