@@ -1,23 +1,10 @@
 import type { ReactNode } from 'react';
 import { Link } from '@/libraries/ui/primitives/link';
 import { LieuCard } from './lieu-card';
+import type { LieuPreview } from './lieu-preview';
 
 type LieuxListProps = {
-  lieux: {
-    id: string;
-    nom: string;
-    adresse: string;
-    commune: string;
-    codePostal: string;
-    phone?: string;
-    departement: string;
-    region: string;
-    distance?: number;
-    isOpen?: boolean;
-    isByAppointment?: boolean;
-    isFranceServices?: boolean;
-    isConum?: boolean;
-  }[];
+  lieux: LieuPreview[];
   size?: 'md' | 'lg';
   className?: string;
 };

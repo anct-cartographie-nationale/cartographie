@@ -12,7 +12,15 @@ import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { Link } from '@/libraries/ui/primitives/link';
 import { CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID } from './cartographie-ids';
 
-export const DepartementsPage = ({ region, departements }: { region: Region; departements: Departement[] }): ReactNode => {
+export const DepartementsPage = ({
+  region,
+  departements,
+  totalLieux
+}: {
+  region: Region;
+  departements: Departement[];
+  totalLieux: number;
+}): ReactNode => {
   const map = useMap()[CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID];
 
   map?.flyTo({
@@ -31,7 +39,7 @@ export const DepartementsPage = ({ region, departements }: { region: Region; dep
           <h1 className='mb-12 text-3xl text-base-title font-light'>
             {region.nom}
             <br />
-            <span className='font-bold'>1065 lieux d’inclusion numérique</span>
+            <span className='font-bold'>{totalLieux} lieux d’inclusion numérique</span>
           </h1>
           <h2 className='font-bold uppercase text-xs text-base-title mb-3'>Filtrer par département</h2>
           <div className='flex flex-wrap gap-1.5'>
@@ -44,7 +52,7 @@ export const DepartementsPage = ({ region, departements }: { region: Region; dep
         </div>
         <div>
           <ButtonLink className='border-base-200' kind='btn-outline' color='btn-primary' href={`/${region.slug}/lieux`}>
-            Afficher la liste des 1065 lieux
+            Afficher la liste des {totalLieux} lieux
           </ButtonLink>
         </div>
       </main>

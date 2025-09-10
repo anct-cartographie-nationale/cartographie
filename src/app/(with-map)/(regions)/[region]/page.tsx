@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { DEPARTEMENTS_ROUTE, inclusionNumeriqueFetchApi } from '@/api/inclusion-numerique';
+import { totalLieux } from '@/api/inclusion-numerique/transform/total-lieux';
 import { DepartementsPage } from '@/features/cartographie/departements.page';
 import departements from '@/features/collectivites-territoriales/departements.json';
-import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
+import { matchingDepartementsFrom, type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
 import { appPageTitle } from '@/libraries/utils';
 
@@ -26,8 +28,14 @@ const Page = async ({ params }: { params: Promise<{ region: string }> }) => {
 
   if (!region) return notFound();
 
+  const departementRouteResponse = await inclusionNumeriqueFetchApi(DEPARTEMENTS_ROUTE);
+
   return (
-    <DepartementsPage region={region} departements={departements.filter(({ code }) => region.departements.includes(code))} />
+    <DepartementsPage
+      totalLieux={totalLieux(departementRouteResponse.filter(matchingDepartementsFrom(region)))}
+      region={region}
+      departements={departements.filter(matchingDepartementsFrom(region))}
+    />
   );
 };
 

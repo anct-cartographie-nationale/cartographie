@@ -1,34 +1,27 @@
-'use client';
-
-import type { Params } from 'next/dist/server/request/params';
-import { useParams } from 'next/navigation';
 import type { ReactNode } from 'react';
-import { MapProvider } from 'react-map-gl/maplibre';
-import { Cartographie } from '@/features/cartographie/cartographie';
-import { departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
+import { DEPARTEMENTS_ROUTE, inclusionNumeriqueFetchApi, REGIONS_ROUTE } from '@/api/inclusion-numerique';
+import { addNombreLieux } from '@/api/inclusion-numerique/transform/add-nombre-lieux';
+import ClientLayout from '@/app/(with-map)/client.layout';
+import type { Departement } from '@/features/collectivites-territoriales/departement';
 import departements from '@/features/collectivites-territoriales/departements.json';
-import { regionMatchingSlug } from '@/features/collectivites-territoriales/region';
+import type { Region } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
 
-const REGION_PARAM = 'region';
-const DEPARTEMENT_PARAM = 'departement';
+type LayoutProps = {
+  children: ReactNode;
+};
 
-const getParam = (params: Params) => (paramName: string) =>
-  Array.isArray(params[paramName]) ? params[paramName][0] : params[paramName];
-
-const Layout = ({ children }: { children: ReactNode }) => {
-  const params = useParams();
+const Layout = async ({ children }: LayoutProps) => {
+  const regionRouteResponse = await inclusionNumeriqueFetchApi(REGIONS_ROUTE);
+  const departementRouteResponse = await inclusionNumeriqueFetchApi(DEPARTEMENTS_ROUTE);
 
   return (
-    <div className='flex flex-1 overflow-hidden'>
-      <MapProvider>
-        <div className='w-165 px-12 pt-8 pb-14 overflow-auto'>{children}</div>
-        <Cartographie
-          selectedRegion={regions.find(regionMatchingSlug(getParam(params)(REGION_PARAM)))}
-          selectedDepartement={departements.find(departementMatchingSlug(getParam(params)(DEPARTEMENT_PARAM)))}
-        />
-      </MapProvider>
-    </div>
+    <ClientLayout
+      regions={addNombreLieux<Region>(regionRouteResponse)(regions)}
+      departements={addNombreLieux<Departement>(departementRouteResponse)(departements)}
+    >
+      {children}
+    </ClientLayout>
   );
 };
 

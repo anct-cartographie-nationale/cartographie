@@ -1,6 +1,12 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
+import { DEPARTEMENTS_ROUTE, inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/api/inclusion-numerique';
+import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
+import {
+  type Departement,
+  departementMatchingSlug,
+  matchingDepartementCode
+} from '@/features/collectivites-territoriales/departement';
 import departements from '@/features/collectivites-territoriales/departements.json';
 import { type Region, regionMatchingDepartement, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
@@ -39,7 +45,36 @@ const Page = async ({ params }: { params: Promise<{ region: string; departement:
 
   if (!region || !departement) return notFound();
 
-  return <DepartementLieuxPage region={region} departement={departement} />;
+  const lieux = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
+    paginate: { limit: 10, offset: 0 },
+    select: [
+      'id',
+      'nom',
+      'adresse',
+      'code_postal',
+      'code_insee',
+      'commune',
+      'latitude',
+      'longitude',
+      'prise_rdv',
+      'horaires',
+      'dispositif_programmes_nationaux'
+    ],
+    filter: {
+      code_insee: `like.${departement.code}%`
+    }
+  });
+
+  const departementRouteResponse = await inclusionNumeriqueFetchApi(DEPARTEMENTS_ROUTE);
+
+  return (
+    <DepartementLieuxPage
+      lieux={lieux.map(appendCollectivites)}
+      totalLieux={departementRouteResponse.find(matchingDepartementCode(departement))?.nombre_lieux ?? 0}
+      region={region}
+      departement={departement}
+    />
+  );
 };
 
 export default Page;

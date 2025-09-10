@@ -10,7 +10,7 @@ type LieuCardProps = {
   nom: string;
   adresse: string;
   commune: string;
-  codePostal: string;
+  code_postal: string;
   phone?: string;
   distance?: number;
   isOpen?: boolean;
@@ -25,7 +25,7 @@ export const LieuCard = ({
   nom,
   adresse,
   commune,
-  codePostal,
+  code_postal,
   phone,
   distance,
   isOpen,
@@ -76,7 +76,7 @@ export const LieuCard = ({
           )}
           <div className='flex gap-2 items-center'>
             <RiMapPin2Line aria-hidden={true} />
-            {adresse}, {codePostal} {commune}
+            {adresse}, {code_postal} {commune}
           </div>
         </div>
       )}

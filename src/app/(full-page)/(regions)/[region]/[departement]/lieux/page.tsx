@@ -1,6 +1,12 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
+import { DEPARTEMENTS_ROUTE, inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/api/inclusion-numerique';
+import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
+import {
+  type Departement,
+  departementMatchingSlug,
+  matchingDepartementCode
+} from '@/features/collectivites-territoriales/departement';
 import departements from '@/features/collectivites-territoriales/departements.json';
 import { type Region, regionMatchingDepartement, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
@@ -12,6 +18,7 @@ export const generateMetadata = async ({ params }: { params: Promise<{ departeme
   const departement: Departement | undefined = departements.find(departementMatchingSlug(slug));
 
   if (!departement) return notFound();
+
   return {
     title: appPageTitle('Liste des lieux', departement.nom),
     description: `Consultez la liste de tous les lieux d'inclusion numérique du département ${departement.nom}.`
@@ -38,8 +45,32 @@ const Page = async ({ params }: { params: Promise<{ region: string; departement:
 
   if (!region || !departement) return notFound();
 
+  const lieux = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
+    paginate: { limit: 24, offset: 0 },
+    select: [
+      'id',
+      'nom',
+      'adresse',
+      'code_postal',
+      'code_insee',
+      'commune',
+      'latitude',
+      'longitude',
+      'prise_rdv',
+      'horaires',
+      'dispositif_programmes_nationaux'
+    ],
+    filter: {
+      code_insee: `like.${departement.code}%`
+    }
+  });
+
+  const departementRouteResponse = await inclusionNumeriqueFetchApi(DEPARTEMENTS_ROUTE);
+
   return (
     <LieuxPage
+      totalLieux={departementRouteResponse.find(matchingDepartementCode(departement))?.nombre_lieux ?? 0}
+      lieux={lieux.map(appendCollectivites)}
       breadcrumbsItems={[
         { label: 'France', href: '/' },
         { label: region.nom, href: `/${region.slug}` },
