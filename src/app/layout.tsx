@@ -3,7 +3,7 @@ import '@/styles/globals.css';
 import type { ReactNode } from 'react';
 import { AppLogo, RepubliqueFrancaiseLogo } from '@/features/brand/use-cases/logos';
 import { Footer, FooterLegal } from '@/libraries/ui/blocks/footer';
-import { footerId } from '@/libraries/ui/blocks/skip-links/skip-links';
+import { footerId, skipLinksId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import { ThemeChanger } from '@/libraries/ui/blocks/theme-changer';
 import { Link } from '@/libraries/ui/primitives/link';
 import { ThemeProvider } from '@/libraries/ui/theme/providers';
@@ -20,7 +20,7 @@ const RootLayout = ({
     <body>
       <ThemeProvider attribute='data-theme' defaultTheme='dark' enableSystem disableTransitionOnChange>
         <div className='h-screen flex flex-col'>
-          <div id='skip-links' />
+          <div id={skipLinksId} />
           <div className='navbar bg-navbar px-8 py-4 shadow sticky z-1'>
             <div className='navbar-start'>
               <Link

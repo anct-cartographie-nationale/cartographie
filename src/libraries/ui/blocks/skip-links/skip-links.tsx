@@ -1,3 +1,4 @@
+export const skipLinksId = 'skip-links';
 export const contentId = 'contenu';
 export const footerId = 'fr-footer';
 

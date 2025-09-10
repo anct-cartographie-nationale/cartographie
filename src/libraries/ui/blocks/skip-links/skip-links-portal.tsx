@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { defaultSkipLinks, SkipLinks } from './skip-links';
+import { defaultSkipLinks, SkipLinks, skipLinksId } from './skip-links';
 
 const SkipLinksPortal = ({
   links = defaultSkipLinks,
-  elementId = 'skip-links'
+  elementId = skipLinksId
 }: {
   links?: { label: string; anchor: string }[];
   elementId?: string;
@@ -17,4 +17,5 @@ const SkipLinksPortal = ({
 
   return isMounted ? createPortal(<SkipLinks links={links} />, document.getElementById(elementId) ?? document.body) : null;
 };
+
 export default SkipLinksPortal;
