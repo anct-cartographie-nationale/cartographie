@@ -8,7 +8,7 @@ export const appendCollectivites = <T extends { code_insee: string }>(lieu: T) =
 
   return {
     ...lieu,
-    departement: departements.find(departementMatchingCode(code))?.slug,
-    region: regions.find(regionMatchingDepartement({ code }))?.slug
+    departement: departements.find(departementMatchingCode(code))?.slug ?? '',
+    region: regions.find(regionMatchingDepartement({ code }))?.slug ?? ''
   };
 };

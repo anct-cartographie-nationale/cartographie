@@ -4,13 +4,13 @@ import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
-import type { LieuPreview } from './lieu-preview';
+import type { LieuListItem } from './lieu-list-item';
 import { LieuxList } from './lieux-list';
 
 type LieuxPageProps = {
   breadcrumbsItems?: { label: string; href?: string }[];
   mapHref: string;
-  lieux: LieuPreview[];
+  lieux: LieuListItem[];
   totalLieux: number;
 };
 

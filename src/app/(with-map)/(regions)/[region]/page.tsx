@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { DEPARTEMENTS_ROUTE, inclusionNumeriqueFetchApi } from '@/api/inclusion-numerique';
-import { totalLieux } from '@/api/inclusion-numerique/transform/total-lieux';
+import { totalLieux } from '@/api/inclusion-numerique/transfer/total-lieux';
 import { DepartementsPage } from '@/features/cartographie/departements.page';
 import departements from '@/features/collectivites-territoriales/departements.json';
 import { matchingDepartementsFrom, type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';

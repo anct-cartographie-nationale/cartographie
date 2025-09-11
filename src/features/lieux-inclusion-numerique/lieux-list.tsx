@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
 import { Link } from '@/libraries/ui/primitives/link';
 import { LieuCard } from './lieu-card';
-import type { LieuPreview } from './lieu-preview';
+import type { LieuListItem } from './lieu-list-item';
 
 type LieuxListProps = {
-  lieux: LieuPreview[];
+  lieux: LieuListItem[];
   size?: 'md' | 'lg';
   className?: string;
 };

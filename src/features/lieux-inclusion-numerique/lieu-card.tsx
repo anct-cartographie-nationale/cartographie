@@ -5,18 +5,9 @@ import { LieuLogo } from '@/features/brand/use-cases/logos/lieu.logo';
 import { Badge } from '@/libraries/ui/primitives/badge';
 import { Card } from '@/libraries/ui/primitives/card';
 import { cn } from '@/libraries/utils';
+import type { LieuListItem } from './lieu-list-item';
 
-type LieuCardProps = {
-  nom: string;
-  adresse: string;
-  commune: string;
-  code_postal: string;
-  phone?: string;
-  distance?: number;
-  isOpen?: boolean;
-  isByAppointment?: boolean;
-  isFranceServices?: boolean;
-  isConum?: boolean;
+type LieuCardProps = Omit<LieuListItem, 'id' | 'region' | 'departement'> & {
   size: 'md' | 'lg';
   className?: string;
 };
@@ -25,7 +16,7 @@ export const LieuCard = ({
   nom,
   adresse,
   commune,
-  code_postal,
+  codePostal,
   phone,
   distance,
   isOpen,
@@ -55,7 +46,7 @@ export const LieuCard = ({
             </div>
           )}
         </div>
-        <div className='flex'>
+        <div className='flex gap-1'>
           {isFranceServices && <FranceServicesLogo />}
           {isConum && <ConumLogo />}
           {!isFranceServices && !isConum && <LieuLogo />}
@@ -76,7 +67,7 @@ export const LieuCard = ({
           )}
           <div className='flex gap-2 items-center'>
             <RiMapPin2Line aria-hidden={true} />
-            {adresse}, {code_postal} {commune}
+            {adresse}, {codePostal} {commune}
           </div>
         </div>
       )}

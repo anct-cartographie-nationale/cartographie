@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { DEPARTEMENTS_ROUTE, inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/api/inclusion-numerique';
+import { DEPARTEMENTS_ROUTE, inclusionNumeriqueFetchApi, LIEU_LIST_FIELDS, LIEUX_ROUTE } from '@/api/inclusion-numerique';
+import { toLieuListItem } from '@/api/inclusion-numerique/transfer/toLieuListItem';
 import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
 import {
   type Departement,
@@ -47,29 +48,15 @@ const Page = async ({ params }: { params: Promise<{ region: string; departement:
 
   const lieux = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
     paginate: { limit: 10, offset: 0 },
-    select: [
-      'id',
-      'nom',
-      'adresse',
-      'code_postal',
-      'code_insee',
-      'commune',
-      'latitude',
-      'longitude',
-      'prise_rdv',
-      'horaires',
-      'dispositif_programmes_nationaux'
-    ],
-    filter: {
-      code_insee: `like.${departement.code}%`
-    }
+    select: LIEU_LIST_FIELDS,
+    filter: { code_insee: `like.${departement.code}%` }
   });
 
   const departementRouteResponse = await inclusionNumeriqueFetchApi(DEPARTEMENTS_ROUTE);
 
   return (
     <DepartementLieuxPage
-      lieux={lieux.map(appendCollectivites)}
+      lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}
       totalLieux={departementRouteResponse.find(departementMatchingCode(departement.code))?.nombre_lieux ?? 0}
       region={region}
       departement={departement}
