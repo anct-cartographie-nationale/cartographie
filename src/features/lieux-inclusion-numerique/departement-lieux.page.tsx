@@ -8,7 +8,7 @@ import type { Region } from '@/features/collectivites-territoriales/region';
 import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
-import type { LieuPreview } from './lieu-preview';
+import type { LieuListItem } from './lieu-list-item';
 import { LieuxList } from './lieux-list';
 
 export const DepartementLieuxPage = ({
@@ -20,7 +20,7 @@ export const DepartementLieuxPage = ({
   region: Region;
   departement: Departement;
   totalLieux: number;
-  lieux: LieuPreview[];
+  lieux: LieuListItem[];
 }): ReactNode => {
   const map = useMap()[CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID];
 

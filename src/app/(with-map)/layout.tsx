@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { DEPARTEMENTS_ROUTE, inclusionNumeriqueFetchApi, REGIONS_ROUTE } from '@/api/inclusion-numerique';
-import { addNombreLieux } from '@/api/inclusion-numerique/transform/add-nombre-lieux';
+import { addNombreLieux } from '@/api/inclusion-numerique/transfer/add-nombre-lieux';
 import ClientLayout from '@/app/(with-map)/client.layout';
 import type { Departement } from '@/features/collectivites-territoriales/departement';
 import departements from '@/features/collectivites-territoriales/departements.json';

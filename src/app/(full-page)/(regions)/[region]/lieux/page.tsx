@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { inclusionNumeriqueFetchApi, LIEUX_ROUTE, REGIONS_ROUTE } from '@/api/inclusion-numerique';
+import { inclusionNumeriqueFetchApi, LIEU_LIST_FIELDS, LIEUX_ROUTE, REGIONS_ROUTE } from '@/api/inclusion-numerique';
+import { toLieuListItem } from '@/api/inclusion-numerique/transfer/toLieuListItem';
 import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
 import { matchingRegionCode, type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
@@ -29,22 +30,8 @@ const Page = async ({ params }: { params: Promise<{ region: string }> }) => {
 
   const lieux = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
     paginate: { limit: 24, offset: 0 },
-    select: [
-      'id',
-      'nom',
-      'adresse',
-      'code_postal',
-      'code_insee',
-      'commune',
-      'latitude',
-      'longitude',
-      'prise_rdv',
-      'horaires',
-      'dispositif_programmes_nationaux'
-    ],
-    filter: {
-      or: `(${region.departements.map((code) => `code_insee.like.${code}%`).join(',')})`
-    }
+    select: LIEU_LIST_FIELDS,
+    filter: { or: `(${region.departements.map((code) => `code_insee.like.${code}%`).join(',')})` }
   });
 
   const regionRouteResponse = await inclusionNumeriqueFetchApi(REGIONS_ROUTE);
@@ -52,7 +39,7 @@ const Page = async ({ params }: { params: Promise<{ region: string }> }) => {
   return (
     <LieuxPage
       totalLieux={regionRouteResponse.find(matchingRegionCode(region))?.nombre_lieux ?? 0}
-      lieux={lieux.map(appendCollectivites)}
+      lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}
       breadcrumbsItems={[{ label: 'France', href: '/' }, { label: region.nom }]}
       mapHref={`/${region.slug}`}
     />

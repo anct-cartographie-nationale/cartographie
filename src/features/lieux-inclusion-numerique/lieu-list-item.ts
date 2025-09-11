@@ -1,13 +1,13 @@
-export type LieuPreview = {
+export type LieuListItem = {
   id: string;
+  region: string;
+  departement: string;
   nom: string;
   adresse: string;
   commune: string;
-  code_postal: string;
+  codePostal: string;
   phone?: string;
-  departement: string | undefined;
-  region: string | undefined;
-  distance?: number;
+  distance?: string;
   isOpen?: boolean;
   isByAppointment?: boolean;
   isFranceServices?: boolean;

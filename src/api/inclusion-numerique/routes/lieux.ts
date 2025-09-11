@@ -18,4 +18,20 @@ export type LieuxRouteResponse = {
   prise_rdv?: string;
   horaires?: string;
   dispositif_programmes_nationaux?: string;
+  modalites_acces?: string;
 }[];
+
+export const LIEU_LIST_FIELDS: (keyof LieuxRouteResponse[number])[] = [
+  'id',
+  'nom',
+  'adresse',
+  'commune',
+  'code_postal',
+  'code_insee',
+  'latitude',
+  'longitude',
+  'prise_rdv',
+  'horaires',
+  'dispositif_programmes_nationaux',
+  'modalites_acces'
+];
