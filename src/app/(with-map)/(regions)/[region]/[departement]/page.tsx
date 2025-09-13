@@ -13,6 +13,7 @@ import { type Region, regionMatchingDepartement, regionMatchingSlug } from '@/fe
 import regions from '@/features/collectivites-territoriales/regions.json';
 import { DepartementLieuxPage } from '@/features/lieux-inclusion-numerique/departement-lieux.page';
 import { appPageTitle } from '@/libraries/utils';
+import { pageSchema } from '@/libraries/utils/page.schema';
 
 export const generateMetadata = async ({ params }: { params: Promise<{ departement: string }> }): Promise<Metadata> => {
   const slug: string = (await params).departement;
@@ -37,9 +38,16 @@ export const generateStaticParams = () =>
     };
   });
 
-const Page = async ({ params }: { params: Promise<{ region: string; departement: string }> }) => {
+type PageProps = {
+  params: Promise<{ region: string; departement: string }>;
+  searchParams?: Promise<{ page: string }>;
+};
+
+const Page = async ({ params, searchParams }: PageProps) => {
   const regionSlug: string = (await params).region;
   const departementSlug: string = (await params).departement;
+  const curentPage = pageSchema.parse((await searchParams)?.page);
+  const limit = 10;
 
   const region: Region | undefined = regions.find(regionMatchingSlug(regionSlug));
   const departement: Departement | undefined = departements.find(departementMatchingSlug(departementSlug));
@@ -47,17 +55,20 @@ const Page = async ({ params }: { params: Promise<{ region: string; departement:
   if (!region || !departement) return notFound();
 
   const lieux = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
-    paginate: { limit: 10, offset: 0 },
+    paginate: { limit, offset: (curentPage - 1) * limit },
     select: LIEU_LIST_FIELDS,
-    filter: { code_insee: `like.${departement.code}%` }
+    filter: { code_insee: `like.${departement.code}%` },
+    order: ['nom', 'asc']
   });
 
   const departementRouteResponse = await inclusionNumeriqueFetchApi(DEPARTEMENTS_ROUTE);
 
   return (
     <DepartementLieuxPage
-      lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}
       totalLieux={departementRouteResponse.find(departementMatchingCode(departement.code))?.nombre_lieux ?? 0}
+      pageSize={limit}
+      curentPage={curentPage}
+      lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}
       region={region}
       departement={departement}
     />

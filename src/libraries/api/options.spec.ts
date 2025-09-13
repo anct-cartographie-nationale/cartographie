@@ -32,8 +32,18 @@ describe('options', () => {
       select: ['id', 'name']
     };
 
-    const queryParams = toQueryParams(options);
+    const queryParams = toQueryParams(options, { select: ',' });
 
     expect(queryParams).toStrictEqual('select=id%2Cname');
+  });
+
+  it('should create query params for order option', () => {
+    const options = {
+      order: ['name', 'asc']
+    };
+
+    const queryParams = toQueryParams(options, { order: '.' });
+
+    expect(queryParams).toStrictEqual('order=name.asc');
   });
 });

@@ -6,6 +6,7 @@ import type { ButtonClass } from './button';
 
 export type ButtonLinkProps = NextLinkProps &
   ButtonClass & {
+    disabled?: boolean;
     icon?: ReactNode;
     iconOnly?: boolean;
     target?: HTMLAttributeAnchorTarget;
@@ -22,10 +23,13 @@ export const ButtonLink = ({
   behavior,
   scale,
   modifier,
+  disabled,
   ...props
 }: ButtonLinkProps) => (
   <NextLink
-    className={cn('btn', color, kind, behavior, scale, modifier, className)}
+    aria-disabled={disabled}
+    tabIndex={disabled ? -1 : undefined}
+    className={cn('btn', disabled && 'btn-disabled', color, kind, behavior, scale, modifier, className)}
     target={target}
     rel={target === '_blank' ? 'noopener noreferrer' : undefined}
     title={iconOnly && typeof children === 'string' ? children : undefined}
