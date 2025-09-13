@@ -6,21 +6,27 @@ import { CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID } from '@/features/cartograph
 import type { Departement } from '@/features/collectivites-territoriales/departement';
 import type { Region } from '@/features/collectivites-territoriales/region';
 import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
+import { NextPageLink, PageLink, PreviousPageLink } from '@/libraries/ui/blocks/pagination/page-link';
+import { Pagination } from '@/libraries/ui/blocks/pagination/pagination';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
 import type { LieuListItem } from './lieu-list-item';
 import { LieuxList } from './lieux-list';
 
 export const DepartementLieuxPage = ({
-  region,
-  departement,
   totalLieux,
-  lieux
+  pageSize,
+  curentPage,
+  lieux,
+  region,
+  departement
 }: {
+  totalLieux: number;
+  pageSize: number;
+  curentPage: number;
+  lieux: LieuListItem[];
   region: Region;
   departement: Departement;
-  totalLieux: number;
-  lieux: LieuListItem[];
 }): ReactNode => {
   const map = useMap()[CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID];
 
@@ -41,6 +47,17 @@ export const DepartementLieuxPage = ({
           <span className='sr-only'>{departement.nom}</span> {totalLieux} lieux trouvés
         </h1>
         <LieuxList lieux={lieux} className='flex flex-col gap-2' />
+        <div className='text-center mt-10'>
+          <Pagination
+            curentPage={curentPage}
+            itemsCount={totalLieux}
+            pageSize={pageSize}
+            siblingCount={1}
+            nav={{ previous: PreviousPageLink, next: NextPageLink }}
+          >
+            {PageLink}
+          </Pagination>
+        </div>
       </main>
     </>
   );

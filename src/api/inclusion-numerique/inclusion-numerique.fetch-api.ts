@@ -27,7 +27,15 @@ export const inclusionNumeriqueFetchApi = async <TRoute extends InclusionNumeriq
     baseUrl: 'https://api.inclusion-numerique.anct.gouv.fr',
     revalidate: 21600,
     token: env.INCLUSION_NUMERIQUE_API_TOKEN
-  })(route, options ? toQueryParams(options) : undefined);
+  })(
+    route,
+    options
+      ? toQueryParams(options, {
+          order: '.',
+          select: ','
+        })
+      : undefined
+  );
 
   if (!res.ok) throw new Error('Failed to fetch data');
 
