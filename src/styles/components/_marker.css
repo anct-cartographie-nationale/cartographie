@@ -1,0 +1,32 @@
+.marker {
+  cursor: pointer;
+}
+
+.marker-shape {
+  transition: transform 0.2s ease;
+  transform-origin: center;
+}
+
+.marker:hover .marker-shape {
+  transform: scale(1.2);
+}
+
+.marker-border-shrink {
+  stroke: #fff;
+  stroke-width: 1.5;
+  transition: stroke-width 0.2s ease;
+}
+
+.marker-border-grow {
+  stroke: #fff;
+  stroke-width: 1.5;
+  transition: stroke-width 0.2s ease;
+}
+
+.marker:hover .marker-border-shrink {
+  stroke-width: 0;
+}
+
+.marker:hover .marker-border-grow {
+  stroke-width: 6;
+}
