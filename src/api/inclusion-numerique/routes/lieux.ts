@@ -11,15 +11,30 @@ export type LieuxRouteResponse = {
   id: string;
   nom: string;
   adresse: string;
+  complement_adresse?: string;
   commune: string;
   code_postal: string;
   code_insee: string;
   latitude?: number;
   longitude?: number;
-  prise_rdv?: string;
+  telephone?: string;
+  courriels?: string;
+  site_web?: string;
   horaires?: string;
+  presentation_resume?: string;
+  presentation_detail?: string;
+  services: string;
+  publics_specifiquement_adresses?: string;
+  prise_en_charge_specifique?: string;
+  frais_a_charge?: string;
   dispositif_programmes_nationaux?: string;
+  formations_labels?: string;
+  autres_formations_labels?: string;
   modalites_acces?: string;
+  modalites_accompagnement?: string;
+  fiche_acces_libre?: string;
+  prise_rdv?: string;
+  mediateurs?: { nom: string; email?: string; phone?: string; labels?: string[] }[];
 }[];
 
 export const LIEU_LIST_FIELDS: (keyof LieuxRouteResponse[number])[] = [

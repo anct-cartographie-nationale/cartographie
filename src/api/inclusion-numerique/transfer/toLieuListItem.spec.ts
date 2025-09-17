@@ -13,7 +13,8 @@ describe('to lieu list item', () => {
       code_postal: '75000',
       code_insee: '75000',
       departement: '75',
-      region: 'Île-de-France'
+      region: 'Île-de-France',
+      services: ['Aide aux démarches administratives'].join('|')
     };
 
     const lieuListItem: LieuListItem = toLieuListItem(new Date('2022-07-22T10:00:00.000Z'))(lieu);
@@ -47,7 +48,8 @@ describe('to lieu list item', () => {
       longitude: 2.3509,
       horaires: 'Mo-Fr 09:00-12:00,13:30-17:30; Tu 10:00-12:30,13:30-17:30',
       dispositif_programmes_nationaux: ['France Services', 'Conseillers numériques'].join('|'),
-      modalites_acces: 'Se présenter|Téléphoner|Contacter par mail'
+      modalites_acces: ['Se présenter', 'Téléphoner', 'Contacter par mail'].join('|'),
+      services: ['Aide aux démarches administratives'].join('|')
     };
 
     const lieuListItem: LieuListItem = toLieuListItem(new Date('2025-09-11T15:00:00.000Z'), {
