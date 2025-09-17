@@ -59,7 +59,6 @@ export const Cartographie = ({
             regions.map(({ code, localisation, slug, nom, nombreLieux }) => (
               <Link href={`/${slug}`} key={code}>
                 <CollectiviteTerritorialeMarker
-                  className='cursor-pointer'
                   title={`Région ${nom}`}
                   isMuted={selectedRegion != null && selectedRegion.code !== code}
                   {...localisation}
@@ -72,7 +71,6 @@ export const Cartographie = ({
             departements.map(({ code, localisation, slug, nom, nombreLieux }) => (
               <Link href={`/${regions.find(regionMatchingDepartement({ code }))?.slug}/${slug}`} key={code}>
                 <CollectiviteTerritorialeMarker
-                  className='cursor-pointer'
                   title={`Département ${nom}`}
                   isMuted={!selectedRegion?.departements.includes(code)}
                   {...localisation}
