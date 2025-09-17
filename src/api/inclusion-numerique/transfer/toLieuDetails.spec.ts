@@ -138,7 +138,7 @@ describe('to lieu details', () => {
       departement: '75',
       siteInternet: 'https://maisondelamarianne.fr/france-services-valdoie/',
       accessibilite: 'https://www.accessibilite.gouv.fr',
-      telephone: '+33612823657',
+      telephone: '06 12 82 36 57',
       courriel: 'contact@maisondelamarianne.fr',
       priseRDV: 'https://maisondelamarianne.fr/france-services-valdoie/rdv/',
       description:

@@ -17,7 +17,7 @@ export const LieuCard = ({
   adresse,
   commune,
   codePostal,
-  phone,
+  telephone,
   distance,
   isOpen,
   isByAppointment,
@@ -60,9 +60,9 @@ export const LieuCard = ({
       )}
       {size === 'lg' && (
         <div className='text-base'>
-          {phone && (
+          {telephone && (
             <div className='flex gap-2 items-center'>
-              <RiPhoneLine aria-hidden={true} /> {phone}
+              <RiPhoneLine aria-hidden={true} /> {telephone}
             </div>
           )}
           <div className='flex gap-2 items-center'>

@@ -2,6 +2,7 @@ import type { LieuxRouteResponse } from '@/api/inclusion-numerique';
 import { geographicDistance } from '@/api/inclusion-numerique/transfer/geographic-distance';
 import { isOpenNow } from '@/features/lieux-inclusion-numerique/fiche-lieu/opening-hours.presenter';
 import type { LieuListItem } from '@/features/lieux-inclusion-numerique/lieu-list-item';
+import { formatPhoneNumber } from './format-phone-number';
 
 const isDefined = <T>(value: T | null | undefined): value is T => value != null;
 
@@ -28,6 +29,7 @@ export const toLieuListItem =
     region,
     latitude,
     longitude,
+    telephone,
     horaires,
     dispositif_programmes_nationaux,
     modalites_acces
@@ -42,6 +44,7 @@ export const toLieuListItem =
     ...(localisation && latitude && longitude
       ? { distance: (geographicDistance({ latitude, longitude }, localisation) / 1000).toFixed(2) }
       : {}),
+    ...(telephone ? { telephone: formatPhoneNumber(telephone) } : {}),
     isOpen: isOpen(date)(horaires),
     isByAppointment: modalites_acces?.includes('Se présenter') ?? false,
     isFranceServices: dispositif_programmes_nationaux?.includes('France Services') ?? false,

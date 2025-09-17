@@ -1,5 +1,6 @@
 import type { LieuxRouteResponse } from '@/api/inclusion-numerique';
 import type { LieuDetails } from '@/features/lieux-inclusion-numerique/lieu-details';
+import { formatPhoneNumber } from './format-phone-number';
 
 const COMPETENCES_SERVICES = [
   'Aide aux démarches administratives',
@@ -56,7 +57,7 @@ export const toLieuDetails = ({
   ...(horaires ? { osmOpeningHours: horaires } : {}),
   isFranceServices: dispositif_programmes_nationaux?.includes('France Services') ?? false,
   isConum: dispositif_programmes_nationaux?.includes('Conseillers numériques') ?? false,
-  ...(telephone ? { telephone } : {}),
+  ...(telephone ? { telephone: formatPhoneNumber(telephone) } : {}),
   ...(courriels ? { courriel: courriels } : {}),
   ...(site_web ? { siteInternet: site_web } : {}),
   ...(fiche_acces_libre ? { accessibilite: fiche_acces_libre } : {}),

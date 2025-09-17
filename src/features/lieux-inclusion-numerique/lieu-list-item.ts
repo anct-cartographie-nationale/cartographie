@@ -6,7 +6,7 @@ export type LieuListItem = {
   adresse: string;
   commune: string;
   codePostal: string;
-  phone?: string;
+  telephone?: string;
   distance?: string;
   isOpen?: boolean;
   isByAppointment?: boolean;

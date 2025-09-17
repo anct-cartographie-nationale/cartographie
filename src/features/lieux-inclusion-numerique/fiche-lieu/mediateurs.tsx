@@ -5,7 +5,7 @@ type MediateursProps = {
     nom: string;
     labels?: string[];
     email?: string;
-    phone?: string;
+    telephone?: string;
   }[];
 };
 
@@ -24,7 +24,7 @@ export const Mediateurs = ({ mediateurs }: MediateursProps) => (
               </span>
             ))}
           </div>
-          {(mediateur.email || mediateur.phone) && (
+          {(mediateur.email || mediateur.telephone) && (
             <div className='flex items-center gap-2'>
               {mediateur.email && (
                 <>
@@ -32,13 +32,13 @@ export const Mediateurs = ({ mediateurs }: MediateursProps) => (
                     <RiMailLine aria-hidden={true} />
                     {mediateur.email}
                   </span>
-                  {mediateur.phone && '·'}
+                  {mediateur.telephone && '·'}
                 </>
               )}
-              {mediateur.phone && (
+              {mediateur.telephone && (
                 <span className='flex items-center gap-2'>
                   <RiPhoneLine aria-hidden={true} />
-                  {mediateur.phone}
+                  {mediateur.telephone}
                 </span>
               )}
             </div>
