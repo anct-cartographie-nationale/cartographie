@@ -24,7 +24,7 @@ const Page = async ({ searchParams }: PageProps) => {
 
   const lieux = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
     paginate: { limit, offset: (curentPage - 1) * limit },
-    select: LIEU_LIST_FIELDS,
+    select: [...LIEU_LIST_FIELDS, 'telephone'],
     order: ['nom', 'asc']
   });
 

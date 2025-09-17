@@ -38,7 +38,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 
   const lieux = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
     paginate: { limit, offset: (curentPage - 1) * limit },
-    select: LIEU_LIST_FIELDS,
+    select: [...LIEU_LIST_FIELDS, 'telephone'],
     filter: { or: `(${region.departements.map((code) => `code_insee.like.${code}%`).join(',')})` },
     order: ['nom', 'asc']
   });
