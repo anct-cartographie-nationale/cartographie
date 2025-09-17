@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
-import { FranceServicesLogo } from '@/features/brand/use-cases/logos';
+import { ConumLogo, FranceServicesLogo } from '@/features/brand/use-cases/logos';
 import { Button } from '@/libraries/ui/primitives/button';
 import { WeekDay } from './opening-hours.presenter';
 import { OpeningState } from './opening-state';
@@ -13,20 +13,25 @@ type InformationsGeneralesProps = {
   nom: string;
   osmOpeningHours?: string;
   isFranceServices?: boolean;
+  isConum?: boolean;
 };
 
-export const InformationsGenerales = ({ nom, osmOpeningHours, isFranceServices = false }: InformationsGeneralesProps) => {
+export const InformationsGenerales = ({
+  nom,
+  osmOpeningHours,
+  isFranceServices = false,
+  isConum = false
+}: InformationsGeneralesProps) => {
   const [openHoursIsVisible, setOpenHoursIsVisible] = useState(false);
 
   return (
     <>
       <div className='flex sm:flex-row flex-col justify-between items-center gap-6'>
         <h1 className='text-4xl text-base-title font-bold'>{nom}</h1>
-        {isFranceServices && (
-          <div>
-            <FranceServicesLogo width={96} height={96} className='border-1 border-base-200 rounded-lg' />
-          </div>
-        )}
+        <div className='flex gap-2'>
+          {isFranceServices && <FranceServicesLogo width={96} height={96} className='border-1 border-base-200 rounded-lg' />}
+          {isConum && <ConumLogo width={96} height={96} className='border-1 border-base-200 rounded-lg' />}
+        </div>
       </div>
       {osmOpeningHours && (
         <>

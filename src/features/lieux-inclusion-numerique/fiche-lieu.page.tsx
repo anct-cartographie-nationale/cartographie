@@ -11,14 +11,15 @@ import { Description } from './fiche-lieu/description';
 import { InformationsGenerales } from './fiche-lieu/informations-generales';
 import { Mediateurs } from './fiche-lieu/mediateurs';
 import { Mobilisation } from './fiche-lieu/mobilisation';
-import lieu from './lieu.json';
+import type { LieuDetails } from './lieu-details';
 
 type FicheLieuPageProps = {
   breadcrumbsItems?: { label: string; href?: string }[];
   listHref: string;
+  lieu: LieuDetails;
 };
 
-export const FicheLieuPage = ({ breadcrumbsItems = [], listHref }: FicheLieuPageProps): ReactNode => (
+export const FicheLieuPage = ({ breadcrumbsItems = [], listHref, lieu }: FicheLieuPageProps): ReactNode => (
   <div className='overflow-scroll'>
     <SkipLinksPortal />
     <Breadcrumbs items={breadcrumbsItems} className='px-8 py-4 border-b-1 border-base-200' />
@@ -41,7 +42,7 @@ export const FicheLieuPage = ({ breadcrumbsItems = [], listHref }: FicheLieuPage
         {lieu.description && (
           <>
             <section>
-              <Description {...lieu} />
+              <Description description={lieu.description} />
             </section>
             <hr className='border-base-200 my-6' />
           </>

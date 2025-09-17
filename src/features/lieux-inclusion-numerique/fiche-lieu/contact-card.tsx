@@ -20,8 +20,8 @@ import { ClientOnly } from '@/libraries/utils';
 
 type ContactCardProps = {
   nom: string;
-  latitude: number;
-  longitude: number;
+  latitude?: number;
+  longitude?: number;
   adresse: string;
   siteInternet?: string;
   accessibilite?: string;
@@ -45,22 +45,24 @@ export const ContactCard = ({
 
   return (
     <Card kind='card-border' className='rounded-xl overflow-hidden'>
-      <ClientOnly>
-        <div className={theme === 'dark' ? 'invert-90' : ''}>
-          <MapLibre
-            initialViewState={{
-              latitude,
-              longitude,
-              zoom: 15
-            }}
-            style={{ width: '100%', height: '280px' }}
-            mapStyle={mapStyles.simple}
-          >
-            <LieuMarker latitude={latitude} longitude={longitude} />
-            <NavigationControl position='bottom-right' showCompass={false} />
-          </MapLibre>
-        </div>
-      </ClientOnly>
+      {latitude && longitude && (
+        <ClientOnly>
+          <div className={theme === 'dark' ? 'invert-90' : ''}>
+            <MapLibre
+              initialViewState={{
+                latitude,
+                longitude,
+                zoom: 15
+              }}
+              style={{ width: '100%', height: '280px' }}
+              mapStyle={mapStyles.simple}
+            >
+              <LieuMarker latitude={latitude} longitude={longitude} />
+              <NavigationControl position='bottom-right' showCompass={false} />
+            </MapLibre>
+          </div>
+        </ClientOnly>
+      )}
       <section>
         <div className='card-body p-8'>
           <h2 className='text-xl text-base-title font-bold'>{nom}</h2>
