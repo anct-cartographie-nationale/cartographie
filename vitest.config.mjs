@@ -8,7 +8,16 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
-  },  test: {
+  },
+  server: {
+    fs: {
+      strict: false,
+    },
+  },
+  optimizeDeps: {
+    preserveSymlinks: true,
+  },
+  test: {
     environment: 'jsdom',
-  }
+  },
 });

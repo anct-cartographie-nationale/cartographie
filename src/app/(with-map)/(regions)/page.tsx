@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import { inclusionNumeriqueFetchApi, REGIONS_ROUTE } from '@/api/inclusion-numerique';
-import { totalLieux } from '@/api/inclusion-numerique/transfer/total-lieux';
+import { inclusionNumeriqueFetchApi, REGIONS_ROUTE } from '@/external-api/inclusion-numerique';
+import { totalLieux } from '@/external-api/inclusion-numerique/transfer/total-lieux';
 import { RegionsPage } from '@/features/cartographie/regions.page';
 import regions from '@/features/collectivites-territoriales/regions.json';
 

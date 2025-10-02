@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { inclusionNumeriqueFetchApi, LIEU_LIST_FIELDS, LIEUX_ROUTE, REGIONS_ROUTE } from '@/api/inclusion-numerique';
-import { toLieuListItem } from '@/api/inclusion-numerique/transfer/toLieuListItem';
+import { inclusionNumeriqueFetchApi, LIEU_LIST_FIELDS, LIEUX_ROUTE, REGIONS_ROUTE } from '@/external-api/inclusion-numerique';
+import { toLieuListItem } from '@/external-api/inclusion-numerique/transfer/toLieuListItem';
 import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
 import { matchingRegionCode, type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';

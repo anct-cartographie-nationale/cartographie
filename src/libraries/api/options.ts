@@ -14,8 +14,12 @@ export type OrderOptions<TItem> = {
   order?: [keyof TItem, 'desc' | 'asc'];
 };
 
-const toQueryParam = (urlSerachParams: URLSearchParams, [key, value]: [string, string]): URLSearchParams => {
-  if (value != null) urlSerachParams.set(key, value);
+const toQueryParam = (urlSerachParams: URLSearchParams, [key, value]: [string, string | string[]]): URLSearchParams => {
+  if (value == null) return urlSerachParams;
+
+  const values = Array.isArray(value) ? value : [value];
+  values.map((v) => urlSerachParams.append(key, v));
+
   return urlSerachParams;
 };
 

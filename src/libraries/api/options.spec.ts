@@ -17,14 +17,12 @@ describe('options', () => {
 
   it('should create query params for filter oprions', () => {
     const options: FilterOptions<{ id: string }> = {
-      filter: {
-        id: 'like.12%'
-      }
+      filter: { id: ['gt.18', 'lt.30'] }
     };
 
     const queryParams = toQueryParams(options);
 
-    expect(queryParams).toStrictEqual('id=like.12%25');
+    expect(queryParams).toStrictEqual('id=gt.18&id=lt.30');
   });
 
   it('should create query params for select option', () => {
