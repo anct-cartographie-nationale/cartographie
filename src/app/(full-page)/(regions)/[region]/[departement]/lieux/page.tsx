@@ -1,7 +1,12 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { DEPARTEMENTS_ROUTE, inclusionNumeriqueFetchApi, LIEU_LIST_FIELDS, LIEUX_ROUTE } from '@/api/inclusion-numerique';
-import { toLieuListItem } from '@/api/inclusion-numerique/transfer/toLieuListItem';
+import {
+  DEPARTEMENTS_ROUTE,
+  inclusionNumeriqueFetchApi,
+  LIEU_LIST_FIELDS,
+  LIEUX_ROUTE
+} from '@/external-api/inclusion-numerique';
+import { toLieuListItem } from '@/external-api/inclusion-numerique/transfer/toLieuListItem';
 import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
 import {
   type Departement,

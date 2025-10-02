@@ -1,5 +1,5 @@
-import type { LieuxRouteResponse } from '@/api/inclusion-numerique';
-import { geographicDistance } from '@/api/inclusion-numerique/transfer/geographic-distance';
+import type { LieuxRouteResponse } from '@/external-api/inclusion-numerique';
+import { geographicDistance } from '@/external-api/inclusion-numerique/transfer/geographic-distance';
 import { isOpenNow } from '@/features/lieux-inclusion-numerique/fiche-lieu/opening-hours.presenter';
 import type { LieuListItem } from '@/features/lieux-inclusion-numerique/lieu-list-item';
 import { formatPhoneNumber } from './format-phone-number';

@@ -1,4 +1,4 @@
-import type { LieuxRouteResponse } from '@/api/inclusion-numerique';
+import type { LieuxRouteResponse } from '@/external-api/inclusion-numerique';
 import type { LieuDetails } from '@/features/lieux-inclusion-numerique/lieu-details';
 import { formatPhoneNumber } from './format-phone-number';
 

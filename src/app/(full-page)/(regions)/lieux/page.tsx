@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import { inclusionNumeriqueFetchApi, LIEU_LIST_FIELDS, LIEUX_ROUTE, REGIONS_ROUTE } from '@/api/inclusion-numerique';
-import { toLieuListItem } from '@/api/inclusion-numerique/transfer/toLieuListItem';
-import { totalLieux } from '@/api/inclusion-numerique/transfer/total-lieux';
+import { inclusionNumeriqueFetchApi, LIEU_LIST_FIELDS, LIEUX_ROUTE, REGIONS_ROUTE } from '@/external-api/inclusion-numerique';
+import { toLieuListItem } from '@/external-api/inclusion-numerique/transfer/toLieuListItem';
+import { totalLieux } from '@/external-api/inclusion-numerique/transfer/total-lieux';
 import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
 import { LieuxPage } from '@/features/lieux-inclusion-numerique/lieux.page';
 import { appPageTitle } from '@/libraries/utils';

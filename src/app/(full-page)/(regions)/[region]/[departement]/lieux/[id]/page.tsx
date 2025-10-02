@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/api/inclusion-numerique';
-import { toLieuDetails } from '@/api/inclusion-numerique/transfer/toLieuDetails';
+import { inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/external-api/inclusion-numerique';
+import { toLieuDetails } from '@/external-api/inclusion-numerique/transfer/toLieuDetails';
 import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
 import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
 import departements from '@/features/collectivites-territoriales/departements.json';
