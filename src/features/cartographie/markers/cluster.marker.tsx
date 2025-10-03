@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Marker } from 'react-map-gl/maplibre';
 
-export const CollectiviteTerritorialeMarker = ({
+export const ClusterMarker = ({
   latitude,
   longitude,
   title,
