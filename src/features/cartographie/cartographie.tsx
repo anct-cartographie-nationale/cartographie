@@ -1,6 +1,6 @@
 'use client';
 
-import { mapStyles } from 'carte-facile';
+import { addOverlay, mapStyles, Overlay } from 'carte-facile';
 import { Map as MapLibre, NavigationControl, type ViewStateChangeEvent } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useTheme } from 'next-themes';
@@ -61,6 +61,9 @@ export const Cartographie = ({
             <MapLibre
               onZoomEnd={handleZoomEnd}
               onMoveEnd={handleMoveEnd}
+              onLoad={({ target }) => {
+                addOverlay(target, Overlay.administrativeBoundaries);
+              }}
               id={CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID}
               initialViewState={{ ...config.localisation, zoom }}
               style={{ width: '100%', height: '100%' }}
