@@ -1,11 +1,6 @@
 import type { BBox } from 'geojson';
-
-export type Position2D = [number, number];
-
-export type MapChunkOptions = {
-  verticalStep: number;
-  horizontalStep: number;
-};
+import type { MapChunkOptions } from './map-chunk-options';
+import type { Position2D } from './position-2d';
 
 const DEFAULT_MAP_CHUNK_OPTIONS: MapChunkOptions = { verticalStep: 0.1, horizontalStep: 0.1 };
 

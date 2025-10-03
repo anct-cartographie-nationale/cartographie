@@ -114,6 +114,9 @@ importers:
       next-sitemap:
         specifier: ^4.2.3
         version: 4.2.3(next@15.5.4(@babel/core@7.28.4)(@opentelemetry/api@1.9.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))
+      piqure:
+        specifier: ^2.1.2
+        version: 2.1.2
       postcss:
         specifier: ^8.5.6
         version: 8.5.6
@@ -2805,6 +2808,9 @@ packages:
     resolution: {integrity: sha512-eG2dWTVw5bzqGRztnHExczNxt5VGsE6OwTeCG3fdUf9KBsZzO3R5OIIIzWR+iZA0NtZ+RDVdaoE2dK1cn6jH4g==}
     engines: {node: '>=0.10'}
     hasBin: true
+
+  piqure@2.1.2:
+    resolution: {integrity: sha512-sf7ygreNag00M0hvhqRr2g764zhQtT+9Dq6QR1fCkYyx4/b5ik3J9737+KImxQsIQj08NC3eBw3npX/hASEf3w==}
 
   pkg-dir@7.0.0:
     resolution: {integrity: sha512-Ie9z/WINcxxLp27BKOCHGde4ITq9UklYKDzVo1nhk5sqGEXU3FpkwP5GM2voTGJkGd9B3Otl+Q4uwSOeSUtOBA==}
@@ -6181,6 +6187,8 @@ snapshots:
   picomatch@4.0.3: {}
 
   pidtree@0.6.0: {}
+
+  piqure@2.1.2: {}
 
   pkg-dir@7.0.0:
     dependencies:

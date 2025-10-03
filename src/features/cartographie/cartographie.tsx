@@ -9,16 +9,21 @@ import { RiListUnordered } from 'react-icons/ri';
 import type { Departement } from '@/features/collectivites-territoriales/departement';
 import france from '@/features/collectivites-territoriales/france.json';
 import { type Region, regionMatchingDepartement } from '@/features/collectivites-territoriales/region';
+import { provide } from '@/libraries/injection';
 import { Subscribe } from '@/libraries/reactivity/Subscribe';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { cn } from '@/libraries/utils';
 import { ClientOnly } from '@/libraries/utils/client-only';
 import { CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID } from './cartographie-ids';
+import { lieuxCache } from './lieux/impementations/lieux.cache';
+import { fetchLieuxForChunk } from './lieux/impementations/lieux-for-chunk.fetch';
+import { LIEUX_CACHE } from './lieux/lieux-cache.key';
+import { LIEUX_FOR_CHUNK } from './lieux/lieux-for-chunk.key';
+import { setBoundingBox } from './lieux/streams/bounding-box.stream';
+import { lieux$ } from './lieux/streams/lieux.stream';
+import { setZoom, zoom$ } from './lieux/streams/zoom.stream';
 import { CollectiviteTerritorialeMarker } from './markers/collectivite-territoriale.marker';
 import { LieuMarker } from './markers/lieu.marker';
-import { setBoundingBox } from './streams/bounding-box.stream';
-import { lieux$ } from './streams/lieux.steam';
-import { setZoom, zoom$ } from './streams/zoom.stream';
 
 const config = france.find(({ nom }) => nom === 'France métropolitaine');
 
@@ -43,6 +48,9 @@ export const Cartographie = ({
     const lngLatBounds = target.getBounds();
     setBoundingBox([lngLatBounds.getWest(), lngLatBounds.getSouth(), lngLatBounds.getEast(), lngLatBounds.getNorth()]);
   };
+
+  provide(LIEUX_CACHE, lieuxCache);
+  provide(LIEUX_FOR_CHUNK, fetchLieuxForChunk);
 
   return !config ? null : (
     <ClientOnly>

@@ -3,8 +3,8 @@
 import { type ReactNode, useEffect } from 'react';
 import { useMap } from 'react-map-gl/maplibre';
 import { CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID } from '@/features/cartographie/cartographie-ids';
-import { setBoundingBox } from '@/features/cartographie/streams/bounding-box.stream';
-import { setZoom } from '@/features/cartographie/streams/zoom.stream';
+import { setBoundingBox } from '@/features/cartographie/lieux/streams/bounding-box.stream';
+import { setZoom } from '@/features/cartographie/lieux/streams/zoom.stream';
 import type { Departement } from '@/features/collectivites-territoriales/departement';
 import type { Region } from '@/features/collectivites-territoriales/region';
 import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
