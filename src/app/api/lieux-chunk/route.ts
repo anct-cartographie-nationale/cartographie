@@ -3,8 +3,7 @@ import { unstable_cache } from 'next/cache';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/external-api/inclusion-numerique';
-import { mapChunk } from '@/features/cartographie/map-chunk';
-import { MAP_CHUNK_OPTIONS } from '@/features/cartographie/map-chunk-options';
+import { MAP_CHUNK_OPTIONS, mapChunk } from '@/features/cartographie/geo';
 
 const querySchema = z.object({
   latitude: z.transform(Number).refine((latitude: number) => !Number.isNaN(latitude), {
