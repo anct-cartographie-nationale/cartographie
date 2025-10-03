@@ -43,7 +43,11 @@ export const Cartographie = ({
 }) => {
   const { theme } = useTheme();
 
-  return !config ? null : (
+  if (config == null) return null;
+
+  setZoom(config.zoom);
+
+  return (
     <ClientOnly>
       <div className={cn('w-full h-full', theme === 'dark' && 'invert-90')}>
         {selectedRegion && selectedDepartement && (
