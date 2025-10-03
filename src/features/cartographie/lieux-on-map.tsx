@@ -1,5 +1,7 @@
 import Supercluster from 'mutable-supercluster';
-import { useMap } from 'react-map-gl/maplibre';
+import Link from 'next/link';
+import { useState } from 'react';
+import { Popup, useMap } from 'react-map-gl/maplibre';
 import type { ClusterFeature, ClusterProperties, PointFeature } from 'supercluster';
 import { provide } from '@/libraries/injection';
 import { Subscribe } from '@/libraries/reactivity/Subscribe';
@@ -20,6 +22,8 @@ const isCluster = (
 export const LieuxOnMap = () => {
   provide(LIEUX_CACHE, lieuxCache);
   provide(LIEUX_FOR_CHUNK, fetchLieuxForChunk);
+
+  const [hoveredId, setHoveredId] = useState<string>();
 
   const map = useMap()[CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID];
 
@@ -52,7 +56,19 @@ export const LieuxOnMap = () => {
               </ClusterMarker>
             </button>
           ) : (
-            <LieuMarker key={feature.properties.id} {...feature.properties} />
+            <Link
+              href={`/lieux/${feature.properties.id}`}
+              key={feature.properties.id}
+              onMouseEnter={() => setHoveredId(feature.properties.id)}
+              onMouseLeave={() => setHoveredId(undefined)}
+            >
+              {hoveredId === feature.properties.id && (
+                <Popup {...feature.properties} anchor='bottom' offset={[0, -20]} closeButton={false}>
+                  <h2 className='font-bold uppercase text-center'>{feature.properties.nom}</h2>
+                </Popup>
+              )}
+              <LieuMarker title={feature.properties.nom} {...feature.properties} />
+            </Link>
           )
         )
       }

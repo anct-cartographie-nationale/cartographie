@@ -1,1 +1,1 @@
-export type Lieu = { id: string; latitude: number; longitude: number };
+export type Lieu = { id: string; nom: string; latitude: number; longitude: number };
