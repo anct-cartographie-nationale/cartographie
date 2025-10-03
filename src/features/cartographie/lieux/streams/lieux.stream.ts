@@ -1,4 +1,6 @@
-import { combineLatest, filter, from, merge, mergeMap, type Observable, of, scan, switchMap } from 'rxjs';
+import type Supercluster from 'mutable-supercluster';
+import { combineLatest, filter, from, map, merge, mergeMap, type Observable, of, scan, switchMap } from 'rxjs';
+import type { ClusterFeature, ClusterProperties, PointFeature } from 'supercluster';
 import { inject } from '@/libraries/injection';
 import { boundingBoxCenter, MAP_CHUNK_OPTIONS, type Position2D, splitBondingBox } from '../../geo';
 import type { Lieu } from '../domain/lieu';
@@ -9,16 +11,9 @@ import { zoom$ } from './zoom.stream';
 
 type PositionsWithCache = { lieux: Lieu[]; positions: Position2D[] };
 
-const toPositionsWithCache = ({ lieux, positions }: PositionsWithCache, position: Position2D) => {
-  const cacheKey = `${position}`;
-  const lieuxCache = inject(LIEUX_CACHE);
+const EMPTY_POSITIONS_WITH_CACHE: PositionsWithCache = { lieux: [], positions: [] };
 
-  return lieuxCache.has(cacheKey)
-    ? { lieux: [...lieux, ...(lieuxCache.get(cacheKey) ?? [])], positions }
-    : { lieux: lieux, positions: [...positions, position] };
-};
-
-const resolvePositions = ({ lieux, positions }: PositionsWithCache) =>
+const resolvePositions = ({ lieux, positions }: PositionsWithCache): Observable<Lieu[]> =>
   positions.length === 0
     ? of(lieux)
     : merge(
@@ -29,13 +24,36 @@ const resolvePositions = ({ lieux, positions }: PositionsWithCache) =>
         )
       );
 
-export const lieux$: Observable<Lieu[]> = combineLatest([boundingBox$, zoom$]).pipe(
-  filter(([_, zoom]) => zoom > 9),
-  switchMap(([boundingBox, _]) => {
-    const centers: Position2D[] = splitBondingBox(boundingBox, MAP_CHUNK_OPTIONS).map(boundingBoxCenter);
+const toPositionsWithCache = ({ lieux, positions }: PositionsWithCache, position: Position2D) => {
+  const cacheKey = `${position}`;
+  const lieuxCache = inject(LIEUX_CACHE);
 
-    return centers.length === 0
-      ? of([])
-      : resolvePositions(centers.reduce<PositionsWithCache>(toPositionsWithCache, { lieux: [], positions: [] }));
-  })
-);
+  return lieuxCache.has(cacheKey)
+    ? { lieux: [...lieux, ...(lieuxCache.get(cacheKey) ?? [])], positions }
+    : { lieux: lieux, positions: [...positions, position] };
+};
+
+const toPointFeature = <T extends { latitude: number; longitude: number }>(properties: T): PointFeature<T> => ({
+  type: 'Feature',
+  properties: properties,
+  geometry: {
+    type: 'Point',
+    coordinates: [properties.longitude, properties.latitude]
+  }
+});
+
+export const lieux$ = (
+  supercluster: Supercluster<Lieu, ClusterProperties>
+): Observable<(ClusterFeature<ClusterProperties> | PointFeature<Lieu>)[]> =>
+  combineLatest([zoom$, boundingBox$]).pipe(
+    filter(([zoom]) => zoom > 9),
+    switchMap(([zoom, boundingBox]) => {
+      const centers: Position2D[] = splitBondingBox(boundingBox, MAP_CHUNK_OPTIONS).map(boundingBoxCenter);
+
+      return centers.length === 0
+        ? of([])
+        : resolvePositions(centers.reduce<PositionsWithCache>(toPositionsWithCache, EMPTY_POSITIONS_WITH_CACHE)).pipe(
+            map((lieux: Lieu[]) => supercluster.load(lieux.map(toPointFeature)).getClusters(boundingBox, zoom))
+          );
+    })
+  );
