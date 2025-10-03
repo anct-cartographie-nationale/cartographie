@@ -66,16 +66,16 @@ export const Cartographie = ({
           </ButtonLink>
         )}
         <Subscribe to$={zoom$} startWith={config.zoom}>
-          {({ value: zoom }) => (
+          {(zoom) => (
             <MapLibre
               onZoomEnd={handleZoomEnd}
               onMoveEnd={handleMoveEnd}
               id={CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID}
-              initialViewState={{ ...config.localisation, zoom: zoom ?? config.zoom }}
+              initialViewState={{ ...config.localisation, zoom }}
               style={{ width: '100%', height: '100%' }}
               mapStyle={mapStyles.simple}
             >
-              {(zoom ?? config.zoom) <= 7 &&
+              {zoom <= 7 &&
                 regions.map(({ code, localisation, slug, nom, nombreLieux }) => (
                   <Link href={`/${slug}`} key={code}>
                     <CollectiviteTerritorialeMarker
@@ -87,8 +87,8 @@ export const Cartographie = ({
                     </CollectiviteTerritorialeMarker>
                   </Link>
                 ))}
-              {(zoom ?? config.zoom) > 7 &&
-                (zoom ?? config.zoom) <= 9 &&
+              {zoom > 7 &&
+                zoom <= 9 &&
                 departements.map(({ code, localisation, slug, nom, nombreLieux }) => (
                   <Link href={`/${regions.find(regionMatchingDepartement({ code }))?.slug}/${slug}`} key={code}>
                     <CollectiviteTerritorialeMarker
@@ -101,10 +101,8 @@ export const Cartographie = ({
                   </Link>
                 ))}
 
-              {(zoom ?? config.zoom) > 8.6 && (
-                <Subscribe to$={lieux$}>
-                  {({ value: lieux }) => lieux?.map((lieu) => <LieuMarker key={lieu.id} {...lieu} />)}
-                </Subscribe>
+              {zoom > 8.8 && (
+                <Subscribe to$={lieux$}>{(lieux) => lieux.map((lieu) => <LieuMarker key={lieu.id} {...lieu} />)}</Subscribe>
               )}
               <NavigationControl position='bottom-right' showCompass={false} />
             </MapLibre>
