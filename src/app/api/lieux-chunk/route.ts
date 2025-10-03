@@ -18,7 +18,7 @@ const fetchLieuxForChunk = async (longitude: number, latitude: number) => {
   const [minLon, minLat, maxLon, maxLat]: BBox = mapChunk([longitude, latitude], MAP_CHUNK_OPTIONS);
 
   return inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
-    select: ['id', 'latitude', 'longitude'],
+    select: ['id', 'nom', 'latitude', 'longitude'],
     filter: { latitude: [`gt.${minLat}`, `lte.${maxLat}`], longitude: [`gt.${minLon}`, `lte.${maxLon}`] }
   });
 };
