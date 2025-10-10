@@ -34,7 +34,7 @@ export type LieuxRouteResponse = {
   modalites_accompagnement?: string;
   fiche_acces_libre?: string;
   prise_rdv?: string;
-  mediateurs?: { nom: string; email?: string; phone?: string; labels?: string[] }[];
+  mediateurs?: { prenom: string; nom: string; email?: string; telephone?: string; label?: string[] }[];
 }[];
 
 export const LIEU_LIST_FIELDS: (keyof LieuxRouteResponse[number])[] = [

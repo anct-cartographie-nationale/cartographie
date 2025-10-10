@@ -24,7 +24,7 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "allowUnusedLabels": false,
-    "allowUnreachableCode": true,
+    "allowUnreachableCode": false,
     "plugins": [
       {
         "name": "next"

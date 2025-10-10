@@ -78,5 +78,11 @@ export const toLieuDetails = ({
   fraisACharge: frais_a_charge?.split('|') ?? [],
   prisesEnChargeSpecifiques: prise_en_charge_specifique?.split('|') ?? [],
   modalitesAcces: modalites_acces?.split('|') ?? [],
-  mediateurs: mediateurs ?? []
+  mediateurs:
+    mediateurs?.map((mediateur) => ({
+      nom: `${mediateur.prenom} ${mediateur.nom}`,
+      labels: mediateur?.label ?? [],
+      ...(mediateur.email ? { email: mediateur.email } : {}),
+      ...(mediateur.telephone ? { phone: formatPhoneNumber(mediateur.telephone) } : {})
+    })) ?? []
 });

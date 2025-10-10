@@ -101,25 +101,28 @@ describe('to lieu details', () => {
       prise_rdv: 'https://maisondelamarianne.fr/france-services-valdoie/rdv/',
       mediateurs: [
         {
-          nom: 'Bruno Desmarais',
-          labels: ['Conseiller Numérique', 'Aidants Connect'],
+          prenom: 'Bruno',
+          nom: 'Desmarais',
+          label: ['Conseiller Numérique', 'Aidants Connect'],
           email: 'nomprenom@mail.com',
-          phone: '06 12 34 56 78'
+          telephone: '06 12 34 56 78'
         },
         {
-          nom: 'Sofia Ben Youssef-Dubois',
-          labels: ['Aidants Connect'],
+          prenom: 'Sofia',
+          nom: 'Ben Youssef-Dubois',
+          label: ['Aidants Connect'],
           email: 'nomprenom@mail.com',
-          phone: '06 98 76 54 32'
+          telephone: '06 98 76 54 32'
         },
         {
-          nom: 'Lucie Marchand',
-          labels: ['Conseiller Numérique']
+          prenom: 'Lucie',
+          nom: 'Marchand',
+          label: ['Conseiller Numérique']
         },
-        { nom: 'Yassine Trabelsi', labels: [] },
-        { nom: 'Claire Martin', labels: [] },
-        { nom: 'Théo Moreau', labels: [] },
-        { nom: 'Omar Gharbi', labels: [] }
+        { prenom: 'Yassine', nom: 'Trabelsi', label: [] },
+        { prenom: 'Claire', nom: 'Martin', label: [] },
+        { prenom: 'Théo', nom: 'Moreau', label: [] },
+        { prenom: 'Omar', nom: 'Gharbi', label: [] }
       ]
     };
 

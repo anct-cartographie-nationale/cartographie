@@ -44,16 +44,18 @@ const toPointFeature = <T extends { latitude: number; longitude: number }>(prope
 
 export const lieux$ = (
   supercluster: Supercluster<Lieu, ClusterProperties>
-): Observable<(ClusterFeature<ClusterProperties> | PointFeature<Lieu>)[]> =>
+): Observable<{
+  features: (PointFeature<Lieu> | ClusterFeature<ClusterProperties>)[];
+}> =>
   combineLatest([zoom$, boundingBox$]).pipe(
     filter(([zoom]) => zoom > 9),
     switchMap(([zoom, boundingBox]) => {
       const centers: Position2D[] = splitBondingBox(boundingBox, MAP_CHUNK_OPTIONS).map(boundingBoxCenter);
 
       return centers.length === 0
-        ? of([])
+        ? of({ features: [] })
         : resolvePositions(centers.reduce<PositionsWithCache>(toPositionsWithCache, EMPTY_POSITIONS_WITH_CACHE)).pipe(
-            map((lieux: Lieu[]) => supercluster.load(lieux.map(toPointFeature)).getClusters(boundingBox, zoom))
+            map((lieux: Lieu[]) => ({ features: supercluster.load(lieux.map(toPointFeature)).getClusters(boundingBox, zoom) }))
           );
     })
   );
