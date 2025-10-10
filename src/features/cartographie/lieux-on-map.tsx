@@ -44,7 +44,7 @@ export const LieuxOnMap = () => {
 
   return (
     <Subscribe to$={lieux$(supercluster)}>
-      {(features) =>
+      {({ features }) =>
         features.map((feature) =>
           isCluster(feature) ? (
             <button key={feature.id} type='button' onClick={handleSplitCluster(feature)}>
