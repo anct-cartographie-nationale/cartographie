@@ -11,7 +11,9 @@ type MediateursProps = {
 
 export const Mediateurs = ({ mediateurs }: MediateursProps) => (
   <>
-    <h2 className='text-xl text-base-title font-bold mb-4'>{mediateurs.length} accompagnants numériques dans ce lieu</h2>
+    <h2 className='text-xl text-base-title font-bold mb-4'>
+      {mediateurs.length} {mediateurs.length === 1 ? 'accompagnant numérique' : 'accompagnants numériques'} dans ce lieu
+    </h2>
     <ul className='list'>
       {mediateurs.map((mediateur) => (
         <li key={mediateur.nom} className='list-row flex flex-col gap-2'>

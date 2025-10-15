@@ -1,17 +1,17 @@
 import Supercluster from 'mutable-supercluster';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Popup, useMap } from 'react-map-gl/maplibre';
+import { Popup } from 'react-map-gl/maplibre';
 import type { ClusterFeature, ClusterProperties, PointFeature } from 'supercluster';
 import { provide } from '@/libraries/injection';
-import { Subscribe } from '@/libraries/reactivity/Subscribe';
-import { CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID } from './cartographie-ids';
+import { Subscribe, useSubscribe } from '@/libraries/reactivity/Subscribe';
 import type { Lieu } from './lieux/domain/lieu';
 import { lieuxCache } from './lieux/impementations/lieux.cache';
 import { fetchLieuxForChunk } from './lieux/impementations/lieux-for-chunk.fetch';
 import { LIEUX_CACHE } from './lieux/lieux-cache.key';
 import { LIEUX_FOR_CHUNK } from './lieux/lieux-for-chunk.key';
 import { lieux$ } from './lieux/streams/lieux.stream';
+import { map$ } from './map/streams/map.stream';
 import { ClusterMarker } from './markers/cluster.marker';
 import { LieuMarker } from './markers/lieu.marker';
 
@@ -25,7 +25,7 @@ export const LieuxOnMap = () => {
 
   const [hoveredId, setHoveredId] = useState<string>();
 
-  const map = useMap()[CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID];
+  const [map] = useSubscribe(map$);
 
   const supercluster = new Supercluster<Lieu, ClusterProperties>({
     radius: 50,

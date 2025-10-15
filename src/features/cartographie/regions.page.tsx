@@ -2,27 +2,33 @@
 
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { useMap } from 'react-map-gl/maplibre';
+import { tap } from 'rxjs';
 import france from '@/features/collectivites-territoriales/france.json';
 import type { Region } from '@/features/collectivites-territoriales/region';
+import { useSubscribe } from '@/libraries/reactivity/Subscribe';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
 import { LocationFranceIllustration } from '@/libraries/ui/pictograms/map/location-france.illustration';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
-import { CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID } from './cartographie-ids';
+import { map$ } from './map/streams/map.stream';
 
 const config = france.find(({ nom }): boolean => nom === 'France métropolitaine');
 
 export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regions: Region[] }): ReactNode => {
-  const map = useMap()[CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID];
+  useSubscribe(
+    map$.pipe(
+      tap((map) => {
+        if (!map || !config) return;
+        map.flyTo({
+          center: [config.localisation.longitude, config.localisation.latitude],
+          zoom: config.zoom,
+          duration: 400
+        });
+      })
+    )
+  );
 
   if (!config) return null;
-
-  map?.flyTo({
-    center: [config.localisation.longitude, config.localisation.latitude],
-    zoom: config.zoom,
-    duration: 400
-  });
 
   return (
     <>

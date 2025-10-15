@@ -1,0 +1,8 @@
+::placeholder {
+  opacity: 1;
+  color: var(--color-muted);
+}
+
+*:focus-within {
+  outline-color: var(--color-focus);
+}
