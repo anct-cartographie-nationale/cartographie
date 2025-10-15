@@ -12,11 +12,11 @@ import { Subscribe } from '@/libraries/reactivity/Subscribe';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { cn } from '@/libraries/utils';
 import { ClientOnly } from '@/libraries/utils/client-only';
-import { CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID } from './cartographie-ids';
 import { DepartementsOnMap } from './departements-on-map';
 import { setBoundingBox } from './lieux/streams/bounding-box.stream';
 import { setZoom, zoom$ } from './lieux/streams/zoom.stream';
 import { LieuxOnMap } from './lieux-on-map';
+import { setMap } from './map/streams/map.stream';
 import { RegionsOnMap } from './regions-on-map';
 
 const config = france.find(({ nom }) => nom === 'France métropolitaine');
@@ -65,10 +65,10 @@ export const Cartographie = ({
             <MapLibre
               onZoomEnd={handleZoomEnd}
               onMoveEnd={handleMoveEnd}
-              onLoad={({ target }) => {
-                addOverlay(target, Overlay.administrativeBoundaries);
+              onLoad={({ target: map }) => {
+                addOverlay(map, Overlay.administrativeBoundaries);
+                setMap(map);
               }}
-              id={CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID}
               initialViewState={{ ...config.localisation, zoom }}
               style={{ width: '100%', height: '100%' }}
               mapStyle={mapStyles.simple}

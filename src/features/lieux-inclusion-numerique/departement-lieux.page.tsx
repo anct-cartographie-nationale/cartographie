@@ -1,12 +1,11 @@
 'use client';
 
-import { type ReactNode, useEffect } from 'react';
-import { useMap } from 'react-map-gl/maplibre';
-import { CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID } from '@/features/cartographie/cartographie-ids';
-import { setBoundingBox } from '@/features/cartographie/lieux/streams/bounding-box.stream';
-import { setZoom } from '@/features/cartographie/lieux/streams/zoom.stream';
+import type { ReactNode } from 'react';
+import { tap } from 'rxjs';
+import { map$ } from '@/features/cartographie/map/streams/map.stream';
 import type { Departement } from '@/features/collectivites-territoriales/departement';
 import type { Region } from '@/features/collectivites-territoriales/region';
+import { useSubscribe } from '@/libraries/reactivity/Subscribe';
 import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
 import { NextPageLink, PageLink, PreviousPageLink } from '@/libraries/ui/blocks/pagination/page-link';
 import { Pagination } from '@/libraries/ui/blocks/pagination/pagination';
@@ -30,29 +29,17 @@ export const DepartementLieuxPage = ({
   region: Region;
   departement: Departement;
 }): ReactNode => {
-  const map = useMap()[CARTOGRAPHIE_LIEUX_INCLUSION_NUMERIQUE_ID];
-
-  useEffect(() => {
-    if (!map) return;
-
-    const handleFlyToEnd = () => {
-      const lngLatBounds = map.getBounds();
-      setBoundingBox([lngLatBounds.getWest(), lngLatBounds.getSouth(), lngLatBounds.getEast(), lngLatBounds.getNorth()]);
-      setZoom(map.getZoom());
-    };
-
-    map.once('idle', handleFlyToEnd);
-
-    map.flyTo({
-      center: [departement.localisation.longitude, departement.localisation.latitude],
-      zoom: departement.zoom,
-      duration: 400
-    });
-
-    return () => {
-      map.off('idle', handleFlyToEnd);
-    };
-  }, [map, departement]);
+  useSubscribe(
+    map$.pipe(
+      tap((map) =>
+        map?.flyTo({
+          center: [departement.localisation.longitude, departement.localisation.latitude],
+          zoom: departement.zoom,
+          duration: 400
+        })
+      )
+    )
+  );
 
   return (
     <>

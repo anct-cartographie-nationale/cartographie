@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import type { ReactNode } from 'react';
 import { AppLogo, RepubliqueFrancaiseLogo } from '@/features/brand/use-cases/logos';
+import { Geolocate } from '@/features/cartographie/geolocate';
+import { SearchAddress } from '@/features/cartographie/search-address';
 import { Footer, FooterLegal } from '@/libraries/ui/blocks/footer';
 import { footerId, skipLinksId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import { ThemeChanger } from '@/libraries/ui/blocks/theme-changer';
@@ -21,17 +23,29 @@ const RootLayout = ({
       <ThemeProvider attribute='data-theme' defaultTheme='dark' enableSystem disableTransitionOnChange>
         <div className='h-screen flex flex-col'>
           <div id={skipLinksId} />
-          <div className='navbar bg-navbar px-8 py-4 shadow sticky z-1'>
-            <div className='navbar-start'>
-              <Link
-                href='/'
-                title='Retour à l’accueil'
-                className='font-bold text-xl text-base-title flex items-center gap-2'
-                kind='link-hover'
-              >
-                <AppLogo />
-                Lieux d’inclusion numérique
-              </Link>
+          <div className='px-8 py-4 shadow sticky z-1'>
+            <div className='leading-0'>
+              <div className='navbar-start'>
+                <Link
+                  href='/'
+                  title='Retour à l’accueil'
+                  className='font-bold text-xl text-base-title flex items-center gap-2'
+                  kind='link-hover'
+                >
+                  <AppLogo />
+                  Lieux d’inclusion numérique
+                </Link>
+              </div>
+            </div>
+            <div className='mt-3'>
+              <div className='navbar-start'>
+                <div className='flex gap-2'>
+                  <div>
+                    <SearchAddress className='w-100 pr-0' />
+                  </div>
+                  <Geolocate />
+                </div>
+              </div>
             </div>
           </div>
           {children}
