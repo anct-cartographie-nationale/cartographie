@@ -3,11 +3,13 @@
 import { addOverlay, mapStyles, Overlay } from 'carte-facile';
 import { Map as MapLibre, NavigationControl, type ViewStateChangeEvent } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { useSearchParams } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { RiListUnordered } from 'react-icons/ri';
 import type { Departement } from '@/features/collectivites-territoriales/departement';
 import france from '@/features/collectivites-territoriales/france.json';
 import type { Region } from '@/features/collectivites-territoriales/region';
+import { hrefWithSearchParams } from '@/libraries/next';
 import { Subscribe } from '@/libraries/reactivity/Subscribe';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { cn } from '@/libraries/utils';
@@ -41,18 +43,18 @@ export const Cartographie = ({
   selectedRegion: Region | undefined;
   selectedDepartement: Departement | undefined;
 }) => {
+  const searchParams = useSearchParams();
   const { theme } = useTheme();
 
-  if (config == null) return null;
-
-  setZoom(config.zoom);
-
-  return (
+  return config == null ? null : (
     <ClientOnly>
       <div className={cn('w-full h-full', theme === 'dark' && 'invert-90')}>
         {selectedRegion && selectedDepartement && (
           <ButtonLink
-            href={`/${selectedRegion.slug}/${selectedDepartement.slug}/lieux`}
+            href={hrefWithSearchParams(`/${selectedRegion.slug}/${selectedDepartement.slug}/lieux`)(
+              new URLSearchParams(searchParams),
+              ['page']
+            )}
             color='btn-primary'
             className='absolute right-0 m-6 z-1'
           >

@@ -1,13 +1,24 @@
 import type { ReactNode } from 'react';
-import { inclusionNumeriqueFetchApi, REGIONS_ROUTE } from '@/external-api/inclusion-numerique';
-import { totalLieux } from '@/external-api/inclusion-numerique/transfer/total-lieux';
+import { inclusionNumeriqueFetchApi, LIEUX_ROUTE, type LieuxRouteOptions } from '@/external-api/inclusion-numerique';
 import { RegionsPage } from '@/features/cartographie/regions.page';
 import regions from '@/features/collectivites-territoriales/regions.json';
+import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
+import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
+import { asCount, countFromHeaders } from '@/libraries/api/options';
 
-const Page = async (): Promise<ReactNode> => {
-  const regionRouteResponse = await inclusionNumeriqueFetchApi(REGIONS_ROUTE);
+type PageProps = {
+  searchParams?: Promise<{ page: string }>;
+};
 
-  return <RegionsPage totalLieux={totalLieux(regionRouteResponse)} regions={regions} />;
+const Page = async ({ searchParams: searchParamsPromise }: PageProps): Promise<ReactNode> => {
+  const searchParams = await searchParamsPromise;
+
+  const [, headers] = await inclusionNumeriqueFetchApi(
+    LIEUX_ROUTE,
+    ...asCount<LieuxRouteOptions>({ filter: applyFilters(filtersSchema.parse(searchParams)) })
+  );
+
+  return <RegionsPage totalLieux={countFromHeaders(headers)} regions={regions} />;
 };
 
 export default Page;

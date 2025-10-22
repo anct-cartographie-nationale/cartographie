@@ -28,7 +28,7 @@ export const Accompagnement = ({ labels, services, typesAccompagnement }: Accomp
     {labels.length > 0 && (
       <>
         <h3 className='font-bold uppercase text-xs text-base-title mt-4 mb-2'>Labellisation et certification</h3>
-        <ul>
+        <ul className='flex flex-wrap gap-2'>
           {labels.map((label: string) => (
             <li key={label} className='badge tag badge-base-200 text-base-title badge-soft'>
               <RiCheckLine aria-hidden={true} />

@@ -1,9 +1,15 @@
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
-import type { ReactNode } from 'react';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
+import { type ReactNode, Suspense } from 'react';
 import { AppLogo, RepubliqueFrancaiseLogo } from '@/features/brand/use-cases/logos';
 import { Geolocate } from '@/features/cartographie/geolocate';
 import { SearchAddress } from '@/features/cartographie/search-address';
+import { BesoinsFilters } from '@/features/lieux-inclusion-numerique/filters/besoins-filters';
+import { DisponibiliteFilters } from '@/features/lieux-inclusion-numerique/filters/disponibilite-filters';
+import { DispositifsFilters } from '@/features/lieux-inclusion-numerique/filters/dispositifs-filters';
+import { PublicCibleFilters } from '@/features/lieux-inclusion-numerique/filters/public-cible-filters';
+import { TerritoiresPrioritairesFilters } from '@/features/lieux-inclusion-numerique/filters/territoires-prioritaires-filters';
 import { Footer, FooterLegal } from '@/libraries/ui/blocks/footer';
 import { footerId, skipLinksId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import { ThemeChanger } from '@/libraries/ui/blocks/theme-changer';
@@ -20,59 +26,70 @@ const RootLayout = ({
 }>) => (
   <html lang='fr' data-theme='light' suppressHydrationWarning>
     <body>
-      <ThemeProvider attribute='data-theme' defaultTheme='dark' enableSystem disableTransitionOnChange>
-        <div className='h-screen flex flex-col'>
-          <div id={skipLinksId} />
-          <div className='px-8 py-4 shadow sticky z-1'>
-            <div className='leading-0'>
-              <div className='navbar-start'>
-                <Link
-                  href='/'
-                  title='Retour à l’accueil'
-                  className='font-bold text-xl text-base-title flex items-center gap-2'
-                  kind='link-hover'
-                >
-                  <AppLogo />
-                  Lieux d’inclusion numérique
-                </Link>
+      <NuqsAdapter>
+        <ThemeProvider attribute='data-theme' defaultTheme='dark' enableSystem disableTransitionOnChange>
+          <div className='h-screen flex flex-col'>
+            <div id={skipLinksId} />
+            <div className='px-8 py-4 shadow sticky z-1'>
+              <div className='leading-0'>
+                <div className='navbar-start'>
+                  <Link
+                    href='/'
+                    title='Retour à l’accueil'
+                    className='font-bold text-xl text-base-title flex items-center gap-2'
+                    kind='link-hover'
+                  >
+                    <AppLogo />
+                    Lieux d’inclusion numérique
+                  </Link>
+                </div>
               </div>
-            </div>
-            <div className='mt-3'>
-              <div className='navbar-start'>
-                <div className='flex gap-2'>
-                  <div>
-                    <SearchAddress className='w-100 pr-0' />
+              <div className='mt-3'>
+                <div className='navbar-start'>
+                  <div className='flex gap-2'>
+                    <div>
+                      <SearchAddress className='w-100 pr-0' />
+                    </div>
+                    <Geolocate />
                   </div>
-                  <Geolocate />
+                </div>
+                <div className='navbar-end'>
+                  <Suspense fallback={<div>Chargement...</div>}>
+                    <BesoinsFilters />
+                    <PublicCibleFilters />
+                    <DisponibiliteFilters />
+                    <DispositifsFilters />
+                    <TerritoiresPrioritairesFilters />
+                  </Suspense>
                 </div>
               </div>
             </div>
+            {children}
           </div>
-          {children}
-        </div>
-        <div className='border-t-2 border-solid border-primary text-muted' id={footerId}>
-          <Footer>
-            <div className='flex items-center justify-between gap-12 w-full'>
-              <RepubliqueFrancaiseLogo />
-              <p className='md:w-128 text-base-content'>
-                Vous souhaitez apparaître sur la cartographie ? il vous suffit de renseigner vos données sur{' '}
-                <Link
-                  target='_blank'
-                  title='La Coop de la médiation numérique (nouvel onglet)'
-                  rel='noopener noreferrer'
-                  href='https://lesbases.anct.gouv.fr/ressources/comment-apparaitre-ou-modifier-vos-donnees-sur-la-cartographie-nationale'
-                >
-                  La Coop de la médiation numérique
-                </Link>
-                .
-              </p>
-            </div>
-          </Footer>
-          <FooterLegal accessibility='Non' className='border-t border-solid border-base-400'>
-            <ThemeChanger />
-          </FooterLegal>
-        </div>
-      </ThemeProvider>
+          <div className='border-t-2 border-solid border-primary text-muted' id={footerId}>
+            <Footer>
+              <div className='flex items-center justify-between gap-12 w-full'>
+                <RepubliqueFrancaiseLogo />
+                <p className='md:w-128 text-base-content'>
+                  Vous souhaitez apparaître sur la cartographie ? il vous suffit de renseigner vos données sur{' '}
+                  <Link
+                    target='_blank'
+                    title='La Coop de la médiation numérique (nouvel onglet)'
+                    rel='noopener noreferrer'
+                    href='https://lesbases.anct.gouv.fr/ressources/comment-apparaitre-ou-modifier-vos-donnees-sur-la-cartographie-nationale'
+                  >
+                    La Coop de la médiation numérique
+                  </Link>
+                  .
+                </p>
+              </div>
+            </Footer>
+            <FooterLegal accessibility='Non' className='border-t border-solid border-base-400'>
+              <ThemeChanger />
+            </FooterLegal>
+          </div>
+        </ThemeProvider>
+      </NuqsAdapter>
     </body>
   </html>
 );

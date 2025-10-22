@@ -1,9 +1,11 @@
 import Supercluster from 'mutable-supercluster';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Suspense, useState } from 'react';
 import { Popup } from 'react-map-gl/maplibre';
 import type { ClusterFeature, ClusterProperties, PointFeature } from 'supercluster';
 import { provide } from '@/libraries/injection';
+import { hrefWithSearchParams } from '@/libraries/next';
 import { Subscribe, useSubscribe } from '@/libraries/reactivity/Subscribe';
 import type { Lieu } from './lieux/domain/lieu';
 import { lieuxCache } from './lieux/impementations/lieux.cache';
@@ -19,9 +21,12 @@ const isCluster = (
   feature: PointFeature<Lieu> | ClusterFeature<ClusterProperties>
 ): feature is ClusterFeature<ClusterProperties> => 'cluster_id' in feature.properties;
 
-export const LieuxOnMap = () => {
+export const LieuxOnMapContent = () => {
   provide(LIEUX_CACHE, lieuxCache);
   provide(LIEUX_FOR_CHUNK, fetchLieuxForChunk);
+
+  const searchParams = useSearchParams();
+  const urlSearchParams: URLSearchParams = new URLSearchParams(searchParams);
 
   const [hoveredId, setHoveredId] = useState<string>();
 
@@ -43,7 +48,7 @@ export const LieuxOnMap = () => {
       });
 
   return (
-    <Subscribe to$={lieux$(supercluster)}>
+    <Subscribe to$={lieux$(supercluster, urlSearchParams)}>
       {({ features }) =>
         features.map((feature) =>
           isCluster(feature) ? (
@@ -57,7 +62,7 @@ export const LieuxOnMap = () => {
             </button>
           ) : (
             <Link
-              href={`/lieux/${feature.properties.id}`}
+              href={hrefWithSearchParams(`/lieux/${feature.properties.id}`)(urlSearchParams, ['page'])}
               key={feature.properties.id}
               onMouseEnter={() => setHoveredId(feature.properties.id)}
               onMouseLeave={() => setHoveredId(undefined)}
@@ -75,3 +80,9 @@ export const LieuxOnMap = () => {
     </Subscribe>
   );
 };
+
+export const LieuxOnMap = () => (
+  <Suspense fallback={<div>Chargement...</div>}>
+    <LieuxOnMapContent />
+  </Suspense>
+);

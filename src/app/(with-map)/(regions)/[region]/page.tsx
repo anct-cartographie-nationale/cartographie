@@ -1,14 +1,28 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { DEPARTEMENTS_ROUTE, inclusionNumeriqueFetchApi } from '@/external-api/inclusion-numerique';
-import { totalLieux } from '@/external-api/inclusion-numerique/transfer/total-lieux';
+import {
+  codeInseeStartWithFilterTemplate,
+  inclusionNumeriqueFetchApi,
+  LIEUX_ROUTE,
+  type LieuxRouteOptions
+} from '@/external-api/inclusion-numerique';
 import { DepartementsPage } from '@/features/cartographie/departements.page';
 import departements from '@/features/collectivites-territoriales/departements.json';
 import { matchingDepartementsFrom, type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
+import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
+import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
+import { asCount, combineOrFilters, countFromHeaders, filterUnion } from '@/libraries/api/options';
 import { appPageTitle } from '@/libraries/utils';
 
-export const generateMetadata = async ({ params }: { params: Promise<{ region: string }> }): Promise<Metadata> => {
+type PageProps = {
+  searchParams?: Promise<{ page: string }>;
+  params: Promise<{ region: string }>;
+};
+
+export const generateStaticParams = () => regions.map(({ slug }: Region) => ({ region: slug }));
+
+export const generateMetadata = async ({ params }: PageProps): Promise<Metadata> => {
   const slug: string = (await params).region;
   const region: Region | undefined = regions.find(regionMatchingSlug(slug));
 
@@ -20,19 +34,25 @@ export const generateMetadata = async ({ params }: { params: Promise<{ region: s
   };
 };
 
-export const generateStaticParams = () => regions.map(({ slug }: Region) => ({ region: slug }));
+const Page = async ({ params, searchParams: searchParamsPromise }: PageProps) => {
+  const searchParams = await searchParamsPromise;
 
-const Page = async ({ params }: { params: Promise<{ region: string }> }) => {
-  const slug: string = (await params).region;
-  const region: Region | undefined = regions.find(regionMatchingSlug(slug));
+  const region: Region | undefined = regions.find(regionMatchingSlug((await params).region));
 
   if (!region) return notFound();
 
-  const departementRouteResponse = await inclusionNumeriqueFetchApi(DEPARTEMENTS_ROUTE);
+  const filter = {
+    and: combineOrFilters(
+      filterUnion(region.departements)(codeInseeStartWithFilterTemplate),
+      applyFilters(filtersSchema.parse(searchParams))
+    )
+  };
+
+  const [, headers] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, ...asCount<LieuxRouteOptions>({ filter }));
 
   return (
     <DepartementsPage
-      totalLieux={totalLieux(departementRouteResponse.filter(matchingDepartementsFrom(region)))}
+      totalLieux={countFromHeaders(headers)}
       region={region}
       departements={departements.filter(matchingDepartementsFrom(region))}
     />
