@@ -1,10 +1,12 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { tap } from 'rxjs';
 import { map$ } from '@/features/cartographie/map/streams/map.stream';
 import type { Departement } from '@/features/collectivites-territoriales/departement';
 import type { Region } from '@/features/collectivites-territoriales/region';
+import { hrefWithSearchParams } from '@/libraries/next';
 import { useSubscribe } from '@/libraries/reactivity/Subscribe';
 import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
 import { NextPageLink, PageLink, PreviousPageLink } from '@/libraries/ui/blocks/pagination/page-link';
@@ -29,6 +31,9 @@ export const DepartementLieuxPage = ({
   region: Region;
   departement: Departement;
 }): ReactNode => {
+  const searchParams = useSearchParams();
+  const urlSearchParams: URLSearchParams = new URLSearchParams(searchParams);
+
   useSubscribe(
     map$.pipe(
       tap((map) =>
@@ -45,19 +50,24 @@ export const DepartementLieuxPage = ({
     <>
       <SkipLinksPortal />
       <Breadcrumbs
-        items={[{ label: 'France', href: '/' }, { label: region.nom, href: `/${region.slug}` }, { label: departement.nom }]}
+        items={[
+          { label: 'France', href: hrefWithSearchParams('/')(urlSearchParams, ['page']) },
+          { label: region.nom, href: hrefWithSearchParams(`/${region.slug}`)(urlSearchParams, ['page']) },
+          { label: departement.nom }
+        ]}
       />
       <main id={contentId}>
         <h1 className='font-bold uppercase text-xs text-base-title my-6'>
           <span className='sr-only'>{departement.nom}</span> {totalLieux} lieux trouvés
         </h1>
-        <LieuxList lieux={lieux} className='flex flex-col gap-2' />
+        <LieuxList searchParams={urlSearchParams} lieux={lieux} className='flex flex-col gap-2' />
         <div className='text-center mt-10'>
           <Pagination
             curentPage={curentPage}
             itemsCount={totalLieux}
             pageSize={pageSize}
             siblingCount={1}
+            href={hrefWithSearchParams()(urlSearchParams)}
             nav={{ previous: PreviousPageLink, next: NextPageLink }}
           >
             {PageLink}

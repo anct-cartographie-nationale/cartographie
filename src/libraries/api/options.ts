@@ -7,7 +7,7 @@ export type SelectOptions<TItem> = {
 };
 
 export type FilterOptions<TItem> = {
-  filter?: Partial<Record<keyof TItem, unknown> | { or: string }>;
+  filter?: Partial<Record<keyof TItem, unknown> | { or: string } | { and: string }>;
 };
 
 export type OrderOptions<TItem> = {
@@ -42,3 +42,23 @@ export const toQueryParams = <T extends Record<string, object>>(options: T, sepa
       new URLSearchParams()
     )
     .toString();
+
+export const filterUnion = (values: string[]) => (filterTemplate: (value: string) => string) =>
+  values.length > 0 ? { or: `(${values.map(filterTemplate).join(',')})` } : {};
+
+export const asCount = <T extends PaginateOptions>(options: T): [T, Headers] => [
+  { ...options, paginate: { limit: 0, offset: 0 } },
+  new Headers({ Prefer: 'count=exact' })
+];
+
+export const countFromHeaders = (headers: Headers): number => {
+  const match = headers.get('content-range')?.match(/\/(\d+)$/);
+  return match?.[1] == null ? 0 : parseInt(match[1], 10);
+};
+
+export const combineOrFilters = (...orFilters: { or?: string }[]): string => {
+  return `(or${orFilters
+    .map((filter) => filter.or)
+    .filter((orFilter): orFilter is string => orFilter !== undefined)
+    .join(',or')})`;
+};

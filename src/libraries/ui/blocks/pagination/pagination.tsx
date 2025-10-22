@@ -9,11 +9,12 @@ type PaginationProps = {
   siblingCount?: number;
   boundaryCount?: number;
   nav?: {
-    previous: (props: { number: number; disabled: boolean }) => ReactNode;
-    next: (props: { number: number; disabled: boolean }) => ReactNode;
+    previous: (props: { number: number; disabled: boolean; href: string }) => ReactNode;
+    next: (props: { number: number; disabled: boolean; href: string }) => ReactNode;
   };
+  href?: string;
   className?: string;
-  children: (props: { number: number; isCurrent: boolean }) => ReactNode;
+  children: (props: { number: number; isCurrent: boolean; href: string }) => ReactNode;
 };
 
 export const Pagination = ({
@@ -23,6 +24,7 @@ export const Pagination = ({
   siblingCount = 2,
   boundaryCount = 1,
   nav,
+  href = '',
   className,
   children
 }: PaginationProps) => {
@@ -36,17 +38,17 @@ export const Pagination = ({
 
   return (
     <div className={cn('join', className)}>
-      {nav?.previous({ number: previousPage, disabled: curentPage <= 1 })}
+      {nav?.previous({ number: previousPage, disabled: curentPage <= 1, href })}
       {pages.map((page) =>
         'spacer' in page ? (
           <span key={page.spacer} className='p-2 mx-2'>
             ...
           </span>
         ) : (
-          <Fragment key={page.number}>{children(page)}</Fragment>
+          <Fragment key={page.number}>{children({ ...page, href })}</Fragment>
         )
       )}
-      {nav?.next({ number: nextPage, disabled: curentPage >= lastPage })}
+      {nav?.next({ number: nextPage, disabled: curentPage >= lastPage, href })}
     </div>
   );
 };
