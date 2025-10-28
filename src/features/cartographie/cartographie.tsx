@@ -56,7 +56,7 @@ export const Cartographie = ({
               ['page']
             )}
             color='btn-primary'
-            className='absolute right-0 m-6 z-1'
+            className='absolute right-0 m-6 z-1 invisible lg:visible'
           >
             <RiListUnordered aria-hidden={true} />
             Afficher la liste
