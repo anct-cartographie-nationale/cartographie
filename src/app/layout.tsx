@@ -1,15 +1,9 @@
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
-import { type ReactNode, Suspense } from 'react';
-import { AppLogo, RepubliqueFrancaiseLogo } from '@/features/brand/use-cases/logos';
-import { Geolocate } from '@/features/cartographie/geolocate';
-import { SearchAddress } from '@/features/cartographie/search-address';
-import { BesoinsFilters } from '@/features/lieux-inclusion-numerique/filters/besoins-filters';
-import { DisponibiliteFilters } from '@/features/lieux-inclusion-numerique/filters/disponibilite-filters';
-import { DispositifsFilters } from '@/features/lieux-inclusion-numerique/filters/dispositifs-filters';
-import { PublicCibleFilters } from '@/features/lieux-inclusion-numerique/filters/public-cible-filters';
-import { TerritoiresPrioritairesFilters } from '@/features/lieux-inclusion-numerique/filters/territoires-prioritaires-filters';
+import type { ReactNode } from 'react';
+import { Navbar } from '@/features/brand/use-cases/layout';
+import { RepubliqueFrancaiseLogo } from '@/features/brand/use-cases/logos';
 import { Footer, FooterLegal } from '@/libraries/ui/blocks/footer';
 import { footerId, skipLinksId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import { ThemeChanger } from '@/libraries/ui/blocks/theme-changer';
@@ -30,40 +24,7 @@ const RootLayout = ({
         <ThemeProvider attribute='data-theme' defaultTheme='dark' enableSystem disableTransitionOnChange>
           <div className='h-screen flex flex-col'>
             <div id={skipLinksId} />
-            <div className='px-8 py-4 shadow sticky z-1'>
-              <div className='leading-0'>
-                <div className='navbar-start'>
-                  <Link
-                    href='/'
-                    title='Retour à l’accueil'
-                    className='font-bold text-xl text-base-title flex items-center gap-2'
-                    kind='link-hover'
-                  >
-                    <AppLogo />
-                    Lieux d’inclusion numérique
-                  </Link>
-                </div>
-              </div>
-              <div className='mt-3'>
-                <div className='navbar-start'>
-                  <div className='flex gap-2'>
-                    <div>
-                      <SearchAddress className='w-100 pr-0' />
-                    </div>
-                    <Geolocate />
-                  </div>
-                </div>
-                <div className='navbar-end'>
-                  <Suspense fallback={<div>Chargement...</div>}>
-                    <BesoinsFilters />
-                    <PublicCibleFilters />
-                    <DisponibiliteFilters />
-                    <DispositifsFilters />
-                    <TerritoiresPrioritairesFilters />
-                  </Suspense>
-                </div>
-              </div>
-            </div>
+            <Navbar />
             {children}
           </div>
           <div className='border-t-2 border-solid border-primary text-muted' id={footerId}>
