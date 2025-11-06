@@ -6,6 +6,8 @@
 
 Pour atteindre cet objectif, nous avons développé cette cartographie à partir du framework Next.js, et de l’écosystème React. L’application récupère et affiche les données consolidées provenant de l’entrepôt des données de l’inclusion numérique de l’ANCT. Cela garantit une information à jour, fiable et homogène, sans que les utilisateurs n’aient à gérer eux-mêmes la mise à jour des données ou une infrastructure complexe.
 
+Les données affichées dans cette cartographie proviennent du [DataSpace de l’ANCT](https://api.inclusion-numerique.anct.gouv.fr), qui centralise et expose les informations de l’inclusion numérique en France à travers une API.
+
 ## 📑 Table des matières
 
 - 🪧 [À propos](#about)

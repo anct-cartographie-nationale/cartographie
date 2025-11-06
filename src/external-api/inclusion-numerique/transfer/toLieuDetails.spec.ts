@@ -14,6 +14,8 @@ describe('to lieu details', () => {
       code_insee: '75000',
       departement: '75',
       region: 'Île-de-France',
+      source: 'Coop',
+      date_maj: '2025-09-15T08:23:00Z',
       services: ['Aide aux démarches administratives'].join('|')
     };
 
@@ -27,6 +29,8 @@ describe('to lieu details', () => {
       region: 'Île-de-France',
       isFranceServices: false,
       isConum: false,
+      source: 'Coop',
+      dateMiseAJour: '15/09/2025, 10h23',
       labels: [],
       services: {
         competences: ['Aide aux démarches administratives'],
@@ -62,6 +66,8 @@ describe('to lieu details', () => {
       presentation_resume: 'Accompagnement à l’utilisation des outils numériques par les agriculteurs',
       presentation_detail:
         'L’Atelier Numérique est un espace de médiation et de ressource numérique labellisé « Espace Public Numérique ». Sesdomaines d’intervention sont la médiation numérique, l’insertion socio-professionnelle, l’Education aux Médias et àl’Information. Nous accompagnons les habitants de tout âge à la découverte et l’utilisation des outils numérique, via desaccès libres Mus in sagittis pellentesque auctor in. Quam vel purus fames est accumsan vel id ipsum dolor. Rutrum egestasin elementum platea erat pellentesque id ut at. Duis tincidunt bibendum diam proin. Velit feugiat cursus nisi neque siteget. Volutpat massa commodo eu quam pulvinar. Nulla dolor diam sem proin in purus bibendum orci pretium. Magna et turpisgravida ultrices hendrerit pellentesque lobortis bibendum lacus. Id nisl odio magna commodo massa amet massa. Ut a enimsodales id commodo massa nec. Mattis non integer quis libero lectus diam. Sit dolor suspendisse consectetur lobortis namvitae. Dictum purus lectus vel blandit duis molestie ac vulputate. Nunc molestie iaculis parturient commodo consequatdolor rhoncus lectus. Arcu odio morbi felis senectus dolor eu in',
+      source: 'Coop',
+      date_maj: '2025-09-15T08:23:00Z',
       services: [
         'Aide aux démarches administratives',
         'Maîtrise des outils numériques du quotidien',
@@ -146,6 +152,8 @@ describe('to lieu details', () => {
       priseRDV: 'https://maisondelamarianne.fr/france-services-valdoie/rdv/',
       description:
         'L’Atelier Numérique est un espace de médiation et de ressource numérique labellisé « Espace Public Numérique ». Sesdomaines d’intervention sont la médiation numérique, l’insertion socio-professionnelle, l’Education aux Médias et àl’Information. Nous accompagnons les habitants de tout âge à la découverte et l’utilisation des outils numérique, via desaccès libres Mus in sagittis pellentesque auctor in. Quam vel purus fames est accumsan vel id ipsum dolor. Rutrum egestasin elementum platea erat pellentesque id ut at. Duis tincidunt bibendum diam proin. Velit feugiat cursus nisi neque siteget. Volutpat massa commodo eu quam pulvinar. Nulla dolor diam sem proin in purus bibendum orci pretium. Magna et turpisgravida ultrices hendrerit pellentesque lobortis bibendum lacus. Id nisl odio magna commodo massa amet massa. Ut a enimsodales id commodo massa nec. Mattis non integer quis libero lectus diam. Sit dolor suspendisse consectetur lobortis namvitae. Dictum purus lectus vel blandit duis molestie ac vulputate. Nunc molestie iaculis parturient commodo consequatdolor rhoncus lectus. Arcu odio morbi felis senectus dolor eu in',
+      source: 'Coop',
+      dateMiseAJour: '15/09/2025, 10h23',
       labels: ['Fabriques de Territoire', 'Formé à « Mon Espace Santé »', 'QPV', 'ZRR'],
       services: {
         competences: [
@@ -216,6 +224,8 @@ describe('to lieu details', () => {
       departement: '75',
       region: 'Île-de-France',
       services: ['Aide aux démarches administratives'].join('|'),
+      source: 'Coop',
+      date_maj: '2025-09-15T08:23:00Z',
       presentation_resume: 'Accompagnement à l’utilisation des outils numériques par les agriculteurs'
     };
 
@@ -230,6 +240,8 @@ describe('to lieu details', () => {
       isFranceServices: false,
       isConum: false,
       description: 'Accompagnement à l’utilisation des outils numériques par les agriculteurs',
+      source: 'Coop',
+      dateMiseAJour: '15/09/2025, 10h23',
       labels: [],
       services: {
         competences: ['Aide aux démarches administratives'],

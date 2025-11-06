@@ -11,6 +11,8 @@ import { TimeTable } from './time-table';
 
 type InformationsGeneralesProps = {
   nom: string;
+  dateMiseAJour: string;
+  source: string;
   osmOpeningHours?: string;
   isFranceServices?: boolean;
   isConum?: boolean;
@@ -18,6 +20,8 @@ type InformationsGeneralesProps = {
 
 export const InformationsGenerales = ({
   nom,
+  dateMiseAJour,
+  source,
   osmOpeningHours,
   isFranceServices = false,
   isConum = false
@@ -26,6 +30,9 @@ export const InformationsGenerales = ({
 
   return (
     <>
+      <div className='text-sm text-muted'>
+        Dernière mise à jour&nbsp;:&nbsp;{dateMiseAJour} · Source&nbsp;:&nbsp;{source}
+      </div>
       <div className='flex sm:flex-row flex-col justify-between items-center gap-6'>
         <h1 className='text-4xl text-base-title font-bold'>{nom}</h1>
         <div className='flex gap-2'>

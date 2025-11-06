@@ -1,3 +1,4 @@
+import { formatInTimeZone } from 'date-fns-tz';
 import type { LieuxRouteResponse } from '@/external-api/inclusion-numerique';
 import type { LieuDetails } from '@/features/lieux-inclusion-numerique/lieu-details';
 import { formatPhoneNumber } from './format-phone-number';
@@ -34,6 +35,8 @@ export const toLieuDetails = ({
   fiche_acces_libre,
   prise_rdv,
   horaires,
+  date_maj,
+  source,
   presentation_resume,
   presentation_detail,
   services,
@@ -73,6 +76,8 @@ export const toLieuDetails = ({
     cultureNumerique: services.split('|').filter((service) => CULTURE_NUMERIQUE_SERVICES.includes(service)),
     materielInformatique: services.split('|').filter((service) => MATERIEL_INFORMATIQUE_SERVICES.includes(service))
   },
+  source,
+  dateMiseAJour: formatInTimeZone(date_maj, 'Europe/Paris', "dd/MM/yyyy, H'h'mm"),
   typesAccompagnement: modalites_accompagnement?.split('|') ?? [],
   publicsSpecifiques: publics_specifiquement_adresses?.split('|') ?? [],
   fraisACharge: frais_a_charge?.split('|') ?? [],

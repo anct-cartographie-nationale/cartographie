@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
-import { RiMenuLine } from 'react-icons/ri';
+import { RiMenuLine, RiQuestionFill } from 'react-icons/ri';
 import { Geolocate } from '@/features/cartographie/geolocate';
 import { SearchAddress } from '@/features/cartographie/search-address';
 import { BesoinsFilters } from '@/features/lieux-inclusion-numerique/filters/besoins-filters';
@@ -11,6 +11,7 @@ import { PublicCibleFilters } from '@/features/lieux-inclusion-numerique/filters
 import { TerritoiresPrioritairesFilters } from '@/features/lieux-inclusion-numerique/filters/territoires-prioritaires-filters';
 import { CollapseController } from '@/libraries/ui/headless/collapse-controller';
 import { Button } from '@/libraries/ui/primitives/button';
+import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { Link } from '@/libraries/ui/primitives/link';
 import { AppLogo } from '../logos';
 
@@ -28,6 +29,10 @@ export const Navbar = () => (
             <AppLogo />
             Lieux d’inclusion numérique
           </Link>
+          <ButtonLink href='mailto:cartographie.sonum@anct.gouv.fr' kind='btn-link' className='no-underline'>
+            <RiQuestionFill size={16} />
+            Aide
+          </ButtonLink>
           <Button kind='btn-link' className='px-2 lg:hidden' {...toggle}>
             <RiMenuLine size={24} aria-hidden={true} />
           </Button>

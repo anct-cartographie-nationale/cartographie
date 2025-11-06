@@ -55,7 +55,7 @@ export const FicheLieuPage = ({ breadcrumbsItems = [], listHref, lieu }: FicheLi
             <hr className='border-base-200 my-6' />
           </>
         )}
-        <ButtonLink kind='btn-outline' color='btn-primary' href=''>
+        <ButtonLink kind='btn-outline' color='btn-primary' href='mailto:cartographie.sonum@anct.gouv.fr'>
           <RiAlertLine aria-hidden={true} />
           Signaler une erreur sur les informations du lieu
         </ButtonLink>

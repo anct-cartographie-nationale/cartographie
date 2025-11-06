@@ -16,6 +16,8 @@ export type LieuDetails = {
   priseRDV?: string;
   description?: string;
   labels: string[];
+  source: string;
+  dateMiseAJour: string;
   services: {
     competences: string[];
     cultureNumerique: string[];
