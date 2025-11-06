@@ -2,7 +2,7 @@
 
 import { useId } from 'react';
 import { RiCloseCircleFill, RiSearchLine } from 'react-icons/ri';
-import { type Address, addressCombobox, addressOptions } from '@/features/address/address-combobox';
+import { type Address, addressCombobox, addressOptions } from '@/features/address';
 import { useSubscribe } from '@/libraries/reactivity/Subscribe';
 import { Button } from '@/libraries/ui/primitives/button';
 import { ComboBox } from '@/libraries/ui/primitives/combobox';

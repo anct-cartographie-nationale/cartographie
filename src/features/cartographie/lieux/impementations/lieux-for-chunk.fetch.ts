@@ -16,7 +16,7 @@ export const fetchLieuxForChunk: LieuxForChunk = async (
 
   if (lieuxCache.has(queryParams)) return lieuxCache.get(queryParams) ?? [];
 
-  const response = await fetch(`/api/lieux-chunk?${queryParams}`);
+  const response = await fetch(`/api/lieux/chunk?${queryParams}`);
 
   if (!response.ok) {
     console.error(`Failed to fetch lieux for chunk [${latitude}, ${longitude}]`);
