@@ -13,11 +13,12 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@gouvfr-anct/lieux-de-mediation-numerique": "^2.3.0",
     "@radix-ui/react-popover": "^1.1.15",
     "@tanstack/react-form": "^1.23.7",
     "carte-facile": "^0.8.1",
     "clsx": "^2.1.1",
-    "daisyui": "^5.1.26",
+    "daisyui": "^5.4.7",
     "date-fns-tz": "^3.2.0",
     "dotenv": "^17.2.3",
     "downshift": "^9.0.10",
@@ -33,6 +34,7 @@
     "piqure": "^2.1.2",
     "react": "19.1.1",
     "react-dom": "19.1.1",
+    "react-hot-toast": "^2.6.0",
     "react-icons": "^5.5.0",
     "react-map-gl": "^8.0.4",
     "rxjs": "^7.8.2",

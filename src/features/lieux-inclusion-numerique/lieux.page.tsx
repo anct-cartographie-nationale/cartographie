@@ -8,12 +8,14 @@ import { Pagination } from '@/libraries/ui/blocks/pagination/pagination';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
+import { ExportLieux } from './components/export-lieux';
 import type { LieuListItem } from './lieu-list-item';
 import { LieuxList } from './lieux-list';
 
 type LieuxPageProps = {
   breadcrumbsItems?: { label: string; href?: string }[];
   mapHref: string;
+  exportHref: string;
   lieux: LieuListItem[];
   totalLieux: number;
   curentPage: number;
@@ -23,6 +25,7 @@ type LieuxPageProps = {
 export const LieuxPage = ({
   breadcrumbsItems = [],
   mapHref,
+  exportHref,
   lieux,
   totalLieux,
   curentPage,
@@ -41,7 +44,10 @@ export const LieuxPage = ({
             Afficher la carte
           </ButtonLink>
         </div>
-        <h1 className='font-bold uppercase text-xs text-base-title mb-6'>{totalLieux} lieux trouvés</h1>
+        <div className='flex justify-between items-center gap-2 mb-4'>
+          <h1 className='font-bold uppercase text-xs text-base-title'>{totalLieux} lieux trouvés</h1>
+          <ExportLieux lieuxCount={totalLieux} href={exportHref} />
+        </div>
         <LieuxList
           searchParams={searchParams}
           lieux={lieux}

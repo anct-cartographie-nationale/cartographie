@@ -7,6 +7,7 @@ import { RepubliqueFrancaiseLogo } from '@/features/brand/use-cases/logos';
 import { Footer, FooterLegal } from '@/libraries/ui/blocks/footer';
 import { footerId, skipLinksId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import { ThemeChanger } from '@/libraries/ui/blocks/theme-changer';
+import { Toaster } from '@/libraries/ui/blocks/toaster';
 import { Link } from '@/libraries/ui/primitives/link';
 import { ThemeProvider } from '@/libraries/ui/theme/providers';
 import { metadata as appMetadata } from './metadata';
@@ -22,6 +23,7 @@ const RootLayout = ({
     <body>
       <NuqsAdapter>
         <ThemeProvider attribute='data-theme' defaultTheme='dark' enableSystem disableTransitionOnChange>
+          <Toaster directionY='toast-top' directionX='toast-center' />
           <div className='h-screen flex flex-col'>
             <div id={skipLinksId} />
             <Navbar />
