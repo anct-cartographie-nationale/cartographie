@@ -50,6 +50,7 @@ const Page = async ({ searchParams: searchParamsPromise }: PageProps) => {
       curentPage={curentPage}
       lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}
       mapHref={hrefWithSearchParams('/')(urlSearchParams, ['page'])}
+      exportHref={hrefWithSearchParams(`/lieux/exporter`)(urlSearchParams, ['page'])}
     />
   );
 };

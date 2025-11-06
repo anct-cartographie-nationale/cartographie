@@ -87,6 +87,7 @@ const Page = async ({ params: paramsPromise, searchParams: searchParamsPromise }
         { label: departement.nom }
       ]}
       mapHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])}
+      exportHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}/lieux/exporter`)(urlSearchParams, ['page'])}
     />
   );
 };

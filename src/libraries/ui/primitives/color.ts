@@ -1,1 +1,3 @@
-export type Color = 'neutral' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
+export type StatusColor = 'info' | 'success' | 'warning' | 'error';
+
+export type Color = 'neutral' | 'primary' | 'secondary' | 'accent' | StatusColor;

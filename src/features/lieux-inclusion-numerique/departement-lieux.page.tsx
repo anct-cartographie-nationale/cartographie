@@ -13,6 +13,7 @@ import { NextPageLink, PageLink, PreviousPageLink } from '@/libraries/ui/blocks/
 import { Pagination } from '@/libraries/ui/blocks/pagination/pagination';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
+import { ExportLieux } from './components/export-lieux';
 import type { LieuListItem } from './lieu-list-item';
 import { LieuxList } from './lieux-list';
 
@@ -57,9 +58,15 @@ export const DepartementLieuxPage = ({
         ]}
       />
       <main id={contentId}>
-        <h1 className='font-bold uppercase text-xs text-base-title my-6'>
-          <span className='sr-only'>{departement.nom}</span> {totalLieux} lieux trouvés
-        </h1>
+        <div className='flex justify-between items-center gap-2 mb-4 mt-3'>
+          <h1 className='font-bold uppercase text-xs text-base-title'>
+            <span className='sr-only'>{departement.nom}</span> {totalLieux} lieux trouvés
+          </h1>
+          <ExportLieux
+            lieuxCount={totalLieux}
+            href={hrefWithSearchParams(`${departement.slug}/lieux/exporter`)(urlSearchParams, ['page'])}
+          />
+        </div>
         <LieuxList searchParams={urlSearchParams} lieux={lieux} className='flex flex-col gap-2' />
         <div className='text-center mt-10'>
           <Pagination

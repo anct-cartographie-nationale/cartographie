@@ -13,6 +13,19 @@ type InclusionNumeriqueApiResponse = {
   [LIEUX_ROUTE]: LieuxRouteResponse;
 };
 
+class ResponseError extends Error {
+  constructor(
+    message: string,
+    public response: Response
+  ) {
+    super(message);
+    this.name = 'ResponseError';
+  }
+}
+
+export const isResponseError = (error: unknown): error is ResponseError =>
+  error instanceof Error && error.name === 'ResponseError';
+
 export const inclusionNumeriqueFetchApi = async <TRoute extends InclusionNumeriqueApiRoute>(
   route: TRoute,
   options?: InclusionNumeriqueApiOptions[TRoute],
@@ -35,7 +48,9 @@ export const inclusionNumeriqueFetchApi = async <TRoute extends InclusionNumeriq
       : undefined
   );
 
-  if (!res.ok) throw new Error('Failed to fetch data');
+  if (!res.ok) {
+    throw new ResponseError('Failed to fetch data from inclusion-numerique API', res);
+  }
 
   return [await res.json(), res.headers];
 };
