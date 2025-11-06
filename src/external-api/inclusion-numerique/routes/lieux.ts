@@ -21,6 +21,8 @@ export type LieuxRouteResponse = {
   courriels?: string;
   site_web?: string;
   horaires?: string;
+  date_maj: string;
+  source: string;
   presentation_resume?: string;
   presentation_detail?: string;
   services: string;

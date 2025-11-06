@@ -28,6 +28,7 @@ type ContactCardProps = {
   telephone?: string;
   courriel?: string;
   priseRDV?: string;
+  isFranceServices?: boolean;
 };
 
 export const ContactCard = ({
@@ -39,7 +40,8 @@ export const ContactCard = ({
   accessibilite,
   telephone,
   courriel,
-  priseRDV
+  priseRDV,
+  isFranceServices = false
 }: ContactCardProps) => {
   const { theme } = useTheme();
 
@@ -103,7 +105,9 @@ export const ContactCard = ({
           <>
             <hr className='border-base-200' />
             <div className='card-body p-8'>
-              <h3 className='font-bold uppercase text-xs text-base-title mb-2'>Contactez un conseiller France Services</h3>
+              <h3 className='font-bold uppercase text-xs text-base-title mb-2'>
+                {isFranceServices ? 'Contactez un conseiller France Services' : 'Contactez le lieu'}
+              </h3>
               <ul className='text-base leading-7'>
                 {telephone && (
                   <li className='flex items-center gap-2'>
