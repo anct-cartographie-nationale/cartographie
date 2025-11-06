@@ -29,13 +29,15 @@ export const Navbar = () => (
             <AppLogo />
             Lieux d’inclusion numérique
           </Link>
-          <ButtonLink href='mailto:cartographie.sonum@anct.gouv.fr' kind='btn-link' className='no-underline'>
-            <RiQuestionFill size={16} />
-            Aide
-          </ButtonLink>
-          <Button kind='btn-link' className='px-2 lg:hidden' {...toggle}>
-            <RiMenuLine size={24} aria-hidden={true} />
-          </Button>
+          <div className='flex'>
+            <ButtonLink href='mailto:cartographie.sonum@anct.gouv.fr' kind='btn-link' className='no-underline'>
+              <RiQuestionFill size={16} />
+              Aide
+            </ButtonLink>
+            <Button kind='btn-link' className='px-2 lg:hidden' {...toggle}>
+              <RiMenuLine size={24} aria-hidden={true} />
+            </Button>
+          </div>
         </div>
         <div className='mt-3 flex gap-2 flex-col 2xl:flex-row justify-between'>
           <div>

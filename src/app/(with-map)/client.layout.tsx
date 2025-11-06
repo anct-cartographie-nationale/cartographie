@@ -32,11 +32,11 @@ const ClientLayout = ({ children, regions, departements }: ClientLayoutProps) =>
         <MapProvider>
           <div
             className={cn(
-              'flex flex-col flex-wrap w-full transition-transform duration-200 ease-in-out lg:translate-x-0',
+              'flex lg:flex-row flex-col lg:flex-nowrap flex-wrap w-full transition-transform duration-200 ease-in-out lg:translate-x-0',
               showMap ? '-translate-x-full' : 'translate-x-0'
             )}
           >
-            <div className='xl:w-165 lg:w-120 w-full h-full px-12 pt-8 pb-14 overflow-auto'>{children}</div>
+            <div className='lg:w-165 w-full h-full px-12 pt-8 pb-14 overflow-auto'>{children}</div>
             <Cartographie
               regions={regions}
               departements={departements}

@@ -27,7 +27,7 @@ export const SearchAddress = ({ className }: { className?: string }) => {
       }}
     >
       {({ getLabelProps, getInputProps, getToggleButtonProps, ...options }) => (
-        <>
+        <div className='w-full sm:w-auto'>
           <label htmlFor={inputId} {...getLabelProps()} className='sr-only'>
             Rechercher une adresse
           </label>
@@ -65,7 +65,7 @@ export const SearchAddress = ({ className }: { className?: string }) => {
             {...getInputProps()}
           />
           <Options {...options} {...addressOptions} />
-        </>
+        </div>
       )}
     </ComboBox>
   );
