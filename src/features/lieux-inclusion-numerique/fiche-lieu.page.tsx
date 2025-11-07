@@ -1,7 +1,8 @@
 import 'maplibre-gl/dist/maplibre-gl.css';
 import type { ReactNode } from 'react';
-import { RiAlertLine, RiArrowGoBackLine, RiSendPlaneLine } from 'react-icons/ri';
+import { RiAlertLine, RiArrowGoBackLine, RiLink } from 'react-icons/ri';
 import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
+import { ClipboardButton } from '@/libraries/ui/blocks/clipboard-button';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
@@ -62,11 +63,19 @@ export const FicheLieuPage = ({ breadcrumbsItems = [], listHref, lieu }: FicheLi
       </article>
       <aside className='flex-1/2 lg:flex-1/3 2xl:flex-1/4 mb-12 sticky top-0 self-start'>
         <div className='text-right'>
-          <ButtonLink kind='btn-link' href='/' className='no-underline p-0 my-4'>
-            Partager cette page
-            <RiSendPlaneLine aria-hidden={true} />
-          </ButtonLink>
+          <ClipboardButton
+            kind='btn-link'
+            className='no-underline p-0 my-4'
+            message={{
+              success: 'Lien copié dans le presse-papier',
+              error: 'Impossible de copier le lien dans le presse-papier'
+            }}
+          >
+            Copier le lien de la page
+            <RiLink aria-hidden={true} />
+          </ClipboardButton>
         </div>
+
         <ContactCard {...lieu} />
       </aside>
     </main>
