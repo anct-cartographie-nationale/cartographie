@@ -32,8 +32,8 @@ const banFeatureToAddress = (feature: AddressFeature): Address => ({
   citycode: feature.properties.citycode,
   postcode: feature.properties.postcode,
   street: [feature.properties.housenumber, feature.properties.street].filter(Boolean).join(' '),
-  x: feature.properties.x,
-  y: feature.properties.y
+  x: feature.geometry.coordinates[1] ?? 0,
+  y: feature.geometry.coordinates[0] ?? 0
 });
 
 export const fetchBanSuggestions = (input: string): Effect<Address[], Error> =>
@@ -42,7 +42,7 @@ export const fetchBanSuggestions = (input: string): Effect<Address[], Error> =>
       const res = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(input)}`);
       if (!res.ok) throw new Error(res.statusText);
       const data = (await res.json()) as AddressFeatureCollection;
-      return data.features.map(banFeatureToAddress);
+      return data.features.map(banFeatureToAddress).filter((address) => address.x !== 0 && address.y !== 0);
     },
     catch: (err) => new Error(`BAN fetch failed: ${err}`)
   });
