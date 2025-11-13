@@ -12,6 +12,7 @@ import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
 import { LocationFranceIllustration } from '@/libraries/ui/pictograms/map/location-france.illustration';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
+import { removeHighlightDecoupageAdministratif } from './layers/highlight-decoupage-administratif';
 import { setZoom } from './lieux/streams/zoom.stream';
 import { map$ } from './map/streams/map.stream';
 
@@ -25,6 +26,7 @@ export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regio
       tap((map) => {
         setZoom(config?.zoom ?? 6);
         if (!map || !config) return;
+        removeHighlightDecoupageAdministratif(map);
         map.flyTo({
           center: [config.localisation.longitude, config.localisation.latitude],
           zoom: config.zoom,

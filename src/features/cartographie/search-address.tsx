@@ -10,6 +10,7 @@ import { ComboBox } from '@/libraries/ui/primitives/combobox';
 import { Input } from '@/libraries/ui/primitives/input';
 import { Options } from '@/libraries/ui/primitives/options';
 import { cn } from '@/libraries/utils';
+import { HighlightCommune, removeHighlightDecoupageAdministratif } from './layers/highlight-decoupage-administratif';
 import { map$ } from './map/streams/map.stream';
 
 export const SearchAddress = ({ className }: { className?: string }) => {
@@ -21,8 +22,9 @@ export const SearchAddress = ({ className }: { className?: string }) => {
     <ComboBox
       {...addressCombobox}
       onSelectedItemChange={(address: Address) => {
-        if (address.x && address.y) {
-          map?.flyTo({
+        if (address.x && address.y && map) {
+          HighlightCommune(map, address.citycode);
+          map.flyTo({
             center: [address.y, address.x],
             zoom: 13,
             duration: 400
@@ -53,7 +55,10 @@ export const SearchAddress = ({ className }: { className?: string }) => {
                     kind='btn-link'
                     className='p-0'
                     title='Effacer la recherche'
-                    onClick={options.reset}
+                    onClick={() => {
+                      options.reset();
+                      map && removeHighlightDecoupageAdministratif(map);
+                    }}
                   >
                     <RiCloseCircleFill size={24} />
                   </Button>
