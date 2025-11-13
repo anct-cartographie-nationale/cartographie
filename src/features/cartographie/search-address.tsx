@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useId } from 'react';
 import { RiCloseCircleFill, RiSearchLine } from 'react-icons/ri';
 import { type Address, addressCombobox, addressOptions } from '@/features/address';
@@ -13,17 +14,23 @@ import { map$ } from './map/streams/map.stream';
 
 export const SearchAddress = ({ className }: { className?: string }) => {
   const inputId = useId();
+  const router = useRouter();
   const [map] = useSubscribe(map$);
 
   return (
     <ComboBox
       {...addressCombobox}
       onSelectedItemChange={(address: Address) => {
-        map?.flyTo({
-          center: [address.y, address.x],
-          zoom: 13,
-          duration: 400
-        });
+        if (address.x && address.y) {
+          map?.flyTo({
+            center: [address.y, address.x],
+            zoom: 13,
+            duration: 400
+          });
+        }
+        if (address.lieuId) {
+          router.push(`/lieux/${address.lieuId}`);
+        }
       }}
     >
       {({ getLabelProps, getInputProps, getToggleButtonProps, ...options }) => (

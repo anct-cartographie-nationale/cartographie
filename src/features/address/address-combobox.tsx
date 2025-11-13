@@ -13,13 +13,8 @@ const INPUT_DEBOUNCE_DELAY = 300;
 const lastInputRef = unsafeMake('');
 const lastItemsRef = unsafeMake<Address[]>([]);
 
-const onlyValidCoordinates = (lieu: Address) =>
-  lieu.y >= -90 && lieu.y <= 90 && lieu.x >= -180 && lieu.x <= 180 && lieu.x != null && lieu.y != null;
-
 const fetchSuggestionsEffect = (input: string): Effect<Address[], Error> =>
-  all([fetchLieuxSuggestions(input), fetchBanSuggestions(input)]).pipe(
-    map(([lieux, ban]) => [...lieux, ...ban].filter(onlyValidCoordinates))
-  );
+  all([fetchLieuxSuggestions(input), fetchBanSuggestions(input)]).pipe(map(([lieux, ban]) => [...lieux, ...ban]));
 
 type SuggestionsPayload = {
   isLoading: boolean;
