@@ -3,6 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { tap } from 'rxjs';
+import { HighlightDepartement } from '@/features/cartographie/layers/highlight-decoupage-administratif';
 import { map$ } from '@/features/cartographie/map/streams/map.stream';
 import type { Departement } from '@/features/collectivites-territoriales/departement';
 import type { Region } from '@/features/collectivites-territoriales/region';
@@ -37,13 +38,15 @@ export const DepartementLieuxPage = ({
 
   useSubscribe(
     map$.pipe(
-      tap((map) =>
-        map?.flyTo({
+      tap((map) => {
+        if (!map) return;
+        HighlightDepartement(map, departement.code);
+        map.flyTo({
           center: [departement.localisation.longitude, departement.localisation.latitude],
           zoom: departement.zoom,
           duration: 400
-        })
-      )
+        });
+      })
     )
   );
 

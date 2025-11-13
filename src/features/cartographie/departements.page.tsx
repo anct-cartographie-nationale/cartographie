@@ -13,6 +13,7 @@ import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal'
 import { LocationFranceIllustration } from '@/libraries/ui/pictograms/map/location-france.illustration';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { Link } from '@/libraries/ui/primitives/link';
+import { HighlightRegion } from './layers/highlight-decoupage-administratif';
 import { setZoom } from './lieux/streams/zoom.stream';
 import { map$ } from './map/streams/map.stream';
 
@@ -31,7 +32,9 @@ export const DepartementsPage = ({
     map$.pipe(
       tap((map) => {
         setZoom(region.zoom);
-        map?.flyTo({
+        if (!map) return;
+        HighlightRegion(map, region.code);
+        map.flyTo({
           center: [region.localisation.longitude, region.localisation.latitude],
           zoom: region.zoom,
           duration: 400
