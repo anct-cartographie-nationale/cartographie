@@ -8,20 +8,17 @@ type LieuSearchResult = {
   code_postal: string;
   code_insee: string;
   adresse: string;
-  latitude: number;
-  longitude: number;
 };
 
 const lieuToAddress = (lieuSearchResult: LieuSearchResult): Address => ({
   id: lieuSearchResult.id,
+  lieuId: lieuSearchResult.id,
   label: `${lieuSearchResult.adresse}, ${lieuSearchResult.code_postal} ${lieuSearchResult.commune}`,
   name: lieuSearchResult.nom,
   city: lieuSearchResult.commune,
   citycode: lieuSearchResult.code_insee,
   postcode: lieuSearchResult.code_postal,
-  street: lieuSearchResult.adresse,
-  x: lieuSearchResult.latitude,
-  y: lieuSearchResult.longitude
+  street: lieuSearchResult.adresse
 });
 
 export const fetchLieuxSuggestions = (input: string): Effect<Address[], Error> =>
