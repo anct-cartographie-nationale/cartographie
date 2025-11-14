@@ -5,16 +5,18 @@ import type { ReactNode } from 'react';
 import type { Address } from './address';
 import { fetchBanSuggestions } from './ban.source';
 import { fetchLieuxSuggestions } from './lieux.source';
+import { fetchMediateursSuggestions } from './mediateurs.source';
 
 const INPUT_MIN_LENGTH = 3;
-
 const INPUT_DEBOUNCE_DELAY = 300;
 
 const lastInputRef = unsafeMake('');
 const lastItemsRef = unsafeMake<Address[]>([]);
 
 const fetchSuggestionsEffect = (input: string): Effect<Address[], Error> =>
-  all([fetchLieuxSuggestions(input), fetchBanSuggestions(input)]).pipe(map(([lieux, ban]) => [...lieux, ...ban]));
+  all([fetchMediateursSuggestions(input), fetchLieuxSuggestions(input), fetchBanSuggestions(input)]).pipe(
+    map(([lieux, ban]) => [...lieux, ...ban])
+  );
 
 type SuggestionsPayload = {
   isLoading: boolean;
