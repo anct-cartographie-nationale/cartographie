@@ -1,22 +1,27 @@
 import { describe, expect, it } from 'vitest';
 import type { LieuDetails } from '@/features/lieux-inclusion-numerique/lieu-details';
 import type { LieuxRouteResponse } from '../routes';
-import { toLieuDetails } from './toLieuDetails';
+import { toLieuDetails } from './to-lieu-details';
 
 describe('to lieu details', () => {
   it('should transform minimal lieu to lieu details', () => {
     const lieu: LieuxRouteResponse[number] & { region: string; departement: string } = {
       id: '1',
       nom: 'Lieu 1',
-      adresse: '123 Rue Principale',
-      commune: 'Paris',
-      code_postal: '75001',
-      code_insee: '75000',
+      date_maj: '2025-09-15T08:23:00Z',
+      pivot: '43497452600012',
+      source: 'Coop',
+      adresse: {
+        numero_voie: '123',
+        repetition: '',
+        nom_voie: 'Rue Principale',
+        commune: 'Paris',
+        code_postal: '75001',
+        code_insee: '75000'
+      },
       departement: '75',
       region: 'Île-de-France',
-      source: 'Coop',
-      date_maj: '2025-09-15T08:23:00Z',
-      services: ['Aide aux démarches administratives'].join('|')
+      services: ['Aide aux démarches administratives']
     };
 
     const lieuDetails: LieuDetails = toLieuDetails(lieu);
@@ -27,9 +32,9 @@ describe('to lieu details', () => {
       adresse: '123 Rue Principale, 75001 Paris',
       departement: '75',
       region: 'Île-de-France',
+      source: 'Coop',
       isFranceServices: false,
       isConum: false,
-      source: 'Coop',
       dateMiseAJour: '15/09/2025, 10h23',
       labels: [],
       services: {
@@ -50,15 +55,21 @@ describe('to lieu details', () => {
     const lieu: LieuxRouteResponse[number] & { region: string; departement: string } = {
       id: '1',
       nom: 'Lieu 1',
-      commune: 'Paris',
-      code_postal: '75001',
-      code_insee: '75000',
-      adresse: '123 Rue Principale',
-      complement_adresse: 'bâtiment 3',
+      adresse: {
+        numero_voie: '123',
+        repetition: '',
+        nom_voie: 'Rue Principale',
+        commune: 'Paris',
+        code_postal: '75001',
+        code_insee: '75000'
+      },
       departement: '75',
       region: 'Île-de-France',
       latitude: 48.8526,
       longitude: 2.3509,
+      date_maj: '2025-09-15T08:23:00Z',
+      pivot: '43497452600012',
+      source: 'Coop',
       telephone: '+33612823657',
       courriels: 'contact@maisondelamarianne.fr',
       site_web: 'https://maisondelamarianne.fr/france-services-valdoie/',
@@ -66,8 +77,6 @@ describe('to lieu details', () => {
       presentation_resume: 'Accompagnement à l’utilisation des outils numériques par les agriculteurs',
       presentation_detail:
         'L’Atelier Numérique est un espace de médiation et de ressource numérique labellisé « Espace Public Numérique ». Sesdomaines d’intervention sont la médiation numérique, l’insertion socio-professionnelle, l’Education aux Médias et àl’Information. Nous accompagnons les habitants de tout âge à la découverte et l’utilisation des outils numérique, via desaccès libres Mus in sagittis pellentesque auctor in. Quam vel purus fames est accumsan vel id ipsum dolor. Rutrum egestasin elementum platea erat pellentesque id ut at. Duis tincidunt bibendum diam proin. Velit feugiat cursus nisi neque siteget. Volutpat massa commodo eu quam pulvinar. Nulla dolor diam sem proin in purus bibendum orci pretium. Magna et turpisgravida ultrices hendrerit pellentesque lobortis bibendum lacus. Id nisl odio magna commodo massa amet massa. Ut a enimsodales id commodo massa nec. Mattis non integer quis libero lectus diam. Sit dolor suspendisse consectetur lobortis namvitae. Dictum purus lectus vel blandit duis molestie ac vulputate. Nunc molestie iaculis parturient commodo consequatdolor rhoncus lectus. Arcu odio morbi felis senectus dolor eu in',
-      source: 'Coop',
-      date_maj: '2025-09-15T08:23:00Z',
       services: [
         'Aide aux démarches administratives',
         'Maîtrise des outils numériques du quotidien',
@@ -78,8 +87,8 @@ describe('to lieu details', () => {
         'Compréhension du monde numérique',
         'Accès internet et matériel informatique',
         'Acquisition de matériel informatique à prix solidaire'
-      ].join('|'),
-      publics_specifiquement_adresses: ['Jeunes', 'Étudiants', 'Familles et/ou enfants', 'Seniors', 'Femmes'].join('|'),
+      ],
+      publics_specifiquement_adresses: ['Jeunes', 'Étudiants', 'Familles et/ou enfants', 'Seniors', 'Femmes'],
       prise_en_charge_specifique: [
         'Surdité',
         'Handicaps moteurs',
@@ -88,21 +97,19 @@ describe('to lieu details', () => {
         'Langues étrangères (anglais)',
         'Langues étrangères (autres)',
         'Déficience visuelle'
-      ].join('|'),
-      frais_a_charge: ['Gratuit', 'Gratuit sous condition', 'Payant'].join('|'),
-      dispositif_programmes_nationaux: ['France Services', 'Conseillers numériques'].join('|'),
-      formations_labels: ['Fabriques de Territoire', 'Formé à « Mon Espace Santé »'].join('|'),
-      autres_formations_labels: ['QPV', 'ZRR'].join('|'),
+      ],
+      frais_a_charge: ['Gratuit', 'Gratuit sous condition', 'Payant'],
+      dispositif_programmes_nationaux: ['France Services', 'Conseillers numériques'],
+      formations_labels: ['Fabriques de Territoire', 'Formé à « Mon Espace Santé »'],
+      autres_formations_labels: ['QPV', 'ZRR'],
       modalites_acces: [
         'Se présenter',
         'Téléphoner',
         'Contacter par mail',
         'Prendre un RDV en ligne',
         'Envoyer un mail avec une fiche de prescription'
-      ].join('|'),
-      modalites_accompagnement: ['Accompagnement individuel', 'Dans un atelier collectif', 'En autonomie', 'À distance'].join(
-        '|'
-      ),
+      ],
+      modalites_accompagnement: ['Accompagnement individuel', 'Dans un atelier collectif', 'En autonomie', 'À distance'],
       fiche_acces_libre: 'https://www.accessibilite.gouv.fr',
       prise_rdv: 'https://maisondelamarianne.fr/france-services-valdoie/rdv/',
       mediateurs: [
@@ -142,7 +149,7 @@ describe('to lieu details', () => {
       isConum: true,
       latitude: 48.8526,
       longitude: 2.3509,
-      adresse: '123 Rue Principale (bâtiment 3), 75001 Paris',
+      adresse: '123 Rue Principale, 75001 Paris',
       region: 'Île-de-France',
       departement: '75',
       siteInternet: 'https://maisondelamarianne.fr/france-services-valdoie/',
@@ -217,15 +224,20 @@ describe('to lieu details', () => {
     const lieu: LieuxRouteResponse[number] & { region: string; departement: string } = {
       id: '1',
       nom: 'Lieu 1',
-      adresse: '123 Rue Principale',
-      commune: 'Paris',
-      code_postal: '75001',
-      code_insee: '75000',
+      adresse: {
+        numero_voie: '123',
+        repetition: '',
+        nom_voie: 'Rue Principale',
+        commune: 'Paris',
+        code_postal: '75001',
+        code_insee: '75000'
+      },
       departement: '75',
       region: 'Île-de-France',
-      services: ['Aide aux démarches administratives'].join('|'),
-      source: 'Coop',
       date_maj: '2025-09-15T08:23:00Z',
+      pivot: '43497452600012',
+      source: 'Coop',
+      services: ['Aide aux démarches administratives'],
       presentation_resume: 'Accompagnement à l’utilisation des outils numériques par les agriculteurs'
     };
 

@@ -1,7 +1,7 @@
-import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import { notFound } from 'next/navigation';
 import type { NextRequest } from 'next/server';
 import { inclusionNumeriqueFetchApi, isResponseError, LIEUX_ROUTE } from '@/external-api/inclusion-numerique';
+import { toSchemaLieuMediationNumerique } from '@/external-api/inclusion-numerique/transfer/to-schema-lieu-mediation-numerique';
 import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
 import departements from '@/features/collectivites-territoriales/departements.json';
 import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
@@ -30,11 +30,11 @@ export const GET = async (request: NextRequest) => {
 
   try {
     const [lieux] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
-      filter: { code_insee: `like.${departement.code}%`, ...applyFilters(filtersSchema.parse(searchParams)) },
+      filter: { 'adresse->>code_insee': `like.${departement.code}%`, ...applyFilters(filtersSchema.parse(searchParams)) },
       order: ['nom', 'asc']
     });
 
-    return new Response(mediationNumeriqueToCsv(lieux as SchemaLieuMediationNumerique[]), {
+    return new Response(mediationNumeriqueToCsv(lieux.map(toSchemaLieuMediationNumerique)), {
       status: 200,
       headers: {
         'Content-Type': 'text/csv; charset=utf-8',

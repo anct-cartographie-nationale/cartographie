@@ -22,9 +22,6 @@ export const toLieuDetails = ({
   id,
   nom,
   adresse,
-  complement_adresse,
-  commune,
-  code_postal,
   departement,
   region,
   latitude,
@@ -52,7 +49,10 @@ export const toLieuDetails = ({
 }: LieuxRouteResponse[number] & { region: string; departement: string }): LieuDetails => ({
   id,
   nom,
-  adresse: `${adresse}${complement_adresse ? ` (${complement_adresse})` : ''}, ${code_postal} ${commune}`,
+  adresse: [
+    [[adresse.numero_voie, adresse.repetition].filter(Boolean).join(''), adresse.nom_voie].filter(Boolean).join(' '),
+    [adresse.code_postal, adresse.commune].join(' ')
+  ].join(', '),
   departement,
   region,
   ...(latitude ? { latitude } : {}),
@@ -67,22 +67,19 @@ export const toLieuDetails = ({
   ...(prise_rdv ? { priseRDV: prise_rdv } : {}),
   ...(presentation_resume ? { description: presentation_resume } : {}),
   ...(presentation_detail ? { description: presentation_detail } : {}),
-  labels: [
-    ...(formations_labels ? formations_labels.split('|') : []),
-    ...(autres_formations_labels ? autres_formations_labels.split('|') : [])
-  ],
+  labels: [...(formations_labels ? formations_labels : []), ...(autres_formations_labels ? autres_formations_labels : [])],
   services: {
-    competences: services.split('|').filter((service) => COMPETENCES_SERVICES.includes(service)),
-    cultureNumerique: services.split('|').filter((service) => CULTURE_NUMERIQUE_SERVICES.includes(service)),
-    materielInformatique: services.split('|').filter((service) => MATERIEL_INFORMATIQUE_SERVICES.includes(service))
+    competences: services.filter((service) => COMPETENCES_SERVICES.includes(service)),
+    cultureNumerique: services.filter((service) => CULTURE_NUMERIQUE_SERVICES.includes(service)),
+    materielInformatique: services.filter((service) => MATERIEL_INFORMATIQUE_SERVICES.includes(service))
   },
   source,
   dateMiseAJour: formatInTimeZone(date_maj, 'Europe/Paris', "dd/MM/yyyy, H'h'mm"),
-  typesAccompagnement: modalites_accompagnement?.split('|') ?? [],
-  publicsSpecifiques: publics_specifiquement_adresses?.split('|') ?? [],
-  fraisACharge: frais_a_charge?.split('|') ?? [],
-  prisesEnChargeSpecifiques: prise_en_charge_specifique?.split('|') ?? [],
-  modalitesAcces: modalites_acces?.split('|') ?? [],
+  typesAccompagnement: modalites_accompagnement ?? [],
+  publicsSpecifiques: publics_specifiquement_adresses ?? [],
+  fraisACharge: frais_a_charge ?? [],
+  prisesEnChargeSpecifiques: prise_en_charge_specifique ?? [],
+  modalitesAcces: modalites_acces ?? [],
   mediateurs:
     mediateurs?.map((mediateur) => ({
       nom: `${mediateur.prenom} ${mediateur.nom}`,

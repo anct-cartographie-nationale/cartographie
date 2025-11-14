@@ -15,8 +15,6 @@ type LieuCardProps = Omit<LieuListItem, 'id' | 'region' | 'departement'> & {
 export const LieuCard = ({
   nom,
   adresse,
-  commune,
-  codePostal,
   telephone,
   distance,
   isOpen,
@@ -54,7 +52,7 @@ export const LieuCard = ({
       </div>
       {size === 'md' && (
         <div className='flex gap-1 justify-between text-muted'>
-          <div>{commune}</div>
+          <div>{adresse.commune}</div>
           {distance && <div>à {distance} Km</div>}
         </div>
       )}
@@ -67,7 +65,8 @@ export const LieuCard = ({
           )}
           <div className='flex gap-2 items-center'>
             <RiMapPin2Line aria-hidden={true} />
-            {adresse}, {codePostal} {commune}
+            {adresse.nom_voie}
+            {adresse.repetition} {adresse.nom_voie}, {adresse.code_postal} {adresse.commune}
           </div>
         </div>
       )}

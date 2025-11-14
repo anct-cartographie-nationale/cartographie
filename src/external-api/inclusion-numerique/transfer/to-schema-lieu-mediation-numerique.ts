@@ -1,0 +1,35 @@
+import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
+import type { LieuxRouteResponse } from '../routes';
+
+export const toSchemaLieuMediationNumerique = (lieu: LieuxRouteResponse[number]): SchemaLieuMediationNumerique => ({
+  id: lieu.id,
+  adresse: [[lieu.adresse.numero_voie, lieu.adresse.repetition].filter(Boolean).join(''), lieu.adresse.nom_voie].join(' '),
+  autres_formations_labels: lieu.autres_formations_labels?.join('|') ?? '',
+  code_insee: lieu.adresse.code_insee,
+  code_postal: lieu.adresse.code_postal,
+  commune: lieu.adresse.commune,
+  courriels: lieu.courriels ?? '',
+  date_maj: lieu.date_maj,
+  dispositif_programmes_nationaux: lieu.dispositif_programmes_nationaux?.join('|') ?? '',
+  fiche_acces_libre: lieu.fiche_acces_libre ?? '',
+  formations_labels: lieu.formations_labels?.join('|') ?? '',
+  frais_a_charge: lieu.frais_a_charge?.join('|') ?? '',
+  horaires: lieu.horaires ?? '',
+  itinerance: lieu.itinerance?.join('|') ?? '',
+  latitude: lieu.latitude ?? 0,
+  longitude: lieu.longitude ?? 0,
+  modalites_acces: lieu.modalites_acces?.join('|') ?? '',
+  modalites_accompagnement: lieu.modalites_accompagnement?.join('|') ?? '',
+  nom: lieu.nom,
+  pivot: lieu.pivot,
+  presentation_detail: lieu.presentation_detail ?? '',
+  presentation_resume: lieu.presentation_resume ?? '',
+  prise_en_charge_specifique: lieu.prise_en_charge_specifique?.join('|') ?? '',
+  prise_rdv: lieu.prise_rdv ?? '',
+  publics_specifiquement_adresses: lieu.publics_specifiquement_adresses?.join('|') ?? '',
+  services: lieu.services.join('|'),
+  site_web: lieu.site_web ?? '',
+  source: lieu.source,
+  telephone: lieu.telephone ?? '',
+  typologie: lieu.typologie?.join('|') ?? ''
+});

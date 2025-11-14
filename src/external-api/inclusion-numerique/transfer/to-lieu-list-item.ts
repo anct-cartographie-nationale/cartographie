@@ -23,8 +23,6 @@ export const toLieuListItem =
     id,
     nom,
     adresse,
-    commune,
-    code_postal,
     departement,
     region,
     latitude,
@@ -37,8 +35,6 @@ export const toLieuListItem =
     id,
     nom,
     adresse,
-    commune,
-    codePostal: code_postal,
     departement,
     region,
     ...(localisation && latitude && longitude

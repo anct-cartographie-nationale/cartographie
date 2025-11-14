@@ -7,7 +7,7 @@ import {
   LIEUX_ROUTE,
   type LieuxRouteOptions
 } from '@/external-api/inclusion-numerique';
-import { toLieuListItem } from '@/external-api/inclusion-numerique/transfer/toLieuListItem';
+import { toLieuListItem } from '@/external-api/inclusion-numerique/transfer/to-lieu-list-item';
 import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
 import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
