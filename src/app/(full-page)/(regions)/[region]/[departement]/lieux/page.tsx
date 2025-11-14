@@ -6,7 +6,7 @@ import {
   LIEUX_ROUTE,
   type LieuxRouteOptions
 } from '@/external-api/inclusion-numerique';
-import { toLieuListItem } from '@/external-api/inclusion-numerique/transfer/toLieuListItem';
+import { toLieuListItem } from '@/external-api/inclusion-numerique/transfer/to-lieu-list-item';
 import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
 import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
 import departements from '@/features/collectivites-territoriales/departements.json';
@@ -64,7 +64,7 @@ const Page = async ({ params: paramsPromise, searchParams: searchParamsPromise }
 
   if (!region || !departement) return notFound();
 
-  const filter = { code_insee: `like.${departement.code}%`, ...applyFilters(filtersSchema.parse(searchParams)) };
+  const filter = { 'adresse->>code_insee': `like.${departement.code}%`, ...applyFilters(filtersSchema.parse(searchParams)) };
 
   const [lieux] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
     paginate: { limit, offset: (curentPage - 1) * limit },

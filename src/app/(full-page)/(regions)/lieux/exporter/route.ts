@@ -1,6 +1,6 @@
-import type { SchemaLieuMediationNumerique } from '@gouvfr-anct/lieux-de-mediation-numerique';
 import type { NextRequest } from 'next/server';
 import { inclusionNumeriqueFetchApi, isResponseError, LIEUX_ROUTE } from '@/external-api/inclusion-numerique';
+import { toSchemaLieuMediationNumerique } from '@/external-api/inclusion-numerique/transfer/to-schema-lieu-mediation-numerique';
 import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
 import { mediationNumeriqueToCsv } from '@/features/lieux-inclusion-numerique/to-csv/mediation-numerique.to-csv';
 import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
@@ -21,7 +21,7 @@ export const GET = async (request: NextRequest) => {
       order: ['nom', 'asc']
     });
 
-    return new Response(mediationNumeriqueToCsv(lieux as SchemaLieuMediationNumerique[]), {
+    return new Response(mediationNumeriqueToCsv(lieux.map(toSchemaLieuMediationNumerique)), {
       status: 200,
       headers: {
         'Content-Type': 'text/csv; charset=utf-8',

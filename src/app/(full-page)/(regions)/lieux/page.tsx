@@ -5,7 +5,7 @@ import {
   LIEUX_ROUTE,
   type LieuxRouteOptions
 } from '@/external-api/inclusion-numerique';
-import { toLieuListItem } from '@/external-api/inclusion-numerique/transfer/toLieuListItem';
+import { toLieuListItem } from '@/external-api/inclusion-numerique/transfer/to-lieu-list-item';
 import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
 import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
 import { LieuxPage } from '@/features/lieux-inclusion-numerique/lieux.page';

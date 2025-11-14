@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/external-api/inclusion-numerique';
-import { toLieuDetails } from '@/external-api/inclusion-numerique/transfer/toLieuDetails';
+import { toLieuDetails } from '@/external-api/inclusion-numerique/transfer/to-lieu-details';
 import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
 import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
 import departements from '@/features/collectivites-territoriales/departements.json';
@@ -56,7 +56,7 @@ const Page = async ({ params: paramsPromise, searchParams: searchParamsPromise }
           label: departement.nom,
           href: hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])
         },
-        { label: `${lieu.code_postal} ${lieu.commune}` }
+        { label: `${lieu.adresse.code_postal} ${lieu.adresse.commune}` }
       ]}
       listHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])}
     />

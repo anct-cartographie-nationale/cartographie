@@ -6,8 +6,15 @@ export type SelectOptions<TItem> = {
   select?: Array<keyof TItem>;
 };
 
+type JsonChildKeys<T> = {
+  [K in keyof T & string]: T[K] extends object
+    ? {
+        [C in keyof T[K] & string]: `${K}->>${C}` | `${K}->${C}`;
+      }[keyof T[K] & string]
+    : never;
+}[keyof T & string];
 export type FilterOptions<TItem> = {
-  filter?: Partial<Record<keyof TItem, unknown> | { or: string } | { and: string }>;
+  filter?: Partial<Record<keyof TItem | JsonChildKeys<TItem>, unknown>> & ({ or: string } | { and: string } | object);
 };
 
 export type OrderOptions<TItem> = {

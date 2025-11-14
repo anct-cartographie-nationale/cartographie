@@ -27,7 +27,7 @@ const Layout = async ({ children }: LayoutProps) => {
       const [_, headers] = await inclusionNumeriqueFetchApi(
         LIEUX_ROUTE,
         ...asCount<LieuxRouteOptions>({
-          filter: { code_insee: `like.${departement.code}*`, ...applyFilters(filtersSchema.parse(searchParams)) }
+          filter: { 'adresse->>code_insee': `like.${departement.code}*`, ...applyFilters(filtersSchema.parse(searchParams)) }
         })
       );
 

@@ -26,6 +26,11 @@ class ResponseError extends Error {
 export const isResponseError = (error: unknown): error is ResponseError =>
   error instanceof Error && error.name === 'ResponseError';
 
+const withStripNullsHeader = (headers: Headers): Headers => {
+  headers.set('Accept', 'application/vnd.pgrst.array+json;nulls=stripped');
+  return headers;
+};
+
 export const inclusionNumeriqueFetchApi = async <TRoute extends InclusionNumeriqueApiRoute>(
   route: TRoute,
   options?: InclusionNumeriqueApiOptions[TRoute],
@@ -37,7 +42,7 @@ export const inclusionNumeriqueFetchApi = async <TRoute extends InclusionNumeriq
       revalidate: 21600,
       token: env.INCLUSION_NUMERIQUE_API_TOKEN
     },
-    headers ?? new Headers()
+    withStripNullsHeader(headers ?? new Headers())
   )(
     route,
     options

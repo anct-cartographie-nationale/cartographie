@@ -14,7 +14,7 @@ export const GET = async (request: Request) => {
   if (!parsed.success) return NextResponse.json({ error: z.treeifyError(parsed.error).properties }, { status: 422 });
 
   const [lieux] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
-    select: ['id', 'nom', 'latitude', 'longitude', 'adresse', 'code_postal', 'code_insee', 'commune'],
+    select: ['id', 'nom', 'latitude', 'longitude', 'adresse'],
     filter: { nom: `ilike.%${parsed.data.q}%` },
     paginate: { limit: 10, offset: 0 }
   });

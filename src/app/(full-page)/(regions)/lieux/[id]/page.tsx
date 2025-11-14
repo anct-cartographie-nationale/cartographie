@@ -20,13 +20,15 @@ const Page = async ({ params: paramsPromise, searchParams: searchParamsPromise }
   const [lieux] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
     paginate: { limit: 1, offset: 0 },
     filter: { id: `eq.${decodeURIComponent(params.id)}` },
-    select: ['code_insee']
+    select: ['adresse']
   });
 
   const lieu = lieux[0];
   if (!lieu) return notFound();
 
-  const code = lieu.code_insee.startsWith('97') ? lieu.code_insee.slice(0, 3) : lieu.code_insee.slice(0, 2);
+  const code = lieu.adresse.code_insee.startsWith('97')
+    ? lieu.adresse.code_insee.slice(0, 3)
+    : lieu.adresse.code_insee.slice(0, 2);
 
   const departement = departements.find(departementMatchingCode(code));
   const region = regions.find(regionMatchingDepartement({ code }));
