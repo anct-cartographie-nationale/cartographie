@@ -1,6 +1,6 @@
 import type { FilterOptions, OrderOptions, PaginateOptions, SelectOptions } from '@/libraries/api/options';
 
-export const LIEUX_ROUTE = 'carto_v2' as const;
+export const LIEUX_ROUTE = 'carto' as const;
 
 export type LieuxRouteOptions = PaginateOptions &
   SelectOptions<LieuxRouteResponse[number]> &
