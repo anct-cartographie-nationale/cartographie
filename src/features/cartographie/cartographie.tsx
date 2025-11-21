@@ -3,12 +3,12 @@
 import { addOverlay, mapStyles, Overlay } from 'carte-facile';
 import { Map as MapLibre, NavigationControl, type ViewStateChangeEvent } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { RiListUnordered } from 'react-icons/ri';
-import type { Departement } from '@/features/collectivites-territoriales/departement';
+import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
 import france from '@/features/collectivites-territoriales/france.json';
-import type { Region } from '@/features/collectivites-territoriales/region';
+import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import { hrefWithSearchParams } from '@/libraries/next';
 import { Subscribe } from '@/libraries/reactivity/Subscribe';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
@@ -23,28 +23,33 @@ import { RegionsOnMap } from './regions-on-map';
 
 const config = france.find(({ nom }) => nom === 'France métropolitaine');
 
-const handleZoomEnd = ({ target }: ViewStateChangeEvent) => {
-  setZoom(target.getZoom());
-};
-
-const handleMoveEnd = ({ target }: ViewStateChangeEvent) => {
-  const lngLatBounds = target.getBounds();
-  setBoundingBox([lngLatBounds.getWest(), lngLatBounds.getSouth(), lngLatBounds.getEast(), lngLatBounds.getNorth()]);
+export const saveMapLocation = (zoom: number, lng: number, lat: number) => {
+  sessionStorage.setItem('mapLocation', JSON.stringify({ zoom, lng, lat }));
 };
 
 export const Cartographie = ({
   regions,
-  departements,
-  selectedRegion,
-  selectedDepartement
+  departements
 }: {
   regions: (Region & { nombreLieux: number })[];
   departements: (Departement & { nombreLieux: number })[];
-  selectedRegion: Region | undefined;
-  selectedDepartement: Departement | undefined;
 }) => {
+  const pathname = usePathname();
+  const [selectedRegionSlug, selectedDepartementSlug] = pathname.split('/').filter((segment) => segment.length > 0);
+  const selectedRegion = regions.find(regionMatchingSlug(selectedRegionSlug));
+  const selectedDepartement = departements.find(departementMatchingSlug(selectedDepartementSlug));
   const searchParams = useSearchParams();
   const { theme } = useTheme();
+
+  const handleZoomEnd = ({ target }: ViewStateChangeEvent) => {
+    setZoom(target.getZoom());
+  };
+
+  const handleMoveEnd = ({ target }: ViewStateChangeEvent) => {
+    const lngLatBounds = target.getBounds();
+    setBoundingBox([lngLatBounds.getWest(), lngLatBounds.getSouth(), lngLatBounds.getEast(), lngLatBounds.getNorth()]);
+    saveMapLocation(target.getZoom(), target.getCenter().lng, target.getCenter().lat);
+  };
 
   return config == null ? null : (
     <ClientOnly>

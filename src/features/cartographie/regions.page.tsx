@@ -13,18 +13,17 @@ import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal'
 import { LocationFranceIllustration } from '@/libraries/ui/pictograms/map/location-france.illustration';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { removeHighlightDecoupageAdministratif } from './layers/highlight-decoupage-administratif';
-import { setZoom } from './lieux/streams/zoom.stream';
 import { map$ } from './map/streams/map.stream';
 
 const config = france.find(({ nom }): boolean => nom === 'France métropolitaine');
 
 export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regions: Region[] }): ReactNode => {
-  const searchParams = useSearchParams();
+  const urlSearchParams = useSearchParams();
+  const searchParams: URLSearchParams = new URLSearchParams(urlSearchParams);
 
   useSubscribe(
     map$.pipe(
       tap((map) => {
-        setZoom(config?.zoom ?? 6);
         if (!map || !config) return;
         removeHighlightDecoupageAdministratif(map);
         map.flyTo({
@@ -52,7 +51,11 @@ export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regio
           <h2 className='font-bold uppercase text-xs text-base-title mb-3'>Filtrer par région</h2>
           <div className='flex flex-wrap gap-1.5'>
             {regions.map(({ nom, slug, code }) => (
-              <Link href={hrefWithSearchParams(slug)(searchParams)} key={code} className='tag badge-primary badge-soft'>
+              <Link
+                href={hrefWithSearchParams(slug)(searchParams, ['page'])}
+                key={code}
+                className='tag badge-primary badge-soft'
+              >
                 {nom}
               </Link>
             ))}

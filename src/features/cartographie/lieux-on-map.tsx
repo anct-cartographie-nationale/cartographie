@@ -25,8 +25,8 @@ export const LieuxOnMapContent = () => {
   provide(LIEUX_CACHE, lieuxCache);
   provide(LIEUX_FOR_CHUNK, fetchLieuxForChunk);
 
-  const searchParams = useSearchParams();
-  const urlSearchParams: URLSearchParams = new URLSearchParams(searchParams);
+  const urlSearchParams = useSearchParams();
+  const searchParams: URLSearchParams = new URLSearchParams(urlSearchParams);
 
   const [hoveredId, setHoveredId] = useState<string>();
 
@@ -48,7 +48,7 @@ export const LieuxOnMapContent = () => {
       });
 
   return (
-    <Subscribe to$={lieux$(supercluster, urlSearchParams)}>
+    <Subscribe to$={lieux$(supercluster, searchParams)}>
       {({ features }) =>
         features.map((feature) =>
           isCluster(feature) ? (
@@ -62,7 +62,7 @@ export const LieuxOnMapContent = () => {
             </button>
           ) : (
             <Link
-              href={hrefWithSearchParams(`/lieux/${feature.properties.id}`)(urlSearchParams, ['page'])}
+              href={hrefWithSearchParams(`/lieux/${feature.properties.id}`)(searchParams, ['page'])}
               key={feature.properties.id}
               onMouseEnter={() => setHoveredId(feature.properties.id)}
               onMouseLeave={() => setHoveredId(undefined)}
