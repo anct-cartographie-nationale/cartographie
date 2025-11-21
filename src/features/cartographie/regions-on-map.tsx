@@ -11,11 +11,11 @@ export const RegionsOnMap = ({
   regions: (Region & { nombreLieux: number })[];
   selectedRegion: Region | undefined;
 }) => {
-  const searchParams = useSearchParams();
-  const urlSearchParams: URLSearchParams = new URLSearchParams(searchParams);
+  const urlSearchParams = useSearchParams();
+  const searchParams: URLSearchParams = new URLSearchParams(urlSearchParams);
 
   return regions.map(({ code, localisation, slug, nom, nombreLieux }) => (
-    <Link href={hrefWithSearchParams(`/${slug}`)(urlSearchParams)} key={code}>
+    <Link href={hrefWithSearchParams(`/${slug}`)(searchParams, ['page'])} key={code}>
       <ClusterMarker title={`Région ${nom}`} isMuted={selectedRegion != null && selectedRegion.code !== code} {...localisation}>
         {nombreLieux}
       </ClusterMarker>

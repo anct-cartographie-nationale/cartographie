@@ -14,12 +14,12 @@ export const DepartementsOnMap = ({
   departements: (Departement & { nombreLieux: number })[];
   selectedRegion: Region | undefined;
 }) => {
-  const searchParams = useSearchParams();
-  const urlSearchParams: URLSearchParams = new URLSearchParams(searchParams);
+  const urlSearchParams = useSearchParams();
+  const searchParams: URLSearchParams = new URLSearchParams(urlSearchParams);
 
   return departements.map(({ code, localisation, slug, nom, nombreLieux }) => (
     <Link
-      href={hrefWithSearchParams(`/${regions.find(regionMatchingDepartement({ code }))?.slug}/${slug}`)(urlSearchParams)}
+      href={hrefWithSearchParams(`/${regions.find(regionMatchingDepartement({ code }))?.slug}/${slug}`)(searchParams, ['page'])}
       key={code}
     >
       <ClusterMarker title={`Département ${nom}`} isMuted={!selectedRegion?.departements.includes(code)} {...localisation}>

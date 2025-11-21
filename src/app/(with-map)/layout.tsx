@@ -39,6 +39,7 @@ const Layout = async ({ children }: LayoutProps) => {
     ...region,
     nombreLieux: region.departements.reduce(toRegionTotalCount(departementsAvecTotaux), 0)
   }));
+
   return (
     <ClientLayout regions={regionsAvecTotaux} departements={departementsAvecTotaux}>
       {children}

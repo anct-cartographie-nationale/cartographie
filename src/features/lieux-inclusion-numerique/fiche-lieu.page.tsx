@@ -1,6 +1,7 @@
 import 'maplibre-gl/dist/maplibre-gl.css';
 import type { ReactNode } from 'react';
 import { RiAlertLine, RiArrowGoBackLine, RiLink } from 'react-icons/ri';
+import { hrefWithSearchParams } from '@/libraries/next';
 import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
 import { ClipboardButton } from '@/libraries/ui/blocks/clipboard-button';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
@@ -26,7 +27,7 @@ export const FicheLieuPage = ({ breadcrumbsItems = [], listHref, lieu }: FicheLi
     <Breadcrumbs items={breadcrumbsItems} className='px-8 py-4 border-b-1 border-base-200' />
     <main id={contentId} className='container mx-auto px-4 lg:flex gap-16'>
       <article className='flex-1/2 lg:flex-2/3 2xl:flex-3/4 mb-12'>
-        <ButtonLink kind='btn-link' href={listHref} className='no-underline my-4 px-2'>
+        <ButtonLink kind='btn-link' href={hrefWithSearchParams(listHref)()} className='no-underline my-4 px-2'>
           <RiArrowGoBackLine size={16} aria-hidden={true} />
           Retour à la liste
         </ButtonLink>

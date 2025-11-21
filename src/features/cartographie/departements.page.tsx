@@ -14,7 +14,6 @@ import { LocationFranceIllustration } from '@/libraries/ui/pictograms/map/locati
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { Link } from '@/libraries/ui/primitives/link';
 import { HighlightRegion } from './layers/highlight-decoupage-administratif';
-import { setZoom } from './lieux/streams/zoom.stream';
 import { map$ } from './map/streams/map.stream';
 
 export const DepartementsPage = ({
@@ -26,12 +25,12 @@ export const DepartementsPage = ({
   departements: Departement[];
   totalLieux: number;
 }): ReactNode => {
-  const searchParams = useSearchParams();
+  const urlSearchParams = useSearchParams();
+  const searchParams: URLSearchParams = new URLSearchParams(urlSearchParams);
 
   useSubscribe(
     map$.pipe(
       tap((map) => {
-        setZoom(region.zoom);
         if (!map) return;
         HighlightRegion(map, region.code);
         map.flyTo({
@@ -59,7 +58,7 @@ export const DepartementsPage = ({
           <div className='flex flex-wrap gap-1.5'>
             {departements.map(({ code, slug, nom }) => (
               <Link
-                href={hrefWithSearchParams(`/${region.slug}/${slug}`)(searchParams)}
+                href={hrefWithSearchParams(`/${region.slug}/${slug}`)(searchParams, ['page'])}
                 key={code}
                 className='tag badge-primary badge-soft'
               >
