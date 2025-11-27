@@ -5,12 +5,14 @@ import { Map as MapLibre, NavigationControl, type ViewStateChangeEvent } from 'r
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useTheme } from 'next-themes';
-import { RiListUnordered } from 'react-icons/ri';
+import { useState } from 'react';
+import { RiFullscreenExitLine, RiFullscreenLine, RiListUnordered } from 'react-icons/ri';
 import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
 import france from '@/features/collectivites-territoriales/france.json';
 import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import { hrefWithSearchParams } from '@/libraries/next';
 import { Subscribe } from '@/libraries/reactivity/Subscribe';
+import { Button } from '@/libraries/ui/primitives/button';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { cn } from '@/libraries/utils';
 import { ClientOnly } from '@/libraries/utils/client-only';
@@ -27,6 +29,16 @@ export const saveMapLocation = (zoom: number, lng: number, lat: number) => {
   sessionStorage.setItem('mapLocation', JSON.stringify({ zoom, lng, lat }));
 };
 
+const handleZoomEnd = ({ target }: ViewStateChangeEvent) => {
+  setZoom(target.getZoom());
+};
+
+const handleMoveEnd = ({ target }: ViewStateChangeEvent) => {
+  const lngLatBounds = target.getBounds();
+  setBoundingBox([lngLatBounds.getWest(), lngLatBounds.getSouth(), lngLatBounds.getEast(), lngLatBounds.getNorth()]);
+  saveMapLocation(target.getZoom(), target.getCenter().lng, target.getCenter().lat);
+};
+
 export const Cartographie = ({
   regions,
   departements
@@ -39,21 +51,12 @@ export const Cartographie = ({
   const selectedRegion = regions.find(regionMatchingSlug(selectedRegionSlug));
   const selectedDepartement = departements.find(departementMatchingSlug(selectedDepartementSlug));
   const searchParams = useSearchParams();
+  const [fullScreen, setFullScreen] = useState(false);
   const { theme } = useTheme();
-
-  const handleZoomEnd = ({ target }: ViewStateChangeEvent) => {
-    setZoom(target.getZoom());
-  };
-
-  const handleMoveEnd = ({ target }: ViewStateChangeEvent) => {
-    const lngLatBounds = target.getBounds();
-    setBoundingBox([lngLatBounds.getWest(), lngLatBounds.getSouth(), lngLatBounds.getEast(), lngLatBounds.getNorth()]);
-    saveMapLocation(target.getZoom(), target.getCenter().lng, target.getCenter().lat);
-  };
 
   return config == null ? null : (
     <ClientOnly>
-      <div className={cn('w-full h-full', theme === 'dark' && 'invert-90')}>
+      <div className={cn('w-full h-full', fullScreen && 'absolute', theme === 'dark' && 'invert-90')}>
         {selectedRegion && selectedDepartement && (
           <ButtonLink
             href={hrefWithSearchParams(`/${selectedRegion.slug}/${selectedDepartement.slug}/lieux`)(
@@ -67,6 +70,15 @@ export const Cartographie = ({
             Afficher la liste
           </ButtonLink>
         )}
+        <div className='absolute right-0 bottom-25 z-1 my-6 mx-2 invisible lg:visible'>
+          <Button
+            kind='btn-ghost'
+            className='px-2 bg-base-100 text-primary shadow rounded'
+            onClick={() => setFullScreen((prev) => !prev)}
+          >
+            {fullScreen ? <RiFullscreenExitLine size={24} /> : <RiFullscreenLine size={24} />}
+          </Button>
+        </div>
         <Subscribe to$={zoom$} startWith={config.zoom}>
           {(zoom) => (
             <MapLibre
