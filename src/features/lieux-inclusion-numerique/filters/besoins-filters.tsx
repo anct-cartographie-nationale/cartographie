@@ -7,6 +7,8 @@ import { IndicatorBadge } from '@/libraries/ui/primitives/indicator-badge';
 import { Popover, Trigger } from '@/libraries/ui/primitives/popover';
 import { arraysEqual } from '@/libraries/utils/array';
 import { noEmptyString } from '@/libraries/utils/string';
+import { useTransitionWithCallback } from '@/libraries/utils/use-transition-with-callback';
+import { endLoad, startLoad } from '../load/load.stream';
 
 const apprentissageOptions = [
   {
@@ -62,6 +64,7 @@ export const BesoinsFilters = () => {
   const router = useRouter();
 
   const [services, setServices] = useQueryState('services', { defaultValue: '' });
+  const [, startTransition] = useTransitionWithCallback(endLoad);
 
   const defaultValues = {
     services: services.split(',').filter(noEmptyString)
@@ -73,8 +76,12 @@ export const BesoinsFilters = () => {
     defaultValues,
     onSubmit: async ({ value }) => {
       if (arraysEqual(defaultValues.services)(value.services)) return;
-      await setServices(value.services.filter(noEmptyString).join(','));
-      router.refresh();
+
+      startTransition(async () => {
+        await setServices(value.services.filter(noEmptyString).join(','));
+        startLoad();
+        router.refresh();
+      });
     }
   });
 

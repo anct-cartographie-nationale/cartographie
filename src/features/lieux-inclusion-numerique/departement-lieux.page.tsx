@@ -9,7 +9,7 @@ import { useMapLocation } from '@/features/cartographie/search-params';
 import type { Departement } from '@/features/collectivites-territoriales/departement';
 import type { Region } from '@/features/collectivites-territoriales/region';
 import { hrefWithSearchParams } from '@/libraries/next';
-import { useSubscribe } from '@/libraries/reactivity/Subscribe';
+import { Subscribe, useSubscribe } from '@/libraries/reactivity/Subscribe';
 import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
 import { NextPageLink, PageLink, PreviousPageLink } from '@/libraries/ui/blocks/pagination/page-link';
 import { Pagination } from '@/libraries/ui/blocks/pagination/pagination';
@@ -18,6 +18,7 @@ import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal'
 import { ExportLieux } from './components/export-lieux';
 import type { LieuListItem } from './lieu-list-item';
 import { LieuxList } from './lieux-list';
+import { load$ } from './load/load.stream';
 
 export const DepartementLieuxPage = ({
   totalLieux,
@@ -72,9 +73,16 @@ export const DepartementLieuxPage = ({
       />
       <main id={contentId}>
         <div className='flex justify-between items-center gap-2 mb-4 mt-3'>
-          <h1 className='font-bold uppercase text-xs text-base-title'>
-            <span className='sr-only'>{departement.nom}</span> {totalLieux} lieux trouvés
-          </h1>
+          <Subscribe to$={load$}>
+            {(isLoading) => {
+              return (
+                <h1 className='font-bold uppercase text-xs text-base-title'>
+                  <span className='sr-only'>{departement.nom}</span>
+                  {isLoading ? 'Chargement des lieux...' : <>{totalLieux} lieux trouvés</>}
+                </h1>
+              );
+            }}
+          </Subscribe>
           <ExportLieux
             lieuxCount={totalLieux}
             href={hrefWithSearchParams(`${departement.slug}/lieux/exporter`)(searchParams, ['page'])}

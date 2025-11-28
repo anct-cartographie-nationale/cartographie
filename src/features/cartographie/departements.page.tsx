@@ -5,8 +5,9 @@ import type { ReactNode } from 'react';
 import { tap } from 'rxjs';
 import type { Departement } from '@/features/collectivites-territoriales/departement';
 import type { Region } from '@/features/collectivites-territoriales/region';
+import { load$ } from '@/features/lieux-inclusion-numerique/load/load.stream';
 import { hrefWithSearchParams } from '@/libraries/next';
-import { useSubscribe } from '@/libraries/reactivity/Subscribe';
+import { Subscribe, useSubscribe } from '@/libraries/reactivity/Subscribe';
 import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
@@ -49,11 +50,18 @@ export const DepartementsPage = ({
         <div>
           <Breadcrumbs items={[{ label: 'France', href: hrefWithSearchParams('/')(searchParams) }, { label: region.nom }]} />
           <LocationFranceIllustration className='mt-10 mb-6' />
-          <h1 className='mb-12 text-3xl text-base-title font-light'>
-            {region.nom}
-            <br />
-            <span className='font-bold'>{totalLieux} lieux d’inclusion numérique</span>
-          </h1>
+          <Subscribe to$={load$}>
+            {(isLoading) => (
+              <h1 className='mb-12 text-3xl text-base-title font-light'>
+                {region.nom}
+                <br />
+                <span className='font-bold'>
+                  {isLoading ? 'Chargement des lieux...' : <>{totalLieux} lieux d’inclusion numérique</>}
+                </span>
+              </h1>
+            )}
+          </Subscribe>
+
           <h2 className='font-bold uppercase text-xs text-base-title mb-3'>Filtrer par département</h2>
           <div className='flex flex-wrap gap-1.5'>
             {departements.map(({ code, slug, nom }) => (
