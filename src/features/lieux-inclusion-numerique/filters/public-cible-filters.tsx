@@ -7,6 +7,8 @@ import { IndicatorBadge } from '@/libraries/ui/primitives/indicator-badge';
 import { Popover, Trigger } from '@/libraries/ui/primitives/popover';
 import { arraysEqual } from '@/libraries/utils/array';
 import { noEmptyString } from '@/libraries/utils/string';
+import { useTransitionWithCallback } from '@/libraries/utils/use-transition-with-callback';
+import { endLoad, startLoad } from '../load/load.stream';
 
 const publicsSpecifiquementAdressesTrancheAgeOptions = [
   { label: 'Jeunes', value: 'Jeunes', id: 'jeunes' },
@@ -32,6 +34,7 @@ const priseEnChargeSpecifiqueAccessibiliteOptions = [
 
 export const PublicCibleFilters = () => {
   const router = useRouter();
+  const [, startTransition] = useTransitionWithCallback(endLoad);
 
   const [publicsSpecifiquementAdresses, setPublicsSpecifiquementAdresses] = useQueryState('publics_specifiquement_adresses', {
     defaultValue: ''
@@ -58,11 +61,14 @@ export const PublicCibleFilters = () => {
       )
         return;
 
-      await Promise.all([
-        setPublicsSpecifiquementAdresses(value.publicsSpecifiquementAdresses.filter(noEmptyString).join(',')),
-        setPriseEnChargeSpecifique(value.priseEnChargeSpecifique.filter(noEmptyString).join(','))
-      ]);
-      router.refresh();
+      startTransition(async () => {
+        await Promise.all([
+          setPublicsSpecifiquementAdresses(value.publicsSpecifiquementAdresses.filter(noEmptyString).join(',')),
+          setPriseEnChargeSpecifique(value.priseEnChargeSpecifique.filter(noEmptyString).join(','))
+        ]);
+        startLoad();
+        router.refresh();
+      });
     }
   });
 

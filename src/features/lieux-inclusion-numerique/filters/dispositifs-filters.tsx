@@ -7,6 +7,8 @@ import { IndicatorBadge } from '@/libraries/ui/primitives/indicator-badge';
 import { Popover, Trigger } from '@/libraries/ui/primitives/popover';
 import { arraysEqual } from '@/libraries/utils/array';
 import { noEmptyString } from '@/libraries/utils/string';
+import { useTransitionWithCallback } from '@/libraries/utils/use-transition-with-callback';
+import { endLoad, startLoad } from '../load/load.stream';
 
 const dispositifsOptions = [
   { label: 'Conseillers numériques', value: 'Conseillers numériques', id: 'conseillers-numeriques' },
@@ -15,6 +17,7 @@ const dispositifsOptions = [
 
 export const DispositifsFilters = () => {
   const router = useRouter();
+  const [, startTransition] = useTransitionWithCallback(endLoad);
 
   const [dispositifProgrammesNationaux, setDispositifProgrammesNationaux] = useQueryState('dispositif_programmes_nationaux', {
     defaultValue: ''
@@ -30,8 +33,12 @@ export const DispositifsFilters = () => {
     defaultValues,
     onSubmit: async ({ value }) => {
       if (arraysEqual(defaultValues.dispositifProgrammesNationaux)(value.dispositifProgrammesNationaux)) return;
-      await setDispositifProgrammesNationaux(value.dispositifProgrammesNationaux.filter(noEmptyString).join(','));
-      router.refresh();
+
+      startTransition(async () => {
+        await setDispositifProgrammesNationaux(value.dispositifProgrammesNationaux.filter(noEmptyString).join(','));
+        startLoad();
+        router.refresh();
+      });
     }
   });
 

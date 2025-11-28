@@ -7,6 +7,8 @@ import { IndicatorBadge } from '@/libraries/ui/primitives/indicator-badge';
 import { Popover, Trigger } from '@/libraries/ui/primitives/popover';
 import { arraysEqual } from '@/libraries/utils/array';
 import { noEmptyString } from '@/libraries/utils/string';
+import { useTransitionWithCallback } from '@/libraries/utils/use-transition-with-callback';
+import { endLoad, startLoad } from '../load/load.stream';
 
 const territoiresOptions = [
   { label: 'QPV', value: 'QPV', hint: 'Quartier prioritaire de la ville', id: 'qpv' },
@@ -15,6 +17,7 @@ const territoiresOptions = [
 
 export const TerritoiresPrioritairesFilters = () => {
   const router = useRouter();
+  const [, startTransition] = useTransitionWithCallback(endLoad);
 
   const [autresFormationsLabels, setAutresFormationsLabels] = useQueryState('autres_formations_labels', { defaultValue: '' });
 
@@ -28,8 +31,12 @@ export const TerritoiresPrioritairesFilters = () => {
     defaultValues,
     onSubmit: async ({ value }) => {
       if (arraysEqual(defaultValues.autresFormationsLabels)(value.autresFormationsLabels)) return;
-      await setAutresFormationsLabels(value.autresFormationsLabels.filter(noEmptyString).join(','));
-      router.refresh();
+
+      startTransition(async () => {
+        await setAutresFormationsLabels(value.autresFormationsLabels.filter(noEmptyString).join(','));
+        startLoad();
+        router.refresh();
+      });
     }
   });
 

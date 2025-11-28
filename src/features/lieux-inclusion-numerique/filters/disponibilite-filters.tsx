@@ -7,6 +7,8 @@ import { IndicatorBadge } from '@/libraries/ui/primitives/indicator-badge';
 import { Popover, Trigger } from '@/libraries/ui/primitives/popover';
 import { arraysEqual } from '@/libraries/utils/array';
 import { noEmptyString } from '@/libraries/utils/string';
+import { useTransitionWithCallback } from '@/libraries/utils/use-transition-with-callback';
+import { endLoad, startLoad } from '../load/load.stream';
 
 const fraisAChargeOptions = [{ label: 'Gratuit', value: 'Gratuit', id: 'gratuit' }];
 
@@ -14,6 +16,7 @@ const priseRdvOptions = [{ label: 'Prise de RDV en ligne', value: 'Prise de RDV 
 
 export const DisponibiliteFilters = () => {
   const router = useRouter();
+  const [, startTransition] = useTransitionWithCallback(endLoad);
 
   const [fraisACharge, setFraisACharge] = useQueryState('frais_a_charge', { defaultValue: '' });
   const [priseRdv, setPriseRdv] = useQueryState('prise_rdv', { defaultValue: '' });
@@ -31,9 +34,12 @@ export const DisponibiliteFilters = () => {
       if (arraysEqual(defaultValues.fraisACharge)(value.fraisACharge) && arraysEqual(defaultValues.priseRdv)(value.priseRdv))
         return;
 
-      await setFraisACharge(value.fraisACharge.filter(noEmptyString).join(','));
-      await setPriseRdv(value.priseRdv.filter(noEmptyString).join(','));
-      router.refresh();
+      startTransition(async () => {
+        await setFraisACharge(value.fraisACharge.filter(noEmptyString).join(','));
+        await setPriseRdv(value.priseRdv.filter(noEmptyString).join(','));
+        startLoad();
+        router.refresh();
+      });
     }
   });
 
