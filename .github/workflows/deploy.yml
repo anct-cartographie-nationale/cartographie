@@ -21,7 +21,7 @@ jobs:
           version: latest
 
       - name: Install infrastructure dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts
         working-directory: infrastructure
 
       - name: Set up Node.js
@@ -31,7 +31,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --ignore-scripts
 
       - name: Build cache
         uses: actions/cache@v4
