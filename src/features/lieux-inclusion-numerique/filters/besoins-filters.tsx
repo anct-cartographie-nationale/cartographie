@@ -62,9 +62,9 @@ const materielOptions = [
 
 export const BesoinsFilters = () => {
   const router = useRouter();
+  const [, startTransition] = useTransitionWithCallback(endLoad);
 
   const [services, setServices] = useQueryState('services', { defaultValue: '' });
-  const [, startTransition] = useTransitionWithCallback(endLoad);
 
   const defaultValues = {
     services: services.split(',').filter(noEmptyString)
