@@ -15,9 +15,11 @@ export const FragiliteNumeriqueControl = ({ mapRef }: { mapRef: MapRef | undefin
       return;
     }
 
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+
     map.addSource('fragilite', {
       type: 'vector',
-      tiles: ['http://localhost:3000/api/fragilite-numerique/{z}/{x}/{y}'],
+      tiles: [`${baseUrl}/api/fragilite-numerique/{z}/{x}/{y}`],
       minzoom: 0,
       maxzoom: 14
     });
