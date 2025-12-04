@@ -1,10 +1,8 @@
-/* biome-ignore-all lint: Biome does not support custom properties in CSS*/
-
 @import "tailwindcss";
 @import "./components/components.css";
 @import "./dsfr/dsfr.css";
 
-@plugin 'tailwindcss-animate';
+@plugin "tailwindcss-animate";
 
 @plugin "@tailwindcss/typography";
 
