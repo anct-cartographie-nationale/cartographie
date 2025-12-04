@@ -8,8 +8,8 @@
     "not IE 11",
     "not op_mini all",
     "not dead"
-   ],
-   "scripts": {
+  ],
+  "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "postbuild": "next-sitemap",
@@ -33,7 +33,7 @@
     "effect": "^3.19.6",
     "framer-motion": "^12.23.24",
     "geojson": "^0.5.0",
-    "maplibre-gl": "5.11.0",
+    "maplibre-gl": "5.13.0",
     "mutable-supercluster": "^1.1.0",
     "next": "^16.0.7",
     "next-themes": "^0.4.6",
