@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { tap } from 'rxjs';
+import { setZoom } from '@/features/cartographie/lieux/streams/zoom.stream';
 import france from '@/features/collectivites-territoriales/france.json';
 import type { Region } from '@/features/collectivites-territoriales/region';
 import { load$ } from '@/features/lieux-inclusion-numerique/load/load.stream';
@@ -27,6 +28,7 @@ export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regio
       tap((map) => {
         if (!map || !config) return;
         removeHighlightDecoupageAdministratif(map);
+        setZoom(config.zoom);
         map.flyTo({
           center: [config.localisation.longitude, config.localisation.latitude],
           zoom: config.zoom,

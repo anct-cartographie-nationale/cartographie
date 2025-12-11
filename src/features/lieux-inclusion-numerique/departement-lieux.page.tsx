@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { tap } from 'rxjs';
 import { HighlightDepartement } from '@/features/cartographie/layers/highlight-decoupage-administratif';
+import { setZoom } from '@/features/cartographie/lieux/streams/zoom.stream';
 import { map$ } from '@/features/cartographie/map/streams/map.stream';
 import { useMapLocation } from '@/features/cartographie/search-params';
 import type { Departement } from '@/features/collectivites-territoriales/departement';
@@ -52,6 +53,7 @@ export const DepartementLieuxPage = ({
       tap((map) => {
         if (!map) return;
         HighlightDepartement(map, departement.code);
+        setZoom(initialLocation.zoom);
         map.flyTo({
           center: [initialLocation.longitude, initialLocation.latitude],
           zoom: initialLocation.zoom,

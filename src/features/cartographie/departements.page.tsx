@@ -15,6 +15,7 @@ import { LocationFranceIllustration } from '@/libraries/ui/pictograms/map/locati
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { Link } from '@/libraries/ui/primitives/link';
 import { HighlightRegion } from './layers/highlight-decoupage-administratif';
+import { setZoom } from './lieux/streams/zoom.stream';
 import { map$ } from './map/streams/map.stream';
 
 export const DepartementsPage = ({
@@ -34,6 +35,7 @@ export const DepartementsPage = ({
       tap((map) => {
         if (!map) return;
         HighlightRegion(map, region.code);
+        setZoom(region.zoom);
         map.flyTo({
           center: [region.localisation.longitude, region.localisation.latitude],
           zoom: region.zoom,
