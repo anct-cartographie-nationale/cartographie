@@ -1,22 +1,21 @@
 'use client';
 
 import { addOverlay, mapStyles, Overlay } from 'carte-facile';
-import { Map as MapLibre, NavigationControl, useMap, type ViewStateChangeEvent } from 'react-map-gl/maplibre';
+import { Map as MapLibre, NavigationControl, type ViewStateChangeEvent } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import { RiFullscreenExitLine, RiFullscreenLine, RiListUnordered, RiStackLine } from 'react-icons/ri';
-import { FragiliteNumeriqueControl } from '@/features/cartographie/controls/fragilite-numerique.control';
+import { FragiliteNumeriqueLayers } from '@/features/cartographie/fragilite-numerique-layers';
 import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
 import france from '@/features/collectivites-territoriales/france.json';
 import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import { hrefWithSearchParams } from '@/libraries/next';
 import { Subscribe } from '@/libraries/reactivity/Subscribe';
-import { ReactControl } from '@/libraries/ui/map/react-control';
+import { DropdownControls } from '@/libraries/ui/map/dropdown-controls';
 import { Button } from '@/libraries/ui/primitives/button';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
-import { Dropdown } from '@/libraries/ui/primitives/dropdown';
 import { cn } from '@/libraries/utils';
 import { ClientOnly } from '@/libraries/utils/client-only';
 import { DepartementsOnMap } from './departements-on-map';
@@ -42,31 +41,6 @@ const handleMoveEnd = ({ target }: ViewStateChangeEvent) => {
   saveMapLocation(target.getZoom(), target.getCenter().lng, target.getCenter().lat);
 };
 
-const DropdownControls = () => {
-  const { current: mapRef } = useMap();
-
-  return (
-    <ReactControl position='bottom-left'>
-      <div className='bg-primary rounded'>
-        <Dropdown
-          className='border-base-100 bg-base-100 shadow-lg m-0 font-(family-name:--font-sans)'
-          kind='btn-outline'
-          color='btn-primary'
-          items={{
-            fragiliteNumerique: <FragiliteNumeriqueControl mapRef={mapRef} />
-          }}
-          trigger={
-            <>
-              <RiStackLine />
-              Les indicateurs
-            </>
-          }
-        />
-      </div>
-    </ReactControl>
-  );
-};
-
 export const Cartographie = ({
   regions,
   departements
@@ -80,6 +54,7 @@ export const Cartographie = ({
   const selectedDepartement = departements.find(departementMatchingSlug(selectedDepartementSlug));
   const searchParams = useSearchParams();
   const [fullScreen, setFullScreen] = useState(false);
+  const [fragiliteNumeriqueLayer, setFragiliteNumeriqueLayer] = useState<boolean>(false);
   const { theme } = useTheme();
 
   return config == null ? null : (
@@ -120,13 +95,33 @@ export const Cartographie = ({
               style={{ width: '100%', height: '100%' }}
               mapStyle={mapStyles.simple}
             >
+              <FragiliteNumeriqueLayers fragiliteNumeriqueLayer={fragiliteNumeriqueLayer} zoom={zoom} />
               {zoom <= 7 && <RegionsOnMap regions={regions} selectedRegion={selectedRegion} />}
               {zoom > 7 && zoom <= 9 && (
                 <DepartementsOnMap departements={departements} regions={regions} selectedRegion={selectedRegion} />
               )}
               {zoom > 9 && <LieuxOnMap />}
               <NavigationControl position='bottom-right' showCompass={false} />
-              <DropdownControls />
+              <DropdownControls
+                position='bottom-left'
+                trigger={
+                  <>
+                    <RiStackLine />
+                    Les indicateurs
+                  </>
+                }
+                items={{
+                  fragiliteNumerique: (
+                    <Button
+                      className='text-start inline'
+                      kind='btn-ghost'
+                      onClick={() => setFragiliteNumeriqueLayer((prev) => !prev)}
+                    >
+                      Fragilité numérique
+                    </Button>
+                  )
+                }}
+              />
             </MapLibre>
           )}
         </Subscribe>
