@@ -24,7 +24,7 @@ const RootLayout = ({
       <NuqsAdapter>
         <ThemeProvider attribute='data-theme' defaultTheme='dark' enableSystem disableTransitionOnChange>
           <Toaster directionY='toast-top' directionX='toast-center' />
-          <div className='h-screen flex flex-col'>
+          <div className='h-dvh flex flex-col'>
             <div id={skipLinksId} />
             <Navbar />
             {children}
