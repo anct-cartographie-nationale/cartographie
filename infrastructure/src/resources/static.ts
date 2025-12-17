@@ -4,17 +4,17 @@ import { name } from '../utils/name';
 import { scalewayProvider } from './scaleway.provider';
 
 const bucket = new object.Bucket(
-  name('app-static-bucket'),
+  name('app-static-assets'),
   {
     tags: Object.fromEntries(config.tags.map((tag) => [tag, tag])),
-    name: name('app-static-bucket'),
+    name: name('app-static-assets'),
     region: 'fr-par'
   },
   { provider: scalewayProvider }
 );
 
 new object.BucketAcl(
-  name('app-static-bucket-acl'),
+  name('app-static-assets-acl'),
 
   {
     bucket: bucket.id,
