@@ -11,11 +11,13 @@ import { FragiliteNumeriqueLayers } from '@/features/cartographie/fragilite-nume
 import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
 import france from '@/features/collectivites-territoriales/france.json';
 import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
+import { load$ } from '@/features/lieux-inclusion-numerique/load/load.stream';
 import { hrefWithSearchParams } from '@/libraries/next';
 import { Subscribe } from '@/libraries/reactivity/Subscribe';
 import { DropdownControls } from '@/libraries/ui/map/dropdown-controls';
 import { Button } from '@/libraries/ui/primitives/button';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
+import { Loading } from '@/libraries/ui/primitives/loading';
 import { cn } from '@/libraries/utils';
 import { ClientOnly } from '@/libraries/utils/client-only';
 import { DepartementsOnMap } from './departements-on-map';
@@ -59,7 +61,22 @@ export const Cartographie = ({
 
   return config == null ? null : (
     <ClientOnly>
-      <div className={cn('w-full h-full', fullScreen && 'absolute', theme === 'dark' && 'invert-90')}>
+      <div className={cn('w-full h-full relative', fullScreen && 'absolute', theme === 'dark' && 'invert-90')}>
+        <Subscribe to$={load$}>
+          {(isLoading) =>
+            isLoading && (
+              <>
+                <div className='absolute z-30 left-0 right-0 top-0 bottom-0 flex justify-center'>
+                  <span className='bg-base-100 text-primary text-sm absolute my-8 py-2 px-4 rounded-lg shadow-lg'>
+                    <Loading scale='loading-xs' isLoading />
+                    &emsp;Chargement
+                  </span>
+                </div>
+                <div className='bg-base-100 opacity-40 absolute z-20 left-0 right-0 top-0 bottom-0' />
+              </>
+            )
+          }
+        </Subscribe>
         {selectedRegion && selectedDepartement && (
           <ButtonLink
             href={hrefWithSearchParams(`/${selectedRegion.slug}/${selectedDepartement.slug}/lieux`)(
