@@ -66,14 +66,14 @@ jobs:
           TAGS: ${{ vars.TAGS }}
 
       - name: Remove previous static files
-        run: aws --endpoint-url https://s3.fr-par.scw.cloud s3 rm s3://cartographie-prod-app-static-bucket --recursive
+        run: aws --endpoint-url https://s3.fr-par.scw.cloud s3 rm s3://cartographie-prod-app-static-assets --recursive
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.SCW_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.SCW_SECRET_KEY }}
           AWS_DEFAULT_REGION: fr-par
 
       - name: Upload static files
-        run: aws --endpoint-url https://s3.fr-par.scw.cloud s3 sync .next/static s3://cartographie-prod-app-static-bucket/_next/static --acl public-read
+        run: aws --endpoint-url https://s3.fr-par.scw.cloud s3 sync .next/static s3://cartographie-prod-app-static-assets/_next/static --acl public-read
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.SCW_ACCESS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.SCW_SECRET_KEY }}
