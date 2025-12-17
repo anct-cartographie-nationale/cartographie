@@ -76,7 +76,7 @@ export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regio
             ))}
           </div>
         </div>
-        <div>
+        <div className='pb-8'>
           <ButtonLink
             className='border-base-200'
             kind='btn-outline'

@@ -77,7 +77,7 @@ export const DepartementsPage = ({
             ))}
           </div>
         </div>
-        <div>
+        <div className='pb-8'>
           <ButtonLink
             href={hrefWithSearchParams(`/${region.slug}/lieux`)(searchParams)}
             className='border-base-200'
