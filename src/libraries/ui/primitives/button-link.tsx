@@ -1,16 +1,14 @@
-import type { LinkProps as NextLinkProps } from 'next/dist/client/link';
-import NextLink from 'next/link';
-import type { HTMLAttributeAnchorTarget, HTMLAttributes, ReactNode } from 'react';
+import type { AnchorHTMLAttributes, HTMLAttributeAnchorTarget, ReactNode } from 'react';
 import { cn } from '@/libraries/utils';
 import type { ButtonClass } from './button';
 
-export type ButtonLinkProps = NextLinkProps &
-  ButtonClass & {
-    disabled?: boolean;
-    icon?: ReactNode;
-    iconOnly?: boolean;
-    target?: HTMLAttributeAnchorTarget;
-  } & HTMLAttributes<HTMLAnchorElement>;
+export type ButtonLinkProps = ButtonClass & {
+  href: string;
+  disabled?: boolean;
+  icon?: ReactNode;
+  iconOnly?: boolean;
+  target?: HTMLAttributeAnchorTarget;
+} & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>;
 
 export const ButtonLink = ({
   className,
@@ -24,9 +22,11 @@ export const ButtonLink = ({
   scale,
   modifier,
   disabled,
+  href,
   ...props
 }: ButtonLinkProps) => (
-  <NextLink
+  <a
+    href={href}
     aria-disabled={disabled}
     tabIndex={disabled ? -1 : undefined}
     className={cn('btn', disabled && 'btn-disabled', color, kind, behavior, scale, modifier, className)}
@@ -37,5 +37,5 @@ export const ButtonLink = ({
   >
     {icon && icon}
     {children && !iconOnly && children}
-  </NextLink>
+  </a>
 );

@@ -11,7 +11,7 @@ export const SkipLinks = ({ links }: { links?: { label: string; anchor: string }
   <nav aria-label='Liens de navigation rapide' className='p-4 bg-base-200 skip-links'>
     <ul className='flex gap-4'>
       {links?.map((link) => (
-        <li key={link.anchor} className='fr-skiplinks__item'>
+        <li key={link.anchor}>
           <a href={link.anchor} className='link link-primary'>
             {link.label}
           </a>
