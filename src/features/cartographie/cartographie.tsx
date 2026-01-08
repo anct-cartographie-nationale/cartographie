@@ -3,7 +3,6 @@
 import { addOverlay, mapStyles, Overlay } from 'carte-facile';
 import { Map as MapLibre, NavigationControl, type ViewStateChangeEvent } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { usePathname, useSearchParams } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import { RiFullscreenExitLine, RiFullscreenLine, RiListUnordered, RiStackLine } from 'react-icons/ri';
@@ -50,11 +49,11 @@ export const Cartographie = ({
   regions: (Region & { nombreLieux: number })[];
   departements: (Departement & { nombreLieux: number })[];
 }) => {
-  const pathname = usePathname();
+  const pathname = globalThis.location?.pathname ?? '/';
   const [selectedRegionSlug, selectedDepartementSlug] = pathname.split('/').filter((segment) => segment.length > 0);
   const selectedRegion = regions.find(regionMatchingSlug(selectedRegionSlug));
   const selectedDepartement = departements.find(departementMatchingSlug(selectedDepartementSlug));
-  const searchParams = useSearchParams();
+  const searchParams = new URLSearchParams(globalThis.location?.search);
   const [fullScreen, setFullScreen] = useState(false);
   const [fragiliteNumeriqueLayer, setFragiliteNumeriqueLayer] = useState<boolean>(false);
   const { theme } = useTheme();

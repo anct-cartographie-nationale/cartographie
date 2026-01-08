@@ -1,7 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { tap } from 'rxjs';
 import { setZoom } from '@/features/cartographie/lieux/streams/zoom.stream';
@@ -20,8 +18,7 @@ import { map$ } from './map/streams/map.stream';
 const config = france.find(({ nom }): boolean => nom === 'France métropolitaine');
 
 export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regions: Region[] }): ReactNode => {
-  const urlSearchParams = useSearchParams();
-  const searchParams: URLSearchParams = new URLSearchParams(urlSearchParams);
+  const searchParams: URLSearchParams = new URLSearchParams(globalThis.location?.search);
 
   useSubscribe(
     map$.pipe(
@@ -66,13 +63,9 @@ export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regio
           <h2 className='font-bold uppercase text-xs text-base-title mb-3'>Filtrer par région</h2>
           <div className='flex flex-wrap gap-1.5'>
             {regions.map(({ nom, slug, code }) => (
-              <Link
-                href={hrefWithSearchParams(slug)(searchParams, ['page'])}
-                key={code}
-                className='tag badge-primary badge-soft'
-              >
+              <a href={hrefWithSearchParams(slug)(searchParams, ['page'])} key={code} className='tag badge-primary badge-soft'>
                 {nom}
-              </Link>
+              </a>
             ))}
           </div>
         </div>
