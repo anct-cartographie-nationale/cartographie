@@ -19,6 +19,7 @@
 
 # production
 /build
+/dist-wc
 
 # misc
 .DS_Store
