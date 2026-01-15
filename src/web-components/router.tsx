@@ -1,6 +1,7 @@
 import { createRootRoute, createRoute, createRouter } from '@tanstack/react-router';
 import { WebComponentLayout } from './layout';
 import { WithMapLayout } from './layouts/with-map.layout';
+import { Page as DepartementPage } from './pages/departement.page';
 import { Page as DepartementsPage } from './pages/departements.page';
 import { Page as RegionsPage } from './pages/regions.page';
 
@@ -24,7 +25,13 @@ const regionRoute = createRoute({
   component: DepartementsPage
 });
 
-const routeTree = rootRoute.addChildren([homeRoute, regionRoute]);
+const departementRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/$region/$departement',
+  component: DepartementPage
+});
+
+const routeTree = rootRoute.addChildren([homeRoute, regionRoute, departementRoute]);
 
 export const createAppRouter = () =>
   createRouter({
