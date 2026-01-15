@@ -1,0 +1,31 @@
+import type { Departement } from '@/features/collectivites-territoriales/departement';
+import type { Region } from '@/features/collectivites-territoriales/region';
+import { inject } from '@/libraries/injection';
+import { API_BASE_URL } from './api-base-url.key';
+
+export type RegionWithCount = Region & { nombreLieux: number };
+export type DepartementWithCount = Departement & { nombreLieux: number };
+
+const buildUrl = (path: string, searchParams?: URLSearchParams) => {
+  const base = `${inject(API_BASE_URL)}${path}`;
+  return searchParams?.toString() ? `${base}?${searchParams.toString()}` : base;
+};
+
+export const fetchRegionsStats = async (searchParams?: URLSearchParams): Promise<RegionWithCount[]> => {
+  const response = await fetch(buildUrl('/stats/regions', searchParams));
+  if (!response.ok) throw new Error('Failed to fetch regions stats');
+  return response.json();
+};
+
+export const fetchDepartementsStats = async (searchParams?: URLSearchParams): Promise<DepartementWithCount[]> => {
+  const response = await fetch(buildUrl('/stats/departements', searchParams));
+  if (!response.ok) throw new Error('Failed to fetch departements stats');
+  return response.json();
+};
+
+export const fetchTotalLieux = async (searchParams?: URLSearchParams): Promise<number> => {
+  const response = await fetch(buildUrl('/stats/total', searchParams));
+  if (!response.ok) throw new Error('Failed to fetch total lieux');
+  const data = await response.json();
+  return data.total;
+};
