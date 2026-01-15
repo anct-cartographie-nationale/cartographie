@@ -76,3 +76,18 @@ export const fetchAllLieux = async (
   if (!response.ok) throw new Error('Failed to fetch lieux');
   return response.json();
 };
+
+export const fetchRegionLieux = async (
+  slug: string,
+  page: number = 1,
+  limit: number = 24,
+  searchParams?: URLSearchParams
+): Promise<LieuxResponse> => {
+  const params = new URLSearchParams(searchParams);
+  params.set('page', String(page));
+  params.set('limit', String(limit));
+
+  const response = await fetch(buildUrl(`/lieux/region/${slug}`, params));
+  if (!response.ok) throw new Error('Failed to fetch region lieux');
+  return response.json();
+};

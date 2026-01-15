@@ -4,6 +4,7 @@ export {
   fetchAllLieux,
   fetchDepartementLieux,
   fetchDepartementsStats,
+  fetchRegionLieux,
   fetchRegionsStats,
   fetchRegionTotalLieux,
   fetchTotalLieux
