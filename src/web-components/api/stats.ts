@@ -1,5 +1,6 @@
 import type { Departement } from '@/features/collectivites-territoriales/departement';
 import type { Region } from '@/features/collectivites-territoriales/region';
+import type { LieuDetails } from '@/features/lieux-inclusion-numerique/lieu-details';
 import type { LieuListItem } from '@/features/lieux-inclusion-numerique/lieu-list-item';
 import { inject } from '@/libraries/injection';
 import { API_BASE_URL } from './api-base-url.key';
@@ -89,5 +90,12 @@ export const fetchRegionLieux = async (
 
   const response = await fetch(buildUrl(`/lieux/region/${slug}`, params));
   if (!response.ok) throw new Error('Failed to fetch region lieux');
+  return response.json();
+};
+
+export const fetchLieu = async (id: string): Promise<LieuDetails | null> => {
+  const response = await fetch(buildUrl(`/lieux/${encodeURIComponent(id)}`));
+  if (response.status === 404) return null;
+  if (!response.ok) throw new Error('Failed to fetch lieu');
   return response.json();
 };
