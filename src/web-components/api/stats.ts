@@ -29,3 +29,10 @@ export const fetchTotalLieux = async (searchParams?: URLSearchParams): Promise<n
   const data = await response.json();
   return data.total;
 };
+
+export const fetchRegionTotalLieux = async (slug: string, searchParams?: URLSearchParams): Promise<number> => {
+  const response = await fetch(buildUrl(`/stats/regions/${slug}`, searchParams));
+  if (!response.ok) throw new Error('Failed to fetch region total lieux');
+  const data = await response.json();
+  return data.total;
+};
