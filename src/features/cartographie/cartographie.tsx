@@ -12,6 +12,7 @@ import france from '@/features/collectivites-territoriales/france.json';
 import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import { load$ } from '@/features/lieux-inclusion-numerique/load/load.stream';
 import { hrefWithSearchParams } from '@/libraries/next';
+import { usePathname, useSearchParams } from '@/libraries/next-shim';
 import { Subscribe } from '@/libraries/reactivity/Subscribe';
 import { DropdownControls } from '@/libraries/ui/map/dropdown-controls';
 import { Button } from '@/libraries/ui/primitives/button';
@@ -49,11 +50,11 @@ export const Cartographie = ({
   regions: (Region & { nombreLieux: number })[];
   departements: (Departement & { nombreLieux: number })[];
 }) => {
-  const pathname = globalThis.location?.pathname ?? '/';
+  const pathname = usePathname();
   const [selectedRegionSlug, selectedDepartementSlug] = pathname.split('/').filter((segment) => segment.length > 0);
   const selectedRegion = regions.find(regionMatchingSlug(selectedRegionSlug));
   const selectedDepartement = departements.find(departementMatchingSlug(selectedDepartementSlug));
-  const searchParams = new URLSearchParams(globalThis.location?.search);
+  const searchParams = useSearchParams();
   const [fullScreen, setFullScreen] = useState(false);
   const [fragiliteNumeriqueLayer, setFragiliteNumeriqueLayer] = useState<boolean>(false);
   const { theme } = useTheme();

@@ -7,7 +7,7 @@ import france from '@/features/collectivites-territoriales/france.json';
 import type { Region } from '@/features/collectivites-territoriales/region';
 import { load$ } from '@/features/lieux-inclusion-numerique/load/load.stream';
 import { hrefWithSearchParams } from '@/libraries/next';
-import { Link } from '@/libraries/next-shim';
+import { Link, useSearchParams } from '@/libraries/next-shim';
 import { Subscribe, useSubscribe } from '@/libraries/reactivity/Subscribe';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
@@ -19,7 +19,8 @@ import { map$ } from './map/streams/map.stream';
 const config = france.find(({ nom }): boolean => nom === 'France métropolitaine');
 
 export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regions: Region[] }): ReactNode => {
-  const searchParams: URLSearchParams = new URLSearchParams(globalThis.location?.search);
+  const urlSearchParams = useSearchParams();
+  const searchParams: URLSearchParams = new URLSearchParams(urlSearchParams);
 
   useSubscribe(
     map$.pipe(
