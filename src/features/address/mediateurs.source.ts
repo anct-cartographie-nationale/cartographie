@@ -30,12 +30,11 @@ const lieuToAddress = (lieuSearchResult: MediateurSearchResult): Address[] =>
 
 export const fetchMediateursSuggestions = (input: string): Effect<Address[], Error> =>
   tryPromise({
-    try: () =>
-      fetch(`/api/mediateurs/search?q=${encodeURIComponent(input)}`)
-        .then((res) => {
-          if (!res.ok) throw new Error(res.statusText);
-          return res.json() as Promise<MediateurSearchResult[]>;
-        })
-        .then((lieux) => lieux.flatMap(lieuToAddress)),
-    catch: (err) => new Error(`Lieux fetch failed: ${err}`)
+    try: async () => {
+      const res = await fetch(`/api/mediateurs/search?q=${encodeURIComponent(input)}`);
+      if (!res.ok) throw new Error(res.statusText);
+      const mediateurs: MediateurSearchResult[] = await res.json();
+      return mediateurs.flatMap(lieuToAddress);
+    },
+    catch: (err) => new Error(`Mediateurs fetch failed: ${err}`)
   });
