@@ -1,37 +1,50 @@
-import { createRootRoute, createRoute, createRouter } from '@tanstack/react-router';
+import { createRootRoute, createRoute, createRouter, Outlet } from '@tanstack/react-router';
 import { WebComponentLayout } from './layout';
 import { WithMapLayout } from './layouts/with-map.layout';
 import { Page as DepartementPage } from './pages/departement.page';
 import { Page as DepartementsPage } from './pages/departements.page';
+import { Page as LieuxPage } from './pages/lieux.page';
 import { Page as RegionsPage } from './pages/regions.page';
 
 const rootRoute = createRootRoute({
   component: () => (
     <WebComponentLayout>
-      <WithMapLayout />
+      <Outlet />
     </WebComponentLayout>
   )
 });
 
-const homeRoute = createRoute({
+const withMapRoute = createRoute({
   getParentRoute: () => rootRoute,
+  id: 'with-map',
+  component: WithMapLayout
+});
+
+const homeRoute = createRoute({
+  getParentRoute: () => withMapRoute,
   path: '/',
   component: RegionsPage
 });
 
 const regionRoute = createRoute({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => withMapRoute,
   path: '/$region',
   component: DepartementsPage
 });
 
 const departementRoute = createRoute({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => withMapRoute,
   path: '/$region/$departement',
   component: DepartementPage
 });
 
-const routeTree = rootRoute.addChildren([homeRoute, regionRoute, departementRoute]);
+const lieuxRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/lieux',
+  component: LieuxPage
+});
+
+const routeTree = rootRoute.addChildren([withMapRoute.addChildren([homeRoute, regionRoute, departementRoute]), lieuxRoute]);
 
 export const createAppRouter = () =>
   createRouter({

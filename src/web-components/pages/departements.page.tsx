@@ -8,7 +8,7 @@ import regions from '@/features/collectivites-territoriales/regions.json';
 import { fetchRegionTotalLieux } from '../api';
 
 export const Page: FC = () => {
-  const { region: regionSlug } = useParams({ from: '/$region' });
+  const { region: regionSlug } = useParams({ from: '/with-map/$region' });
   const region = (regions as Region[]).find(regionMatchingSlug(regionSlug));
 
   const { data: totalLieux = 0 } = useQuery({
