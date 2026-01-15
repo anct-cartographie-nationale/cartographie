@@ -1,5 +1,6 @@
 'use client';
 
+import { useQuery } from '@tanstack/react-query';
 import { type ReactNode, useState } from 'react';
 import { MapProvider } from 'react-map-gl/maplibre';
 import { Cartographie } from '@/features/cartographie/cartographie';
@@ -9,23 +10,34 @@ import type { Region } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
 import { Button } from '@/libraries/ui/primitives/button';
 import { cn } from '@/libraries/utils';
+import { type DepartementWithCount, fetchDepartementsStats, fetchRegionsStats, type RegionWithCount } from '../api';
 
 type WithMapLayoutProps = {
   children: ReactNode;
 };
 
-const regionsWithCount = (regions as Region[]).map((region) => ({
+const defaultRegions: RegionWithCount[] = (regions as Region[]).map((region) => ({
   ...region,
   nombreLieux: 0
 }));
 
-const departementsWithCount = (departements as Departement[]).map((departement) => ({
+const defaultDepartements: DepartementWithCount[] = (departements as Departement[]).map((departement) => ({
   ...departement,
   nombreLieux: 0
 }));
 
 export const WithMapLayout = ({ children }: WithMapLayoutProps) => {
   const [showMap, setShowMap] = useState(false);
+
+  const { data: regionsWithCount = defaultRegions } = useQuery({
+    queryKey: ['stats', 'regions'],
+    queryFn: () => fetchRegionsStats()
+  });
+
+  const { data: departementsWithCount = defaultDepartements } = useQuery({
+    queryKey: ['stats', 'departements'],
+    queryFn: () => fetchDepartementsStats()
+  });
 
   return (
     <div className='flex flex-col h-full'>
