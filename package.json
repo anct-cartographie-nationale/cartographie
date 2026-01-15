@@ -43,6 +43,7 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "@tanstack/react-form": "^1.27.0",
     "@tanstack/react-query": "^5.90.16",
+    "@tanstack/react-router": "^1.144.0",
     "carte-facile": "^0.8.1",
     "clsx": "^2.1.1",
     "daisyui": "^5.5.5",
@@ -68,7 +69,6 @@
     "supercluster": "^8.0.1",
     "tailwind-merge": "^3.4.0",
     "tailwindcss-animate": "^1.0.7",
-    "wouter": "^3.9.0",
     "zod": "^4.1.13"
   },
   "devDependencies": {
