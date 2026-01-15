@@ -1,21 +1,21 @@
 'use client';
 
+import { useNavigate, useSearch } from '@tanstack/react-router';
 import { useMemo } from 'react';
-import { useLocation, useSearch } from 'wouter';
 
 export const useSearchParams = (): URLSearchParams => {
-  const search = useSearch();
-  return useMemo(() => new URLSearchParams(search), [search]);
+  const search = useSearch({ strict: false });
+  return useMemo(() => new URLSearchParams(search as Record<string, string>), [search]);
 };
 
 export const useRouter = () => {
-  const [, setLocation] = useLocation();
+  const navigate = useNavigate();
 
   return useMemo(
     () => ({
-      push: (url: string) => setLocation(url),
+      push: (url: string) => navigate({ to: url }),
       refresh: () => globalThis.location.reload()
     }),
-    [setLocation]
+    [navigate]
   );
 };
