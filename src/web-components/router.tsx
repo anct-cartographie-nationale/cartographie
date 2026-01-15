@@ -2,6 +2,7 @@ import { createRootRoute, createRoute, createRouter, Outlet } from '@tanstack/re
 import { WebComponentLayout } from './layout';
 import { WithMapLayout } from './layouts/with-map.layout';
 import { Page as DepartementPage } from './pages/departement.page';
+import { Page as DepartementLieuxPage } from './pages/departement-lieux.page';
 import { Page as DepartementsPage } from './pages/departements.page';
 import { Page as LieuxPage } from './pages/lieux.page';
 import { Page as RegionLieuxPage } from './pages/region-lieux.page';
@@ -51,10 +52,17 @@ const regionLieuxRoute = createRoute({
   component: RegionLieuxPage
 });
 
+const departementLieuxRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/$region/$departement/lieux',
+  component: DepartementLieuxPage
+});
+
 const routeTree = rootRoute.addChildren([
   withMapRoute.addChildren([homeRoute, regionRoute, departementRoute]),
   lieuxRoute,
-  regionLieuxRoute
+  regionLieuxRoute,
+  departementLieuxRoute
 ]);
 
 export const createAppRouter = () =>
