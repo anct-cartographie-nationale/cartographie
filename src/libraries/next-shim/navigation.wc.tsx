@@ -1,7 +1,12 @@
 'use client';
 
-import { useNavigate, useSearch } from '@tanstack/react-router';
+import { useLocation, useNavigate, useSearch } from '@tanstack/react-router';
 import { useMemo } from 'react';
+
+export const usePathname = (): string => {
+  const location = useLocation();
+  return location.pathname;
+};
 
 export const useSearchParams = (): URLSearchParams => {
   const search = useSearch({ strict: false });

@@ -1,2 +1,2 @@
 export { Link, type LinkProps } from './link';
-export { useRouter, useSearchParams } from './navigation';
+export { usePathname, useRouter, useSearchParams } from './navigation';
