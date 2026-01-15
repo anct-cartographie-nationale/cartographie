@@ -51,7 +51,6 @@ export const SearchAddress = ({ className }: { className?: string }) => {
                 {options.selectedItem != null && (
                   <Button
                     type='button'
-                    color='btn-accent'
                     kind='btn-link'
                     className='p-0'
                     title='Effacer la recherche'

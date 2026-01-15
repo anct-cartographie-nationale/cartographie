@@ -15,7 +15,7 @@ const lastItemsRef = unsafeMake<Address[]>([]);
 
 const fetchSuggestionsEffect = (input: string): Effect<Address[], Error> =>
   all([fetchMediateursSuggestions(input), fetchLieuxSuggestions(input), fetchBanSuggestions(input)]).pipe(
-    map(([lieux, ban]) => [...lieux, ...ban])
+    map(([mediateurs, lieux, ban]) => [...mediateurs, ...lieux, ...ban])
   );
 
 type SuggestionsPayload = {

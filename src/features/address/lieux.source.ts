@@ -30,12 +30,11 @@ const lieuToAddress = (lieuSearchResult: LieuSearchResult): Address => ({
 
 export const fetchLieuxSuggestions = (input: string): Effect<Address[], Error> =>
   tryPromise({
-    try: () =>
-      fetch(`/api/lieux/search?q=${encodeURIComponent(input)}`)
-        .then((res) => {
-          if (!res.ok) throw new Error(res.statusText);
-          return res.json() as Promise<LieuSearchResult[]>;
-        })
-        .then((lieux) => lieux.map(lieuToAddress)),
+    try: async () => {
+      const res = await fetch(`/api/lieux/search?q=${encodeURIComponent(input)}`);
+      if (!res.ok) throw new Error(res.statusText);
+      const lieux: LieuSearchResult[] = await res.json();
+      return lieux.map(lieuToAddress);
+    },
     catch: (err) => new Error(`Lieux fetch failed: ${err}`)
   });

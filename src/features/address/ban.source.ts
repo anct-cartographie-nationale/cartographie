@@ -36,13 +36,16 @@ const banFeatureToAddress = (feature: AddressFeature): Address => ({
   y: feature.geometry.coordinates[0] ?? 0
 });
 
+const onlyWithDefinedCoordinates = (address: Address) =>
+  address.x != null && address.x !== 0 && address.y != null && address.y !== 0;
+
 export const fetchBanSuggestions = (input: string): Effect<Address[], Error> =>
   tryPromise({
     try: async () => {
       const res = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(input)}`);
       if (!res.ok) throw new Error(res.statusText);
-      const data = (await res.json()) as AddressFeatureCollection;
-      return data.features.map(banFeatureToAddress).filter((address) => address.x !== 0 && address.y !== 0);
+      const address: AddressFeatureCollection = await res.json();
+      return address.features.map(banFeatureToAddress).filter(onlyWithDefinedCoordinates);
     },
     catch: (err) => new Error(`BAN fetch failed: ${err}`)
   });
