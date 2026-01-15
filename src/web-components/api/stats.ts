@@ -1,5 +1,6 @@
 import type { Departement } from '@/features/collectivites-territoriales/departement';
 import type { Region } from '@/features/collectivites-territoriales/region';
+import type { LieuListItem } from '@/features/lieux-inclusion-numerique/lieu-list-item';
 import { inject } from '@/libraries/injection';
 import { API_BASE_URL } from './api-base-url.key';
 
@@ -35,4 +36,24 @@ export const fetchRegionTotalLieux = async (slug: string, searchParams?: URLSear
   if (!response.ok) throw new Error('Failed to fetch region total lieux');
   const data = await response.json();
   return data.total;
+};
+
+export type DepartementLieuxResponse = {
+  lieux: LieuListItem[];
+  total: number;
+};
+
+export const fetchDepartementLieux = async (
+  code: string,
+  page: number = 1,
+  limit: number = 10,
+  searchParams?: URLSearchParams
+): Promise<DepartementLieuxResponse> => {
+  const params = new URLSearchParams(searchParams);
+  params.set('page', String(page));
+  params.set('limit', String(limit));
+
+  const response = await fetch(buildUrl(`/lieux/departement/${code}`, params));
+  if (!response.ok) throw new Error('Failed to fetch departement lieux');
+  return response.json();
 };
