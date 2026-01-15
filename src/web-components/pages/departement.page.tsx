@@ -11,8 +11,8 @@ import { fetchDepartementLieux } from '../api';
 const PAGE_SIZE = 10;
 
 export const Page: FC = () => {
-  const { region: regionSlug, departement: departementSlug } = useParams({ from: '/$region/$departement' });
-  const search: { page: number } = useSearch({ from: '/$region/$departement' });
+  const { region: regionSlug, departement: departementSlug } = useParams({ from: '/with-map/$region/$departement' });
+  const search: { page: number } = useSearch({ from: '/with-map/$region/$departement' });
   const currentPage = Number(search.page) || 1;
 
   const region: Region | undefined = (regions as Region[]).find(regionMatchingSlug(regionSlug));
