@@ -4,7 +4,6 @@ import { RegionsPage } from '@/features/cartographie/regions.page';
 import type { Region } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
 import { fetchTotalLieux } from '../api';
-import { WithMapLayout } from '../layouts/with-map.layout';
 
 export const HomePage: FC = () => {
   const { data: totalLieux = 0 } = useQuery({
@@ -12,9 +11,5 @@ export const HomePage: FC = () => {
     queryFn: () => fetchTotalLieux()
   });
 
-  return (
-    <WithMapLayout>
-      <RegionsPage totalLieux={totalLieux} regions={regions as Region[]} />
-    </WithMapLayout>
-  );
+  return <RegionsPage totalLieux={totalLieux} regions={regions as Region[]} />;
 };

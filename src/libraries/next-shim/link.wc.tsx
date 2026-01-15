@@ -1,12 +1,17 @@
 'use client';
 
+import { Link as TanStackLink } from '@tanstack/react-router';
 import type { AnchorHTMLAttributes, ReactNode } from 'react';
-import { Link as WouterLink } from 'wouter';
 
 export type LinkProps = {
   href: string;
   children?: ReactNode;
-} & AnchorHTMLAttributes<HTMLAnchorElement>;
+} & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>;
 
-export const Link = WouterLink;
-export default WouterLink;
+export const Link = ({ href, children, ...props }: LinkProps) => (
+  <TanStackLink to={href} {...props}>
+    {children}
+  </TanStackLink>
+);
+
+export default Link;

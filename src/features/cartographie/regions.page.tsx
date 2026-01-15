@@ -7,6 +7,7 @@ import france from '@/features/collectivites-territoriales/france.json';
 import type { Region } from '@/features/collectivites-territoriales/region';
 import { load$ } from '@/features/lieux-inclusion-numerique/load/load.stream';
 import { hrefWithSearchParams } from '@/libraries/next';
+import { Link } from '@/libraries/next-shim';
 import { Subscribe, useSubscribe } from '@/libraries/reactivity/Subscribe';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
@@ -63,9 +64,13 @@ export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regio
           <h2 className='font-bold uppercase text-xs text-base-title mb-3'>Filtrer par région</h2>
           <div className='flex flex-wrap gap-1.5'>
             {regions.map(({ nom, slug, code }) => (
-              <a href={hrefWithSearchParams(slug)(searchParams, ['page'])} key={code} className='tag badge-primary badge-soft'>
+              <Link
+                href={hrefWithSearchParams(`/${slug}`)(searchParams, ['page'])}
+                key={code}
+                className='tag badge-primary badge-soft'
+              >
                 {nom}
-              </a>
+              </Link>
             ))}
           </div>
         </div>
