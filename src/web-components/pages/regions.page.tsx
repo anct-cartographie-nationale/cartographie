@@ -5,7 +5,7 @@ import type { Region } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
 import { fetchTotalLieux } from '../api';
 
-export const HomePage: FC = () => {
+export const Page: FC = () => {
   const { data: totalLieux = 0 } = useQuery({
     queryKey: ['stats', 'total'],
     queryFn: () => fetchTotalLieux()
