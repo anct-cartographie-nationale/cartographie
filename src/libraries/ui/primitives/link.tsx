@@ -1,5 +1,5 @@
-import NextLink, { type LinkProps as NextLinkProps } from 'next/link';
 import type { HTMLAttributeAnchorTarget, HTMLAttributes, ReactNode } from 'react';
+import { Link as NextLink, type LinkProps as NextLinkProps } from '@/libraries/next-shim';
 import { cn } from '@/libraries/utils';
 import type { Color } from './color';
 

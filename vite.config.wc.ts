@@ -2,12 +2,14 @@ import react from '@vitejs/plugin-react';
 import path from 'node:path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+import { fileReplacement } from './vite-plugin-file-replacement';
 
 export default defineConfig(({ command }) => {
   const isDev = command === 'serve';
 
   return {
     plugins: [
+      fileReplacement('.wc'),
       react(),
       ...(isDev
         ? []
