@@ -57,3 +57,22 @@ export const fetchDepartementLieux = async (
   if (!response.ok) throw new Error('Failed to fetch departement lieux');
   return response.json();
 };
+
+export type LieuxResponse = {
+  lieux: LieuListItem[];
+  total: number;
+};
+
+export const fetchAllLieux = async (
+  page: number = 1,
+  limit: number = 24,
+  searchParams?: URLSearchParams
+): Promise<LieuxResponse> => {
+  const params = new URLSearchParams(searchParams);
+  params.set('page', String(page));
+  params.set('limit', String(limit));
+
+  const response = await fetch(buildUrl('/lieux', params));
+  if (!response.ok) throw new Error('Failed to fetch lieux');
+  return response.json();
+};
