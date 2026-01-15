@@ -1,9 +1,9 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useId } from 'react';
 import { RiCloseCircleFill, RiSearchLine } from 'react-icons/ri';
 import { type Address, addressCombobox, addressOptions } from '@/features/address';
+import { useRouter } from '@/libraries/next-shim';
 import { useSubscribe } from '@/libraries/reactivity/Subscribe';
 import { Button } from '@/libraries/ui/primitives/button';
 import { ComboBox } from '@/libraries/ui/primitives/combobox';

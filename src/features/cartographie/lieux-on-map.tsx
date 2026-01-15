@@ -1,11 +1,10 @@
 import Supercluster from 'mutable-supercluster';
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 import { Suspense, useState } from 'react';
 import { Popup } from 'react-map-gl/maplibre';
 import type { ClusterFeature, ClusterProperties, PointFeature } from 'supercluster';
 import { provide } from '@/libraries/injection';
 import { hrefWithSearchParams } from '@/libraries/next';
+import { Link, useSearchParams } from '@/libraries/next-shim';
 import { Subscribe, useSubscribe } from '@/libraries/reactivity/Subscribe';
 import type { Lieu } from './lieux/domain/lieu';
 import { lieuxCache } from './lieux/impementations/lieux.cache';
