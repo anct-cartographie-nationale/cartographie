@@ -1,12 +1,13 @@
-import { createMemoryHistory, createRootRoute, createRoute, createRouter, Outlet } from '@tanstack/react-router';
+import { createRootRoute, createRoute, createRouter } from '@tanstack/react-router';
 import { WebComponentLayout } from './layout';
-import { AuvergneRhoneAlpesPage } from './pages/auvergne-rhone-alpes.page';
+import { WithMapLayout } from './layouts/with-map.layout';
 import { HomePage } from './pages/home.page';
+import { RegionPage } from './pages/region.page';
 
 const rootRoute = createRootRoute({
   component: () => (
     <WebComponentLayout>
-      <Outlet />
+      <WithMapLayout />
     </WebComponentLayout>
   )
 });
@@ -17,18 +18,17 @@ const homeRoute = createRoute({
   component: HomePage
 });
 
-const auvergneRhoneAlpesRoute = createRoute({
+const regionRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/auvergne-rhone-alpes',
-  component: AuvergneRhoneAlpesPage
+  path: '/$region',
+  component: RegionPage
 });
 
-const routeTree = rootRoute.addChildren([homeRoute, auvergneRhoneAlpesRoute]);
+const routeTree = rootRoute.addChildren([homeRoute, regionRoute]);
 
 export const createAppRouter = () =>
   createRouter({
-    routeTree,
-    history: createMemoryHistory({ initialEntries: ['/'] })
+    routeTree
   });
 
 export type AppRouter = ReturnType<typeof createAppRouter>;

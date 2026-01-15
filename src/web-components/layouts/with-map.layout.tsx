@@ -1,7 +1,8 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { type ReactNode, useState } from 'react';
+import { Outlet } from '@tanstack/react-router';
+import { useState } from 'react';
 import { MapProvider } from 'react-map-gl/maplibre';
 import { Cartographie } from '@/features/cartographie/cartographie';
 import type { Departement } from '@/features/collectivites-territoriales/departement';
@@ -11,10 +12,6 @@ import regions from '@/features/collectivites-territoriales/regions.json';
 import { Button } from '@/libraries/ui/primitives/button';
 import { cn } from '@/libraries/utils';
 import { type DepartementWithCount, fetchDepartementsStats, fetchRegionsStats, type RegionWithCount } from '../api';
-
-type WithMapLayoutProps = {
-  children: ReactNode;
-};
 
 const defaultRegions: RegionWithCount[] = (regions as Region[]).map((region) => ({
   ...region,
@@ -26,7 +23,7 @@ const defaultDepartements: DepartementWithCount[] = (departements as Departement
   nombreLieux: 0
 }));
 
-export const WithMapLayout = ({ children }: WithMapLayoutProps) => {
+export const WithMapLayout = () => {
   const [showMap, setShowMap] = useState(false);
 
   const { data: regionsWithCount = defaultRegions } = useQuery({
@@ -49,7 +46,7 @@ export const WithMapLayout = ({ children }: WithMapLayoutProps) => {
               showMap ? '-translate-x-full' : 'translate-x-0'
             )}
           >
-            <div className='lg:w-165 w-full h-full px-12 pt-8 pb-14 overflow-auto'>{children}</div>
+            <div className='lg:w-165 w-full h-full px-12 pt-8 pb-14 overflow-auto'>{<Outlet />}</div>
             <Cartographie regions={regionsWithCount} departements={departementsWithCount} />
           </div>
         </MapProvider>
