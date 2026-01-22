@@ -1,6 +1,6 @@
 'use client';
 
-import { useLocation, useNavigate, useSearch } from '@tanstack/react-router';
+import { useLocation, useNavigate, useSearch, useRouter as useTanStackRouter } from '@tanstack/react-router';
 import { useMemo } from 'react';
 
 export const usePathname = (): string => {
@@ -15,12 +15,13 @@ export const useSearchParams = (): URLSearchParams => {
 
 export const useRouter = () => {
   const navigate = useNavigate();
+  const router = useTanStackRouter();
 
   return useMemo(
     () => ({
       push: (url: string) => navigate({ to: url }),
-      refresh: () => globalThis.location.reload()
+      refresh: () => router.invalidate()
     }),
-    [navigate]
+    [navigate, router]
   );
 };

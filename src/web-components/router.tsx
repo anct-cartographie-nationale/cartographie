@@ -5,6 +5,7 @@ import { Page as DepartementPage } from './pages/departement.page';
 import { Page as DepartementLieuxPage } from './pages/departement-lieux.page';
 import { Page as DepartementsPage } from './pages/departements.page';
 import { Page as LieuPage } from './pages/lieu.page';
+import { Page as LieuRedirectPage } from './pages/lieu-redirect.page';
 import { Page as LieuxPage } from './pages/lieux.page';
 import { Page as RegionLieuxPage } from './pages/region-lieux.page';
 import { Page as RegionsPage } from './pages/regions.page';
@@ -47,6 +48,12 @@ const lieuxRoute = createRoute({
   component: LieuxPage
 });
 
+const lieuRedirectRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/lieux/$id',
+  component: LieuRedirectPage
+});
+
 const regionLieuxRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/$region/lieux',
@@ -68,6 +75,7 @@ const lieuRoute = createRoute({
 const routeTree = rootRoute.addChildren([
   withMapRoute.addChildren([homeRoute, regionRoute, departementRoute]),
   lieuxRoute,
+  lieuRedirectRoute,
   regionLieuxRoute,
   departementLieuxRoute,
   lieuRoute

@@ -1,8 +1,8 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { Outlet } from '@tanstack/react-router';
-import { useState } from 'react';
+import { Outlet, useSearch } from '@tanstack/react-router';
+import { useMemo, useState } from 'react';
 import { MapProvider } from 'react-map-gl/maplibre';
 import { Cartographie } from '@/features/cartographie/cartographie';
 import type { Departement } from '@/features/collectivites-territoriales/departement';
@@ -25,15 +25,17 @@ const defaultDepartements: DepartementWithCount[] = (departements as Departement
 
 export const WithMapLayout = () => {
   const [showMap, setShowMap] = useState(false);
+  const search = useSearch({ strict: false }) as Record<string, string>;
+  const searchParams = useMemo(() => new URLSearchParams(search), [search]);
 
   const { data: regionsWithCount = defaultRegions } = useQuery({
-    queryKey: ['stats', 'regions'],
-    queryFn: () => fetchRegionsStats()
+    queryKey: ['stats', 'regions', searchParams.toString()],
+    queryFn: () => fetchRegionsStats(searchParams)
   });
 
   const { data: departementsWithCount = defaultDepartements } = useQuery({
-    queryKey: ['stats', 'departements'],
-    queryFn: () => fetchDepartementsStats()
+    queryKey: ['stats', 'departements', searchParams.toString()],
+    queryFn: () => fetchDepartementsStats(searchParams)
   });
 
   return (

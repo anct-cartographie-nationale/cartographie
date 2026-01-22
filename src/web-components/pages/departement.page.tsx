@@ -1,6 +1,6 @@
 import { skipToken, useQuery } from '@tanstack/react-query';
 import { useParams, useSearch } from '@tanstack/react-router';
-import type { FC } from 'react';
+import { type FC, useMemo } from 'react';
 import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
 import departements from '@/features/collectivites-territoriales/departements.json';
 import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
@@ -12,15 +12,16 @@ const PAGE_SIZE = 10;
 
 export const Page: FC = () => {
   const { region: regionSlug, departement: departementSlug } = useParams({ from: '/with-map/$region/$departement' });
-  const search: { page: number } = useSearch({ from: '/with-map/$region/$departement' });
-  const currentPage = Number(search.page) || 1;
+  const search = useSearch({ strict: false }) as Record<string, string>;
+  const searchParams = useMemo(() => new URLSearchParams(search), [search]);
+  const currentPage = Number(search['page']) || 1;
 
   const region: Region | undefined = (regions as Region[]).find(regionMatchingSlug(regionSlug));
   const departement: Departement | undefined = departements.find(departementMatchingSlug(departementSlug));
 
   const { data } = useQuery({
-    queryKey: ['lieux', 'departement', departement?.code, currentPage],
-    queryFn: departement ? () => fetchDepartementLieux(departement.code, currentPage, PAGE_SIZE) : skipToken
+    queryKey: ['lieux', 'departement', departement?.code, currentPage, searchParams.toString()],
+    queryFn: departement ? () => fetchDepartementLieux(departement.code, currentPage, PAGE_SIZE, searchParams) : skipToken
   });
 
   if (!region || !departement) {

@@ -8,8 +8,8 @@ export type LinkProps = {
   children?: ReactNode;
 } & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>;
 
-export const Link = ({ href, children, ...props }: LinkProps) => (
-  <TanStackLink to={href} {...props}>
+export const Link = ({ href, children, target, ...props }: LinkProps) => (
+  <TanStackLink to={href} {...(target != null ? { target } : {})} {...props}>
     {children}
   </TanStackLink>
 );

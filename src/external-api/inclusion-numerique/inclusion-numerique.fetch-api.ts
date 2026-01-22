@@ -44,13 +44,15 @@ const withStripNullsHeader = (headers: Headers): Headers => {
 export const inclusionNumeriqueFetchApi = async <TRoute extends InclusionNumeriqueApiRoute>(
   route: TRoute,
   options?: InclusionNumeriqueApiOptions[TRoute],
-  headers?: Headers
+  headers?: Headers,
+  fetchOptions?: { noCache?: boolean }
 ): Promise<[InclusionNumeriqueApiResponse[TRoute], Headers]> => {
   const res = await fetchApi(
     {
       baseUrl: 'https://api.inclusion-numerique.anct.gouv.fr',
       revalidate: 21600,
-      token: env.INCLUSION_NUMERIQUE_API_TOKEN
+      token: env.INCLUSION_NUMERIQUE_API_TOKEN,
+      ...(fetchOptions?.noCache != null && { noCache: fetchOptions.noCache })
     },
     withStripNullsHeader(headers ?? new Headers())
   )(route, options ? toQueryParams(options, separators[route]) : undefined);

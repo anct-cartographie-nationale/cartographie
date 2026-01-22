@@ -1,10 +1,22 @@
-export { API_BASE_URL } from './api-base-url.key';
-export type { DepartementLieuxResponse, DepartementWithCount, LieuxResponse, RegionWithCount } from './stats';
+export type {
+  DepartementLieuxResponse,
+  DepartementWithCount,
+  LieuChunk,
+  LieuSearchResult,
+  LieuxResponse,
+  MediateurLieu,
+  MediateurSearchResult,
+  RegionWithCount
+} from './stats';
 export {
+  buildExportUrl,
   fetchAllLieux,
   fetchDepartementLieux,
   fetchDepartementsStats,
   fetchLieu,
+  fetchLieuxForChunk,
+  fetchLieuxSearch,
+  fetchMediateursSearch,
   fetchRegionLieux,
   fetchRegionsStats,
   fetchRegionTotalLieux,
