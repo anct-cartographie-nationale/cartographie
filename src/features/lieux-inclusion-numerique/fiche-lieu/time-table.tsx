@@ -20,9 +20,9 @@ export const TimeTable = ({ osmOpeningHours, daysOfWeek }: TimeTableProps) => {
                 <td className='font-bold w-24'>{dayLabel}</td>
                 {weekOpeningHours[dayIndex].length === 0 && (
                   <>
-                    <td className='text-muted'>Fermé</td>
+                    <td className='text-neutral'>Fermé</td>
                     <td className='px-4'>/</td>
-                    <td className='text-muted'>Fermé</td>
+                    <td className='text-neutral'>Fermé</td>
                   </>
                 )}
                 {weekOpeningHours[dayIndex].length === 1 && weekOpeningHours[dayIndex][0] != null && (
@@ -33,11 +33,11 @@ export const TimeTable = ({ osmOpeningHours, daysOfWeek }: TimeTableProps) => {
                         {weekOpeningHours[dayIndex][0].end.replace(':', 'h')}
                       </td>
                     ) : (
-                      <td className='text-muted'>Fermé</td>
+                      <td className='text-neutral'>Fermé</td>
                     )}
                     <td className='px-4'>/</td>
                     {weekOpeningHours[dayIndex][0].startAM ? (
-                      <td className='text-muted'>Fermé</td>
+                      <td className='text-neutral'>Fermé</td>
                     ) : (
                       <td>
                         {weekOpeningHours[dayIndex][0].start.replace(':', 'h')} –{' '}
@@ -59,7 +59,7 @@ export const TimeTable = ({ osmOpeningHours, daysOfWeek }: TimeTableProps) => {
             ))}
           </tbody>
         </table>
-        {comment && <p className='text-xs text-muted'>{comment}</p>}
+        {comment && <p className='text-xs text-neutral'>{comment}</p>}
       </>
     )
   );
