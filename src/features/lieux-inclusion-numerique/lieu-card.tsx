@@ -51,7 +51,7 @@ export const LieuCard = ({
         </div>
       </div>
       {size === 'md' && (
-        <div className='flex gap-1 justify-between text-muted'>
+        <div className='flex gap-1 justify-between text-neutral'>
           <div>{adresse.commune}</div>
           {distance && <div>à {distance} Km</div>}
         </div>

@@ -29,7 +29,7 @@ const RootLayout = ({
             <Navbar />
             {children}
           </div>
-          <div className='border-t-2 border-solid border-primary text-muted' id={footerId}>
+          <div className='border-t-2 border-solid border-primary text-neutral' id={footerId}>
             <Footer>
               <div className='flex items-center justify-between gap-12 w-full'>
                 <RepubliqueFrancaiseLogo />

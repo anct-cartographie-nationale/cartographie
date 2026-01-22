@@ -30,7 +30,7 @@ export const InformationsGenerales = ({
 
   return (
     <>
-      <div className='text-sm text-muted'>
+      <div className='text-sm text-neutral'>
         Dernière mise à jour&nbsp;:&nbsp;{dateMiseAJour} · Source&nbsp;:&nbsp;{source}
       </div>
       <div className='flex sm:flex-row flex-col justify-between items-center gap-6'>
@@ -65,7 +65,7 @@ export const InformationsGenerales = ({
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
               >
-                <span className='text-muted'>Horaires d’ouverture du lieu</span>
+                <span className='text-neutral'>Horaires d’ouverture du lieu</span>
                 <TimeTable
                   osmOpeningHours={osmOpeningHours}
                   daysOfWeek={{

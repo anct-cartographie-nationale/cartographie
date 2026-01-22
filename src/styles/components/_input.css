@@ -1,6 +1,6 @@
 ::placeholder {
   opacity: 1;
-  color: var(--color-muted);
+  color: var(--color-neutral);
 }
 
 *:focus-within {

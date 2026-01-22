@@ -16,7 +16,7 @@ export const Breadcrumbs = ({ items, className }: BreadcrumbsProps) =>
         {items.map(({ label, href }) =>
           href ? (
             <li key={href}>
-              <Link href={href} className='text-muted'>
+              <Link href={href} className='text-neutral'>
                 {label}
               </Link>
             </li>
