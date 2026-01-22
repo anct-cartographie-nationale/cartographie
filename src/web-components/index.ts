@@ -6,7 +6,11 @@ customElements.define(
   'cartographie-inclusion-numerique',
   r2wc(App, {
     props: {
-      apiUrl: 'string'
+      apiUrl: 'string',
+      logoUrl: 'string',
+      appName: 'string',
+      helpUrl: 'string',
+      helpLabel: 'string'
     }
   })
 );

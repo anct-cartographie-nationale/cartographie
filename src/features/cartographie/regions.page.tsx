@@ -66,7 +66,7 @@ export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regio
           <div className='flex flex-wrap gap-1.5'>
             {regions.map(({ nom, slug, code }) => (
               <Link
-                href={hrefWithSearchParams(`/${slug}`)(searchParams, ['page'])}
+                href={hrefWithSearchParams(slug)(searchParams, ['page'])}
                 key={code}
                 className='tag badge-primary badge-soft'
               >

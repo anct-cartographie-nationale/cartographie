@@ -13,7 +13,6 @@ export const fileReplacement = (suffix: string): Plugin => ({
     const importerDir = path.dirname(importer);
 
     for (const ext of EXTENSIONS) {
-      // Handle imports with explicit extension
       if (source.endsWith(ext)) {
         const targetPath = source.replace(ext, `${suffix}${ext}`);
         const fullPath = path.resolve(importerDir, targetPath);
@@ -23,7 +22,6 @@ export const fileReplacement = (suffix: string): Plugin => ({
         }
       }
 
-      // Handle imports without extension
       const targetPath = `${source}${suffix}${ext}`;
       const fullPath = path.resolve(importerDir, targetPath);
 

@@ -1,6 +1,5 @@
 import { Layer, type LayerProps, Source } from 'react-map-gl/maplibre';
-
-const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+import { API_BASE_URL, inject } from '@/libraries/injection';
 
 const layerStyle: LayerProps = {
   id: 'fragilite-fill',
@@ -38,40 +37,44 @@ export const FragiliteNumeriqueLayers = ({
 }: {
   fragiliteNumeriqueLayer: boolean;
   zoom: number;
-}) => (
-  <>
-    {fragiliteNumeriqueLayer && zoom <= 9 && (
-      <Source
-        id='fragilite'
-        type='vector'
-        minzoom={0}
-        maxzoom={9}
-        tiles={[`${baseUrl}/api/fragilite-numerique/department/{z}/{x}/{y}`]}
-      >
-        <Layer {...departementLayerStyle} />
-      </Source>
-    )}
-    {fragiliteNumeriqueLayer && zoom > 9 && zoom < 12 && (
-      <Source
-        id='fragilite'
-        type='vector'
-        minzoom={9}
-        maxzoom={12}
-        tiles={[`${baseUrl}/api/fragilite-numerique/epci/{z}/{x}/{y}`]}
-      >
-        <Layer {...epciLayerStyle} />
-      </Source>
-    )}
-    {fragiliteNumeriqueLayer && zoom >= 12 && (
-      <Source
-        id='fragilite'
-        type='vector'
-        minzoom={12}
-        maxzoom={14}
-        tiles={[`${baseUrl}/api/fragilite-numerique/city/{z}/{x}/{y}`]}
-      >
-        <Layer {...cityLayerStyle} />
-      </Source>
-    )}
-  </>
-);
+}) => {
+  const baseUrl = inject(API_BASE_URL);
+
+  return (
+    <>
+      {fragiliteNumeriqueLayer && zoom <= 9 && (
+        <Source
+          id='fragilite'
+          type='vector'
+          minzoom={0}
+          maxzoom={9}
+          tiles={[`${baseUrl}/fragilite-numerique/department/{z}/{x}/{y}`]}
+        >
+          <Layer {...departementLayerStyle} />
+        </Source>
+      )}
+      {fragiliteNumeriqueLayer && zoom > 9 && zoom < 12 && (
+        <Source
+          id='fragilite'
+          type='vector'
+          minzoom={9}
+          maxzoom={12}
+          tiles={[`${baseUrl}/fragilite-numerique/epci/{z}/{x}/{y}`]}
+        >
+          <Layer {...epciLayerStyle} />
+        </Source>
+      )}
+      {fragiliteNumeriqueLayer && zoom >= 12 && (
+        <Source
+          id='fragilite'
+          type='vector'
+          minzoom={12}
+          maxzoom={14}
+          tiles={[`${baseUrl}/fragilite-numerique/city/{z}/{x}/{y}`]}
+        >
+          <Layer {...cityLayerStyle} />
+        </Source>
+      )}
+    </>
+  );
+};

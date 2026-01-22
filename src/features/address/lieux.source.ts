@@ -1,4 +1,5 @@
 import { type Effect, tryPromise } from 'effect/Effect';
+import { API_BASE_URL, inject } from '@/libraries/injection';
 import type { Address } from './address';
 
 type LieuSearchResult = {
@@ -31,7 +32,7 @@ const lieuToAddress = (lieuSearchResult: LieuSearchResult): Address => ({
 export const fetchLieuxSuggestions = (input: string): Effect<Address[], Error> =>
   tryPromise({
     try: async () => {
-      const res = await fetch(`/api/lieux/search?q=${encodeURIComponent(input)}`);
+      const res = await fetch(`${inject(API_BASE_URL)}/lieux/search?q=${encodeURIComponent(input)}`);
       if (!res.ok) throw new Error(res.statusText);
       const lieux: LieuSearchResult[] = await res.json();
       return lieux.map(lieuToAddress);
