@@ -1,7 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { tap } from 'rxjs';
 import { setZoom } from '@/features/cartographie/lieux/streams/zoom.stream';
@@ -9,6 +7,7 @@ import france from '@/features/collectivites-territoriales/france.json';
 import type { Region } from '@/features/collectivites-territoriales/region';
 import { load$ } from '@/features/lieux-inclusion-numerique/load/load.stream';
 import { hrefWithSearchParams } from '@/libraries/next';
+import { Link, useSearchParams } from '@/libraries/next-shim';
 import { Subscribe, useSubscribe } from '@/libraries/reactivity/Subscribe';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';

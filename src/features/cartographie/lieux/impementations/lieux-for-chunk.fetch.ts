@@ -1,4 +1,4 @@
-import { inject } from '@/libraries/injection';
+import { API_BASE_URL, inject } from '@/libraries/injection';
 import { hrefWithSearchParams } from '@/libraries/next';
 import type { Position2D } from '../../geo';
 import type { Lieu } from '../domain/lieu';
@@ -33,7 +33,7 @@ export const fetchLieuxForChunk: LieuxForChunk = async (
 
   if (lieuxCache.has(cacheKey)) return lieuxCache.get(cacheKey) ?? [];
 
-  const response: Response = await fetch(hrefWithSearchParams('/api/lieux/chunk')(searchParams, ['page']));
+  const response: Response = await fetch(hrefWithSearchParams(`${inject(API_BASE_URL)}/lieux/chunk`)(searchParams, ['page']));
 
   if (!response.ok) {
     console.error(`Failed to fetch lieux for chunk [${latitude}, ${longitude}]`);
