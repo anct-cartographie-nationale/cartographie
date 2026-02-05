@@ -64,7 +64,7 @@ L’application est prête à être déployée !
 Lance le framework de tests [Vitest](https://vitest.dev/).\
 Les tests se relancent automatiquement à chaque modification.
 
-### `pnpm biome:fix`
+### `pnpm code:check`
 
 Analyse statiquement le code source et applique les corrections automatiques de style et de syntaxe.
 

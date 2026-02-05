@@ -21,7 +21,7 @@ pnpm build:wc         # Build web components library (outputs to dist-wc/)
 pnpm test             # Run Vitest tests in watch mode
 pnpm test -- --run    # Run tests once
 pnpm test -- <file>   # Run specific test file
-pnpm biome:fix        # Auto-fix linting and formatting issues
+pnpm code:check        # Auto-fix linting and formatting issues
 pnpm biome:ci         # Check for linting/formatting errors (CI mode)
 ```
 
