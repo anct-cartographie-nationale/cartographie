@@ -15,7 +15,7 @@ export default defineConfig(({ command }) => {
         ? []
         : [
             dts({
-              include: ['src/web-components/**/*'],
+              include: ['src/web-components/**/*', 'src/@types/**/*'],
               outDir: 'dist-wc',
               rollupTypes: true
             })

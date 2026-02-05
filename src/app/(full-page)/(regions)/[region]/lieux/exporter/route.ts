@@ -16,7 +16,7 @@ import { combineOrFilters, filterUnion } from '@/libraries/api/options';
 
 const EXCLUDE_PARAMS = ['', 'lieux', 'exporter'];
 
-const DEFAULT_ERROR_MESSAGE = "Erreur lors de l'exportation des lieux.";
+const DEFAULT_ERROR_MESSAGE = "Erreur lors de l'export des lieux.";
 
 const ERROR_MESSAGE_MAP: { [key: number]: string } = {
   504: 'L’export n’a pas pu aboutir : le nombre de lieux combiné aux filtres sélectionnés est trop important pour être traité dans un délai raisonnable. Essayez de restreindre votre recherche en ajoutant davantage de filtres, ou téléchargez les données à un niveau plus local (par région ou département).'
