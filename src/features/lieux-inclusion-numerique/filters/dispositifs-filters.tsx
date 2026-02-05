@@ -57,7 +57,7 @@ export const DispositifsFilters = () => {
         kind='btn-outline'
         onClose={form.handleSubmit}
       >
-        <div className='p-8 border-b-base-200 border-b flex flex-col gap-2'>
+        <div className='p-8 flex flex-col gap-2'>
           <form.AppField name='dispositifProgrammesNationaux'>
             {(field) => <field.CheckboxGroup options={dispositifsOptions} isPending={false} />}
           </form.AppField>

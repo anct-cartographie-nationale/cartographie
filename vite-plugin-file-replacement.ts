@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import type { Plugin } from 'vite';
 
-const EXTENSIONS = ['.tsx', '.ts'];
+const EXTENSIONS = ['.tsx', '.ts', ".css"];
 
 export const fileReplacement = (suffix: string): Plugin => ({
   name: 'file-replacement',
