@@ -1,4 +1,5 @@
 import { type Effect, tryPromise } from 'effect/Effect';
+import { API_BASE_URL, inject } from '@/libraries/injection';
 import type { Address } from './address';
 
 type Lieu = {
@@ -31,7 +32,7 @@ const lieuToAddress = (lieuSearchResult: MediateurSearchResult): Address[] =>
 export const fetchMediateursSuggestions = (input: string): Effect<Address[], Error> =>
   tryPromise({
     try: async () => {
-      const res = await fetch(`/api/mediateurs/search?q=${encodeURIComponent(input)}`);
+      const res = await fetch(`${inject(API_BASE_URL)}/mediateurs/search?q=${encodeURIComponent(input)}`);
       if (!res.ok) throw new Error(res.statusText);
       const mediateurs: MediateurSearchResult[] = await res.json();
       return mediateurs.flatMap(lieuToAddress);

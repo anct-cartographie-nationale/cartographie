@@ -12,7 +12,7 @@ import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations'
 
 const EXCLUDE_PARAMS = ['', 'lieux', 'exporter'];
 
-const DEFAULT_ERROR_MESSAGE = "Erreur lors de l'exportation des lieux.";
+const DEFAULT_ERROR_MESSAGE = "Erreur lors de l'export des lieux.";
 
 const ERROR_MESSAGE_MAP: { [key: number]: string } = {
   504: 'L’export n’a pas pu être généré dans le délai imparti. Limitez le périmètre géographique ou ajoutez des filtres.'

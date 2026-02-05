@@ -3,7 +3,6 @@
 import { addOverlay, mapStyles, Overlay } from 'carte-facile';
 import { Map as MapLibre, NavigationControl, type ViewStateChangeEvent } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { usePathname, useSearchParams } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import { RiFullscreenExitLine, RiFullscreenLine, RiListUnordered, RiStackLine } from 'react-icons/ri';
@@ -13,6 +12,7 @@ import france from '@/features/collectivites-territoriales/france.json';
 import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import { load$ } from '@/features/lieux-inclusion-numerique/load/load.stream';
 import { hrefWithSearchParams } from '@/libraries/next';
+import { usePathname, useSearchParams } from '@/libraries/next-shim';
 import { Subscribe } from '@/libraries/reactivity/Subscribe';
 import { DropdownControls } from '@/libraries/ui/map/dropdown-controls';
 import { Button } from '@/libraries/ui/primitives/button';

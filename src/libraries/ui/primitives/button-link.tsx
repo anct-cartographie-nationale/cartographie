@@ -1,6 +1,5 @@
-import type { LinkProps as NextLinkProps } from 'next/dist/client/link';
-import NextLink from 'next/link';
 import type { HTMLAttributeAnchorTarget, HTMLAttributes, ReactNode } from 'react';
+import { Link as NextLink, type LinkProps as NextLinkProps } from '@/libraries/next-shim';
 import { cn } from '@/libraries/utils';
 import type { ButtonClass } from './button';
 
@@ -24,9 +23,11 @@ export const ButtonLink = ({
   scale,
   modifier,
   disabled,
+  href,
   ...props
 }: ButtonLinkProps) => (
   <NextLink
+    href={href}
     aria-disabled={disabled}
     tabIndex={disabled ? -1 : undefined}
     className={cn('btn', disabled && 'btn-disabled', color, kind, behavior, scale, modifier, className)}

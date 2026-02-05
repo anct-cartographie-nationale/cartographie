@@ -1,8 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useQueryState } from 'nuqs';
 import { useAppForm } from '@/libraries/form';
+import { useQueryState, useRouter } from '@/libraries/next-shim';
 import { IndicatorBadge } from '@/libraries/ui/primitives/indicator-badge';
 import { Popover, Trigger } from '@/libraries/ui/primitives/popover';
 import { arraysEqual } from '@/libraries/utils/array';
@@ -56,7 +55,7 @@ export const TerritoiresPrioritairesFilters = () => {
         kind='btn-outline'
         onClose={form.handleSubmit}
       >
-        <div className='p-8 border-b-base-200 border-b flex flex-col gap-2'>
+        <div className='p-8 flex flex-col gap-2'>
           <form.AppField name='autresFormationsLabels'>
             {(field) => (
               <field.CheckboxGroup
