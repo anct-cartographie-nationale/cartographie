@@ -36,7 +36,7 @@
     "geojson": "^0.5.0",
     "maplibre-gl": "5.13.0",
     "mutable-supercluster": "^1.1.0",
-    "next": "^16.0.10",
+    "next": "^16.1.5",
     "next-themes": "^0.4.6",
     "nuqs": "^2.8.2",
     "opening_hours": "^3.9.0",
