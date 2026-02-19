@@ -36,19 +36,6 @@
           }
         }
       }
-    },
-    {
-      "includes": ["src/libraries/next-shim/image.wc.tsx"],
-      "linter": {
-        "rules": {
-          "performance": {
-            "noImgElement": "off"
-          },
-          "a11y": {
-            "useAltText": "off"
-          }
-        }
-      }
     }
   ],
   "javascript": {
