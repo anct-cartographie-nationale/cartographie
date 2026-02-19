@@ -1,3 +1,10 @@
+## [6.0.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.0.0...v6.0.1) (2026-02-19)
+
+
+### Bug Fixes
+
+* add CORS headers for API routes ([512af57](https://github.com/anct-cartographie-nationale/cartographie/commit/512af57b4de1f4587957c7e53a24260972a1c3f6))
+
 # [6.0.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v5.27.0...v6.0.0) (2026-02-19)
 
 
