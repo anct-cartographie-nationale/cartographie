@@ -1,4 +1,4 @@
-import { env } from '@/env';
+import { serverEnv } from '@/env.server';
 import { toQueryParams } from '@/libraries/api/options';
 import { fetchApi } from '@/libraries/utils/fetch-api';
 import { LIEUX_ROUTE, type LieuxRouteOptions, type LieuxRouteResponse } from './routes/lieux';
@@ -51,7 +51,7 @@ export const inclusionNumeriqueFetchApi = async <TRoute extends InclusionNumeriq
     {
       baseUrl: 'https://api.inclusion-numerique.anct.gouv.fr',
       revalidate: 21600,
-      token: env.INCLUSION_NUMERIQUE_API_TOKEN,
+      token: serverEnv.INCLUSION_NUMERIQUE_API_TOKEN,
       ...(fetchOptions?.noCache != null && { noCache: fetchOptions.noCache })
     },
     withStripNullsHeader(headers ?? new Headers())
