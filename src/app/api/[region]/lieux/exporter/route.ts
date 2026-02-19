@@ -9,7 +9,8 @@ import {
 import { toSchemaLieuMediationNumerique } from '@/external-api/inclusion-numerique/transfer/to-schema-lieu-mediation-numerique';
 import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
-import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
+import { applyServiceFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
+import { applyTerritoireFilter } from '@/features/lieux-inclusion-numerique/apply-territoire-filter';
 import { mediationNumeriqueToCsv } from '@/features/lieux-inclusion-numerique/to-csv/mediation-numerique.to-csv';
 import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
 import { combineOrFilters, filterUnion } from '@/libraries/api/options';
@@ -33,16 +34,23 @@ export const GET = async (request: NextRequest, { params }: RouteParams) => {
 
   if (!region) return notFound();
 
+  const filters = filtersSchema.parse(searchParams);
+  const regionFilter = filterUnion(region.departements)(codeInseeStartWithFilterTemplate);
+  const territoireFilter = applyTerritoireFilter({
+    territoire_type: filters.territoire_type,
+    territoires: filters.territoires
+  });
+  const serviceFilters = applyServiceFilters(filters);
+
+  const orFilters = [regionFilter, territoireFilter, serviceFilters].filter((f): f is { or: string } => f.or !== undefined);
+
+  const filter = orFilters.length > 0 ? { and: combineOrFilters(...orFilters) } : {};
+
   try {
     const [lieux] = await inclusionNumeriqueFetchApi(
       LIEUX_ROUTE,
       {
-        filter: {
-          and: combineOrFilters(
-            filterUnion(region.departements)(codeInseeStartWithFilterTemplate),
-            applyFilters(filtersSchema.parse(searchParams))
-          )
-        },
+        filter,
         order: ['nom', 'asc']
       },
       undefined,

@@ -1,6 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 
-const zoomSubject$ = new BehaviorSubject<number>(0);
+const zoomSubject$ = new BehaviorSubject<number>(5.5);
 
 export const zoom$ = zoomSubject$.asObservable();
 

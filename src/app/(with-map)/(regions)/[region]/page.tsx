@@ -10,7 +10,8 @@ import { DepartementsPage } from '@/features/cartographie/departements.page';
 import departements from '@/features/collectivites-territoriales/departements.json';
 import { matchingDepartementsFrom, type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
-import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
+import { applyServiceFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
+import { applyTerritoireFilter } from '@/features/lieux-inclusion-numerique/apply-territoire-filter';
 import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
 import { asCount, combineOrFilters, countFromHeaders, filterUnion } from '@/libraries/api/options';
 import { appPageTitle } from '@/libraries/utils';
@@ -41,12 +42,17 @@ const Page = async ({ params, searchParams: searchParamsPromise }: PageProps) =>
 
   if (!region) return notFound();
 
-  const filter = {
-    and: combineOrFilters(
-      filterUnion(region.departements)(codeInseeStartWithFilterTemplate),
-      applyFilters(filtersSchema.parse(searchParams))
-    )
-  };
+  const filters = filtersSchema.parse(searchParams);
+  const regionFilter = filterUnion(region.departements)(codeInseeStartWithFilterTemplate);
+  const territoireFilter = applyTerritoireFilter({
+    territoire_type: filters.territoire_type,
+    territoires: filters.territoires
+  });
+  const serviceFilters = applyServiceFilters(filters);
+
+  const orFilters = [regionFilter, territoireFilter, serviceFilters].filter((f): f is { or: string } => f.or !== undefined);
+
+  const filter = orFilters.length > 0 ? { and: combineOrFilters(...orFilters) } : {};
 
   const [, headers] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, ...asCount<LieuxRouteOptions>({ filter }));
 

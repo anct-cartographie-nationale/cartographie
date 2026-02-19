@@ -5,6 +5,7 @@ import { setZoom } from '@/features/cartographie/lieux/streams/zoom.stream';
 import france from '@/features/collectivites-territoriales/france.json';
 import type { Region } from '@/features/collectivites-territoriales/region';
 import { load$ } from '@/features/lieux-inclusion-numerique/load/load.stream';
+import { inject, MAP_CONFIG } from '@/libraries/injection';
 import { hrefWithSearchParams } from '@/libraries/next';
 import { Link, useSearchParams } from '@/libraries/next-shim';
 import { Subscribe, useTap } from '@/libraries/reactivity/Subscribe';
@@ -15,26 +16,29 @@ import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { removeHighlightDecoupageAdministratif } from './layers/highlight-decoupage-administratif';
 import { map$ } from './map/streams/map.stream';
 
-const config = france.find(({ nom }): boolean => nom === 'France métropolitaine');
+const defaultConfig = france.find(({ nom }): boolean => nom === 'France métropolitaine');
 
 export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regions: Region[] }): ReactNode => {
   const urlSearchParams = useSearchParams();
   const searchParams: URLSearchParams = new URLSearchParams(urlSearchParams);
 
+  const mapConfig = inject(MAP_CONFIG);
+  const hasCustomPosition = mapConfig?.latitude != null || mapConfig?.longitude != null || mapConfig?.zoom != null;
+
   useTap(map$, (map) => {
-    if (!config) return;
-    setZoom(config.zoom);
+    if (!defaultConfig || hasCustomPosition) return;
+    setZoom(defaultConfig.zoom);
     if (!map) return;
     map.flyTo({
-      center: [config.localisation.longitude, config.localisation.latitude],
-      zoom: config.zoom,
+      center: [defaultConfig.localisation.longitude, defaultConfig.localisation.latitude],
+      zoom: defaultConfig.zoom,
       duration: 400
     });
     if (!map.isStyleLoaded()) return;
     removeHighlightDecoupageAdministratif(map);
   });
 
-  if (!config) return null;
+  if (!defaultConfig) return null;
 
   return (
     <>
