@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useRef, useState } from 'react';
 import type { Observable } from 'rxjs';
 
 type SubscriptionResult<T> = [value: T | undefined, error: Error | undefined];
@@ -13,6 +13,16 @@ export const useSubscribe = <T,>(to$: Observable<T>, startWith?: T): Subscriptio
   }, [to$]);
 
   return [value ?? undefined, error ?? undefined];
+};
+
+export const useTap = <T,>(to$: Observable<T>, next: (value: T) => void): void => {
+  const ref = useRef(next);
+  ref.current = next;
+
+  useEffect(() => {
+    const subscription = to$.subscribe((value) => ref.current(value));
+    return () => subscription.unsubscribe();
+  }, [to$]);
 };
 
 export const Subscribe = <T,>({

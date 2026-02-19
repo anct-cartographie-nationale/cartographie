@@ -1,13 +1,12 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { tap } from 'rxjs';
 import type { Departement } from '@/features/collectivites-territoriales/departement';
 import type { Region } from '@/features/collectivites-territoriales/region';
 import { load$ } from '@/features/lieux-inclusion-numerique/load/load.stream';
 import { hrefWithSearchParams } from '@/libraries/next';
 import { useSearchParams } from '@/libraries/next-shim';
-import { Subscribe, useSubscribe } from '@/libraries/reactivity/Subscribe';
+import { Subscribe, useTap } from '@/libraries/reactivity/Subscribe';
 import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
@@ -30,20 +29,16 @@ export const DepartementsPage = ({
   const urlSearchParams = useSearchParams();
   const searchParams: URLSearchParams = new URLSearchParams(urlSearchParams);
 
-  useSubscribe(
-    map$.pipe(
-      tap((map) => {
-        if (!map) return;
-        HighlightRegion(map, region.code);
-        setZoom(region.zoom);
-        map.flyTo({
-          center: [region.localisation.longitude, region.localisation.latitude],
-          zoom: region.zoom,
-          duration: 400
-        });
-      })
-    )
-  );
+  useTap(map$, (map) => {
+    setZoom(region.zoom);
+    if (!map?.isStyleLoaded()) return;
+    HighlightRegion(map, region.code);
+    map.flyTo({
+      center: [region.localisation.longitude, region.localisation.latitude],
+      zoom: region.zoom,
+      duration: 400
+    });
+  });
 
   return (
     <>

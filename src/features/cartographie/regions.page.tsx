@@ -1,14 +1,13 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { tap } from 'rxjs';
 import { setZoom } from '@/features/cartographie/lieux/streams/zoom.stream';
 import france from '@/features/collectivites-territoriales/france.json';
 import type { Region } from '@/features/collectivites-territoriales/region';
 import { load$ } from '@/features/lieux-inclusion-numerique/load/load.stream';
 import { hrefWithSearchParams } from '@/libraries/next';
 import { Link, useSearchParams } from '@/libraries/next-shim';
-import { Subscribe, useSubscribe } from '@/libraries/reactivity/Subscribe';
+import { Subscribe, useTap } from '@/libraries/reactivity/Subscribe';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
 import { LocationFranceIllustration } from '@/libraries/ui/pictograms/map/location-france.illustration';
@@ -22,20 +21,17 @@ export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regio
   const urlSearchParams = useSearchParams();
   const searchParams: URLSearchParams = new URLSearchParams(urlSearchParams);
 
-  useSubscribe(
-    map$.pipe(
-      tap((map) => {
-        if (!map || !config) return;
-        removeHighlightDecoupageAdministratif(map);
-        setZoom(config.zoom);
-        map.flyTo({
-          center: [config.localisation.longitude, config.localisation.latitude],
-          zoom: config.zoom,
-          duration: 400
-        });
-      })
-    )
-  );
+  useTap(map$, (map) => {
+    if (!config) return;
+    setZoom(config.zoom);
+    if (!map?.isStyleLoaded()) return;
+    removeHighlightDecoupageAdministratif(map);
+    map.flyTo({
+      center: [config.localisation.longitude, config.localisation.latitude],
+      zoom: config.zoom,
+      duration: 400
+    });
+  });
 
   if (!config) return null;
 
