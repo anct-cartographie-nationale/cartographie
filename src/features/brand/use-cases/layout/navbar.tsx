@@ -10,6 +10,7 @@ import { DispositifsFilters } from '@/features/lieux-inclusion-numerique/filters
 import { PublicCibleFilters } from '@/features/lieux-inclusion-numerique/filters/public-cible-filters';
 import { TerritoiresPrioritairesFilters } from '@/features/lieux-inclusion-numerique/filters/territoires-prioritaires-filters';
 import { inject, NAVBAR_CONFIG } from '@/libraries/injection';
+import { Image } from '@/libraries/next-shim';
 import { CollapseController } from '@/libraries/ui/headless/collapse-controller';
 import { Button } from '@/libraries/ui/primitives/button';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
@@ -18,10 +19,9 @@ import { Link } from '@/libraries/ui/primitives/link';
 export const Navbar = () => {
   const { logoUrl, appName, helpUrl, helpLabel } = inject(NAVBAR_CONFIG);
 
-  const hasLogo = Boolean(logoUrl);
   const hasAppName = Boolean(appName);
   const hasHelp = Boolean(helpUrl);
-  const hasBrand = hasLogo || hasAppName;
+  const hasBrand = Boolean(logoUrl) || hasAppName;
 
   return (
     <CollapseController>
@@ -35,7 +35,7 @@ export const Navbar = () => {
                 className='font-bold text-xl text-base-title flex items-center gap-2'
                 kind='link-hover'
               >
-                {hasLogo && <img src={logoUrl} alt={appName ?? 'Logo'} className='h-8' />}
+                {logoUrl && <Image src={logoUrl} alt={appName ?? 'Logo'} width={32} height={32} className='h-8 w-auto' />}
                 {hasAppName && appName}
               </Link>
             )}
