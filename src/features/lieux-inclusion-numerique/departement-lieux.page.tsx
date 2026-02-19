@@ -49,13 +49,14 @@ export const DepartementLieuxPage = ({
 
   useTap(map$, (map) => {
     setZoom(initialLocation.zoom);
-    if (!map?.isStyleLoaded()) return;
-    HighlightDepartement(map, departement.code);
+    if (!map) return;
     map.flyTo({
       center: [initialLocation.longitude, initialLocation.latitude],
       zoom: initialLocation.zoom,
       duration: 400
     });
+    if (!map.isStyleLoaded()) return;
+    HighlightDepartement(map, departement.code);
   });
 
   return (

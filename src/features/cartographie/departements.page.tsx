@@ -31,13 +31,14 @@ export const DepartementsPage = ({
 
   useTap(map$, (map) => {
     setZoom(region.zoom);
-    if (!map?.isStyleLoaded()) return;
-    HighlightRegion(map, region.code);
+    if (!map) return;
     map.flyTo({
       center: [region.localisation.longitude, region.localisation.latitude],
       zoom: region.zoom,
       duration: 400
     });
+    if (!map.isStyleLoaded()) return;
+    HighlightRegion(map, region.code);
   });
 
   return (
