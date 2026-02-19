@@ -9,9 +9,9 @@ import { buildExportUrl, fetchAllLieux } from '../api';
 const PAGE_SIZE = 24;
 
 export const Page: FC = () => {
-  const search = useSearch({ strict: false }) as Record<string, string>;
+  const search = useSearch({ from: '/lieux' });
   const searchParams = useMemo(() => new URLSearchParams(search), [search]);
-  const currentPage = Number(search['page']) || 1;
+  const currentPage = search.page;
 
   provide(URL_SEARCH_PARAMS, searchParams);
 

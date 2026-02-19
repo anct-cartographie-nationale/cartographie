@@ -10,7 +10,7 @@ export const usePathname = (): string => {
 
 export const useSearchParams = (): URLSearchParams => {
   const search = useSearch({ strict: false });
-  return useMemo(() => new URLSearchParams(search as Record<string, string>), [search]);
+  return useMemo(() => new URLSearchParams(search), [search]);
 };
 
 export const useRouter = () => {

@@ -14,9 +14,9 @@ const PAGE_SIZE = 24;
 
 export const Page: FC = () => {
   const { region: regionSlug, departement: departementSlug } = useParams({ from: '/$region/$departement/lieux' });
-  const search = useSearch({ strict: false }) as Record<string, string>;
+  const search = useSearch({ from: '/$region/$departement/lieux' });
   const searchParams = useMemo(() => new URLSearchParams(search), [search]);
-  const currentPage = Number(search['page']) || 1;
+  const currentPage = search.page;
 
   provide(URL_SEARCH_PARAMS, searchParams);
 
