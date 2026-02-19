@@ -24,13 +24,14 @@ export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regio
   useTap(map$, (map) => {
     if (!config) return;
     setZoom(config.zoom);
-    if (!map?.isStyleLoaded()) return;
-    removeHighlightDecoupageAdministratif(map);
+    if (!map) return;
     map.flyTo({
       center: [config.localisation.longitude, config.localisation.latitude],
       zoom: config.zoom,
       duration: 400
     });
+    if (!map.isStyleLoaded()) return;
+    removeHighlightDecoupageAdministratif(map);
   });
 
   if (!config) return null;
