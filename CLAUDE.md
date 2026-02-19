@@ -46,7 +46,7 @@ pnpm biome:ci         # Check for linting/formatting errors (CI mode)
   - `injection/` - Dependency injection via `piqure` library
   - `reactivity/` - RxJS-based reactive streams
   - `form/` - Form handling with @tanstack/react-form
-  - `next-shim/` - Shims for Next.js APIs when building web components (`.wc.tsx` variants)
+  - `next-shim/` - Shims for Next.js APIs when building web components (`.wc.tsx` variants): Link, Image, useSearchParams, etc.
 - `src/external-api/` - External API clients (inclusion-numerique API)
 - `src/styles/` - CSS modules for components and DSFR (Design System FR) overrides
 
@@ -62,12 +62,15 @@ pnpm biome:ci         # Check for linting/formatting errors (CI mode)
 - `boundingBox$` - Current map viewport
 - `zoom$` - Current zoom level
 - `lieux$` - Locations with clustering via `mutable-supercluster`
+- Use `useTap(observable$, callback)` hook for side effects (e.g., map interactions)
 
 **API Client**: External API calls go through `inclusionNumeriqueFetchApi()` in `src/external-api/inclusion-numerique/`. Uses PostgREST query format.
 
 **Path Alias**: Use `@/` prefix to import from `src/` directory.
 
 **File Replacement for Web Components**: The Vite build uses a custom plugin (`vite-plugin-file-replacement.ts`) that automatically resolves `.wc.tsx` files when they exist. This is used for Next.js-specific shims (e.g., `navigation.wc.tsx` replaces `navigation.tsx` to use `@tanstack/react-router` instead of `next/navigation`). For configuration differences, prefer using dependency injection over file replacement.
+
+**Environment Variables**: Split into `env.client.ts` (NEXT_PUBLIC_* variables, usable client-side) and `env.server.ts` (server-only variables like API tokens). Web components use `env.client.wc.ts` with empty defaults.
 
 ### Route Structure
 
@@ -87,6 +90,7 @@ The app uses geographic hierarchy: `/[region]/[departement]/...`
 
 **Required:**
 - `INCLUSION_NUMERIQUE_API_TOKEN` - API token for ANCT DataSpace
+- `NEXT_PUBLIC_APP_NAME` - Application name displayed in navbar and page titles
 
 **Deployment:**
 - `NEXT_PUBLIC_BASE_PATH` - Base path for deployment (e.g., `/cartographie` for GitHub Pages)
