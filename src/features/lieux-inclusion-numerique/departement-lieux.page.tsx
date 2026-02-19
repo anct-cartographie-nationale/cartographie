@@ -1,7 +1,6 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { tap } from 'rxjs';
 import { HighlightDepartement } from '@/features/cartographie/layers/highlight-decoupage-administratif';
 import { setZoom } from '@/features/cartographie/lieux/streams/zoom.stream';
 import { map$ } from '@/features/cartographie/map/streams/map.stream';
@@ -10,7 +9,7 @@ import type { Departement } from '@/features/collectivites-territoriales/departe
 import type { Region } from '@/features/collectivites-territoriales/region';
 import { hrefWithSearchParams } from '@/libraries/next';
 import { useSearchParams } from '@/libraries/next-shim';
-import { Subscribe, useSubscribe } from '@/libraries/reactivity/Subscribe';
+import { Subscribe, useTap } from '@/libraries/reactivity/Subscribe';
 import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
 import { NextPageLink, PageLink, PreviousPageLink } from '@/libraries/ui/blocks/pagination/page-link';
 import { Pagination } from '@/libraries/ui/blocks/pagination/pagination';
@@ -48,20 +47,16 @@ export const DepartementLieuxPage = ({
 
   const initialLocation = (location?.zoom ?? 0) > 9 ? { ...defaultLocation, ...location } : defaultLocation;
 
-  useSubscribe(
-    map$.pipe(
-      tap((map) => {
-        if (!map) return;
-        HighlightDepartement(map, departement.code);
-        setZoom(initialLocation.zoom);
-        map.flyTo({
-          center: [initialLocation.longitude, initialLocation.latitude],
-          zoom: initialLocation.zoom,
-          duration: 400
-        });
-      })
-    )
-  );
+  useTap(map$, (map) => {
+    setZoom(initialLocation.zoom);
+    if (!map?.isStyleLoaded()) return;
+    HighlightDepartement(map, departement.code);
+    map.flyTo({
+      center: [initialLocation.longitude, initialLocation.latitude],
+      zoom: initialLocation.zoom,
+      duration: 400
+    });
+  });
 
   return (
     <>
