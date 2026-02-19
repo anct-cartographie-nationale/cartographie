@@ -32,6 +32,8 @@ const dispositifProgrammesNationauxEnum = z.enum(['Conseillers numériques', 'Fr
 
 const autresFormationsLabelsEnum = z.enum(['QPV', 'ZRR']);
 
+const territoireTypeEnum = z.enum(['regions', 'departements', 'communes']);
+
 const commaSeparatedEnumArray = <T extends z.ZodEnum<Readonly<Record<string, string>>>>(schema: T) =>
   z
     .string()
@@ -44,6 +46,16 @@ const commaSeparatedEnumArray = <T extends z.ZodEnum<Readonly<Record<string, str
     .pipe(z.array(schema))
     .catch([]);
 
+const commaSeparatedStringArray = z
+  .string()
+  .transform((val) =>
+    val
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean)
+  )
+  .catch([]);
+
 export const filtersSchema = z.object({
   services: commaSeparatedEnumArray(servicesEnum),
   publics_specifiquement_adresses: commaSeparatedEnumArray(publicsSpecifiquementAdressesEnum),
@@ -51,7 +63,9 @@ export const filtersSchema = z.object({
   frais_a_charge: commaSeparatedEnumArray(fraisAChargeEnum),
   prise_rdv: commaSeparatedEnumArray(priseRDVEnum),
   dispositif_programmes_nationaux: commaSeparatedEnumArray(dispositifProgrammesNationauxEnum),
-  autres_formations_labels: commaSeparatedEnumArray(autresFormationsLabelsEnum)
+  autres_formations_labels: commaSeparatedEnumArray(autresFormationsLabelsEnum),
+  territoire_type: territoireTypeEnum.optional(),
+  territoires: commaSeparatedStringArray
 });
 
 export type FiltersSchema = z.infer<typeof filtersSchema>;

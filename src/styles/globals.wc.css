@@ -40,7 +40,7 @@
   name: "light";
   default: true;
   --color-base-100: oklch(99% 0.005 260);
-  --color-base-200: oklch(50% 0.22 255);
+  --color-base-200: oklch(90% 0.01 260);
   --color-base-300: oklch(91% 0.008 260);
   --color-base-400: oklch(82% 0.01 260);
   --color-base-title: oklch(18% 0.02 260);

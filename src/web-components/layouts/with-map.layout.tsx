@@ -12,6 +12,7 @@ import regions from '@/features/collectivites-territoriales/regions.json';
 import { Button } from '@/libraries/ui/primitives/button';
 import { cn } from '@/libraries/utils';
 import { type DepartementWithCount, fetchDepartementsStats, fetchRegionsStats, type RegionWithCount } from '../api';
+import { useFilteredSearchParams } from '../hooks/use-filtered-search-params';
 
 const defaultRegions: RegionWithCount[] = (regions as Region[]).map((region) => ({
   ...region,
@@ -26,7 +27,8 @@ const defaultDepartements: DepartementWithCount[] = (departements as Departement
 export const WithMapLayout = () => {
   const [showMap, setShowMap] = useState(false);
   const search = useSearch({ strict: false }) as Record<string, string>;
-  const searchParams = useMemo(() => new URLSearchParams(search), [search]);
+  const baseSearchParams = useMemo(() => new URLSearchParams(search), [search]);
+  const searchParams = useFilteredSearchParams(baseSearchParams);
 
   const { data: regionsWithCount = defaultRegions } = useQuery({
     queryKey: ['stats', 'regions', searchParams.toString()],

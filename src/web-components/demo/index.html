@@ -6,12 +6,20 @@
   <title>Cartographie Web Component - Demo</title>
 </head>
 <body style="height: 100dvh">
+  <!-- Exemple : afficher directement les lieux de Paris -->
   <cartographie-inclusion-numerique
     api-url="http://localhost:3000/api"
-    logo-url="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo-shadow.png"
-    app-name="Ma Cartographie"
-    help-url="https://help.example.com"
-    help-label="Support"/>
+    logo-url="https://pub-e63b17b4d990438a83af58c15949f8a2.r2.dev/mark/hexa.png"
+    app-name="Hub Numérique"
+    help-url="mailto:contact@hub-numerique.fr"
+    help-label="Besoin d'aide ?"
+    latitude="48.8566"
+    longitude="2.3522"
+    zoom="10"
+    territoire-type="departements"
+    territoires="75"
+    route-initiale="/ile-de-france/paris"
+  />
   <script type="module" src="./main.ts"></script>
 </body>
 </html>

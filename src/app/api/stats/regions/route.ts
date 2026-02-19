@@ -23,12 +23,69 @@ const fetchDepartementCount = async (departement: Departement, filters: FiltersS
   return { ...departement, nombreLieux: countFromHeaders(headers) };
 };
 
+const getDepartementsToQuery = (filters: FiltersSchema): Departement[] => {
+  const { territoire_type, territoires } = filters;
+
+  if (!territoire_type || !territoires || territoires.length === 0) {
+    return departements as Departement[];
+  }
+
+  switch (territoire_type) {
+    case 'regions': {
+      const regionCodes = new Set(territoires);
+      const departementCodes = (regions as Region[]).filter((r) => regionCodes.has(r.code)).flatMap((r) => r.departements);
+      return (departements as Departement[]).filter((d) => departementCodes.includes(d.code));
+    }
+    case 'departements': {
+      const deptCodes = new Set(territoires);
+      return (departements as Departement[]).filter((d) => deptCodes.has(d.code));
+    }
+    case 'communes': {
+      const deptPrefixes = new Set(
+        territoires.map((code) => (code.startsWith('97') ? code.substring(0, 3) : code.substring(0, 2)))
+      );
+      return (departements as Departement[]).filter((d) => deptPrefixes.has(d.code));
+    }
+    default:
+      return departements as Departement[];
+  }
+};
+
+const getRegionsToReturn = (filters: FiltersSchema): Region[] => {
+  const { territoire_type, territoires } = filters;
+
+  if (!territoire_type || !territoires || territoires.length === 0) {
+    return regions as Region[];
+  }
+
+  switch (territoire_type) {
+    case 'regions': {
+      const regionCodes = new Set(territoires);
+      return (regions as Region[]).filter((r) => regionCodes.has(r.code));
+    }
+    case 'departements': {
+      const deptCodes = new Set(territoires);
+      return (regions as Region[]).filter((r) => r.departements.some((d) => deptCodes.has(d)));
+    }
+    case 'communes': {
+      const deptPrefixes = new Set(
+        territoires.map((code) => (code.startsWith('97') ? code.substring(0, 3) : code.substring(0, 2)))
+      );
+      return (regions as Region[]).filter((r) => r.departements.some((d) => deptPrefixes.has(d)));
+    }
+    default:
+      return regions as Region[];
+  }
+};
+
 const fetchRegionsStats = async (filters: FiltersSchema) => {
+  const departementsToBuild = getDepartementsToQuery(filters);
   const departementsAvecTotaux: (Departement & { nombreLieux: number })[] = await Promise.all(
-    departements.map((departement: Departement) => fetchDepartementCount(departement, filters))
+    departementsToBuild.map((departement: Departement) => fetchDepartementCount(departement, filters))
   );
 
-  return regions.map((region: Region) => ({
+  const regionsToReturn = getRegionsToReturn(filters);
+  return regionsToReturn.map((region: Region) => ({
     ...region,
     nombreLieux: region.departements.reduce(toRegionTotalCount(departementsAvecTotaux), 0)
   }));

@@ -7,13 +7,15 @@ import { type Region, regionMatchingSlug } from '@/features/collectivites-territ
 import regions from '@/features/collectivites-territoriales/regions.json';
 import { DepartementLieuxPage } from '@/features/lieux-inclusion-numerique/departement-lieux.page';
 import { fetchDepartementLieux } from '../api';
+import { useFilteredSearchParams } from '../hooks/use-filtered-search-params';
 
 const PAGE_SIZE = 10;
 
 export const Page: FC = () => {
   const { region: regionSlug, departement: departementSlug } = useParams({ from: '/with-map/$region/$departement' });
   const search = useSearch({ from: '/with-map/$region/$departement' });
-  const searchParams = useMemo(() => new URLSearchParams(search), [search]);
+  const baseSearchParams = useMemo(() => new URLSearchParams(search), [search]);
+  const searchParams = useFilteredSearchParams(baseSearchParams);
   const currentPage = search.page;
 
   const region: Region | undefined = (regions as Region[]).find(regionMatchingSlug(regionSlug));

@@ -10,7 +10,13 @@ customElements.define(
       logoUrl: 'string',
       appName: 'string',
       helpUrl: 'string',
-      helpLabel: 'string'
+      helpLabel: 'string',
+      latitude: 'number',
+      longitude: 'number',
+      zoom: 'number',
+      territoireType: 'string',
+      territoires: 'string',
+      routeInitiale: 'string'
     }
   })
 );

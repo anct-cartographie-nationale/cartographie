@@ -6,11 +6,13 @@ import departements from '@/features/collectivites-territoriales/departements.js
 import { matchingDepartementsFrom, type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
 import { fetchRegionTotalLieux } from '../api';
+import { useFilteredSearchParams } from '../hooks/use-filtered-search-params';
 
 export const Page: FC = () => {
   const { region: regionSlug } = useParams({ from: '/with-map/$region' });
   const search = useSearch({ strict: false }) as Record<string, string>;
-  const searchParams = useMemo(() => new URLSearchParams(search), [search]);
+  const baseSearchParams = useMemo(() => new URLSearchParams(search), [search]);
+  const searchParams = useFilteredSearchParams(baseSearchParams);
 
   const region = (regions as Region[]).find(regionMatchingSlug(regionSlug));
 

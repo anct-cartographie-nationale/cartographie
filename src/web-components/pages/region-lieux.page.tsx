@@ -7,13 +7,15 @@ import { LieuxPage } from '@/features/lieux-inclusion-numerique/lieux.page';
 import { provide } from '@/libraries/injection';
 import { hrefWithSearchParams, URL_SEARCH_PARAMS } from '@/libraries/next';
 import { buildExportUrl, fetchRegionLieux } from '../api';
+import { useFilteredSearchParams } from '../hooks/use-filtered-search-params';
 
 const PAGE_SIZE = 24;
 
 export const Page: FC = () => {
   const { region: regionSlug } = useParams({ from: '/$region/lieux' });
   const search = useSearch({ from: '/$region/lieux' });
-  const searchParams = useMemo(() => new URLSearchParams(search), [search]);
+  const baseSearchParams = useMemo(() => new URLSearchParams(search), [search]);
+  const searchParams = useFilteredSearchParams(baseSearchParams);
   const currentPage = search.page;
 
   provide(URL_SEARCH_PARAMS, searchParams);

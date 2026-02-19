@@ -1,4 +1,4 @@
-import { createRootRoute, createRoute, createRouter, Outlet } from '@tanstack/react-router';
+import { createMemoryHistory, createRootRoute, createRoute, createRouter, Outlet } from '@tanstack/react-router';
 import { zodSearchValidator } from '@tanstack/router-zod-adapter';
 import { WebComponentLayout } from './layout';
 import { WithMapLayout } from './layouts/with-map.layout';
@@ -87,9 +87,10 @@ const routeTree = rootRoute.addChildren([
   lieuRoute
 ]);
 
-export const createAppRouter = () =>
+export const createAppRouter = (initialRoute: string = '/') =>
   createRouter({
-    routeTree
+    routeTree,
+    history: createMemoryHistory({ initialEntries: [initialRoute] })
   });
 
 export type AppRouter = ReturnType<typeof createAppRouter>;

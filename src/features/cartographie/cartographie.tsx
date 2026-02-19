@@ -4,13 +4,14 @@ import { addOverlay, mapStyles, Overlay } from 'carte-facile';
 import { Map as MapLibre, NavigationControl, type ViewStateChangeEvent } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useTheme } from 'next-themes';
-import { useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { RiFullscreenExitLine, RiFullscreenLine, RiListUnordered, RiStackLine } from 'react-icons/ri';
 import { FragiliteNumeriqueLayers } from '@/features/cartographie/fragilite-numerique-layers';
 import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
 import france from '@/features/collectivites-territoriales/france.json';
 import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import { load$ } from '@/features/lieux-inclusion-numerique/load/load.stream';
+import { inject, MAP_CONFIG } from '@/libraries/injection';
 import { hrefWithSearchParams } from '@/libraries/next';
 import { usePathname, useSearchParams } from '@/libraries/next-shim';
 import { Subscribe } from '@/libraries/reactivity/Subscribe';
@@ -27,7 +28,7 @@ import { LieuxOnMap } from './lieux-on-map';
 import { setMap } from './map/streams/map.stream';
 import { RegionsOnMap } from './regions-on-map';
 
-const config = france.find(({ nom }) => nom === 'France métropolitaine');
+const defaultConfig = france.find(({ nom }) => nom === 'France métropolitaine');
 
 export const saveMapLocation = (zoom: number, lng: number, lat: number) => {
   sessionStorage.setItem('mapLocation', JSON.stringify({ zoom, lng, lat }));
@@ -59,7 +60,20 @@ export const Cartographie = ({
   const [fragiliteNumeriqueLayer, setFragiliteNumeriqueLayer] = useState<boolean>(false);
   const { theme } = useTheme();
 
-  return config == null ? null : (
+  const mapConfig = inject(MAP_CONFIG);
+  const config = {
+    zoom: mapConfig?.zoom ?? defaultConfig?.zoom ?? 5,
+    localisation: {
+      latitude: mapConfig?.latitude ?? defaultConfig?.localisation?.latitude ?? 46.5,
+      longitude: mapConfig?.longitude ?? defaultConfig?.localisation?.longitude ?? 2.5
+    }
+  };
+
+  useLayoutEffect(() => {
+    setZoom(config.zoom);
+  }, [config.zoom]);
+
+  return defaultConfig == null ? null : (
     <ClientOnly>
       <div className={cn('w-full h-full relative', fullScreen && 'absolute', theme === 'dark' && 'invert-90')}>
         <Subscribe to$={load$}>
@@ -107,6 +121,14 @@ export const Cartographie = ({
               onLoad={({ target: map }) => {
                 addOverlay(map, Overlay.administrativeBoundaries);
                 setMap(map);
+                setZoom(map.getZoom());
+                const lngLatBounds = map.getBounds();
+                setBoundingBox([
+                  lngLatBounds.getWest(),
+                  lngLatBounds.getSouth(),
+                  lngLatBounds.getEast(),
+                  lngLatBounds.getNorth()
+                ]);
               }}
               initialViewState={{ ...config.localisation, zoom }}
               style={{ width: '100%', height: '100%' }}

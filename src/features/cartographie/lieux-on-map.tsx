@@ -2,6 +2,7 @@ import Supercluster from 'mutable-supercluster';
 import { Suspense, useMemo, useState } from 'react';
 import { Popup } from 'react-map-gl/maplibre';
 import type { ClusterFeature, ClusterProperties, PointFeature } from 'supercluster';
+import { useFilteredSearchParams } from '@/libraries/hooks/use-filtered-search-params';
 import { provide } from '@/libraries/injection';
 import { hrefWithSearchParams } from '@/libraries/next';
 import { Link, useSearchParams } from '@/libraries/next-shim';
@@ -25,7 +26,8 @@ export const LieuxOnMapContent = () => {
   provide(LIEUX_FOR_CHUNK, fetchLieuxForChunk);
 
   const urlSearchParams = useSearchParams();
-  const searchParams: URLSearchParams = useMemo(() => new URLSearchParams(urlSearchParams), [urlSearchParams]);
+  const baseSearchParams: URLSearchParams = useMemo(() => new URLSearchParams(urlSearchParams), [urlSearchParams]);
+  const searchParams = useFilteredSearchParams(baseSearchParams);
 
   const [hoveredId, setHoveredId] = useState<string>();
 
