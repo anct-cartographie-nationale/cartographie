@@ -12,9 +12,9 @@ const PAGE_SIZE = 10;
 
 export const Page: FC = () => {
   const { region: regionSlug, departement: departementSlug } = useParams({ from: '/with-map/$region/$departement' });
-  const search = useSearch({ strict: false }) as Record<string, string>;
+  const search = useSearch({ from: '/with-map/$region/$departement' });
   const searchParams = useMemo(() => new URLSearchParams(search), [search]);
-  const currentPage = Number(search['page']) || 1;
+  const currentPage = search.page;
 
   const region: Region | undefined = (regions as Region[]).find(regionMatchingSlug(regionSlug));
   const departement: Departement | undefined = departements.find(departementMatchingSlug(departementSlug));
