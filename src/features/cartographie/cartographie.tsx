@@ -4,7 +4,7 @@ import { addOverlay, mapStyles, Overlay } from 'carte-facile';
 import { Map as MapLibre, NavigationControl, type ViewStateChangeEvent } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useTheme } from 'next-themes';
-import { useLayoutEffect, useState } from 'react';
+import { useState } from 'react';
 import { RiFullscreenExitLine, RiFullscreenLine, RiListUnordered, RiStackLine } from 'react-icons/ri';
 import { FragiliteNumeriqueLayers } from '@/features/cartographie/fragilite-numerique-layers';
 import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
@@ -60,20 +60,18 @@ export const Cartographie = ({
   const [fragiliteNumeriqueLayer, setFragiliteNumeriqueLayer] = useState<boolean>(false);
   const { theme } = useTheme();
 
+  if (defaultConfig == null) return null;
+
   const mapConfig = inject(MAP_CONFIG);
   const config = {
-    zoom: mapConfig?.zoom ?? defaultConfig?.zoom ?? 5,
+    zoom: mapConfig?.zoom ?? defaultConfig?.zoom,
     localisation: {
-      latitude: mapConfig?.latitude ?? defaultConfig?.localisation?.latitude ?? 46.5,
-      longitude: mapConfig?.longitude ?? defaultConfig?.localisation?.longitude ?? 2.5
+      latitude: mapConfig?.latitude ?? defaultConfig.localisation.latitude,
+      longitude: mapConfig?.longitude ?? defaultConfig.localisation.longitude
     }
   };
 
-  useLayoutEffect(() => {
-    setZoom(config.zoom);
-  }, [config.zoom]);
-
-  return defaultConfig == null ? null : (
+  return (
     <ClientOnly>
       <div className={cn('w-full h-full relative', fullScreen && 'absolute', theme === 'dark' && 'invert-90')}>
         <Subscribe to$={load$}>
@@ -121,14 +119,6 @@ export const Cartographie = ({
               onLoad={({ target: map }) => {
                 addOverlay(map, Overlay.administrativeBoundaries);
                 setMap(map);
-                setZoom(map.getZoom());
-                const lngLatBounds = map.getBounds();
-                setBoundingBox([
-                  lngLatBounds.getWest(),
-                  lngLatBounds.getSouth(),
-                  lngLatBounds.getEast(),
-                  lngLatBounds.getNorth()
-                ]);
               }}
               initialViewState={{ ...config.localisation, zoom }}
               style={{ width: '100%', height: '100%' }}
