@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import type { Departement } from '@/features/collectivites-territoriales/departement';
 import type { Region } from '@/features/collectivites-territoriales/region';
 import { load$ } from '@/features/lieux-inclusion-numerique/load/load.stream';
+import type { BreadcrumbItem } from '@/libraries/breadcrumb/filter-breadcrumb-items';
 import { hrefWithSearchParams } from '@/libraries/next';
 import { useSearchParams } from '@/libraries/next-shim';
 import { Subscribe, useTap } from '@/libraries/reactivity/Subscribe';
@@ -20,11 +21,13 @@ import { map$ } from './map/streams/map.stream';
 export const DepartementsPage = ({
   region,
   departements,
-  totalLieux
+  totalLieux,
+  breadcrumbsItems
 }: {
   region: Region;
   departements: Departement[];
   totalLieux: number;
+  breadcrumbsItems?: BreadcrumbItem[];
 }): ReactNode => {
   const urlSearchParams = useSearchParams();
   const searchParams: URLSearchParams = new URLSearchParams(urlSearchParams);
@@ -41,12 +44,17 @@ export const DepartementsPage = ({
     HighlightRegion(map, region.code);
   });
 
+  const defaultBreadcrumbs: BreadcrumbItem[] = [
+    { label: 'France', href: hrefWithSearchParams('/')(searchParams) },
+    { label: region.nom }
+  ];
+
   return (
     <>
       <SkipLinksPortal />
       <main id={contentId} className='flex flex-col justify-between h-full gap-16'>
         <div>
-          <Breadcrumbs items={[{ label: 'France', href: hrefWithSearchParams('/')(searchParams) }, { label: region.nom }]} />
+          <Breadcrumbs items={breadcrumbsItems ?? defaultBreadcrumbs} />
           <LocationFranceIllustration className='mt-10 mb-6' />
           <Subscribe to$={load$}>
             {(isLoading) => (

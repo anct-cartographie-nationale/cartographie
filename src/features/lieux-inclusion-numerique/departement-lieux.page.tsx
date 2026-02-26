@@ -7,6 +7,7 @@ import { map$ } from '@/features/cartographie/map/streams/map.stream';
 import { useMapLocation } from '@/features/cartographie/search-params';
 import type { Departement } from '@/features/collectivites-territoriales/departement';
 import type { Region } from '@/features/collectivites-territoriales/region';
+import type { BreadcrumbItem } from '@/libraries/breadcrumb/filter-breadcrumb-items';
 import { hrefWithSearchParams } from '@/libraries/next';
 import { useSearchParams } from '@/libraries/next-shim';
 import { Subscribe, useTap } from '@/libraries/reactivity/Subscribe';
@@ -26,7 +27,9 @@ export const DepartementLieuxPage = ({
   curentPage,
   lieux,
   region,
-  departement
+  departement,
+  breadcrumbsItems,
+  exportHref
 }: {
   totalLieux: number;
   pageSize: number;
@@ -34,6 +37,8 @@ export const DepartementLieuxPage = ({
   lieux: LieuListItem[];
   region: Region;
   departement: Departement;
+  breadcrumbsItems?: BreadcrumbItem[];
+  exportHref?: string;
 }): ReactNode => {
   const urlSearchParams = useSearchParams();
   const searchParams: URLSearchParams = new URLSearchParams(urlSearchParams);
@@ -59,16 +64,16 @@ export const DepartementLieuxPage = ({
     HighlightDepartement(map, departement.code);
   });
 
+  const defaultBreadcrumbs: BreadcrumbItem[] = [
+    { label: 'France', href: hrefWithSearchParams('/')(searchParams, ['page']) },
+    { label: region.nom, href: hrefWithSearchParams(`/${region.slug}`)(searchParams, ['page']) },
+    { label: departement.nom }
+  ];
+
   return (
     <>
       <SkipLinksPortal />
-      <Breadcrumbs
-        items={[
-          { label: 'France', href: hrefWithSearchParams('/')(searchParams, ['page']) },
-          { label: region.nom, href: hrefWithSearchParams(`/${region.slug}`)(searchParams, ['page']) },
-          { label: departement.nom }
-        ]}
-      />
+      <Breadcrumbs items={breadcrumbsItems ?? defaultBreadcrumbs} />
       <main id={contentId}>
         <div className='flex justify-between items-center gap-2 mb-4 mt-3'>
           <Subscribe to$={load$}>
@@ -83,7 +88,7 @@ export const DepartementLieuxPage = ({
           </Subscribe>
           <ExportLieux
             lieuxCount={totalLieux}
-            href={hrefWithSearchParams(`${departement.slug}/lieux/exporter`)(searchParams, ['page'])}
+            href={exportHref ?? hrefWithSearchParams(`${departement.slug}/lieux/exporter`)(searchParams, ['page'])}
           />
         </div>
         <LieuxList searchParams={searchParams} lieux={lieux} className='flex flex-col gap-2' />

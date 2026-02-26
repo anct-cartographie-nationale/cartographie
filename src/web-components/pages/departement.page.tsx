@@ -6,8 +6,9 @@ import departements from '@/features/collectivites-territoriales/departements.js
 import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
 import { DepartementLieuxPage } from '@/features/lieux-inclusion-numerique/departement-lieux.page';
-import { fetchDepartementLieux } from '../api';
-import { useFilteredSearchParams } from '../hooks/use-filtered-search-params';
+import { hrefWithSearchParams } from '@/libraries/next';
+import { buildExportUrl, fetchDepartementLieux } from '../api';
+import { useBreadcrumbItems, useFilteredSearchParams } from '../hooks/use-filtered-search-params';
 
 const PAGE_SIZE = 10;
 
@@ -26,6 +27,12 @@ export const Page: FC = () => {
     queryFn: departement ? () => fetchDepartementLieux(departement.code, currentPage, PAGE_SIZE, searchParams) : skipToken
   });
 
+  const breadcrumbsItems = useBreadcrumbItems([
+    { label: 'France', href: hrefWithSearchParams('/')(searchParams, ['page']) },
+    { label: region?.nom ?? '', href: hrefWithSearchParams(`/${region?.slug}`)(searchParams, ['page']) },
+    { label: departement?.nom ?? '' }
+  ]);
+
   if (!region || !departement) {
     return <div>Page non trouvée</div>;
   }
@@ -38,6 +45,8 @@ export const Page: FC = () => {
       lieux={data?.lieux ?? []}
       region={region}
       departement={departement}
+      breadcrumbsItems={breadcrumbsItems}
+      exportHref={buildExportUrl(`/${region.slug}/${departement.slug}/lieux/exporter`, searchParams)}
     />
   );
 };

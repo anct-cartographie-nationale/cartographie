@@ -5,8 +5,9 @@ import { DepartementsPage } from '@/features/cartographie/departements.page';
 import departements from '@/features/collectivites-territoriales/departements.json';
 import { matchingDepartementsFrom, type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
+import { hrefWithSearchParams } from '@/libraries/next';
 import { fetchRegionTotalLieux } from '../api';
-import { useFilteredSearchParams } from '../hooks/use-filtered-search-params';
+import { useBreadcrumbItems, useFilteredSearchParams } from '../hooks/use-filtered-search-params';
 
 export const Page: FC = () => {
   const { region: regionSlug } = useParams({ from: '/with-map/$region' });
@@ -22,6 +23,11 @@ export const Page: FC = () => {
     enabled: !!region
   });
 
+  const breadcrumbsItems = useBreadcrumbItems([
+    { label: 'France', href: hrefWithSearchParams('/')(searchParams) },
+    { label: region?.nom ?? '' }
+  ]);
+
   if (!region) {
     return <div>Région non trouvée</div>;
   }
@@ -31,6 +37,7 @@ export const Page: FC = () => {
       totalLieux={totalLieux}
       region={region}
       departements={departements.filter(matchingDepartementsFrom(region))}
+      breadcrumbsItems={breadcrumbsItems}
     />
   );
 };
