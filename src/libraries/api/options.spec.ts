@@ -76,4 +76,19 @@ describe('buildAndFilter', () => {
 
     expect(result).toStrictEqual({ and: '(or(code_insee.like.75*),or(services.cs.{accompagnement}))' });
   });
+
+  it('should accept and combine and filters', () => {
+    const result = buildAndFilter({ and: '(or(a),or(b))' });
+
+    expect(result).toStrictEqual({ and: '((or(a),or(b)))' });
+  });
+
+  it('should combine or and and filters together', () => {
+    const regionFilter = { or: '(code_insee.like.75*)' };
+    const searchFilters = { and: '(or(services.cs.{a}),or(frais.eq.gratuit))' };
+
+    const result = buildAndFilter(regionFilter, searchFilters);
+
+    expect(result).toStrictEqual({ and: '(or(code_insee.like.75*),(or(services.cs.{a}),or(frais.eq.gratuit)))' });
+  });
 });

@@ -9,8 +9,7 @@ import {
 import { toSchemaLieuMediationNumerique } from '@/external-api/inclusion-numerique/transfer/to-schema-lieu-mediation-numerique';
 import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
-import { applySearchFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
-import { applyTerritoireFilter } from '@/features/lieux-inclusion-numerique/apply-territoire-filter';
+import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
 import { mediationNumeriqueToCsv } from '@/features/lieux-inclusion-numerique/to-csv/mediation-numerique.to-csv';
 import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
 import { buildAndFilter, filterUnion } from '@/libraries/api/options';
@@ -32,14 +31,11 @@ export const GET = async (request: NextRequest) => {
 
   if (!region) return notFound();
 
-  const filters = filtersSchema.parse(searchParams);
-
   try {
     const [lieux] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
       filter: buildAndFilter(
         filterUnion(region.departements)(codeInseeStartWithFilterTemplate),
-        applyTerritoireFilter(filters),
-        applySearchFilters(filters)
+        applyFilters(filtersSchema.parse(searchParams))
       ),
       order: ['nom', 'asc']
     });

@@ -8,8 +8,7 @@ import {
 } from '@/external-api/inclusion-numerique';
 import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
-import { applySearchFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
-import { applyTerritoireFilter } from '@/features/lieux-inclusion-numerique/apply-territoire-filter';
+import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
 import { type FiltersSchema, filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
 import { asCount, buildAndFilter, countFromHeaders, filterUnion } from '@/libraries/api/options';
 
@@ -17,11 +16,7 @@ const fetchRegionTotalLieux = async (region: Region, filters: FiltersSchema) => 
   const [_, headers] = await inclusionNumeriqueFetchApi(
     LIEUX_ROUTE,
     ...asCount<LieuxRouteOptions>({
-      filter: buildAndFilter(
-        filterUnion(region.departements)(codeInseeStartWithFilterTemplate),
-        applyTerritoireFilter(filters),
-        applySearchFilters(filters)
-      )
+      filter: buildAndFilter(filterUnion(region.departements)(codeInseeStartWithFilterTemplate), applyFilters(filters))
     })
   );
 
