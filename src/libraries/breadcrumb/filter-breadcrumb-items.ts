@@ -7,6 +7,24 @@ export type BreadcrumbItem = {
 
 type BreadcrumbLevel = 'france' | 'region' | 'departement' | 'other';
 
+const EXCLUDED_LEVELS: Record<
+  NonNullable<TerritoireFilter['type']>,
+  { single: BreadcrumbLevel[]; multiple: BreadcrumbLevel[] }
+> = {
+  regions: {
+    single: ['france'],
+    multiple: []
+  },
+  departements: {
+    single: ['france', 'region'],
+    multiple: ['france']
+  },
+  communes: {
+    single: ['france', 'region', 'departement'],
+    multiple: ['france', 'region']
+  }
+};
+
 const getBreadcrumbLevel = (item: BreadcrumbItem, index: number): BreadcrumbLevel => {
   if (item.label === 'France') return 'france';
   if (index === 1) return 'region';
@@ -14,42 +32,13 @@ const getBreadcrumbLevel = (item: BreadcrumbItem, index: number): BreadcrumbLeve
   return 'other';
 };
 
-/**
- * Détermine quels niveaux de breadcrumb masquer selon le filtre de territoire.
- * Règle : on affiche un niveau parent seulement s'il permet de naviguer entre plusieurs territoires.
- */
 const getExcludedLevels = (filter: TerritoireFilter): Set<BreadcrumbLevel> => {
-  const excluded = new Set<BreadcrumbLevel>();
-  const hasMultiple = (filter.codes?.length ?? 0) > 1;
-
-  switch (filter.type) {
-    case 'regions':
-      // France visible seulement si plusieurs régions
-      if (!hasMultiple) excluded.add('france');
-      break;
-
-    case 'departements':
-      // France toujours masqué
-      excluded.add('france');
-      // Région visible seulement si plusieurs départements
-      if (!hasMultiple) excluded.add('region');
-      break;
-
-    case 'communes':
-      // France et Région toujours masqués
-      excluded.add('france');
-      excluded.add('region');
-      // Département visible seulement si plusieurs communes
-      // Si une seule commune, on masque aussi le département (pas de breadcrumb)
-      if (!hasMultiple) excluded.add('departement');
-      break;
-  }
-
-  return excluded;
+  if (!filter.type) return new Set();
+  const { single, multiple } = EXCLUDED_LEVELS[filter.type];
+  return new Set((filter.codes?.length ?? 0) > 1 ? multiple : single);
 };
 
 export const filterBreadcrumbItems = (items: BreadcrumbItem[], filter: TerritoireFilter): BreadcrumbItem[] => {
-  // Sans filtre, retourner tous les items
   if (!filter.type || !filter.codes?.length) {
     return items;
   }

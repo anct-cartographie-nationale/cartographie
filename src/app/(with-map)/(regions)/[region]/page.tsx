@@ -13,7 +13,7 @@ import regions from '@/features/collectivites-territoriales/regions.json';
 import { applyServiceFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
 import { applyTerritoireFilter } from '@/features/lieux-inclusion-numerique/apply-territoire-filter';
 import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
-import { asCount, combineOrFilters, countFromHeaders, filterUnion } from '@/libraries/api/options';
+import { asCount, buildAndFilter, countFromHeaders, filterUnion } from '@/libraries/api/options';
 import { appPageTitle } from '@/libraries/utils';
 
 type PageProps = {
@@ -43,16 +43,11 @@ const Page = async ({ params, searchParams: searchParamsPromise }: PageProps) =>
   if (!region) return notFound();
 
   const filters = filtersSchema.parse(searchParams);
-  const regionFilter = filterUnion(region.departements)(codeInseeStartWithFilterTemplate);
-  const territoireFilter = applyTerritoireFilter({
-    territoire_type: filters.territoire_type,
-    territoires: filters.territoires
-  });
-  const serviceFilters = applyServiceFilters(filters);
-
-  const orFilters = [regionFilter, territoireFilter, serviceFilters].filter((f): f is { or: string } => f.or !== undefined);
-
-  const filter = orFilters.length > 0 ? { and: combineOrFilters(...orFilters) } : {};
+  const filter = buildAndFilter(
+    filterUnion(region.departements)(codeInseeStartWithFilterTemplate),
+    applyTerritoireFilter(filters),
+    applyServiceFilters(filters)
+  );
 
   const [, headers] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, ...asCount<LieuxRouteOptions>({ filter }));
 
