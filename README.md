@@ -13,6 +13,7 @@ Les données affichées dans cette cartographie proviennent du [DataSpace de l�
 - 🪧 [À propos](#about)
 - ✨ [Fonctionnalités](#features)
 - 🎬 [Démo](#demo)
+- 📦 [Intégrer la Cartographie dans votre site web](#integration)
 - 🎨 [Design & prototype](#design)
 - 🤗 [Contribuer](#contributing)
 - 📝 [Licence](#license)
@@ -29,7 +30,12 @@ Les données affichées dans cette cartographie proviennent du [DataSpace de l�
 Découvrez la version en ligne de la cartographie :  
 👉 [Accéder à la démo](https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud)
 
-N’hésitez pas à explorer ses fonctionnalités et à partager vos retours ! 🚀
+N'hésitez pas à explorer ses fonctionnalités et à partager vos retours ! 🚀
+
+<h2 id="integration">📦 Intégrer la Cartographie dans votre site web</h2>
+
+Vous souhaitez intégrer la cartographie dans votre propre site web ? C'est possible en quelques lignes de code grâce à notre web component.  
+👉 [Consulter le guide d'intégration](./docs/integration-web-component.md)
 
 <h2 id="design">🎨 Design & prototype</h2>
 

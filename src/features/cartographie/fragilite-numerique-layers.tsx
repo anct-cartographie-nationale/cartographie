@@ -1,6 +1,12 @@
 import { Layer, type LayerProps, Source } from 'react-map-gl/maplibre';
 import { API_BASE_URL, inject } from '@/libraries/injection';
 
+const toAbsoluteUrl = (baseUrl: string): string => {
+  if (baseUrl.startsWith('http')) return baseUrl;
+  if (typeof window !== 'undefined') return `${window.location.origin}${baseUrl}`;
+  return baseUrl;
+};
+
 const layerStyle: LayerProps = {
   id: 'fragilite-fill',
   type: 'fill',
@@ -38,7 +44,7 @@ export const FragiliteNumeriqueLayers = ({
   fragiliteNumeriqueLayer: boolean;
   zoom: number;
 }) => {
-  const baseUrl = inject(API_BASE_URL);
+  const baseUrl = toAbsoluteUrl(inject(API_BASE_URL));
 
   return (
     <>

@@ -12,14 +12,12 @@ export const DropdownControls = ({
   position?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 }) => (
   <ReactControl position={position}>
-    <div className='bg-primary rounded'>
-      <Dropdown
-        className='border-base-100 bg-base-100 shadow-lg m-0 font-(family-name:--font-sans)'
-        kind='btn-outline'
-        color='btn-primary'
-        items={items}
-        trigger={trigger}
-      />
-    </div>
+    <Dropdown
+      className='border-base-100 bg-base-100 hover:!bg-primary hover:!text-primary-content shadow-lg m-0 font-(family-name:--font-sans)'
+      kind='btn-outline'
+      color='btn-primary'
+      items={items}
+      trigger={trigger}
+    />
   </ReactControl>
 );
