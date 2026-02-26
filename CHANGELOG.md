@@ -1,3 +1,10 @@
+## [6.1.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.1.0...v6.1.1) (2026-02-26)
+
+
+### Bug Fixes
+
+* **web-component:** improve territory filtering and navigation ([cacc55c](https://github.com/anct-cartographie-nationale/cartographie/commit/cacc55c9ba81ac9607d113f272298f60446ccd5d))
+
 # [6.1.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.0.1...v6.1.0) (2026-02-26)
 
 
