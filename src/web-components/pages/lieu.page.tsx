@@ -8,6 +8,7 @@ import regions from '@/features/collectivites-territoriales/regions.json';
 import { FicheLieuPage } from '@/features/lieux-inclusion-numerique/fiche-lieu.page';
 import { hrefWithSearchParams } from '@/libraries/next';
 import { fetchLieu } from '../api';
+import { useBreadcrumbItems } from '../hooks/use-filtered-search-params';
 
 export const Page: FC = () => {
   const { region: regionSlug, departement: departementSlug, id } = useParams({ from: '/$region/$departement/lieux/$id' });
@@ -23,6 +24,16 @@ export const Page: FC = () => {
     queryFn: id ? () => fetchLieu(id) : skipToken
   });
 
+  const breadcrumbsItems = useBreadcrumbItems([
+    { label: 'France', href: hrefWithSearchParams('/')(searchParams, ['page']) },
+    { label: region?.nom ?? '', href: hrefWithSearchParams(`/${region?.slug}`)(searchParams, ['page']) },
+    {
+      label: departement?.nom ?? '',
+      href: hrefWithSearchParams(`/${region?.slug}/${departement?.slug}`)(searchParams, ['page'])
+    },
+    { label: lieu?.adresse.split(', ')[1] ?? lieu?.adresse ?? '' }
+  ]);
+
   if (!region || !departement) {
     return <div>Page non trouvée</div>;
   }
@@ -34,12 +45,7 @@ export const Page: FC = () => {
   return (
     <FicheLieuPage
       lieu={lieu}
-      breadcrumbsItems={[
-        { label: 'France', href: hrefWithSearchParams('/')(searchParams, ['page']) },
-        { label: region.nom, href: hrefWithSearchParams(`/${region.slug}`)(searchParams, ['page']) },
-        { label: departement.nom, href: hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(searchParams, ['page']) },
-        { label: lieu.adresse.split(', ')[1] ?? lieu.adresse }
-      ]}
+      breadcrumbsItems={breadcrumbsItems}
       listHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(searchParams, ['page'])}
     />
   );

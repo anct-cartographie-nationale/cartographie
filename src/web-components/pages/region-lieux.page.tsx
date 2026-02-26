@@ -7,7 +7,7 @@ import { LieuxPage } from '@/features/lieux-inclusion-numerique/lieux.page';
 import { provide } from '@/libraries/injection';
 import { hrefWithSearchParams, URL_SEARCH_PARAMS } from '@/libraries/next';
 import { buildExportUrl, fetchRegionLieux } from '../api';
-import { useFilteredSearchParams } from '../hooks/use-filtered-search-params';
+import { useBreadcrumbItems, useFilteredSearchParams } from '../hooks/use-filtered-search-params';
 
 const PAGE_SIZE = 24;
 
@@ -27,6 +27,11 @@ export const Page: FC = () => {
     queryFn: region ? () => fetchRegionLieux(region.slug, currentPage, PAGE_SIZE, searchParams) : skipToken
   });
 
+  const breadcrumbsItems = useBreadcrumbItems([
+    { label: 'France', href: hrefWithSearchParams('/')(searchParams, ['page']) },
+    { label: region?.nom ?? '' }
+  ]);
+
   if (!region) {
     return <div>Région non trouvée</div>;
   }
@@ -37,7 +42,7 @@ export const Page: FC = () => {
       pageSize={PAGE_SIZE}
       curentPage={currentPage}
       lieux={data?.lieux ?? []}
-      breadcrumbsItems={[{ label: 'France', href: hrefWithSearchParams('/')(searchParams, ['page']) }, { label: region.nom }]}
+      breadcrumbsItems={breadcrumbsItems}
       mapHref={hrefWithSearchParams(`/${region.slug}`)(searchParams, ['page'])}
       exportHref={buildExportUrl(`/${region.slug}/lieux/exporter`, searchParams)}
     />
