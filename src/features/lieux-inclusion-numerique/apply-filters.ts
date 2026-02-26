@@ -10,7 +10,7 @@ import { buildAndFilter, filterUnion } from '@/libraries/api/options';
 import { applyTerritoireFilter } from './apply-territoire-filter';
 import type { FiltersSchema } from './validations';
 
-export const applyServiceFilters = (filters: FiltersSchema): { or?: string } => ({
+export const applySearchFilters = (filters: FiltersSchema): { or?: string } => ({
   ...(filters.prise_rdv.length > 0 ? { or: '(prise_rdv.not.is.null)' } : {}),
   ...filterUnion(filters.services)(serviceContainsFilterTemplate),
   ...filterUnion(filters.prise_en_charge_specifique)(priseEnChargeSpecifiqueContainsFilter),
@@ -21,4 +21,4 @@ export const applyServiceFilters = (filters: FiltersSchema): { or?: string } => 
 });
 
 export const applyFilters = (filters: FiltersSchema): { and?: string } =>
-  buildAndFilter(applyTerritoireFilter(filters), applyServiceFilters(filters));
+  buildAndFilter(applyTerritoireFilter(filters), applySearchFilters(filters));
