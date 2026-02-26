@@ -1,3 +1,10 @@
+## [6.1.3](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.1.2...v6.1.3) (2026-02-26)
+
+
+### Bug Fixes
+
+* **web-component:** resolve fragilite-numerique tiles and dropdown hover ([91ce4ce](https://github.com/anct-cartographie-nationale/cartographie/commit/91ce4ced826ebc0dad2e6f38e37018e0c2d8b253))
+
 ## [6.1.2](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.1.1...v6.1.2) (2026-02-26)
 
 
