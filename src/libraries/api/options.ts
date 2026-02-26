@@ -69,3 +69,8 @@ export const combineOrFilters = (...orFilters: { or?: string }[]): string => {
     .filter((orFilter): orFilter is string => orFilter !== undefined)
     .join(',or')})`;
 };
+
+export const buildAndFilter = (...orFilters: { or?: string }[]): { and?: string } => {
+  const definedFilters = orFilters.filter((f): f is { or: string } => f.or !== undefined);
+  return definedFilters.length > 0 ? { and: combineOrFilters(...definedFilters) } : {};
+};

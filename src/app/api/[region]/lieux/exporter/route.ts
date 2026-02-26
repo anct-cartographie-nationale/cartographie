@@ -13,7 +13,7 @@ import { applyServiceFilters } from '@/features/lieux-inclusion-numerique/apply-
 import { applyTerritoireFilter } from '@/features/lieux-inclusion-numerique/apply-territoire-filter';
 import { mediationNumeriqueToCsv } from '@/features/lieux-inclusion-numerique/to-csv/mediation-numerique.to-csv';
 import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
-import { combineOrFilters, filterUnion } from '@/libraries/api/options';
+import { buildAndFilter, filterUnion } from '@/libraries/api/options';
 
 const DEFAULT_ERROR_MESSAGE = "Erreur lors de l'export des lieux.";
 
@@ -35,22 +35,16 @@ export const GET = async (request: NextRequest, { params }: RouteParams) => {
   if (!region) return notFound();
 
   const filters = filtersSchema.parse(searchParams);
-  const regionFilter = filterUnion(region.departements)(codeInseeStartWithFilterTemplate);
-  const territoireFilter = applyTerritoireFilter({
-    territoire_type: filters.territoire_type,
-    territoires: filters.territoires
-  });
-  const serviceFilters = applyServiceFilters(filters);
-
-  const orFilters = [regionFilter, territoireFilter, serviceFilters].filter((f): f is { or: string } => f.or !== undefined);
-
-  const filter = orFilters.length > 0 ? { and: combineOrFilters(...orFilters) } : {};
 
   try {
     const [lieux] = await inclusionNumeriqueFetchApi(
       LIEUX_ROUTE,
       {
-        filter,
+        filter: buildAndFilter(
+          filterUnion(region.departements)(codeInseeStartWithFilterTemplate),
+          applyTerritoireFilter(filters),
+          applyServiceFilters(filters)
+        ),
         order: ['nom', 'asc']
       },
       undefined,

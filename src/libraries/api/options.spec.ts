@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { type FilterOptions, type PaginateOptions, toQueryParams } from './options';
+import { buildAndFilter, type FilterOptions, type PaginateOptions, toQueryParams } from './options';
 
 describe('options', () => {
   it('should create query params for pagination', () => {
@@ -43,5 +43,37 @@ describe('options', () => {
     const queryParams = toQueryParams(options, { order: '.' });
 
     expect(queryParams).toStrictEqual('order=name.asc');
+  });
+});
+
+describe('buildAndFilter', () => {
+  it('should return empty object when all filters are empty', () => {
+    const result = buildAndFilter({}, {}, {});
+
+    expect(result).toStrictEqual({});
+  });
+
+  it('should return empty object when no filters provided', () => {
+    const result = buildAndFilter();
+
+    expect(result).toStrictEqual({});
+  });
+
+  it('should combine single filter', () => {
+    const result = buildAndFilter({ or: '(code_insee.like.75*)' });
+
+    expect(result).toStrictEqual({ and: '(or(code_insee.like.75*))' });
+  });
+
+  it('should combine multiple filters', () => {
+    const result = buildAndFilter({ or: '(code_insee.like.75*)' }, { or: '(services.cs.{accompagnement})' });
+
+    expect(result).toStrictEqual({ and: '(or(code_insee.like.75*),or(services.cs.{accompagnement}))' });
+  });
+
+  it('should ignore filters without or property', () => {
+    const result = buildAndFilter({ or: '(code_insee.like.75*)' }, {}, { or: '(services.cs.{accompagnement})' });
+
+    expect(result).toStrictEqual({ and: '(or(code_insee.like.75*),or(services.cs.{accompagnement}))' });
   });
 });

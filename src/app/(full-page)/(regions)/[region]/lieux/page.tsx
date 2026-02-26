@@ -15,7 +15,7 @@ import { applyServiceFilters } from '@/features/lieux-inclusion-numerique/apply-
 import { applyTerritoireFilter } from '@/features/lieux-inclusion-numerique/apply-territoire-filter';
 import { LieuxPage } from '@/features/lieux-inclusion-numerique/lieux.page';
 import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
-import { asCount, combineOrFilters, countFromHeaders, filterUnion } from '@/libraries/api/options';
+import { asCount, buildAndFilter, countFromHeaders, filterUnion } from '@/libraries/api/options';
 import { provide } from '@/libraries/injection';
 import { hrefWithSearchParams, URL_SEARCH_PARAMS } from '@/libraries/next';
 import { appPageTitle } from '@/libraries/utils';
@@ -52,16 +52,11 @@ const Page = async ({ params: paramsPromise, searchParams: searchParamsPromise }
   if (!region) return notFound();
 
   const filters = filtersSchema.parse(searchParams);
-  const regionFilter = filterUnion(region.departements)(codeInseeStartWithFilterTemplate);
-  const territoireFilter = applyTerritoireFilter({
-    territoire_type: filters.territoire_type,
-    territoires: filters.territoires
-  });
-  const serviceFilters = applyServiceFilters(filters);
-
-  const orFilters = [regionFilter, territoireFilter, serviceFilters].filter((f): f is { or: string } => f.or !== undefined);
-
-  const filter = orFilters.length > 0 ? { and: combineOrFilters(...orFilters) } : {};
+  const filter = buildAndFilter(
+    filterUnion(region.departements)(codeInseeStartWithFilterTemplate),
+    applyTerritoireFilter(filters),
+    applyServiceFilters(filters)
+  );
 
   const [lieux] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
     paginate: { limit, offset: (curentPage - 1) * limit },

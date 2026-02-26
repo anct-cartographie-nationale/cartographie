@@ -11,21 +11,19 @@ import regions from '@/features/collectivites-territoriales/regions.json';
 import { applyServiceFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
 import { applyTerritoireFilter } from '@/features/lieux-inclusion-numerique/apply-territoire-filter';
 import { type FiltersSchema, filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
-import { asCount, combineOrFilters, countFromHeaders, filterUnion } from '@/libraries/api/options';
+import { asCount, buildAndFilter, countFromHeaders, filterUnion } from '@/libraries/api/options';
 
 const fetchRegionTotalLieux = async (region: Region, filters: FiltersSchema) => {
-  const regionFilter = filterUnion(region.departements)(codeInseeStartWithFilterTemplate);
-  const territoireFilter = applyTerritoireFilter({
-    territoire_type: filters.territoire_type,
-    territoires: filters.territoires
-  });
-  const serviceFilters = applyServiceFilters(filters);
-
-  const orFilters = [regionFilter, territoireFilter, serviceFilters].filter((f): f is { or: string } => f.or !== undefined);
-
-  const filter = orFilters.length > 0 ? { and: combineOrFilters(...orFilters) } : {};
-
-  const [_, headers] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, ...asCount<LieuxRouteOptions>({ filter }));
+  const [_, headers] = await inclusionNumeriqueFetchApi(
+    LIEUX_ROUTE,
+    ...asCount<LieuxRouteOptions>({
+      filter: buildAndFilter(
+        filterUnion(region.departements)(codeInseeStartWithFilterTemplate),
+        applyTerritoireFilter(filters),
+        applyServiceFilters(filters)
+      )
+    })
+  );
 
   return countFromHeaders(headers);
 };
