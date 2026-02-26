@@ -10,34 +10,19 @@ export type TerritoireFilterParams = {
 
 const codeInseeEqualsFilterTemplate = (code: string): string => `adresse->>code_insee.eq.${code}`;
 
-export const applyTerritoireFilter = (filters: TerritoireFilterParams): { or?: string } => {
-  const { territoire_type, territoires } = filters;
-
-  if (!territoire_type || !territoires || territoires.length === 0) {
-    return {};
-  }
-
-  switch (territoire_type) {
-    case 'regions': {
-      const departementCodes = territoires.flatMap((regionCode) => {
-        const region = (regions as Region[]).find((r) => r.code === regionCode);
-        return region?.departements ?? [];
-      });
-
-      if (departementCodes.length === 0) return {};
-
-      return filterUnion(departementCodes)(codeInseeStartWithFilterTemplate);
-    }
-
-    case 'departements': {
-      return filterUnion(territoires)(codeInseeStartWithFilterTemplate);
-    }
-
-    case 'communes': {
-      return filterUnion(territoires)(codeInseeEqualsFilterTemplate);
-    }
-
-    default:
-      return {};
-  }
+const TERRITOIRE_STRATEGIES: Record<
+  NonNullable<TerritoireFilterParams['territoire_type']>,
+  (territoires: string[]) => { or?: string }
+> = {
+  regions: (territoires) => {
+    const departementCodes = territoires.flatMap(
+      (code) => (regions as Region[]).find((r) => r.code === code)?.departements ?? []
+    );
+    return departementCodes.length > 0 ? filterUnion(departementCodes)(codeInseeStartWithFilterTemplate) : {};
+  },
+  departements: (territoires) => filterUnion(territoires)(codeInseeStartWithFilterTemplate),
+  communes: (territoires) => filterUnion(territoires)(codeInseeEqualsFilterTemplate)
 };
+
+export const applyTerritoireFilter = ({ territoire_type, territoires }: TerritoireFilterParams): { or?: string } =>
+  territoire_type && territoires?.length ? TERRITOIRE_STRATEGIES[territoire_type](territoires) : {};
