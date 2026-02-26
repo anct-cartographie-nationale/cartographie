@@ -6,7 +6,7 @@ import {
   publicsSpecifiquementAdressesContainsFilter,
   serviceContainsFilterTemplate
 } from '@/external-api/inclusion-numerique';
-import { combineOrFilters, filterUnion } from '@/libraries/api/options';
+import { buildAndFilter, filterUnion } from '@/libraries/api/options';
 import { applyTerritoireFilter } from './apply-territoire-filter';
 import type { FiltersSchema } from './validations';
 
@@ -20,22 +20,5 @@ export const applyServiceFilters = (filters: FiltersSchema): { or?: string } => 
   ...filterUnion(filters.autres_formations_labels)(autresFormationsLabelsContainsFilter)
 });
 
-export const applyFilters = (filters: FiltersSchema) => {
-  const territoireFilter = applyTerritoireFilter({
-    territoire_type: filters.territoire_type,
-    territoires: filters.territoires
-  });
-
-  const serviceFilters = applyServiceFilters(filters);
-
-  if (territoireFilter.or && serviceFilters.or) {
-    return {
-      and: combineOrFilters(territoireFilter, serviceFilters)
-    };
-  }
-
-  return {
-    ...serviceFilters,
-    ...territoireFilter
-  };
-};
+export const applyFilters = (filters: FiltersSchema): { and?: string } =>
+  buildAndFilter(applyTerritoireFilter(filters), applyServiceFilters(filters));
