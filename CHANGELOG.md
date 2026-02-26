@@ -1,3 +1,11 @@
+# [6.1.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.0.1...v6.1.0) (2026-02-26)
+
+
+### Features
+
+* **web-component:** add territory filtering and initial route ([7644979](https://github.com/anct-cartographie-nationale/cartographie/commit/7644979c7a15beff630c477b4f646042721a230f))
+* **web-component:** auto-filter breadcrumbs based on territory config ([96e56b5](https://github.com/anct-cartographie-nationale/cartographie/commit/96e56b5aae26c9abc5df956786179238e0aa7ebf))
+
 ## [6.0.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.0.0...v6.0.1) (2026-02-19)
 
 
