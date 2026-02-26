@@ -12,37 +12,30 @@ const getDeptCodeFromCommune = (code: string): string => (code.startsWith('97') 
 
 const DEPARTEMENT_FILTERS: Record<
   NonNullable<TerritoireParams['territoire_type']>,
-  (territoires: string[]) => (d: Departement) => boolean
+  (territoires: string[]) => (departement: Departement) => boolean
 > = {
-  regions: (territoires) => {
-    const departementCodes = (regions as Region[]).filter((r) => territoires.includes(r.code)).flatMap((r) => r.departements);
-    return (d) => departementCodes.includes(d.code);
-  },
-  departements: (territoires) => (d) => territoires.includes(d.code),
-  communes: (territoires) => {
-    const deptPrefixes = territoires.map(getDeptCodeFromCommune);
-    return (d) => deptPrefixes.includes(d.code);
-  }
+  regions: (territoires) => (departement) =>
+    regions
+      .filter((region) => territoires.includes(region.code))
+      .flatMap((region) => region.departements)
+      .includes(departement.code),
+  departements: (territoires) => (departement) => territoires.includes(departement.code),
+  communes: (territoires) => (departement) => territoires.map(getDeptCodeFromCommune).includes(departement.code)
 };
 
 const REGION_FILTERS: Record<
   NonNullable<TerritoireParams['territoire_type']>,
   (territoires: string[]) => (r: Region) => boolean
 > = {
-  regions: (territoires) => (r) => territoires.includes(r.code),
-  departements: (territoires) => (r) => r.departements.some((d) => territoires.includes(d)),
-  communes: (territoires) => {
-    const deptPrefixes = territoires.map(getDeptCodeFromCommune);
-    return (r) => r.departements.some((d) => deptPrefixes.includes(d));
-  }
+  regions: (territoires) => (region) => territoires.includes(region.code),
+  departements: (territoires) => (region) => region.departements.some((d) => territoires.includes(d)),
+  communes: (territoires) => (region) => region.departements.some((d) => territoires.map(getDeptCodeFromCommune).includes(d))
 };
 
 export const filterDepartementsByTerritoire = ({ territoire_type, territoires }: TerritoireParams): Departement[] =>
   territoire_type && territoires?.length
-    ? (departements as Departement[]).filter(DEPARTEMENT_FILTERS[territoire_type](territoires))
-    : (departements as Departement[]);
+    ? departements.filter(DEPARTEMENT_FILTERS[territoire_type](territoires))
+    : departements;
 
 export const filterRegionsByTerritoire = ({ territoire_type, territoires }: TerritoireParams): Region[] =>
-  territoire_type && territoires?.length
-    ? (regions as Region[]).filter(REGION_FILTERS[territoire_type](territoires))
-    : (regions as Region[]);
+  territoire_type && territoires?.length ? regions.filter(REGION_FILTERS[territoire_type](territoires)) : regions;
