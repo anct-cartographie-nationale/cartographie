@@ -63,14 +63,13 @@ export const countFromHeaders = (headers: Headers): number => {
   return match?.[1] == null ? 0 : parseInt(match[1], 10);
 };
 
-export const combineOrFilters = (...orFilters: { or?: string }[]): string => {
-  return `(or${orFilters
-    .map((filter) => filter.or)
-    .filter((orFilter): orFilter is string => orFilter !== undefined)
-    .join(',or')})`;
-};
+type OrFilter = { or?: string };
+type AndFilter = { and?: string };
 
-export const buildAndFilter = (...orFilters: { or?: string }[]): { and?: string } => {
-  const definedFilters = orFilters.filter((f): f is { or: string } => f.or !== undefined);
-  return definedFilters.length > 0 ? { and: combineOrFilters(...definedFilters) } : {};
+export const buildAndFilter = (...filters: (OrFilter | AndFilter)[]): AndFilter => {
+  const orParts = filters.filter((f): f is { or: string } => 'or' in f && f.or !== undefined).map((f) => `or${f.or}`);
+  const andParts = filters.filter((f): f is { and: string } => 'and' in f && f.and !== undefined).map((f) => f.and);
+
+  const allParts = [...orParts, ...andParts];
+  return allParts.length > 0 ? { and: `(${allParts.join(',')})` } : {};
 };

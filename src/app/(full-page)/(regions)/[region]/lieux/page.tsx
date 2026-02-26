@@ -11,8 +11,7 @@ import { toLieuListItem } from '@/external-api/inclusion-numerique/transfer/to-l
 import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
 import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
-import { applySearchFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
-import { applyTerritoireFilter } from '@/features/lieux-inclusion-numerique/apply-territoire-filter';
+import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
 import { LieuxPage } from '@/features/lieux-inclusion-numerique/lieux.page';
 import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
 import { asCount, buildAndFilter, countFromHeaders, filterUnion } from '@/libraries/api/options';
@@ -51,11 +50,9 @@ const Page = async ({ params: paramsPromise, searchParams: searchParamsPromise }
 
   if (!region) return notFound();
 
-  const filters = filtersSchema.parse(searchParams);
   const filter = buildAndFilter(
     filterUnion(region.departements)(codeInseeStartWithFilterTemplate),
-    applyTerritoireFilter(filters),
-    applySearchFilters(filters)
+    applyFilters(filtersSchema.parse(searchParams))
   );
 
   const [lieux] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {

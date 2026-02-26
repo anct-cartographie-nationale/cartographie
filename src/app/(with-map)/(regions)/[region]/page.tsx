@@ -10,8 +10,7 @@ import { DepartementsPage } from '@/features/cartographie/departements.page';
 import departements from '@/features/collectivites-territoriales/departements.json';
 import { matchingDepartementsFrom, type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import regions from '@/features/collectivites-territoriales/regions.json';
-import { applySearchFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
-import { applyTerritoireFilter } from '@/features/lieux-inclusion-numerique/apply-territoire-filter';
+import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
 import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
 import { asCount, buildAndFilter, countFromHeaders, filterUnion } from '@/libraries/api/options';
 import { appPageTitle } from '@/libraries/utils';
@@ -42,11 +41,9 @@ const Page = async ({ params, searchParams: searchParamsPromise }: PageProps) =>
 
   if (!region) return notFound();
 
-  const filters = filtersSchema.parse(searchParams);
   const filter = buildAndFilter(
     filterUnion(region.departements)(codeInseeStartWithFilterTemplate),
-    applyTerritoireFilter(filters),
-    applySearchFilters(filters)
+    applyFilters(filtersSchema.parse(searchParams))
   );
 
   const [, headers] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, ...asCount<LieuxRouteOptions>({ filter }));
