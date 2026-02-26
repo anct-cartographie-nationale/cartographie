@@ -39,7 +39,7 @@ export const App: FC<AppProps> = ({
   routeInitiale
 }) => {
   provide(API_BASE_URL, apiUrl);
-  provide(NAVBAR_CONFIG, { logoUrl, appName, helpUrl, helpLabel });
+  provide(NAVBAR_CONFIG, { logoUrl, appName, helpUrl, helpLabel, homeUrl: routeInitiale });
   provide(MAP_CONFIG, { latitude, longitude, zoom });
   provide(TERRITOIRE_FILTER, {
     type: territoireType as TerritoireType | undefined,

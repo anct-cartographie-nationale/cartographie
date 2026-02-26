@@ -16,7 +16,7 @@ import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { Link } from '@/libraries/ui/primitives/link';
 
 export const Navbar = () => {
-  const { logoUrl, appName, helpUrl, helpLabel } = inject(NAVBAR_CONFIG);
+  const { logoUrl, appName, helpUrl, helpLabel, homeUrl = '/' } = inject(NAVBAR_CONFIG);
 
   const hasAppName = Boolean(appName);
   const hasHelp = Boolean(helpUrl);
@@ -29,7 +29,7 @@ export const Navbar = () => {
           <div className='flex gap-2 justify-between'>
             {hasBrand && (
               <Link
-                href='/'
+                href={homeUrl}
                 title="Retour à l'accueil"
                 className='font-bold text-xl text-base-title flex items-center gap-2'
                 kind='link-hover'

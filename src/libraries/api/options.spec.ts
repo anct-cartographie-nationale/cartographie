@@ -80,7 +80,7 @@ describe('buildAndFilter', () => {
   it('should accept and combine and filters', () => {
     const result = buildAndFilter({ and: '(or(a),or(b))' });
 
-    expect(result).toStrictEqual({ and: '((or(a),or(b)))' });
+    expect(result).toStrictEqual({ and: '(or(a),or(b))' });
   });
 
   it('should combine or and and filters together', () => {
@@ -89,6 +89,6 @@ describe('buildAndFilter', () => {
 
     const result = buildAndFilter(regionFilter, searchFilters);
 
-    expect(result).toStrictEqual({ and: '(or(code_insee.like.75*),(or(services.cs.{a}),or(frais.eq.gratuit)))' });
+    expect(result).toStrictEqual({ and: '(or(code_insee.like.75*),or(services.cs.{a}),or(frais.eq.gratuit))' });
   });
 });
