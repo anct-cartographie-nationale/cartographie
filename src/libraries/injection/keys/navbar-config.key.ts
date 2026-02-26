@@ -5,6 +5,7 @@ export type NavbarConfig = {
   appName?: string | undefined;
   helpUrl?: string | undefined;
   helpLabel?: string | undefined;
+  homeUrl?: string | undefined;
 };
 
 export const NAVBAR_CONFIG = key<NavbarConfig>('navbar-config');

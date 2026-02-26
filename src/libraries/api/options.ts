@@ -68,7 +68,9 @@ type AndFilter = { and?: string };
 
 export const buildAndFilter = (...filters: (OrFilter | AndFilter)[]): AndFilter => {
   const orParts = filters.filter((f): f is { or: string } => 'or' in f && f.or !== undefined).map((f) => `or${f.or}`);
-  const andParts = filters.filter((f): f is { and: string } => 'and' in f && f.and !== undefined).map((f) => f.and);
+  const andParts = filters
+    .filter((f): f is { and: string } => 'and' in f && f.and !== undefined)
+    .map((f) => f.and.slice(1, -1));
 
   const allParts = [...orParts, ...andParts];
   return allParts.length > 0 ? { and: `(${allParts.join(',')})` } : {};

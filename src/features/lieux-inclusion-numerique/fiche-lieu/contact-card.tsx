@@ -44,6 +44,16 @@ export const ContactCard = ({
   isFranceServices = false
 }: ContactCardProps) => {
   const { theme } = useTheme();
+  const siteInternetUrls =
+    siteInternet
+      ?.split('|')
+      .map((url) => url.trim())
+      .filter(Boolean) ?? [];
+  const courriels =
+    courriel
+      ?.split('|')
+      .map((email) => email.trim())
+      .filter(Boolean) ?? [];
 
   return (
     <Card kind='card-border' className='rounded-xl overflow-hidden'>
@@ -76,16 +86,22 @@ export const ContactCard = ({
               <span className='sr-only'>Adresse&nbsp;:</span>
               {adresse}
             </li>
-            {siteInternet && (
-              <li className='flex items-center gap-2'>
-                <div aria-hidden={true}>
+            {siteInternetUrls.length > 0 && (
+              <li className='flex items-start gap-2'>
+                <div aria-hidden={true} className='mt-1'>
                   <RiGlobalLine />
                 </div>
-                <span className='sr-only'>Site internet&nbsp;:</span>
-                <Link color='link-primary' href={siteInternet} target='_blank' rel='noopener noreferrer'>
-                  {siteInternet}&nbsp;
-                  <RiExternalLinkLine className='inline-flex' aria-hidden={true} />
-                </Link>
+                <div>
+                  <span className='sr-only'>Site internet&nbsp;:</span>
+                  {siteInternetUrls.map((url) => (
+                    <div key={url}>
+                      <Link color='link-primary' href={url} target='_blank' rel='noopener noreferrer' className='break-all'>
+                        {url}&nbsp;
+                        <RiExternalLinkLine className='inline-flex' aria-hidden={true} />
+                      </Link>
+                    </div>
+                  ))}
+                </div>
               </li>
             )}
             {accessibilite && (
@@ -101,7 +117,7 @@ export const ContactCard = ({
             )}
           </ul>
         </div>
-        {(telephone || courriel) && (
+        {(telephone || courriels.length > 0) && (
           <>
             <hr className='border-base-200' />
             <div className='card-body p-8'>
@@ -118,16 +134,22 @@ export const ContactCard = ({
                     {telephone}
                   </li>
                 )}
-                {courriel && (
-                  <li className='flex items-center gap-2'>
-                    <div aria-hidden={true}>
+                {courriels.length > 0 && (
+                  <li className='flex items-start gap-2'>
+                    <div aria-hidden={true} className='mt-1'>
                       <RiMailLine />
                     </div>
-                    <span className='sr-only'>Courriel&nbsp;:</span>
-                    <Link color='link-primary' href={`mailto:${courriel}`}>
-                      {courriel}&nbsp;
-                      <RiExternalLinkLine className='inline-flex' aria-hidden={true} />
-                    </Link>
+                    <div>
+                      <span className='sr-only'>Courriel&nbsp;:</span>
+                      {courriels.map((email) => (
+                        <div key={email}>
+                          <Link color='link-primary' href={`mailto:${email}`} className='break-all'>
+                            {email}&nbsp;
+                            <RiExternalLinkLine className='inline-flex' aria-hidden={true} />
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
                   </li>
                 )}
               </ul>
