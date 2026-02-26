@@ -60,7 +60,7 @@ Dans la balise `<head>`, ajoutez le lien vers la feuille de style :
 
 ```html
 <link
-  href="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6/dist-wc/cartographie-nationale.css"
+  href="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6.1/dist-wc/cartographie-nationale.css"
   rel="stylesheet"
 />
 ```
@@ -68,7 +68,7 @@ Dans la balise `<head>`, ajoutez le lien vers la feuille de style :
 Juste avant `</body>`, ajoutez le script :
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6/dist-wc/cartographie.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6.1/dist-wc/cartographie.umd.js"></script>
 ```
 
 Votre code devrait maintenant ressembler à ceci :
@@ -81,13 +81,13 @@ Votre code devrait maintenant ressembler à ceci :
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ma cartographie</title>
     <link
-      href="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6/dist-wc/cartographie-nationale.css"
+      href="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6.1/dist-wc/cartographie-nationale.css"
       rel="stylesheet"
     />
   </head>
   <body style="height: 100vh; margin: 0">
 
-    <script src="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6/dist-wc/cartographie.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6.1/dist-wc/cartographie.umd.js"></script>
   </body>
 </html>
 ```
@@ -114,7 +114,7 @@ Ajoutez la balise `<cartographie-inclusion-numerique>` dans le `<body>`, juste a
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ma cartographie</title>
     <link
-      href="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6/dist-wc/cartographie-nationale.css"
+      href="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6.1/dist-wc/cartographie-nationale.css"
       rel="stylesheet"
     />
   </head>
@@ -123,7 +123,7 @@ Ajoutez la balise `<cartographie-inclusion-numerique>` dans le `<body>`, juste a
       api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
     />
 
-    <script src="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6/dist-wc/cartographie.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6.1/dist-wc/cartographie.umd.js"></script>
   </body>
 </html>
 ```
@@ -384,7 +384,7 @@ Pour utiliser ces couleurs, créez une balise `<style>` dans le `<head>` de votr
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cartographie</title>
     <link
-      href="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6/dist-wc/cartographie-nationale.css"
+      href="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6.1/dist-wc/cartographie-nationale.css"
       rel="stylesheet"
     />
   </head>
@@ -392,7 +392,7 @@ Pour utiliser ces couleurs, créez une balise `<style>` dans le `<head>` de votr
     <cartographie-inclusion-numerique
       api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
     />
-    <script src="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6/dist-wc/cartographie.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6.1/dist-wc/cartographie.umd.js"></script>
   </body>
 </html>
 ```
@@ -407,7 +407,7 @@ Pour utiliser ces couleurs, créez une balise `<style>` dans le `<head>` de votr
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hub Numérique - Cartographie</title>
     <link
-      href="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6/dist-wc/cartographie-nationale.css"
+      href="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6.1/dist-wc/cartographie-nationale.css"
       rel="stylesheet"
     />
   </head>
@@ -419,7 +419,7 @@ Pour utiliser ces couleurs, créez une balise `<style>` dans le `<head>` de votr
       help-url="mailto:contact@hub-numerique.fr"
       help-label="Besoin d'aide ?"
     />
-    <script src="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6/dist-wc/cartographie.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6.1/dist-wc/cartographie.umd.js"></script>
   </body>
 </html>
 ```
@@ -434,7 +434,7 @@ Pour utiliser ces couleurs, créez une balise `<style>` dans le `<head>` de votr
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cartographie du Rhône</title>
     <link
-      href="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6/dist-wc/cartographie-nationale.css"
+      href="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6.1/dist-wc/cartographie-nationale.css"
       rel="stylesheet"
     />
   </head>
@@ -449,7 +449,7 @@ Pour utiliser ces couleurs, créez une balise `<style>` dans le `<head>` de votr
       territoires="69"
       route-initiale="/auvergne-rhone-alpes/rhone"
     />
-    <script src="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6/dist-wc/cartographie.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6.1/dist-wc/cartographie.umd.js"></script>
   </body>
 </html>
 ```
@@ -464,7 +464,7 @@ Pour utiliser ces couleurs, créez une balise `<style>` dans le `<head>` de votr
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ma cartographie personnalisée</title>
     <link
-      href="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6/dist-wc/cartographie-nationale.css"
+      href="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6.1/dist-wc/cartographie-nationale.css"
       rel="stylesheet"
     />
     <style>
@@ -492,7 +492,7 @@ Pour utiliser ces couleurs, créez une balise `<style>` dans le `<head>` de votr
       api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
       app-name="Mon Hub Numérique"
     />
-    <script src="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6/dist-wc/cartographie.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6.1/dist-wc/cartographie.umd.js"></script>
   </body>
 </html>
 ```
