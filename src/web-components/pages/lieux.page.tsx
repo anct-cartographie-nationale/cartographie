@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { useSearch } from '@tanstack/react-router';
 import { type FC, useMemo } from 'react';
-import { LieuxPage } from '@/features/lieux-inclusion-numerique/lieux.page';
+import { LieuxPage } from '@/features/lieux-inclusion-numerique';
 import { provide } from '@/libraries/injection';
-import { hrefWithSearchParams, URL_SEARCH_PARAMS } from '@/libraries/next';
+import { hrefWithSearchParams, URL_SEARCH_PARAMS } from '@/libraries/nextjs';
+import { useFilteredSearchParams } from '@/shared/hooks';
 import { buildExportUrl, fetchAllLieux } from '../api';
-import { useFilteredSearchParams } from '../hooks/use-filtered-search-params';
 
 const PAGE_SIZE = 24;
 

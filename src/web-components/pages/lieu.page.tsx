@@ -1,14 +1,18 @@
 import { skipToken, useQuery } from '@tanstack/react-query';
 import { useParams, useSearch } from '@tanstack/react-router';
 import type { FC } from 'react';
-import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
-import departements from '@/features/collectivites-territoriales/departements.json';
-import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
-import regions from '@/features/collectivites-territoriales/regions.json';
-import { FicheLieuPage } from '@/features/lieux-inclusion-numerique/fiche-lieu.page';
-import { hrefWithSearchParams } from '@/libraries/next';
+import { FicheLieuPage } from '@/features/lieux-inclusion-numerique';
+import {
+  type Departement,
+  departementMatchingSlug,
+  departements,
+  type Region,
+  regionMatchingSlug,
+  regions
+} from '@/libraries/collectivites';
+import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { fetchLieu } from '../api';
-import { useBreadcrumbItems } from '../hooks/use-filtered-search-params';
+import { useBreadcrumbItems } from '../breadcrumb/use-breadcrumb-items';
 
 export const Page: FC = () => {
   const { region: regionSlug, departement: departementSlug, id } = useParams({ from: '/$region/$departement/lieux/$id' });
@@ -34,13 +38,8 @@ export const Page: FC = () => {
     { label: lieu?.adresse.split(', ')[1] ?? lieu?.adresse ?? '' }
   ]);
 
-  if (!region || !departement) {
-    return <div>Page non trouvée</div>;
-  }
-
-  if (!lieu) {
-    return <div>Chargement...</div>;
-  }
+  if (!region || !departement) return <div>Page non trouvée</div>;
+  if (!lieu) return <div>Chargement...</div>;
 
   return (
     <FicheLieuPage

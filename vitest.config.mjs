@@ -19,5 +19,12 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
+    exclude: ['node_modules', 'e2e'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html', 'lcov'],
+      include: ['src/libraries/**/*.ts', 'src/features/**/*.ts'],
+      exclude: ['**/*.spec.ts', '**/*.d.ts', '**/index.ts'],
+    },
   },
 });

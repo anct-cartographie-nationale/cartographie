@@ -1,8 +1,11 @@
 import { headers } from 'next/headers';
 import type { ReactNode } from 'react';
 import ClientLayout from '@/app/(with-map)/client.layout';
-import { getCachedDepartementsStats, getCachedRegionsStats } from '@/features/collectivites-territoriales/stats';
-import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
+import {
+  getCachedDepartementsStats,
+  getCachedRegionsStats
+} from '@/features/collectivites-territoriales/abilities/stats-query';
+import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 
 type LayoutProps = {
   children: ReactNode;

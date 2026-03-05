@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { inclusionNumeriqueFetchApi, MEDIATEURS_ROUTE } from '@/external-api/inclusion-numerique';
+import { inclusionNumeriqueFetchApi, MEDIATEURS_ROUTE } from '@/libraries/inclusion-numerique-api';
 
 const searchSchema = z.object({
   q: z.string().min(1).max(100)

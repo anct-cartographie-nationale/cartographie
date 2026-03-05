@@ -1,14 +1,19 @@
 import { skipToken, useQuery } from '@tanstack/react-query';
 import { useParams, useSearch } from '@tanstack/react-router';
 import { type FC, useMemo } from 'react';
-import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
-import departements from '@/features/collectivites-territoriales/departements.json';
-import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
-import regions from '@/features/collectivites-territoriales/regions.json';
-import { DepartementLieuxPage } from '@/features/lieux-inclusion-numerique/departement-lieux.page';
-import { hrefWithSearchParams } from '@/libraries/next';
+import { DepartementLieuxPage } from '@/features/lieux-inclusion-numerique';
+import {
+  type Departement,
+  departementMatchingSlug,
+  departements,
+  type Region,
+  regionMatchingSlug,
+  regions
+} from '@/libraries/collectivites';
+import { hrefWithSearchParams } from '@/libraries/nextjs';
+import { useFilteredSearchParams } from '@/shared/hooks';
 import { buildExportUrl, fetchDepartementLieux } from '../api';
-import { useBreadcrumbItems, useFilteredSearchParams } from '../hooks/use-filtered-search-params';
+import { useBreadcrumbItems } from '../breadcrumb/use-breadcrumb-items';
 
 const PAGE_SIZE = 10;
 

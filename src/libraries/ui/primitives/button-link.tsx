@@ -1,5 +1,5 @@
 import type { HTMLAttributeAnchorTarget, HTMLAttributes, ReactNode } from 'react';
-import { Link as NextLink, type LinkProps as NextLinkProps } from '@/libraries/next-shim';
+import { Link as NextLink, type LinkProps as NextLinkProps } from '@/libraries/nextjs/shim';
 import { cn } from '@/libraries/utils';
 import type { ButtonClass } from './button';
 

@@ -1,13 +1,13 @@
 import { skipToken, useQuery } from '@tanstack/react-query';
 import { useParams, useSearch } from '@tanstack/react-router';
 import { type FC, useMemo } from 'react';
-import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
-import regions from '@/features/collectivites-territoriales/regions.json';
-import { LieuxPage } from '@/features/lieux-inclusion-numerique/lieux.page';
+import { LieuxPage } from '@/features/lieux-inclusion-numerique';
+import { type Region, regionMatchingSlug, regions } from '@/libraries/collectivites';
 import { provide } from '@/libraries/injection';
-import { hrefWithSearchParams, URL_SEARCH_PARAMS } from '@/libraries/next';
+import { hrefWithSearchParams, URL_SEARCH_PARAMS } from '@/libraries/nextjs';
+import { useFilteredSearchParams } from '@/shared/hooks';
 import { buildExportUrl, fetchRegionLieux } from '../api';
-import { useBreadcrumbItems, useFilteredSearchParams } from '../hooks/use-filtered-search-params';
+import { useBreadcrumbItems } from '../breadcrumb/use-breadcrumb-items';
 
 const PAGE_SIZE = 24;
 

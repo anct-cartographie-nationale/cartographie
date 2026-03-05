@@ -1,16 +1,16 @@
 import { unstable_cache } from 'next/cache';
 import { NextResponse } from 'next/server';
+import { asCount, buildAndFilter, countFromHeaders, filterUnion } from '@/libraries/api/options';
+import { type Region, regionMatchingSlug, regions } from '@/libraries/collectivites';
 import {
+  applyFilters,
   codeInseeStartWithFilterTemplate,
+  type FiltersSchema,
+  filtersSchema,
   inclusionNumeriqueFetchApi,
   LIEUX_ROUTE,
   type LieuxRouteOptions
-} from '@/external-api/inclusion-numerique';
-import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
-import regions from '@/features/collectivites-territoriales/regions.json';
-import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
-import { type FiltersSchema, filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
-import { asCount, buildAndFilter, countFromHeaders, filterUnion } from '@/libraries/api/options';
+} from '@/libraries/inclusion-numerique-api';
 
 const fetchRegionTotalLieux = async (region: Region, filters: FiltersSchema) => {
   const [_, headers] = await inclusionNumeriqueFetchApi(

@@ -1,14 +1,22 @@
 import { notFound } from 'next/navigation';
 import type { NextRequest } from 'next/server';
-import { inclusionNumeriqueFetchApi, isResponseError, LIEUX_ROUTE } from '@/external-api/inclusion-numerique';
-import { toSchemaLieuMediationNumerique } from '@/external-api/inclusion-numerique/transfer/to-schema-lieu-mediation-numerique';
-import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
-import departements from '@/features/collectivites-territoriales/departements.json';
-import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
-import regions from '@/features/collectivites-territoriales/regions.json';
-import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
-import { mediationNumeriqueToCsv } from '@/features/lieux-inclusion-numerique/to-csv/mediation-numerique.to-csv';
-import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
+import { mediationNumeriqueToCsv } from '@/features/lieux-inclusion-numerique';
+import {
+  type Departement,
+  departementMatchingSlug,
+  departements,
+  type Region,
+  regionMatchingSlug,
+  regions
+} from '@/libraries/collectivites';
+import {
+  applyFilters,
+  filtersSchema,
+  inclusionNumeriqueFetchApi,
+  isResponseError,
+  LIEUX_ROUTE
+} from '@/libraries/inclusion-numerique-api';
+import { toSchemaLieuMediationNumerique } from '@/libraries/inclusion-numerique-api/transfer/to-schema-lieu-mediation-numerique';
 
 const DEFAULT_ERROR_MESSAGE = "Erreur lors de l'export des lieux.";
 

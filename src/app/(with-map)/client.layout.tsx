@@ -2,9 +2,9 @@
 
 import { type ReactNode, useState } from 'react';
 import { MapProvider } from 'react-map-gl/maplibre';
-import { Cartographie } from '@/features/cartographie/cartographie';
-import type { Departement } from '@/features/collectivites-territoriales/departement';
-import type { Region } from '@/features/collectivites-territoriales/region';
+import { Cartographie } from '@/features/cartographie';
+import { LieuxOnMap } from '@/features/lieux-inclusion-numerique';
+import type { Departement, Region } from '@/libraries/collectivites';
 import { Button } from '@/libraries/ui/primitives/button';
 import { cn } from '@/libraries/utils';
 
@@ -28,7 +28,7 @@ const ClientLayout = ({ children, regions, departements }: ClientLayoutProps) =>
             )}
           >
             <div className='lg:w-165 w-full h-full px-12 pt-8 pb-14 overflow-auto'>{children}</div>
-            <Cartographie regions={regions} departements={departements} />
+            <Cartographie regions={regions} departements={departements} lieuxSlot={<LieuxOnMap />} />
           </div>
         </MapProvider>
       </div>

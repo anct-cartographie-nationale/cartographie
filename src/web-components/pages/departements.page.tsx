@@ -1,15 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams, useSearch } from '@tanstack/react-router';
 import { type FC, useMemo } from 'react';
-import { DepartementsPage } from '@/features/cartographie/departements.page';
-import departements from '@/features/collectivites-territoriales/departements.json';
-import { filterDepartementsByTerritoire } from '@/features/collectivites-territoriales/filter-by-territoire';
-import { matchingDepartementsFrom, type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
-import regions from '@/features/collectivites-territoriales/regions.json';
-import { inject, TERRITOIRE_FILTER } from '@/libraries/injection';
-import { hrefWithSearchParams } from '@/libraries/next';
+import { DepartementsPage } from '@/features/cartographie';
+import {
+  departements,
+  filterDepartementsByTerritoire,
+  matchingDepartementsFrom,
+  type Region,
+  regionMatchingSlug,
+  regions
+} from '@/libraries/collectivites';
+import { inject } from '@/libraries/injection';
+import { hrefWithSearchParams } from '@/libraries/nextjs';
+import { useFilteredSearchParams } from '@/shared/hooks';
+import { TERRITOIRE_FILTER } from '@/shared/injection';
 import { fetchRegionTotalLieux } from '../api';
-import { useBreadcrumbItems, useFilteredSearchParams } from '../hooks/use-filtered-search-params';
+import { useBreadcrumbItems } from '../breadcrumb/use-breadcrumb-items';
 
 export const Page: FC = () => {
   const { region: regionSlug } = useParams({ from: '/with-map/$region' });

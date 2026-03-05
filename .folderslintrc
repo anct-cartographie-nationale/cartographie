@@ -1,0 +1,28 @@
+{
+  "root": "src",
+  "rules": [
+    "@types/**",
+    "types/**",
+    "shared/**",
+    "shared/injection/**",
+    "shared/hooks/**",
+    "shared/ui/**",
+    "app/api/**",
+    "app/**",
+    "external-api/**",
+    "features/*/abilities/*/query/**",
+    "features/*/abilities/*/ui/**",
+    "features/*/abilities/*/ui/sections/**",
+    "features/*/abilities/*/ui/pages/**",
+    "features/*/abilities/*/presenter/**",
+    "features/*/domain/**",
+    "features/*/implementations/**",
+    "features/*/keys",
+    "features/*/injection/**",
+    "features/*/ui/**",
+    "features/**",
+    "libraries/*/**",
+    "styles/**",
+    "web-components/**"
+  ]
+}
