@@ -1,0 +1,48 @@
+import type { LieuxRouteResponse } from '../routes';
+import type { LieuListItem } from '../types';
+import { formatPhoneNumber } from './format-phone-number';
+import { geographicDistance } from './geographic-distance';
+import { isOpenNow } from './is-open-now';
+
+const isDefined = <T>(value: T | null | undefined): value is T => value != null;
+
+const isOpen =
+  (date: Date) =>
+  (horaires: string | undefined): boolean =>
+    isDefined(horaires) ? isOpenNow(date)(horaires) : false;
+
+export const toLieuListItem =
+  (
+    date: Date,
+    localisation?: {
+      latitude: number;
+      longitude: number;
+    }
+  ) =>
+  ({
+    id,
+    nom,
+    adresse,
+    departement,
+    region,
+    latitude,
+    longitude,
+    telephone,
+    horaires,
+    dispositif_programmes_nationaux,
+    modalites_acces
+  }: LieuxRouteResponse[number] & { region: string; departement: string }): LieuListItem => ({
+    id,
+    nom,
+    adresse,
+    departement,
+    region,
+    ...(localisation && latitude && longitude
+      ? { distance: (geographicDistance({ latitude, longitude }, localisation) / 1000).toFixed(2) }
+      : {}),
+    ...(telephone ? { telephone: formatPhoneNumber(telephone) } : {}),
+    isOpen: isOpen(date)(horaires),
+    isByAppointment: modalites_acces?.includes('Se présenter') ?? false,
+    isFranceServices: dispositif_programmes_nationaux?.includes('France Services') ?? false,
+    isConum: dispositif_programmes_nationaux?.includes('Conseillers numériques') ?? false
+  });

@@ -1,8 +1,7 @@
-import type { Departement } from '@/features/collectivites-territoriales/departement';
-import type { Region } from '@/features/collectivites-territoriales/region';
-import type { LieuDetails } from '@/features/lieux-inclusion-numerique/lieu-details';
-import type { LieuListItem } from '@/features/lieux-inclusion-numerique/lieu-list-item';
-import { API_BASE_URL, inject } from '@/libraries/injection';
+import type { Departement, Region } from '@/libraries/collectivites';
+import type { LieuDetails, LieuListItem } from '@/libraries/inclusion-numerique-api';
+import { inject } from '@/libraries/injection';
+import { API_BASE_URL } from '@/shared/injection';
 
 export type RegionWithCount = Region & { nombreLieux: number };
 export type DepartementWithCount = Departement & { nombreLieux: number };

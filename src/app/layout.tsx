@@ -2,16 +2,24 @@ import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import type { ReactNode } from 'react';
-import { Navbar } from '@/features/brand/use-cases/layout';
-import { RepubliqueFrancaiseLogo } from '@/features/brand/use-cases/logos';
+import { Navbar } from '@/features/brand/abilities/layout';
+import { Geolocate, SearchAddress } from '@/features/cartographie';
+import {
+  BesoinsFilters,
+  DisponibiliteFilters,
+  DispositifsFilters,
+  PublicCibleFilters,
+  TerritoiresPrioritairesFilters
+} from '@/features/lieux-inclusion-numerique';
 import { MatomoTracker } from '@/libraries/analytics';
-import { ConfigProvider } from '@/libraries/injection';
 import { Footer, FooterLegal } from '@/libraries/ui/blocks/footer';
 import { footerId, skipLinksId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import { ThemeChanger } from '@/libraries/ui/blocks/theme-changer';
 import { Toaster } from '@/libraries/ui/blocks/toaster';
+import { RepubliqueFrancaiseLogo } from '@/libraries/ui/logos';
 import { Link } from '@/libraries/ui/primitives/link';
 import { ThemeProvider } from '@/libraries/ui/theme/providers';
+import { ConfigProvider } from '@/shared/injection';
 import { metadata as appMetadata } from './metadata';
 
 export const metadata: Metadata = appMetadata;
@@ -30,7 +38,23 @@ const RootLayout = ({
             <Toaster directionY='toast-top' directionX='toast-center' />
             <div className='h-dvh flex flex-col'>
               <div id={skipLinksId} />
-              <Navbar />
+              <Navbar
+                searchSlot={
+                  <div className='flex gap-2'>
+                    <SearchAddress className='sm:w-100 w-full pr-0' />
+                    <Geolocate />
+                  </div>
+                }
+                filtersSlot={
+                  <>
+                    <BesoinsFilters />
+                    <PublicCibleFilters />
+                    <DisponibiliteFilters />
+                    <DispositifsFilters />
+                    <TerritoiresPrioritairesFilters />
+                  </>
+                }
+              />
               {children}
             </div>
             <div className='border-t-2 border-solid border-primary text-neutral' id={footerId}>

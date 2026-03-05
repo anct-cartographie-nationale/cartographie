@@ -1,7 +1,7 @@
 import { skipToken, useQuery } from '@tanstack/react-query';
 import { Navigate, useParams, useSearch } from '@tanstack/react-router';
 import type { FC } from 'react';
-import { hrefWithSearchParams } from '@/libraries/next';
+import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { fetchLieu } from '../api';
 
 export const Page: FC = () => {

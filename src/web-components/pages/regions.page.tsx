@@ -1,11 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { useSearch } from '@tanstack/react-router';
 import { type FC, useMemo } from 'react';
-import { RegionsPage } from '@/features/cartographie/regions.page';
-import { filterRegionsByTerritoire } from '@/features/collectivites-territoriales/filter-by-territoire';
-import { inject, TERRITOIRE_FILTER } from '@/libraries/injection';
+import { RegionsPage } from '@/features/cartographie';
+import { filterRegionsByTerritoire } from '@/libraries/collectivites';
+import { inject } from '@/libraries/injection';
+import { useFilteredSearchParams } from '@/shared/hooks';
+import { TERRITOIRE_FILTER } from '@/shared/injection';
 import { fetchTotalLieux } from '../api';
-import { useFilteredSearchParams } from '../hooks/use-filtered-search-params';
 
 export const Page: FC = () => {
   const search = useSearch({ strict: false }) as Record<string, string>;

@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { buildAndFilter, type FilterOptions, type PaginateOptions, toQueryParams } from './options';
+import {
+  buildAndFilter,
+  countFromHeaders,
+  type FilterOptions,
+  filterUnion,
+  type PaginateOptions,
+  toQueryParams
+} from './options';
 
 describe('options', () => {
   it('should create query params for pagination', () => {
@@ -90,5 +97,63 @@ describe('buildAndFilter', () => {
     const result = buildAndFilter(regionFilter, searchFilters);
 
     expect(result).toStrictEqual({ and: '(or(code_insee.like.75*),or(services.cs.{a}),or(frais.eq.gratuit))' });
+  });
+});
+
+describe('filterUnion', () => {
+  it('should return empty object when values array is empty', () => {
+    const template = (v: string) => `field.eq.${v}`;
+
+    expect(filterUnion([])(template)).toEqual({});
+  });
+
+  it('should create or filter for single value', () => {
+    const template = (v: string) => `field.eq.${v}`;
+
+    expect(filterUnion(['foo'])(template)).toEqual({ or: '(field.eq.foo)' });
+  });
+
+  it('should create or filter for multiple values', () => {
+    const template = (v: string) => `field.eq.${v}`;
+
+    expect(filterUnion(['foo', 'bar', 'baz'])(template)).toEqual({ or: '(field.eq.foo,field.eq.bar,field.eq.baz)' });
+  });
+
+  it('should work with complex filter templates', () => {
+    const template = (v: string) => `services.cs.{${v}}`;
+
+    expect(filterUnion(['Aide', 'Formation'])(template)).toEqual({ or: '(services.cs.{Aide},services.cs.{Formation})' });
+  });
+});
+
+describe('countFromHeaders', () => {
+  it('should extract count from content-range header', () => {
+    const headers = new Headers({ 'content-range': '0-9/42' });
+
+    expect(countFromHeaders(headers)).toBe(42);
+  });
+
+  it('should return 0 when content-range header is missing', () => {
+    const headers = new Headers();
+
+    expect(countFromHeaders(headers)).toBe(0);
+  });
+
+  it('should return 0 when content-range format is invalid', () => {
+    const headers = new Headers({ 'content-range': 'invalid' });
+
+    expect(countFromHeaders(headers)).toBe(0);
+  });
+
+  it('should handle large counts', () => {
+    const headers = new Headers({ 'content-range': '0-99/123456' });
+
+    expect(countFromHeaders(headers)).toBe(123456);
+  });
+
+  it('should handle count of 0', () => {
+    const headers = new Headers({ 'content-range': '*/0' });
+
+    expect(countFromHeaders(headers)).toBe(0);
   });
 });

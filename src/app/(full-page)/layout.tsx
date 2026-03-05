@@ -4,8 +4,6 @@ type LayoutProps = {
   children: ReactNode;
 };
 
-const Layout = async ({ children }: LayoutProps) => {
-  return <div className='overflow-auto pb-12'>{children}</div>;
-};
+const Layout = async ({ children }: LayoutProps) => <div className='overflow-auto pb-12'>{children}</div>;
 
 export default Layout;

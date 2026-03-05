@@ -1,15 +1,13 @@
 import { RouterProvider } from '@tanstack/react-router';
 import { type FC, useMemo } from 'react';
-import { MATOMO_CONFIG, MatomoTracker } from '@/libraries/analytics';
-import {
-  API_BASE_URL,
-  MAP_CONFIG,
-  NAVBAR_CONFIG,
-  provide,
-  TERRITOIRE_FILTER,
-  type TerritoireType
-} from '@/libraries/injection';
+import { NAVBAR_CONFIG } from '@/features/brand/injection';
+import { MAP_CONFIG } from '@/features/cartographie/injection';
+import { MATOMO_CONFIG } from '@/libraries/analytics';
+import { provide } from '@/libraries/injection';
+import { THEME_COLORS } from '@/libraries/map';
 import { Toaster } from '@/libraries/ui/blocks/toaster';
+import { API_BASE_URL, TERRITOIRE_FILTER, type TerritoireType } from '@/shared/injection';
+import { getThemeColors } from '@/shared/ui';
 import { createAppRouter } from './router';
 
 type AppProps = {
@@ -54,13 +52,13 @@ export const App: FC<AppProps> = ({
       .filter(Boolean)
   });
   provide(MATOMO_CONFIG, { url: matomoUrl, siteId: matomoSiteId });
+  provide(THEME_COLORS, getThemeColors);
 
   const router = useMemo(() => createAppRouter(routeInitiale), [routeInitiale]);
 
   return (
     <>
       <Toaster directionY='toast-top' directionX='toast-center' />
-      <MatomoTracker />
       <RouterProvider router={router} />
     </>
   );
