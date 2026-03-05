@@ -1,5 +1,6 @@
 import { RouterProvider } from '@tanstack/react-router';
 import { type FC, useMemo } from 'react';
+import { MATOMO_CONFIG, MatomoTracker } from '@/libraries/analytics';
 import {
   API_BASE_URL,
   MAP_CONFIG,
@@ -23,6 +24,8 @@ type AppProps = {
   territoireType?: string;
   territoires?: string;
   routeInitiale?: string;
+  matomoUrl?: string;
+  matomoSiteId?: string;
 };
 
 export const App: FC<AppProps> = ({
@@ -36,7 +39,9 @@ export const App: FC<AppProps> = ({
   zoom,
   territoireType,
   territoires,
-  routeInitiale
+  routeInitiale,
+  matomoUrl,
+  matomoSiteId
 }) => {
   provide(API_BASE_URL, apiUrl);
   provide(NAVBAR_CONFIG, { logoUrl, appName, helpUrl, helpLabel, homeUrl: routeInitiale });
@@ -48,12 +53,14 @@ export const App: FC<AppProps> = ({
       .map((s) => s.trim())
       .filter(Boolean)
   });
+  provide(MATOMO_CONFIG, { url: matomoUrl, siteId: matomoSiteId });
 
   const router = useMemo(() => createAppRouter(routeInitiale), [routeInitiale]);
 
   return (
     <>
       <Toaster directionY='toast-top' directionX='toast-center' />
+      <MatomoTracker />
       <RouterProvider router={router} />
     </>
   );

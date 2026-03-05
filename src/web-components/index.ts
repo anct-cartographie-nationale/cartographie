@@ -16,7 +16,9 @@ customElements.define(
       zoom: 'number',
       territoireType: 'string',
       territoires: 'string',
-      routeInitiale: 'string'
+      routeInitiale: 'string',
+      matomoUrl: 'string',
+      matomoSiteId: 'string'
     }
   })
 );
