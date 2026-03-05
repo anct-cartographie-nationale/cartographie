@@ -2,10 +2,14 @@ import type { BBox } from 'geojson';
 import { unstable_cache } from 'next/cache';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/external-api/inclusion-numerique';
-import { MAP_CHUNK_OPTIONS, mapChunk } from '@/features/cartographie/geo';
-import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
-import { type FiltersSchema, filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
+import {
+  applyFilters,
+  type FiltersSchema,
+  filtersSchema,
+  inclusionNumeriqueFetchApi,
+  LIEUX_ROUTE
+} from '@/libraries/inclusion-numerique-api';
+import { MAP_CHUNK_OPTIONS, mapChunk } from '@/libraries/map';
 
 type Localisation = { longitude: number; latitude: number };
 

@@ -1,6 +1,6 @@
 import { RouterProvider } from '@tanstack/react-router';
 import { type FC, useMemo } from 'react';
-import { MATOMO_CONFIG, MatomoTracker } from '@/libraries/analytics';
+import { MATOMO_CONFIG } from '@/libraries/analytics';
 import {
   API_BASE_URL,
   MAP_CONFIG,
@@ -60,7 +60,6 @@ export const App: FC<AppProps> = ({
   return (
     <>
       <Toaster directionY='toast-top' directionX='toast-center' />
-      <MatomoTracker />
       <RouterProvider router={router} />
     </>
   );

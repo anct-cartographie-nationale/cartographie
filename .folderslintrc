@@ -1,0 +1,23 @@
+{
+  "root": "src",
+  "rules": [
+    "@types/**",
+    "types/**",
+    "app/api/**",
+    "app/**",
+    "external-api/**",
+    "features/*/abilities/*/query",
+    "features/*/abilities/*/query/implementations/**",
+    "features/*/abilities/*/ui/components",
+    "features/*/abilities/*/ui/pages",
+    "features/*/abilities/*/ui/shared",
+    "features/*/domain/**",
+    "features/*/implementations/**",
+    "features/*/keys",
+    "features/*/ui/**",
+    "features/**",
+    "libraries/*/**",
+    "styles/**",
+    "web-components/**"
+  ]
+}

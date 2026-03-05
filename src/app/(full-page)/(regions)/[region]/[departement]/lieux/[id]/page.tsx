@@ -1,14 +1,11 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/external-api/inclusion-numerique';
-import { toLieuDetails } from '@/external-api/inclusion-numerique/transfer/to-lieu-details';
-import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
-import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
-import departements from '@/features/collectivites-territoriales/departements.json';
-import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
-import regions from '@/features/collectivites-territoriales/regions.json';
-import { FicheLieuPage } from '@/features/lieux-inclusion-numerique/fiche-lieu.page';
+import { appendCollectivites, withDepartement, withRegion } from '@/features/collectivites-territoriales';
+import { FicheLieuPage } from '@/features/lieux-inclusion-numerique';
+import { inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/libraries/inclusion-numerique-api';
+import { toLieuDetails } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-details';
 import { hrefWithSearchParams } from '@/libraries/next';
+import { page, withParams, withUrlSearchParams } from '@/libraries/next/page';
 import { appPageTitle } from '@/libraries/utils';
 
 type PageProps = {
@@ -30,37 +27,31 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
   };
 };
 
-const Page = async ({ params: paramsPromise, searchParams: searchParamsPromise }: PageProps) => {
-  const params = await paramsPromise;
-  const urlSearchParams = new URLSearchParams(await searchParamsPromise);
+export default page
+  .withAll(withRegion(), withDepartement(), withParams('id'), withUrlSearchParams())
+  .render(async ({ region, departement, id, urlSearchParams }) => {
+    const [lieux] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
+      paginate: { limit: 1, offset: 0 },
+      filter: { id: `eq.${decodeURIComponent(id)}` }
+    });
 
-  const region: Region | undefined = regions.find(regionMatchingSlug(params.region));
-  const departement: Departement | undefined = departements.find(departementMatchingSlug(params.departement));
+    const lieu = lieux[0];
 
-  const [lieux] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
-    paginate: { limit: 1, offset: 0 },
-    filter: { id: `eq.${decodeURIComponent(params.id)}` }
+    if (!lieu) return notFound();
+
+    return (
+      <FicheLieuPage
+        lieu={toLieuDetails(appendCollectivites(lieu))}
+        breadcrumbsItems={[
+          { label: 'France', href: hrefWithSearchParams('/')(urlSearchParams, ['page']) },
+          { label: region.nom, href: hrefWithSearchParams(`/${region.slug}`)(urlSearchParams, ['page']) },
+          {
+            label: departement.nom,
+            href: hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])
+          },
+          { label: `${lieu.adresse.code_postal} ${lieu.adresse.commune}` }
+        ]}
+        listHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])}
+      />
+    );
   });
-
-  const lieu = lieux[0];
-
-  if (!region || !departement || !lieu) return notFound();
-
-  return (
-    <FicheLieuPage
-      lieu={toLieuDetails(appendCollectivites(lieu))}
-      breadcrumbsItems={[
-        { label: 'France', href: hrefWithSearchParams('/')(urlSearchParams, ['page']) },
-        { label: region.nom, href: hrefWithSearchParams(`/${region.slug}`)(urlSearchParams, ['page']) },
-        {
-          label: departement.nom,
-          href: hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])
-        },
-        { label: `${lieu.adresse.code_postal} ${lieu.adresse.commune}` }
-      ]}
-      listHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])}
-    />
-  );
-};
-
-export default Page;

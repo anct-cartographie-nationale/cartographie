@@ -1,5 +1,5 @@
-import { getCachedDepartementsStats } from '@/features/collectivites-territoriales/stats';
-import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
+import { getCachedDepartementsStats } from '@/features/collectivites-territoriales/abilities/stats-query';
+import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 
 export const GET = async (request: Request) => {
   const { searchParams: searchParamsMap } = new URL(request.url);

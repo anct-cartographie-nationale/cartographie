@@ -1,8 +1,13 @@
 import { unstable_cache } from 'next/cache';
-import { inclusionNumeriqueFetchApi, LIEUX_ROUTE, type LieuxRouteOptions } from '@/external-api/inclusion-numerique';
-import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
-import { type FiltersSchema, filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
 import { asCount, countFromHeaders } from '@/libraries/api/options';
+import {
+  applyFilters,
+  type FiltersSchema,
+  filtersSchema,
+  inclusionNumeriqueFetchApi,
+  LIEUX_ROUTE,
+  type LieuxRouteOptions
+} from '@/libraries/inclusion-numerique-api';
 
 const fetchTotalLieux = async (filters: FiltersSchema) => {
   const [_, headers] = await inclusionNumeriqueFetchApi(

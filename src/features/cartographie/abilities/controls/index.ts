@@ -1,0 +1,1 @@
+export { Geolocate } from './geolocate';

@@ -1,11 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams, useSearch } from '@tanstack/react-router';
 import { type FC, useMemo } from 'react';
-import { DepartementsPage } from '@/features/cartographie/departements.page';
-import departements from '@/features/collectivites-territoriales/departements.json';
-import { filterDepartementsByTerritoire } from '@/features/collectivites-territoriales/filter-by-territoire';
-import { matchingDepartementsFrom, type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
-import regions from '@/features/collectivites-territoriales/regions.json';
+import { DepartementsPage } from '@/features/cartographie';
+import {
+  departements,
+  filterDepartementsByTerritoire,
+  matchingDepartementsFrom,
+  type Region,
+  regionMatchingSlug,
+  regions
+} from '@/features/collectivites-territoriales';
 import { inject, TERRITOIRE_FILTER } from '@/libraries/injection';
 import { hrefWithSearchParams } from '@/libraries/next';
 import { fetchRegionTotalLieux } from '../api';

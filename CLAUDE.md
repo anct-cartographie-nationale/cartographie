@@ -35,11 +35,10 @@ pnpm biome:ci         # Check for linting/formatting errors (CI mode)
 - `src/web-components/` - Vite-based web components build (uses @tanstack/react-router)
   - `index.ts` - Entry point, defines `<cartographie-inclusion-numerique>` custom element
   - `demo/` - Development HTML page for testing the web component
-- `src/features/` - Domain-specific modules:
-  - `cartographie/` - Map components, markers, clustering, geo utilities
-  - `lieux-inclusion-numerique/` - Location details, filters, lists
-  - `collectivites-territoriales/` - Regions/departments data and utilities
-  - `address/` - Address search using BAN (Base Adresse Nationale)
+- `src/features/` - Domain-specific modules (each follows `abilities/`+`infrastructure/`+`domain/` pattern):
+  - `cartographie/` - Map display, search, controls
+  - `lieux-inclusion-numerique/` - Location details, filters, lists, export
+  - `collectivites-territoriales/` - Regions/departments resolution and stats
   - `brand/` - Logos and layout components
 - `src/libraries/` - Shared utilities:
   - `ui/` - Reusable UI primitives and blocks (using DaisyUI/Tailwind)
@@ -47,24 +46,54 @@ pnpm biome:ci         # Check for linting/formatting errors (CI mode)
   - `reactivity/` - RxJS-based reactive streams
   - `form/` - Form handling with @tanstack/react-form
   - `next-shim/` - Shims for Next.js APIs when building web components (`.wc.tsx` variants): Link, Image, useSearchParams, etc.
-- `src/external-api/` - External API clients (inclusion-numerique API)
+- `src/libraries/inclusion-numerique-api/` - API client for ANCT DataSpace
 - `src/styles/` - CSS modules for components and DSFR (Design System FR) overrides
 
 ### Key Patterns
 
-**Dependency Injection**: Uses `piqure` library for DI. Configuration is injected at the root and consumed via `inject(KEY)` pattern:
+**Dependency Injection**: Uses `piqure` library for DI with a contract-based pattern:
+
+```
+src/libraries/injection/
+├── container.ts        # inject(), provide(), provideLazy(), key()
+├── keys/               # Injection contracts (typed symbols)
+│   ├── api-base-url.key.ts
+│   ├── navbar-config.key.ts
+│   └── ...
+├── providers/          # Root-level providers
+│   └── config.provider.tsx
+└── with-injectable.ts  # Lazy loading for server actions
+```
+
+**Usage pattern:**
+```typescript
+// 1. Define a contract (key)
+export const API_BASE_URL = key<string>('api-base-url');
+
+// 2. Provide at root level
+provide(API_BASE_URL, '/api');  // or provideLazy() for deferred
+
+// 3. Consume anywhere
+const baseUrl = inject(API_BASE_URL);
+```
+
+**Available keys:**
 - `API_BASE_URL` - Base URL for API calls (`/api` for Next.js, external URL for WC)
 - `NAVBAR_CONFIG` - Branding configuration (logo, app name, help link)
-- Next.js uses `ConfigProvider` in `src/app/layout.tsx` to read from `process.env` and inject
-- Web Components use `app.tsx` to inject from props passed to the custom element
+- `MAP_CONFIG` - Map initial view configuration
+- `TERRITOIRE_FILTER` - Geographic filter for data
 
-**Reactive Data Flow**: Map data uses RxJS observables for reactive updates. Key streams in `src/features/cartographie/lieux/streams/`:
+**Providers:**
+- Next.js: `ConfigProvider` in `src/app/layout.tsx` reads from `process.env`
+- Web Components: `app.tsx` injects from custom element attributes
+
+**Reactive Data Flow**: Map data uses RxJS observables for reactive updates. Key streams in `src/features/lieux-inclusion-numerique/infrastructure/streams/`:
 - `boundingBox$` - Current map viewport
 - `zoom$` - Current zoom level
 - `lieux$` - Locations with clustering via `mutable-supercluster`
 - Use `useTap(observable$, callback)` hook for side effects (e.g., map interactions)
 
-**API Client**: External API calls go through `inclusionNumeriqueFetchApi()` in `src/external-api/inclusion-numerique/`. Uses PostgREST query format.
+**API Client**: External API calls go through `inclusionNumeriqueFetchApi()` in `src/libraries/inclusion-numerique-api/`. Uses PostgREST query format. Server-side only (requires API token).
 
 **Path Alias**: Use `@/` prefix to import from `src/` directory.
 

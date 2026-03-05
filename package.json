@@ -32,6 +32,8 @@
     "test": "vitest",
     "code:check": "biome check --write",
     "biome:ci": "pnpm exec biome ci",
+    "lint:arch": "depcruise src && folderslint",
+    "lint:arch:graph": "depcruise src --include-only \"^src\" --output-type dot | dot -T svg > dependency-graph.svg",
     "lint:commit": "commitlint --from origin/main",
     "prepare": "husky"
   },
@@ -91,6 +93,8 @@
     "@vitejs/plugin-react": "^5.1.3",
     "@vitest/coverage-v8": "^4.0.18",
     "autoprefixer": "^10.4.24",
+    "dependency-cruiser": "^17.3.8",
+    "folderslint": "^1.2.0",
     "husky": "^9.1.7",
     "jsdom": "^28.0.0",
     "lint-staged": "^16.2.7",

@@ -1,0 +1,67 @@
+import type Supercluster from 'mutable-supercluster';
+import { combineLatest, filter, from, map, merge, mergeMap, type Observable, of, scan, switchMap } from 'rxjs';
+import type { ClusterFeature, ClusterProperties, PointFeature } from 'supercluster';
+import { inject } from '@/libraries/injection';
+import { boundingBox$, boundingBoxCenter, MAP_CHUNK_OPTIONS, type Position2D, splitBondingBox, zoom$ } from '@/libraries/map';
+import type { Lieu } from '../domain/lieu';
+import { LIEUX_CACHE } from '../keys/lieux-cache.key';
+import { LIEUX_FOR_CHUNK } from '../keys/lieux-for-chunk.key';
+
+type PositionsWithCache = { lieux: Lieu[]; positions: Position2D[] };
+
+const EMPTY_POSITIONS_WITH_CACHE: PositionsWithCache = { lieux: [], positions: [] };
+
+const resolvePositions = ({ lieux, positions }: PositionsWithCache, searchParams: URLSearchParams): Observable<Lieu[]> =>
+  positions.length === 0
+    ? of(lieux)
+    : merge(
+        of(lieux),
+        from(positions).pipe(
+          mergeMap((position: Position2D): Observable<Lieu[]> => from(inject(LIEUX_FOR_CHUNK)(position, searchParams))),
+          scan((accumulated: Lieu[], newLieux: Lieu[]): Lieu[] => [...accumulated, ...newLieux], lieux)
+        )
+      );
+
+const toPositionsWithCache = ({ lieux, positions }: PositionsWithCache, position: Position2D) => {
+  const cacheKey = `${position}`;
+  const lieuxCache = inject(LIEUX_CACHE);
+
+  return lieuxCache.has(cacheKey)
+    ? { lieux: [...lieux, ...(lieuxCache.get(cacheKey) ?? [])], positions }
+    : { lieux: lieux, positions: [...positions, position] };
+};
+
+const toPointFeature = <T extends { latitude: number; longitude: number }>(properties: T): PointFeature<T> => ({
+  type: 'Feature',
+  properties: properties,
+  geometry: {
+    type: 'Point',
+    coordinates: [properties.longitude, properties.latitude]
+  }
+});
+
+export const lieux$ = (
+  supercluster: Supercluster<Lieu, ClusterProperties>,
+  searchParams: URLSearchParams
+): Observable<{
+  features: (PointFeature<Lieu> | ClusterFeature<ClusterProperties>)[];
+}> =>
+  combineLatest([zoom$, boundingBox$])
+    .pipe(
+      filter(([zoom]) => zoom > 9),
+      switchMap(([zoom, boundingBox]) => {
+        const centers: Position2D[] = splitBondingBox(boundingBox, MAP_CHUNK_OPTIONS).map(boundingBoxCenter);
+
+        return centers.length === 0
+          ? of({ features: [] })
+          : resolvePositions(
+              centers.reduce<PositionsWithCache>(toPositionsWithCache, EMPTY_POSITIONS_WITH_CACHE),
+              searchParams
+            ).pipe(
+              map((lieux: Lieu[]) => ({
+                features: supercluster.load(lieux.map(toPointFeature)).getClusters(boundingBox, zoom)
+              }))
+            );
+      })
+    )
+    .pipe(filter(({ features }) => features.length > 0));
