@@ -3,6 +3,7 @@ import type { FC, ReactNode } from 'react';
 import { MapProvider } from 'react-map-gl/maplibre';
 import { Navbar } from '@/features/brand/use-cases/layout';
 import { ThemeProvider } from '@/libraries/ui/theme/providers/theme.provider';
+import { LoadStreamSync } from './components/load-stream-sync';
 
 type WebComponentLayoutProps = {
   children: ReactNode;
@@ -12,6 +13,7 @@ const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 10
 
 export const WebComponentLayout: FC<WebComponentLayoutProps> = ({ children }) => (
   <QueryClientProvider client={queryClient}>
+    <LoadStreamSync />
     <ThemeProvider attribute='data-theme' defaultTheme='light' enableSystem disableTransitionOnChange>
       <MapProvider>
         <div className='h-full flex flex-col'>
