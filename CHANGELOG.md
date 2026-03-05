@@ -1,3 +1,10 @@
+# [6.2.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.1.3...v6.2.0) (2026-03-05)
+
+
+### Features
+
+* **web-component:** add loading indicator for data fetching ([6b0d42a](https://github.com/anct-cartographie-nationale/cartographie/commit/6b0d42ab0f3939af63adcc6ad2fad6432753379c))
+
 ## [6.1.3](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.1.2...v6.1.3) (2026-02-26)
 
 
