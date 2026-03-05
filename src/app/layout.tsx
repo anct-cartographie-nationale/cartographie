@@ -4,6 +4,7 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import type { ReactNode } from 'react';
 import { Navbar } from '@/features/brand/use-cases/layout';
 import { RepubliqueFrancaiseLogo } from '@/features/brand/use-cases/logos';
+import { MatomoTracker } from '@/libraries/analytics';
 import { ConfigProvider } from '@/libraries/injection';
 import { Footer, FooterLegal } from '@/libraries/ui/blocks/footer';
 import { footerId, skipLinksId } from '@/libraries/ui/blocks/skip-links/skip-links';
@@ -24,6 +25,7 @@ const RootLayout = ({
     <body>
       <NuqsAdapter>
         <ConfigProvider>
+          <MatomoTracker />
           <ThemeProvider attribute='data-theme' defaultTheme='dark' enableSystem disableTransitionOnChange>
             <Toaster directionY='toast-top' directionX='toast-center' />
             <div className='h-dvh flex flex-col'>
