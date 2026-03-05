@@ -12,6 +12,7 @@ Ce guide vous explique comment afficher la Cartographie Nationale des lieux d'in
   - [Personnaliser la position initiale de la carte](#personnaliser-la-position-initiale-de-la-carte)
   - [Filtrer par territoire](#filtrer-par-territoire)
   - [Définir la page d'accueil](#définir-la-page-daccueil)
+  - [Ajouter votre propre tracking Matomo](#ajouter-votre-propre-tracking-matomo)
   - [Personnaliser les couleurs et le style](#personnaliser-les-couleurs-et-le-style)
 - [Exemples complets](#exemples-complets)
 
@@ -266,6 +267,33 @@ Par défaut, la cartographie affiche toutes les régions de France. Vous pouvez 
 | `/{region-slug}` | Départements d'une région (ex: `/ile-de-france`) |
 | `/{region-slug}/{departement-slug}` | Lieux d'un département (ex: `/ile-de-france/paris`) |
 
+### Ajouter votre propre tracking Matomo
+
+Si vous disposez de votre propre instance [Matomo](https://matomo.org/), vous pouvez activer le suivi des visites et des interactions sur votre cartographie intégrée :
+
+```html
+<cartographie-inclusion-numerique
+  api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
+  matomo-url="https://analytics.mon-site.fr"
+  matomo-site-id="1"
+/>
+```
+
+| Attribut | Description | Exemple |
+|----------|-------------|---------|
+| `matomo-url` | URL de votre instance Matomo | `https://analytics.mon-site.fr` |
+| `matomo-site-id` | Identifiant du site dans Matomo | `1` |
+
+> **Note** : Le tracking est effectué en mode **cookieless** (sans cookies), conforme aux recommandations de la CNIL. Aucune bannière de consentement n'est nécessaire.
+
+**Événements trackés automatiquement :**
+- Pages visitées (régions, départements, fiches lieux)
+- Recherches d'adresses
+- Sélection de régions et départements sur la carte
+- Utilisation des filtres
+- Exports de données
+- Activation de la couche "Fragilité numérique"
+
 ### Personnaliser les couleurs et le style
 
 La cartographie utilise [DaisyUI](https://daisyui.com/) pour ses composants visuels. Vous pouvez adapter les couleurs à votre charte graphique grâce aux variables CSS.
@@ -369,6 +397,8 @@ Pour utiliser ces couleurs, créez une balise `<style>` dans le `<head>` de votr
 | `territoire-type` | Non | Type de filtre territoire : `regions`, `departements` ou `communes` |
 | `territoires` | Non | Liste de codes territoires séparés par des virgules                 |
 | `route-initiale` | Non | Route de départ (ex: `/ile-de-france/paris`)                        |
+| `matomo-url` | Non | URL de votre instance Matomo pour le tracking                       |
+| `matomo-site-id` | Non | Identifiant du site dans votre instance Matomo                      |
 
 ---
 
