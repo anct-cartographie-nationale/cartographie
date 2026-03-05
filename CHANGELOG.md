@@ -1,3 +1,12 @@
+# [6.3.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.2.1...v6.3.0) (2026-03-05)
+
+
+### Features
+
+* **analytics:** add event tracking to components ([d2c5bd1](https://github.com/anct-cartographie-nationale/cartographie/commit/d2c5bd1c6e84e48c1af208f551a7db9b11169ffc))
+* **analytics:** add Matomo analytics library ([f2f7351](https://github.com/anct-cartographie-nationale/cartographie/commit/f2f73511906ccc7fe79a135d4d2c5bfe54ea1004))
+* **analytics:** integrate Matomo tracker in layouts ([b14afe1](https://github.com/anct-cartographie-nationale/cartographie/commit/b14afe1790f3c89801ea908a9055214d3432f849))
+
 ## [6.2.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.2.0...v6.2.1) (2026-03-05)
 
 
