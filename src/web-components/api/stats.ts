@@ -1,7 +1,5 @@
-import type { Departement } from '@/features/collectivites-territoriales/departement';
-import type { Region } from '@/features/collectivites-territoriales/region';
-import type { LieuDetails } from '@/features/lieux-inclusion-numerique/lieu-details';
-import type { LieuListItem } from '@/features/lieux-inclusion-numerique/lieu-list-item';
+import type { Departement, Region } from '@/features/collectivites-territoriales';
+import type { LieuDetails, LieuListItem } from '@/features/lieux-inclusion-numerique';
 import { API_BASE_URL, inject } from '@/libraries/injection';
 
 export type RegionWithCount = Region & { nombreLieux: number };

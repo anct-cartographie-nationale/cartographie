@@ -1,9 +1,8 @@
 import { skipToken, useQuery } from '@tanstack/react-query';
 import { useParams, useSearch } from '@tanstack/react-router';
 import { type FC, useMemo } from 'react';
-import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
-import regions from '@/features/collectivites-territoriales/regions.json';
-import { LieuxPage } from '@/features/lieux-inclusion-numerique/lieux.page';
+import { type Region, regionMatchingSlug, regions } from '@/features/collectivites-territoriales';
+import { LieuxPage } from '@/features/lieux-inclusion-numerique';
 import { provide } from '@/libraries/injection';
 import { hrefWithSearchParams, URL_SEARCH_PARAMS } from '@/libraries/next';
 import { buildExportUrl, fetchRegionLieux } from '../api';

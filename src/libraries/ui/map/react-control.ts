@@ -1,3 +1,5 @@
+'use client';
+
 import { type ReactNode, useRef } from 'react';
 import ReactDOM from 'react-dom/client';
 import { useControl } from 'react-map-gl/maplibre';

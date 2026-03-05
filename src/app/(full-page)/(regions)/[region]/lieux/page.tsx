@@ -1,24 +1,27 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import {
+  appendCollectivites,
+  type Region,
+  regionMatchingSlug,
+  regions,
+  withRegion
+} from '@/features/collectivites-territoriales';
+import { LieuxPage } from '@/features/lieux-inclusion-numerique';
+import { asCount, buildAndFilter, countFromHeaders, filterUnion } from '@/libraries/api/options';
+import {
+  applyFilters,
   codeInseeStartWithFilterTemplate,
+  filtersSchema,
   inclusionNumeriqueFetchApi,
   LIEU_LIST_FIELDS,
   LIEUX_ROUTE,
   type LieuxRouteOptions
-} from '@/external-api/inclusion-numerique';
-import { toLieuListItem } from '@/external-api/inclusion-numerique/transfer/to-lieu-list-item';
-import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
-import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
-import regions from '@/features/collectivites-territoriales/regions.json';
-import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
-import { LieuxPage } from '@/features/lieux-inclusion-numerique/lieux.page';
-import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
-import { asCount, buildAndFilter, countFromHeaders, filterUnion } from '@/libraries/api/options';
-import { provide } from '@/libraries/injection';
-import { hrefWithSearchParams, URL_SEARCH_PARAMS } from '@/libraries/next';
-import { appPageTitle } from '@/libraries/utils';
-import { pageSchema } from '@/libraries/utils/page.schema';
+} from '@/libraries/inclusion-numerique-api';
+import { toLieuListItem } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-list-item';
+import { hrefWithSearchParams } from '@/libraries/next';
+import { page, withSearchParams, withUrlSearchParams } from '@/libraries/next/page';
+import { appPageTitle, pageSchema } from '@/libraries/utils';
 
 type PageProps = {
   params: Promise<{ region: string }>;
@@ -39,46 +42,39 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
   };
 };
 
-const Page = async ({ params: paramsPromise, searchParams: searchParamsPromise }: PageProps) => {
-  const [params, searchParams] = await Promise.all([paramsPromise, searchParamsPromise]);
-  const urlSearchParams: URLSearchParams = new URLSearchParams(searchParams);
-  provide(URL_SEARCH_PARAMS, urlSearchParams);
+export default page
+  .withAll(withRegion(), withSearchParams<{ page: string }>(), withUrlSearchParams())
+  .render(async ({ region, searchParams, urlSearchParams }) => {
+    const curentPage = pageSchema.parse(searchParams?.page);
+    const limit = 24;
 
-  const region: Region | undefined = regions.find(regionMatchingSlug(params.region));
-  const curentPage = pageSchema.parse(searchParams?.page);
-  const limit = 24;
+    const filter = buildAndFilter(
+      filterUnion(region.departements)(codeInseeStartWithFilterTemplate),
+      applyFilters(filtersSchema.parse(searchParams))
+    );
 
-  if (!region) return notFound();
+    const [[lieux], [, headers]] = await Promise.all([
+      inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
+        paginate: { limit, offset: (curentPage - 1) * limit },
+        select: [...LIEU_LIST_FIELDS, 'telephone'],
+        filter,
+        order: ['nom', 'asc']
+      }),
+      inclusionNumeriqueFetchApi(LIEUX_ROUTE, ...asCount<LieuxRouteOptions>({ filter }))
+    ]);
 
-  const filter = buildAndFilter(
-    filterUnion(region.departements)(codeInseeStartWithFilterTemplate),
-    applyFilters(filtersSchema.parse(searchParams))
-  );
-
-  const [[lieux], [, headers]] = await Promise.all([
-    inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
-      paginate: { limit, offset: (curentPage - 1) * limit },
-      select: [...LIEU_LIST_FIELDS, 'telephone'],
-      filter,
-      order: ['nom', 'asc']
-    }),
-    inclusionNumeriqueFetchApi(LIEUX_ROUTE, ...asCount<LieuxRouteOptions>({ filter }))
-  ]);
-
-  return (
-    <LieuxPage
-      totalLieux={countFromHeaders(headers)}
-      pageSize={limit}
-      curentPage={curentPage}
-      lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}
-      breadcrumbsItems={[
-        { label: 'France', href: hrefWithSearchParams('/')(urlSearchParams, ['page']) },
-        { label: region.nom }
-      ]}
-      mapHref={hrefWithSearchParams(`/${region.slug}`)(urlSearchParams, ['page'])}
-      exportHref={hrefWithSearchParams(`/${region.slug}/lieux/exporter`)(urlSearchParams, ['page'])}
-    />
-  );
-};
-
-export default Page;
+    return (
+      <LieuxPage
+        totalLieux={countFromHeaders(headers)}
+        pageSize={limit}
+        curentPage={curentPage}
+        lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}
+        breadcrumbsItems={[
+          { label: 'France', href: hrefWithSearchParams('/')(urlSearchParams, ['page']) },
+          { label: region.nom }
+        ]}
+        mapHref={hrefWithSearchParams(`/${region.slug}`)(urlSearchParams, ['page'])}
+        exportHref={hrefWithSearchParams(`/${region.slug}/lieux/exporter`)(urlSearchParams, ['page'])}
+      />
+    );
+  });

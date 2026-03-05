@@ -1,18 +1,24 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { DepartementsPage } from '@/features/cartographie';
 import {
+  departements,
+  matchingDepartementsFrom,
+  type Region,
+  regionMatchingSlug,
+  regions,
+  withRegion
+} from '@/features/collectivites-territoriales';
+import { asCount, buildAndFilter, countFromHeaders, filterUnion } from '@/libraries/api/options';
+import {
+  applyFilters,
   codeInseeStartWithFilterTemplate,
+  filtersSchema,
   inclusionNumeriqueFetchApi,
   LIEUX_ROUTE,
   type LieuxRouteOptions
-} from '@/external-api/inclusion-numerique';
-import { DepartementsPage } from '@/features/cartographie/departements.page';
-import departements from '@/features/collectivites-territoriales/departements.json';
-import { matchingDepartementsFrom, type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
-import regions from '@/features/collectivites-territoriales/regions.json';
-import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
-import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
-import { asCount, buildAndFilter, countFromHeaders, filterUnion } from '@/libraries/api/options';
+} from '@/libraries/inclusion-numerique-api';
+import { page, withSearchParams } from '@/libraries/next/page';
 import { appPageTitle } from '@/libraries/utils';
 
 type PageProps = {
@@ -34,13 +40,7 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
   };
 };
 
-const Page = async ({ params, searchParams: searchParamsPromise }: PageProps) => {
-  const searchParams = await searchParamsPromise;
-
-  const region: Region | undefined = regions.find(regionMatchingSlug((await params).region));
-
-  if (!region) return notFound();
-
+export default page.withAll(withRegion(), withSearchParams<{ page: string }>()).render(async ({ region, searchParams }) => {
   const filter = buildAndFilter(
     filterUnion(region.departements)(codeInseeStartWithFilterTemplate),
     applyFilters(filtersSchema.parse(searchParams))
@@ -55,6 +55,4 @@ const Page = async ({ params, searchParams: searchParamsPromise }: PageProps) =>
       departements={departements.filter(matchingDepartementsFrom(region))}
     />
   );
-};
-
-export default Page;
+});

@@ -1,19 +1,18 @@
 import { unstable_cache } from 'next/cache';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
+import { appendCollectivites, departementMatchingCode, departements } from '@/features/collectivites-territoriales';
+import { asCount, countFromHeaders } from '@/libraries/api/options';
 import {
+  applyFilters,
+  type FiltersSchema,
+  filtersSchema,
   inclusionNumeriqueFetchApi,
   LIEU_LIST_FIELDS,
   LIEUX_ROUTE,
   type LieuxRouteOptions
-} from '@/external-api/inclusion-numerique';
-import { toLieuListItem } from '@/external-api/inclusion-numerique/transfer/to-lieu-list-item';
-import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
-import { departementMatchingCode } from '@/features/collectivites-territoriales/departement';
-import departements from '@/features/collectivites-territoriales/departements.json';
-import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
-import { type FiltersSchema, filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
-import { asCount, countFromHeaders } from '@/libraries/api/options';
+} from '@/libraries/inclusion-numerique-api';
+import { toLieuListItem } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-list-item';
 
 const paginationSchema = z.object({
   page: z.coerce.number().int().positive().catch(1),

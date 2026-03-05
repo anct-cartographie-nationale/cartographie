@@ -1,41 +1,31 @@
 import { notFound, redirect } from 'next/navigation';
-import { inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/external-api/inclusion-numerique';
-import { departementMatchingCode } from '@/features/collectivites-territoriales/departement';
-import departements from '@/features/collectivites-territoriales/departements.json';
-import { regionMatchingDepartement } from '@/features/collectivites-territoriales/region';
-import regions from '@/features/collectivites-territoriales/regions.json';
-import { provide } from '@/libraries/injection';
-import { hrefWithSearchParams, URL_SEARCH_PARAMS } from '@/libraries/next';
+import {
+  departementMatchingCode,
+  departements,
+  getDepartementCodeFromInsee,
+  regionMatchingDepartement,
+  regions
+} from '@/libraries/collectivites';
+import { inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/libraries/inclusion-numerique-api';
+import { hrefWithSearchParams } from '@/libraries/next';
+import { page, withParams, withUrlSearchParams } from '@/libraries/next/page';
 
-type PageProps = {
-  params: Promise<{ id: string }>;
-  searchParams?: Promise<{ page: string }>;
-};
-
-const Page = async ({ params: paramsPromise, searchParams: searchParamsPromise }: PageProps) => {
-  const [params, searchParams] = await Promise.all([paramsPromise, searchParamsPromise]);
-  const urlSearchParams: URLSearchParams = new URLSearchParams(searchParams);
-  provide(URL_SEARCH_PARAMS, urlSearchParams);
-
+export default page.withAll(withParams('id'), withUrlSearchParams()).render(async ({ id, urlSearchParams }) => {
   const [lieux] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
     paginate: { limit: 1, offset: 0 },
-    filter: { id: `eq.${decodeURIComponent(params.id)}` },
+    filter: { id: `eq.${decodeURIComponent(id)}` },
     select: ['adresse']
   });
 
   const lieu = lieux[0];
   if (!lieu) return notFound();
 
-  const code = lieu.adresse.code_insee.startsWith('97')
-    ? lieu.adresse.code_insee.slice(0, 3)
-    : lieu.adresse.code_insee.slice(0, 2);
+  const code = getDepartementCodeFromInsee(lieu.adresse.code_insee);
 
   const departement = departements.find(departementMatchingCode(code));
   const region = regions.find(regionMatchingDepartement({ code }));
 
   if (!region || !departement) return notFound();
 
-  redirect(hrefWithSearchParams(`/${region.slug}/${departement.slug}/lieux/${params.id}`)(urlSearchParams));
-};
-
-export default Page;
+  redirect(hrefWithSearchParams(`/${region.slug}/${departement.slug}/lieux/${id}`)(urlSearchParams));
+});

@@ -1,8 +1,8 @@
 import { unstable_cache } from 'next/cache';
 import { NextResponse } from 'next/server';
-import { inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/external-api/inclusion-numerique';
-import { toLieuDetails } from '@/external-api/inclusion-numerique/transfer/to-lieu-details';
-import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
+import { appendCollectivites } from '@/features/collectivites-territoriales';
+import { inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/libraries/inclusion-numerique-api';
+import { toLieuDetails } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-details';
 
 const fetchLieu = async (id: string) => {
   const [lieux] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {

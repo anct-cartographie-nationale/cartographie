@@ -4,11 +4,10 @@ import { useQuery } from '@tanstack/react-query';
 import { Outlet, useSearch } from '@tanstack/react-router';
 import { useMemo, useState } from 'react';
 import { MapProvider } from 'react-map-gl/maplibre';
-import { Cartographie } from '@/features/cartographie/cartographie';
-import type { Departement } from '@/features/collectivites-territoriales/departement';
-import departements from '@/features/collectivites-territoriales/departements.json';
-import type { Region } from '@/features/collectivites-territoriales/region';
-import regions from '@/features/collectivites-territoriales/regions.json';
+import { Cartographie } from '@/features/cartographie';
+import type { Departement, Region } from '@/features/collectivites-territoriales';
+import { departements, regions } from '@/features/collectivites-territoriales';
+import { LieuxOnMap } from '@/features/lieux-inclusion-numerique';
 import { Button } from '@/libraries/ui/primitives/button';
 import { cn } from '@/libraries/utils';
 import { type DepartementWithCount, fetchDepartementsStats, fetchRegionsStats, type RegionWithCount } from '../api';
@@ -51,7 +50,7 @@ export const WithMapLayout = () => {
             )}
           >
             <div className='lg:w-165 w-full h-full px-12 pt-8 pb-14 overflow-auto'>{<Outlet />}</div>
-            <Cartographie regions={regionsWithCount} departements={departementsWithCount} />
+            <Cartographie regions={regionsWithCount} departements={departementsWithCount} lieuxSlot={<LieuxOnMap />} />
           </div>
         </MapProvider>
       </div>

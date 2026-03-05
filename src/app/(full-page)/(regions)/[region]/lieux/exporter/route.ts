@@ -1,18 +1,17 @@
 import { notFound } from 'next/navigation';
 import type { NextRequest } from 'next/server';
+import { type Region, regionMatchingSlug, regions } from '@/features/collectivites-territoriales';
+import { mediationNumeriqueToCsv } from '@/features/lieux-inclusion-numerique';
+import { buildAndFilter, filterUnion } from '@/libraries/api/options';
 import {
+  applyFilters,
   codeInseeStartWithFilterTemplate,
+  filtersSchema,
   inclusionNumeriqueFetchApi,
   isResponseError,
   LIEUX_ROUTE
-} from '@/external-api/inclusion-numerique';
-import { toSchemaLieuMediationNumerique } from '@/external-api/inclusion-numerique/transfer/to-schema-lieu-mediation-numerique';
-import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
-import regions from '@/features/collectivites-territoriales/regions.json';
-import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
-import { mediationNumeriqueToCsv } from '@/features/lieux-inclusion-numerique/to-csv/mediation-numerique.to-csv';
-import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
-import { buildAndFilter, filterUnion } from '@/libraries/api/options';
+} from '@/libraries/inclusion-numerique-api';
+import { toSchemaLieuMediationNumerique } from '@/libraries/inclusion-numerique-api/transfer/to-schema-lieu-mediation-numerique';
 
 const EXCLUDE_PARAMS = ['', 'lieux', 'exporter'];
 

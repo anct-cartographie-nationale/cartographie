@@ -1,21 +1,28 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import {
+  appendCollectivites,
+  type Departement,
+  departementMatchingSlug,
+  departements,
+  type Region,
+  regionMatchingDepartement,
+  regions,
+  withDepartement,
+  withRegion
+} from '@/features/collectivites-territoriales';
+import { DepartementLieuxPage } from '@/features/lieux-inclusion-numerique';
+import { asCount, countFromHeaders } from '@/libraries/api/options';
+import {
+  applyFilters,
+  filtersSchema,
   inclusionNumeriqueFetchApi,
   LIEU_LIST_FIELDS,
   LIEUX_ROUTE,
   type LieuxRouteOptions
-} from '@/external-api/inclusion-numerique';
-import { toLieuListItem } from '@/external-api/inclusion-numerique/transfer/to-lieu-list-item';
-import { appendCollectivites } from '@/features/collectivites-territoriales/append-collectivites';
-import { type Departement, departementMatchingSlug } from '@/features/collectivites-territoriales/departement';
-import departements from '@/features/collectivites-territoriales/departements.json';
-import { type Region, regionMatchingDepartement, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
-import regions from '@/features/collectivites-territoriales/regions.json';
-import { applyFilters } from '@/features/lieux-inclusion-numerique/apply-filters';
-import { DepartementLieuxPage } from '@/features/lieux-inclusion-numerique/departement-lieux.page';
-import { filtersSchema } from '@/features/lieux-inclusion-numerique/validations';
-import { asCount, countFromHeaders } from '@/libraries/api/options';
+} from '@/libraries/inclusion-numerique-api';
+import { toLieuListItem } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-list-item';
+import { page, withSearchParams } from '@/libraries/next/page';
 import { appPageTitle, pageSchema } from '@/libraries/utils';
 
 type PageProps = {
@@ -39,41 +46,32 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
     : notFound();
 };
 
-const Page = async ({ params: paramsPromise, searchParams: searchParamsPromise }: PageProps) => {
-  const [params, searchParams] = await Promise.all([paramsPromise, searchParamsPromise]);
+export default page
+  .withAll(withRegion(), withDepartement(), withSearchParams<{ page: string }>())
+  .render(async ({ region, departement, searchParams }) => {
+    const curentPage = pageSchema.parse(searchParams?.page);
+    const limit = 10;
 
-  const regionSlug: string = params.region;
-  const departementSlug: string = params.departement;
-  const curentPage = pageSchema.parse(searchParams?.page);
-  const limit = 10;
+    const filter = { 'adresse->>code_insee': `like.${departement.code}%`, ...applyFilters(filtersSchema.parse(searchParams)) };
 
-  const region: Region | undefined = regions.find(regionMatchingSlug(regionSlug));
-  const departement: Departement | undefined = departements.find(departementMatchingSlug(departementSlug));
+    const [[lieux], [, headers]] = await Promise.all([
+      inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
+        paginate: { limit, offset: (curentPage - 1) * limit },
+        select: LIEU_LIST_FIELDS,
+        filter,
+        order: ['nom', 'asc']
+      }),
+      inclusionNumeriqueFetchApi(LIEUX_ROUTE, ...asCount<LieuxRouteOptions>({ filter }))
+    ]);
 
-  if (!region || !departement) return notFound();
-
-  const filter = { 'adresse->>code_insee': `like.${departement.code}%`, ...applyFilters(filtersSchema.parse(searchParams)) };
-
-  const [[lieux], [, headers]] = await Promise.all([
-    inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
-      paginate: { limit, offset: (curentPage - 1) * limit },
-      select: LIEU_LIST_FIELDS,
-      filter,
-      order: ['nom', 'asc']
-    }),
-    inclusionNumeriqueFetchApi(LIEUX_ROUTE, ...asCount<LieuxRouteOptions>({ filter }))
-  ]);
-
-  return (
-    <DepartementLieuxPage
-      totalLieux={countFromHeaders(headers)}
-      pageSize={limit}
-      curentPage={curentPage}
-      lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}
-      region={region}
-      departement={departement}
-    />
-  );
-};
-
-export default Page;
+    return (
+      <DepartementLieuxPage
+        totalLieux={countFromHeaders(headers)}
+        pageSize={limit}
+        curentPage={curentPage}
+        lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}
+        region={region}
+        departement={departement}
+      />
+    );
+  });
