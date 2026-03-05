@@ -1,3 +1,10 @@
+## [6.2.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.2.0...v6.2.1) (2026-03-05)
+
+
+### Performance Improvements
+
+* optimize API calls with caching and parallelization ([afb9504](https://github.com/anct-cartographie-nationale/cartographie/commit/afb95049968273a00133f4d60c229116682c91a7))
+
 # [6.2.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.1.3...v6.2.0) (2026-03-05)
 
 
