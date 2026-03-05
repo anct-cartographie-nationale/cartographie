@@ -34,14 +34,15 @@ const Page = async ({ searchParams: searchParamsPromise }: PageProps) => {
   const limit = 24;
   const filter = applyFilters(filtersSchema.parse(searchParams));
 
-  const [, headers] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, ...asCount<LieuxRouteOptions>({ filter }));
-
-  const [lieux] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
-    paginate: { limit, offset: (curentPage - 1) * limit },
-    select: [...LIEU_LIST_FIELDS, 'telephone'],
-    filter,
-    order: ['nom', 'asc']
-  });
+  const [[, headers], [lieux]] = await Promise.all([
+    inclusionNumeriqueFetchApi(LIEUX_ROUTE, ...asCount<LieuxRouteOptions>({ filter })),
+    inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
+      paginate: { limit, offset: (curentPage - 1) * limit },
+      select: [...LIEU_LIST_FIELDS, 'telephone'],
+      filter,
+      order: ['nom', 'asc']
+    })
+  ]);
 
   return (
     <LieuxPage
