@@ -54,14 +54,15 @@ const Page = async ({ params: paramsPromise, searchParams: searchParamsPromise }
 
   const filter = { 'adresse->>code_insee': `like.${departement.code}%`, ...applyFilters(filtersSchema.parse(searchParams)) };
 
-  const [lieux] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
-    paginate: { limit, offset: (curentPage - 1) * limit },
-    select: LIEU_LIST_FIELDS,
-    filter,
-    order: ['nom', 'asc']
-  });
-
-  const [, headers] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, ...asCount<LieuxRouteOptions>({ filter }));
+  const [[lieux], [, headers]] = await Promise.all([
+    inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
+      paginate: { limit, offset: (curentPage - 1) * limit },
+      select: LIEU_LIST_FIELDS,
+      filter,
+      order: ['nom', 'asc']
+    }),
+    inclusionNumeriqueFetchApi(LIEUX_ROUTE, ...asCount<LieuxRouteOptions>({ filter }))
+  ]);
 
   return (
     <DepartementLieuxPage
