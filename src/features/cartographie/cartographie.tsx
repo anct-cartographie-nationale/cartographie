@@ -11,6 +11,7 @@ import { type Departement, departementMatchingSlug } from '@/features/collectivi
 import france from '@/features/collectivites-territoriales/france.json';
 import { type Region, regionMatchingSlug } from '@/features/collectivites-territoriales/region';
 import { load$ } from '@/features/lieux-inclusion-numerique/load/load.stream';
+import { MatomoAction, MatomoCategory, trackEvent } from '@/libraries/analytics';
 import { inject, MAP_CONFIG } from '@/libraries/injection';
 import { hrefWithSearchParams } from '@/libraries/next';
 import { usePathname, useSearchParams } from '@/libraries/next-shim';
@@ -106,7 +107,14 @@ export const Cartographie = ({
           <Button
             kind='btn-ghost'
             className='px-2 bg-base-100 text-primary shadow rounded'
-            onClick={() => setFullScreen((prev) => !prev)}
+            onClick={() => {
+              trackEvent({
+                category: MatomoCategory.MAP,
+                action: MatomoAction.FULLSCREEN_TOGGLE,
+                name: fullScreen ? 'exit' : 'enter'
+              });
+              setFullScreen((prev) => !prev);
+            }}
           >
             {fullScreen ? <RiFullscreenExitLine size={24} /> : <RiFullscreenLine size={24} />}
           </Button>
@@ -144,7 +152,14 @@ export const Cartographie = ({
                     <Button
                       className='text-start inline'
                       kind='btn-ghost'
-                      onClick={() => setFragiliteNumeriqueLayer((prev) => !prev)}
+                      onClick={() => {
+                        trackEvent({
+                          category: MatomoCategory.MAP,
+                          action: MatomoAction.LAYER_TOGGLE,
+                          name: fragiliteNumeriqueLayer ? 'hide' : 'show'
+                        });
+                        setFragiliteNumeriqueLayer((prev) => !prev);
+                      }}
                     >
                       Fragilité numérique
                     </Button>

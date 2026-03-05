@@ -1,5 +1,6 @@
 import type { Departement } from '@/features/collectivites-territoriales/departement';
 import { type Region, regionMatchingDepartement } from '@/features/collectivites-territoriales/region';
+import { MatomoAction, MatomoCategory, trackEvent } from '@/libraries/analytics';
 import { hrefWithSearchParams } from '@/libraries/next';
 import { Link, useSearchParams } from '@/libraries/next-shim';
 import { ClusterMarker } from './markers/cluster.marker';
@@ -20,6 +21,7 @@ export const DepartementsOnMap = ({
     <Link
       href={hrefWithSearchParams(`/${regions.find(regionMatchingDepartement({ code }))?.slug}/${slug}`)(searchParams, ['page'])}
       key={code}
+      onClick={() => trackEvent({ category: MatomoCategory.NAVIGATION, action: MatomoAction.DEPARTMENT_SELECT, name: nom })}
     >
       <ClusterMarker title={`Département ${nom}`} isMuted={!selectedRegion?.departements.includes(code)} {...localisation}>
         {nombreLieux}

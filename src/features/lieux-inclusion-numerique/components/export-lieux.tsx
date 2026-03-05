@@ -2,6 +2,7 @@
 
 import toast from 'react-hot-toast';
 import { RiCloseCircleLine, RiDownloadFill } from 'react-icons/ri';
+import { MatomoAction, MatomoCategory, trackEvent } from '@/libraries/analytics';
 import { ExportButton } from '@/libraries/ui/blocks/export-button';
 
 type ExportLieuxProps = {
@@ -15,12 +16,17 @@ export const ExportLieux = ({ href, lieuxCount }: ExportLieuxProps) => (
     kind='btn-outline'
     className='border-base-200'
     href={href}
-    onExportStart={() =>
+    onExportStart={() => {
+      trackEvent({
+        category: MatomoCategory.EXPORT,
+        action: MatomoAction.EXPORT_START,
+        name: String(lieuxCount)
+      });
       toast.success(
         `Export de ${lieuxCount} lieux en cours…${lieuxCount > 2000 ? ' Cela peut prendre un peu de temps.' : ''}`,
         { icon: <RiDownloadFill size='1.25rem' />, duration: 6000 }
-      )
-    }
+      );
+    }}
     onExportError={async (response: Response) => {
       const message = await response.text();
       const parts = message.split('. ');
