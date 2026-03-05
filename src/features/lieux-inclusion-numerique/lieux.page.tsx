@@ -9,6 +9,7 @@ import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { ExportLieux } from './components/export-lieux';
+import { LieuxCount } from './components/lieux-count';
 import type { LieuListItem } from './lieu-list-item';
 import { LieuxList } from './lieux-list';
 
@@ -45,7 +46,7 @@ export const LieuxPage = ({
           </ButtonLink>
         </div>
         <div className='flex justify-between items-center gap-2 mb-4'>
-          <h1 className='font-bold uppercase text-xs text-base-title'>{totalLieux} lieux trouvés</h1>
+          <LieuxCount totalLieux={totalLieux} />
           <ExportLieux lieuxCount={totalLieux} href={exportHref} />
         </div>
         <LieuxList
