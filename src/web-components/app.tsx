@@ -4,7 +4,7 @@ import { NAVBAR_CONFIG } from '@/features/brand/injection';
 import { MAP_CONFIG } from '@/features/cartographie/injection';
 import { MATOMO_CONFIG } from '@/libraries/analytics';
 import { provide } from '@/libraries/injection';
-import { THEME_COLORS } from '@/libraries/map';
+import { invalidateMapLocationIfChanged, THEME_COLORS } from '@/libraries/map';
 import { Toaster } from '@/libraries/ui/blocks/toaster';
 import { API_BASE_URL, TERRITOIRE_FILTER, type TerritoireType } from '@/shared/injection';
 import { getThemeColors } from '@/shared/ui';
@@ -44,6 +44,7 @@ export const App: FC<AppProps> = ({
   provide(API_BASE_URL, apiUrl);
   provide(NAVBAR_CONFIG, { logoUrl, appName, helpUrl, helpLabel, homeUrl: routeInitiale });
   provide(MAP_CONFIG, { latitude, longitude, zoom });
+  invalidateMapLocationIfChanged({ latitude, longitude, zoom });
   provide(TERRITOIRE_FILTER, {
     type: territoireType as TerritoireType | undefined,
     codes: territoires
