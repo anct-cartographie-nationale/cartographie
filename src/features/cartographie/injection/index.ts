@@ -1,1 +1,1 @@
-export { MAP_CONFIG, type MapConfig } from './map-config.key';
+export { MAP_CONFIG, type MapConfig } from '@/shared/injection';

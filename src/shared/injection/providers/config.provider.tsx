@@ -2,11 +2,11 @@
 
 import type { FC, PropsWithChildren } from 'react';
 import { NAVBAR_CONFIG } from '@/features/brand/injection';
-import { MAP_CONFIG } from '@/features/cartographie/injection';
 import { provide } from '@/libraries/injection';
 import { THEME_COLORS } from '@/libraries/map';
 import { getThemeColors } from '@/shared/ui';
 import { API_BASE_URL } from '../keys/api-base-url.key';
+import { MAP_CONFIG } from '../keys/map-config.key';
 import { TERRITOIRE_FILTER } from '../keys/territoire-filter.key';
 
 export const ConfigProvider: FC<PropsWithChildren> = ({ children }) => {

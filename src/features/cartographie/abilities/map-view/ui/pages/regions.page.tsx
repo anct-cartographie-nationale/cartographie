@@ -12,8 +12,8 @@ import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
 import { LocationFranceIllustration } from '@/libraries/ui/pictograms/map/location-france.illustration';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
+import { MAP_CONFIG } from '@/shared/injection';
 import { removeHighlightDecoupageAdministratif } from '@/shared/ui/highlight-decoupage-administratif';
-import { MAP_CONFIG } from '../../../../injection/map-config.key';
 
 const defaultConfig = france.find(({ nom }): boolean => nom === 'France métropolitaine');
 
@@ -21,16 +21,28 @@ export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regio
   const urlSearchParams = useSearchParams();
   const searchParams: URLSearchParams = new URLSearchParams(urlSearchParams);
 
-  const mapConfig = inject(MAP_CONFIG);
-  const hasCustomPosition = mapConfig?.latitude != null || mapConfig?.longitude != null || mapConfig?.zoom != null;
+  const customLocation = inject(MAP_CONFIG);
+
+  const REGIONS_ZOOM_THRESHOLD = 7;
+  const customZoom = customLocation.zoom;
+  const isCustomZoomValid =
+    customZoom != null && defaultConfig && customZoom > defaultConfig.zoom && customZoom <= REGIONS_ZOOM_THRESHOLD;
+
+  const initialLocation = defaultConfig
+    ? {
+        zoom: isCustomZoomValid ? customZoom : defaultConfig.zoom,
+        latitude: customLocation.latitude ?? defaultConfig.localisation.latitude,
+        longitude: customLocation.longitude ?? defaultConfig.localisation.longitude
+      }
+    : null;
 
   useTap(map$, (map) => {
-    if (!defaultConfig || hasCustomPosition) return;
-    setZoom(defaultConfig.zoom);
+    if (!initialLocation) return;
+    setZoom(initialLocation.zoom);
     if (!map) return;
     map.flyTo({
-      center: [defaultConfig.localisation.longitude, defaultConfig.localisation.latitude],
-      zoom: defaultConfig.zoom,
+      center: [initialLocation.longitude, initialLocation.latitude],
+      zoom: initialLocation.zoom,
       duration: 400
     });
     if (!map.isStyleLoaded()) return;

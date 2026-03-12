@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react';
 import type { Departement, Region } from '@/libraries/collectivites';
+import { inject } from '@/libraries/injection';
 import { load$, map$, setZoom } from '@/libraries/map';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { useSearchParams } from '@/libraries/nextjs/shim';
@@ -13,6 +14,7 @@ import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal'
 import { LocationFranceIllustration } from '@/libraries/ui/pictograms/map/location-france.illustration';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { Link } from '@/libraries/ui/primitives/link';
+import { MAP_CONFIG } from '@/shared/injection';
 import { highlightRegion } from '@/shared/ui/highlight-decoupage-administratif';
 
 export const DepartementsPage = ({
@@ -28,13 +30,24 @@ export const DepartementsPage = ({
 }): ReactNode => {
   const urlSearchParams = useSearchParams();
   const searchParams: URLSearchParams = new URLSearchParams(urlSearchParams);
+  const customLocation = inject(MAP_CONFIG);
+
+  const LIEUX_ZOOM_THRESHOLD = 9;
+  const customZoom = customLocation.zoom;
+  const isCustomZoomValid = customZoom != null && customZoom > region.zoom && customZoom <= LIEUX_ZOOM_THRESHOLD;
+
+  const initialLocation = {
+    zoom: isCustomZoomValid ? customZoom : region.zoom,
+    latitude: customLocation.latitude ?? region.localisation.latitude,
+    longitude: customLocation.longitude ?? region.localisation.longitude
+  };
 
   useTap(map$, (map) => {
-    setZoom(region.zoom);
+    setZoom(initialLocation.zoom);
     if (!map) return;
     map.flyTo({
-      center: [region.localisation.longitude, region.localisation.latitude],
-      zoom: region.zoom,
+      center: [initialLocation.longitude, initialLocation.latitude],
+      zoom: initialLocation.zoom,
       duration: 400
     });
     if (!map.isStyleLoaded()) return;
