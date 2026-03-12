@@ -1,3 +1,10 @@
+## [6.3.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.3.0...v6.3.1) (2026-03-12)
+
+
+### Bug Fixes
+
+* **wc:** resolve Next.js code leaking into web component bundle ([d040d7f](https://github.com/anct-cartographie-nationale/cartographie/commit/d040d7fa9edcedb85446475fc307c3aa77b90915))
+
 # [6.3.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.2.1...v6.3.0) (2026-03-05)
 
 
