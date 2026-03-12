@@ -10,7 +10,11 @@ const getStoredLocation = (): MapLocation | null => {
   return raw ? (JSON.parse(raw) as MapLocation) : null;
 };
 
-export const invalidateMapLocationIfChanged = (config: { zoom?: number; latitude?: number; longitude?: number }): void => {
+export const invalidateMapLocationIfChanged = (config: {
+  zoom?: number | undefined;
+  latitude?: number | undefined;
+  longitude?: number | undefined;
+}): void => {
   if (typeof window === 'undefined') return;
   if (config.zoom == null && config.latitude == null && config.longitude == null) return;
 
