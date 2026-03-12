@@ -9,7 +9,7 @@ export default defineConfig(({ command }) => {
 
   return {
     plugins: [
-      fileReplacement('.wc'),
+      fileReplacement('.wc', path.resolve(__dirname, './src')),
       react(),
       ...(isDev
         ? []
