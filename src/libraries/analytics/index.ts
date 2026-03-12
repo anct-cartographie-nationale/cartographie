@@ -10,7 +10,7 @@ export { MatomoAction, MatomoCategory } from './tracking/events';
 type TrackEventProps =
   | { category: string; action: string; name?: never; value?: never }
   | { category: string; action: string; name: string; value?: never }
-  | { category: string; action: string; name: string; value: string };
+  | { category: string; action: string; name: string; value: number };
 
 export const trackEvent = (props: TrackEventProps): void => {
   if (!clientEnv.NEXT_PUBLIC_MATOMO_URL) return;
