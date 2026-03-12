@@ -222,6 +222,9 @@ Vous pouvez afficher uniquement les lieux d'un ou plusieurs territoires spécifi
   api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
   territoire-type="communes"
   territoires="76351,76447"
+  latitude="49.4944"
+  longitude="0.1079"
+  zoom="13"
   route-initiale="/normandie/seine-maritime"
 />
 ```
