@@ -1,3 +1,15 @@
+# [6.4.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.3.2...v6.4.0) (2026-03-12)
+
+
+### Bug Fixes
+
+* search address ([4a78962](https://github.com/anct-cartographie-nationale/cartographie/commit/4a7896256b1a1ce983362cfc63bbffd9353bd8c9))
+
+
+### Features
+
+* **wc:** apply custom map position with zoom constraints ([7bf6134](https://github.com/anct-cartographie-nationale/cartographie/commit/7bf6134cf53cfa1b8f6102aa3cc113f7b4881fc9))
+
 ## [6.3.2](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.3.1...v6.3.2) (2026-03-12)
 
 
