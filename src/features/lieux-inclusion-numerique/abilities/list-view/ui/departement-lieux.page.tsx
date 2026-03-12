@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react';
 import type { Departement, Region } from '@/libraries/collectivites';
 import type { LieuListItem } from '@/libraries/inclusion-numerique-api';
+import { inject } from '@/libraries/injection';
 import { load$, map$, setZoom, useMapLocation } from '@/libraries/map';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { useSearchParams } from '@/libraries/nextjs/shim';
@@ -13,6 +14,7 @@ import { NextPageLink, PageLink, PreviousPageLink } from '@/libraries/ui/blocks/
 import { Pagination } from '@/libraries/ui/blocks/pagination/pagination';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
+import { MAP_CONFIG, TERRITOIRE_FILTER } from '@/shared/injection';
 import { highlightDepartement } from '@/shared/ui/highlight-decoupage-administratif';
 import { ExportLieux } from './export-lieux';
 import { LieuxList } from './lieux-list';
@@ -39,11 +41,21 @@ export const DepartementLieuxPage = ({
   const urlSearchParams = useSearchParams();
   const searchParams: URLSearchParams = new URLSearchParams(urlSearchParams);
   const location = useMapLocation();
+  const customLocation = inject(MAP_CONFIG);
+  const territoireFilter = inject(TERRITOIRE_FILTER);
+
+  const isRegionFilter = territoireFilter.type === 'regions';
+  const customZoom = customLocation.zoom;
+  const isCustomZoomValid = !isRegionFilter && customZoom != null && customZoom > departement.zoom;
 
   const defaultLocation = {
-    zoom: departement.zoom,
-    latitude: departement.localisation.latitude,
-    longitude: departement.localisation.longitude
+    zoom: isCustomZoomValid ? customZoom : departement.zoom,
+    latitude: isRegionFilter
+      ? departement.localisation.latitude
+      : (customLocation.latitude ?? departement.localisation.latitude),
+    longitude: isRegionFilter
+      ? departement.localisation.longitude
+      : (customLocation.longitude ?? departement.localisation.longitude)
   };
 
   const initialLocation = (location?.zoom ?? 0) > 9 ? { ...defaultLocation, ...location } : defaultLocation;

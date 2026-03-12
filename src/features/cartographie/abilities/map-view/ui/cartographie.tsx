@@ -20,7 +20,7 @@ import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { Loading } from '@/libraries/ui/primitives/loading';
 import { cn } from '@/libraries/utils';
 import { ClientOnly } from '@/libraries/utils/client-only';
-import { MAP_CONFIG } from '../../../injection/map-config.key';
+import { MAP_CONFIG } from '@/shared/injection';
 import { DepartementsOnMap } from './departements-on-map';
 import { FragiliteNumeriqueLayers } from './fragilite-numerique-layers';
 import { RegionsOnMap } from './regions-on-map';
