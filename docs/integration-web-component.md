@@ -224,7 +224,7 @@ Vous pouvez afficher uniquement les lieux d'un ou plusieurs territoires spécifi
   territoires="76351,76447"
   latitude="49.4944"
   longitude="0.1079"
-  zoom="13"
+  zoom="12"
   route-initiale="/normandie/seine-maritime"
 />
 ```
