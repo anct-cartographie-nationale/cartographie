@@ -1,3 +1,10 @@
+## [6.3.2](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.3.1...v6.3.2) (2026-03-12)
+
+
+### Bug Fixes
+
+* **wc:** invalidate cached map location when config props change ([5adc301](https://github.com/anct-cartographie-nationale/cartographie/commit/5adc301c73b1cf7a94baa88d8cc1a89462bdfd7b))
+
 ## [6.3.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.3.0...v6.3.1) (2026-03-12)
 
 
