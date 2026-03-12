@@ -11,7 +11,6 @@ Ce guide vous explique comment afficher la Cartographie Nationale des lieux d'in
   - [Ajouter un lien d'aide](#ajouter-un-lien-daide)
   - [Personnaliser la position initiale de la carte](#personnaliser-la-position-initiale-de-la-carte)
   - [Filtrer par territoire](#filtrer-par-territoire)
-  - [Définir la page d'accueil](#définir-la-page-daccueil)
   - [Ajouter votre propre tracking Matomo](#ajouter-votre-propre-tracking-matomo)
   - [Personnaliser les couleurs et le style](#personnaliser-les-couleurs-et-le-style)
 - [Exemples complets](#exemples-complets)
@@ -190,25 +189,29 @@ Par défaut, la carte est centrée sur la France métropolitaine. Vous pouvez mo
 
 ### Filtrer par territoire
 
-Vous pouvez afficher uniquement les lieux d'un ou plusieurs territoires spécifiques (régions, départements ou communes) :
+Vous pouvez afficher uniquement les lieux d'un ou plusieurs territoires spécifiques (régions, départements ou communes).
 
-**Exemple : afficher uniquement Paris et le Rhône**
+> **Important** : Lorsque vous filtrez par territoire, utilisez également `route-initiale` pour que la cartographie démarre directement sur la vue appropriée. Sans cela, l'utilisateur verra d'abord la vue générale avant de naviguer vers le territoire filtré.
+
+**Exemple : afficher uniquement le Rhône**
 
 ```html
 <cartographie-inclusion-numerique
   api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
   territoire-type="departements"
-  territoires="75,69"
+  territoires="69"
+  route-initiale="/auvergne-rhone-alpes/rhone"
 />
 ```
 
-**Exemple : afficher uniquement l'Île-de-France et l'Auvergne-Rhône-Alpes**
+**Exemple : afficher uniquement l'Île-de-France**
 
 ```html
 <cartographie-inclusion-numerique
   api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
   territoire-type="regions"
-  territoires="11,84"
+  territoires="11"
+  route-initiale="/ile-de-france"
 />
 ```
 
@@ -219,53 +222,36 @@ Vous pouvez afficher uniquement les lieux d'un ou plusieurs territoires spécifi
   api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
   territoire-type="communes"
   territoires="76351,76447"
+  route-initiale="/normandie/seine-maritime"
 />
 ```
 
 | Attribut | Description | Valeurs possibles |
 |----------|-------------|-------------------|
 | `territoire-type` | Type de territoire à filtrer | `regions`, `departements`, `communes` |
-| `territoires` | Liste de codes séparés par des virgules | Codes région, département ou INSEE commune |
+| `territoires` | Liste de codes INSEE séparés par des virgules | Codes région, département ou commune |
+| `route-initiale` | Page de démarrage | `/{region-slug}` ou `/{region-slug}/{departement-slug}` |
 
-> **Note** : Les codes à utiliser sont :
-> - **Régions** : codes officiels (ex: `11` pour Île-de-France, `84` pour Auvergne-Rhône-Alpes)
-> - **Départements** : codes officiels (ex: `75` pour Paris, `69` pour Rhône)
-> - **Communes** : codes INSEE à 5 chiffres (ex: `76351` pour Le Havre, `76447` pour Montivilliers)
->
-> **Où trouver ces codes ?**
-> - **Communes** : [Carte Base Adresse Nationale](https://adresse.data.gouv.fr/carte-base-adresse-nationale) — recherchez une commune et consultez ses informations. **Attention** : utilisez le **COG** (Code Officiel Géographique), pas le code postal ! Par exemple, pour Bordeaux : le COG est `33063`, le code postal est `33000`.
-> - **Départements** : [Liste des départements français — Wikipédia](https://fr.wikipedia.org/wiki/Liste_des_d%C3%A9partements_fran%C3%A7ais) — tableau avec les 101 codes départementaux
-> - **Régions** : [Liste des régions françaises — Wikipédia](https://fr.wikipedia.org/wiki/R%C3%A9gion_fran%C3%A7aise#Liste_et_codification_des_r%C3%A9gions) — tableau avec les 18 codes régionaux
+#### Codes INSEE des territoires
 
-### Définir la page d'accueil
+Les codes à utiliser sont les **codes INSEE** (Code Officiel Géographique) :
+- **Régions** : codes INSEE à 2 chiffres (ex: `11` pour Île-de-France, `84` pour Auvergne-Rhône-Alpes)
+- **Départements** : codes INSEE à 2-3 caractères (ex: `75` pour Paris, `69` pour Rhône, `2A` pour Corse-du-Sud)
+- **Communes** : codes INSEE à 5 chiffres (ex: `76351` pour Le Havre). **Attention** : ce n'est pas le code postal !
 
-Par défaut, la cartographie affiche toutes les régions de France. Vous pouvez définir une page d'accueil différente avec l'attribut `route-initiale` :
+**Où trouver ces codes ?**
+- 📋 **[Liste complète des codes et slugs](./codes-territoires.md)** — régions et départements
+- 🗺️ **[Carte Base Adresse Nationale](https://adresse.data.gouv.fr/carte-base-adresse-nationale)** — pour les communes, recherchez et consultez le champ "COG"
 
-**Exemple : démarrer sur les départements d'Île-de-France**
-
-```html
-<cartographie-inclusion-numerique
-  api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
-  route-initiale="/ile-de-france"
-/>
-```
-
-**Exemple : démarrer sur les lieux de Paris**
-
-```html
-<cartographie-inclusion-numerique
-  api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
-  territoire-type="departements"
-  territoires="75"
-  route-initiale="/ile-de-france/paris"
-/>
-```
+#### Format des routes
 
 | Route | Description |
 |-------|-------------|
 | `/` | Page d'accueil avec toutes les régions |
 | `/{region-slug}` | Départements d'une région (ex: `/ile-de-france`) |
 | `/{region-slug}/{departement-slug}` | Lieux d'un département (ex: `/ile-de-france/paris`) |
+
+> Les slugs sont les versions URL des noms de territoires (sans accents, en minuscules, avec des tirets). Consultez la [liste complète des slugs](./codes-territoires.md).
 
 ### Ajouter votre propre tracking Matomo
 
