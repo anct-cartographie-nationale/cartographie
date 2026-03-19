@@ -55,5 +55,6 @@ export const LIEU_LIST_FIELDS: (keyof LieuxRouteResponse[number])[] = [
   'prise_rdv',
   'horaires',
   'dispositif_programmes_nationaux',
-  'modalites_acces'
+  'modalites_acces',
+  'telephone'
 ];

@@ -27,7 +27,7 @@ const fetchRegionLieux = async (region: Region, page: number, limit: number, fil
   const [[lieux], [_, headers]] = await Promise.all([
     inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
       paginate: { limit, offset: (page - 1) * limit },
-      select: [...LIEU_LIST_FIELDS, 'telephone'],
+      select: LIEU_LIST_FIELDS,
       filter,
       order: ['nom', 'asc']
     }),
