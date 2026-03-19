@@ -1,8 +1,7 @@
 import { redirect } from 'next/navigation';
 import type { ReactNode } from 'react';
-import type { Provider } from '../shared/types';
+import type { Pipeline, Provider } from '../shared/types';
 import { applyProviders } from './apply-providers';
-import type { Pipeline } from './builder';
 import type { MiddlewareAccumulator } from './types';
 
 type AnyMiddleware<TExtra> = (
