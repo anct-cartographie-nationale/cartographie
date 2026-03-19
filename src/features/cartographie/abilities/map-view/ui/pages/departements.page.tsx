@@ -32,9 +32,8 @@ export const DepartementsPage = ({
   const searchParams: URLSearchParams = new URLSearchParams(urlSearchParams);
   const customLocation = inject(MAP_CONFIG);
 
-  const LIEUX_ZOOM_THRESHOLD = 9;
   const customZoom = customLocation.zoom;
-  const isCustomZoomValid = customZoom != null && customZoom > region.zoom && customZoom <= LIEUX_ZOOM_THRESHOLD;
+  const isCustomZoomValid = customZoom != null && customZoom > region.zoom;
 
   const initialLocation = {
     zoom: isCustomZoomValid ? customZoom : region.zoom,

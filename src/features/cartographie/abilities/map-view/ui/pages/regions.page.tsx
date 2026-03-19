@@ -23,10 +23,8 @@ export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regio
 
   const customLocation = inject(MAP_CONFIG);
 
-  const REGIONS_ZOOM_THRESHOLD = 7;
   const customZoom = customLocation.zoom;
-  const isCustomZoomValid =
-    customZoom != null && defaultConfig && customZoom > defaultConfig.zoom && customZoom <= REGIONS_ZOOM_THRESHOLD;
+  const isCustomZoomValid = customZoom != null && defaultConfig && customZoom > defaultConfig.zoom;
 
   const initialLocation = defaultConfig
     ? {

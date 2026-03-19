@@ -4,6 +4,8 @@ import type { ReactNode } from 'react';
 import { Suspense } from 'react';
 import { RiMenuLine, RiQuestionFill } from 'react-icons/ri';
 import { inject } from '@/libraries/injection';
+import { hrefWithSearchParams } from '@/libraries/nextjs';
+import { useSearchParams } from '@/libraries/nextjs/shim';
 import { CollapseController } from '@/libraries/ui/headless/collapse-controller';
 import { Button } from '@/libraries/ui/primitives/button';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
@@ -14,6 +16,53 @@ type NavbarProps = {
   searchSlot?: ReactNode;
   filtersSlot?: ReactNode;
 };
+
+const HomeLink = ({
+  homeUrl,
+  logoUrl,
+  appName
+}: {
+  homeUrl: string;
+  logoUrl: string | undefined;
+  appName: string | undefined;
+}) => {
+  const urlSearchParams = useSearchParams();
+  const searchParams = new URLSearchParams(urlSearchParams);
+
+  return (
+    <Link
+      href={hrefWithSearchParams(homeUrl)(searchParams, ['page'])}
+      title="Retour à l'accueil"
+      className='font-bold text-xl text-base-title flex items-center gap-2'
+      kind='link-hover'
+    >
+      {/* biome-ignore lint/performance/noImgElement: next/image requires server access to public/ which is not available in standalone mode */}
+      {logoUrl && <img src={logoUrl} alt={appName ?? 'Logo'} className='h-8' />}
+      {appName}
+    </Link>
+  );
+};
+
+const HomeLinkFallback = ({
+  homeUrl,
+  logoUrl,
+  appName
+}: {
+  homeUrl: string;
+  logoUrl: string | undefined;
+  appName: string | undefined;
+}) => (
+  <Link
+    href={homeUrl}
+    title="Retour à l'accueil"
+    className='font-bold text-xl text-base-title flex items-center gap-2'
+    kind='link-hover'
+  >
+    {/* biome-ignore lint/performance/noImgElement: next/image requires server access to public/ which is not available in standalone mode */}
+    {logoUrl && <img src={logoUrl} alt={appName ?? 'Logo'} className='h-8' />}
+    {appName}
+  </Link>
+);
 
 export const Navbar = ({ searchSlot, filtersSlot }: NavbarProps) => {
   const { logoUrl, appName, helpUrl, helpLabel, homeUrl = '/' } = inject(NAVBAR_CONFIG);
@@ -28,16 +77,9 @@ export const Navbar = ({ searchSlot, filtersSlot }: NavbarProps) => {
         <div className='px-8 py-4 shadow z-1'>
           <div className='flex gap-2 justify-between'>
             {hasBrand && (
-              <Link
-                href={homeUrl}
-                title="Retour à l'accueil"
-                className='font-bold text-xl text-base-title flex items-center gap-2'
-                kind='link-hover'
-              >
-                {/* biome-ignore lint/performance/noImgElement: next/image requires server access to public/ which is not available in standalone mode */}
-                {logoUrl && <img src={logoUrl} alt={appName ?? 'Logo'} className='h-8' />}
-                {hasAppName && appName}
-              </Link>
+              <Suspense fallback={<HomeLinkFallback homeUrl={homeUrl} logoUrl={logoUrl} appName={appName} />}>
+                <HomeLink homeUrl={homeUrl} logoUrl={logoUrl} appName={appName} />
+              </Suspense>
             )}
             <div className='flex'>
               {hasHelp && helpUrl && (

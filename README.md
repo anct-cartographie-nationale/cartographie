@@ -32,10 +32,21 @@ Découvrez la version en ligne de la cartographie :
 
 N'hésitez pas à explorer ses fonctionnalités et à partager vos retours ! 🚀
 
-<h2 id="integration">📦 Intégrer la Cartographie dans votre site web</h2>
+<h2 id="integration">📦 Intégrer la Cartographie</h2>
 
-Vous souhaitez intégrer la cartographie dans votre propre site web ? C'est possible en quelques lignes de code grâce à notre web component.  
-👉 [Consulter le guide d'intégration](./docs/integration-web-component.md)
+Deux options s'offrent à vous pour intégrer la cartographie :
+
+### Option 1 : Intégration par URL (la plus simple)
+
+Partagez un lien direct vers la cartographie avec des paramètres de configuration. Aucun code à écrire, idéal pour partager une vue préconfigurée.
+
+👉 [Consulter le guide d'intégration par URL](./docs/integration-url.md)
+
+### Option 2 : Intégration par web component (personnalisation complète)
+
+Intégrez la cartographie dans votre site web avec votre logo, vos couleurs et votre tracking analytics.
+
+👉 [Consulter le guide d'intégration par web component](./docs/integration-web-component.md)
 
 <h2 id="design">🎨 Design & prototype</h2>
 

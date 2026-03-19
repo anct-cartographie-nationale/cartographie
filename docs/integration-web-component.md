@@ -4,6 +4,7 @@ Ce guide vous explique comment afficher la Cartographie Nationale des lieux d'in
 
 ## Table des matières
 
+- [Quand utiliser cette méthode ?](#quand-utiliser-cette-méthode-)
 - [Avant de commencer](#avant-de-commencer)
 - [Intégration en 3 étapes](#intégration-en-3-étapes)
 - [Personnalisation](#personnalisation)
@@ -14,6 +15,18 @@ Ce guide vous explique comment afficher la Cartographie Nationale des lieux d'in
   - [Ajouter votre propre tracking Matomo](#ajouter-votre-propre-tracking-matomo)
   - [Personnaliser les couleurs et le style](#personnaliser-les-couleurs-et-le-style)
 - [Exemples complets](#exemples-complets)
+
+---
+
+## Quand utiliser cette méthode ?
+
+L'intégration par web component est idéale si vous souhaitez :
+- Personnaliser l'apparence (logo, nom, couleurs)
+- Intégrer la cartographie dans votre propre site web
+- Ajouter votre tracking analytics (Matomo)
+- Avoir un contrôle total sur l'intégration
+
+**Pour un simple partage de lien** sans personnalisation, consultez le [guide d'intégration par URL](./integration-url.md) : c'est plus rapide et ne nécessite aucun code.
 
 ---
 
@@ -243,8 +256,8 @@ Les codes à utiliser sont les **codes INSEE** (Code Officiel Géographique) :
 - **Communes** : codes INSEE à 5 chiffres (ex: `76351` pour Le Havre). **Attention** : ce n'est pas le code postal !
 
 **Où trouver ces codes ?**
-- 📋 **[Liste complète des codes et slugs](./codes-territoires.md)** — régions et départements
-- 🗺️ **[Carte Base Adresse Nationale](https://adresse.data.gouv.fr/carte-base-adresse-nationale)** — pour les communes, recherchez et consultez le champ "COG"
+- 📋 **[Liste complète des codes et slugs](./codes-territoires.md)** : régions et départements
+- 🗺️ **[Carte Base Adresse Nationale](https://adresse.data.gouv.fr/carte-base-adresse-nationale)** : pour les communes, recherchez et consultez le champ "COG"
 
 #### Format des routes
 
