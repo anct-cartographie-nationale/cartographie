@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
-import type { Provider } from '../shared/types';
-import type { Pipeline } from './builder';
+import type { Pipeline, Provider } from '../shared/types';
 
 export type PageProps<
   TParams extends Record<string, string> = Record<string, string>,

@@ -1,18 +1,10 @@
+import type { Pipeline } from '../shared/types';
 import type { AnyPageWrapperMiddleware, PagePipeline, PageProps, PageWrapperMiddleware } from './types';
-
-export type Pipeline<TCtx extends object, TExtra, TFinalizer extends string> = {
-  readonly _ctx: TCtx;
-  readonly _extra: TExtra;
-  readonly _finalizer: TFinalizer;
-  readonly middlewares: MiddlewareEntry<TExtra>[];
-};
 
 type AnyMiddleware<TExtra> = (
   ctx: Record<string, unknown>,
   extra: TExtra
 ) => Promise<{ ctx: Record<string, unknown>; provider?: unknown }>;
-
-type MiddlewareEntry<TExtra> = AnyMiddleware<TExtra> | AnyMiddleware<TExtra>[];
 
 type TypedMiddleware<TCtxIn extends object, TCtxOut extends object, TExtra> = (
   ctx: TCtxIn,
