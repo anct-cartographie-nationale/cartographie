@@ -1,27 +1,17 @@
+import { pipe } from 'effect';
 import { RegionsPage } from '@/features/cartographie';
-import { asCount, countFromHeaders } from '@/libraries/api/options';
+import { countLieux } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux';
 import { filterRegionsByTerritoire } from '@/libraries/collectivites';
-import {
-  applyFilters,
-  filtersSchema,
-  inclusionNumeriqueFetchApi,
-  LIEUX_ROUTE,
-  type LieuxRouteOptions
-} from '@/libraries/inclusion-numerique-api';
-import { page, withSearchParams } from '@/libraries/nextjs/page';
+import { filtersSchema } from '@/libraries/inclusion-numerique-api';
+import { fromPage, render, use, withDerive, withFetch, withSearchParams } from '@/libraries/nextjs/page';
 
-export default page.with(withSearchParams()).render(async ({ searchParams }) => {
-  const filters = filtersSchema.parse(searchParams);
-
-  const [, headers] = await inclusionNumeriqueFetchApi(
-    LIEUX_ROUTE,
-    ...asCount<LieuxRouteOptions>({ filter: applyFilters(filters) })
-  );
-
-  const filteredRegions = filterRegionsByTerritoire({
-    territoire_type: filters.territoire_type,
-    territoires: filters.territoires
-  });
-
-  return <RegionsPage totalLieux={countFromHeaders(headers)} regions={filteredRegions} />;
-});
+export default pipe(
+  fromPage,
+  (p) => use(p)(withSearchParams(filtersSchema)),
+  (p) =>
+    use(p)(
+      withFetch('totalLieux', ({ searchParams }) => countLieux(searchParams)),
+      withDerive('regions', ({ searchParams }) => filterRegionsByTerritoire(searchParams))
+    ),
+  (p) => render(p)(async ({ totalLieux, regions }) => <RegionsPage totalLieux={totalLieux} regions={regions} />)
+);

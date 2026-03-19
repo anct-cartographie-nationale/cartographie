@@ -1,0 +1,25 @@
+import { buildAndFilter, filterUnion } from '@/libraries/api/options';
+import type { Region } from '@/libraries/collectivites';
+import {
+  applyFilters,
+  codeInseeStartWithFilterTemplate,
+  type FiltersSchema,
+  inclusionNumeriqueFetchApi,
+  LIEU_LIST_FIELDS,
+  LIEUX_ROUTE
+} from '@/libraries/inclusion-numerique-api';
+
+type PaginationParams = {
+  page: number;
+  limit: number;
+};
+
+export const fetchLieuxForRegion =
+  (region: Region) =>
+  (filters: FiltersSchema, { page, limit }: PaginationParams) =>
+    inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
+      paginate: { limit, offset: (page - 1) * limit },
+      select: LIEU_LIST_FIELDS,
+      filter: buildAndFilter(filterUnion(region.departements)(codeInseeStartWithFilterTemplate), applyFilters(filters)),
+      order: ['nom', 'asc']
+    });
