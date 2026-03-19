@@ -1,3 +1,10 @@
+# [6.5.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.4.0...v6.5.0) (2026-03-19)
+
+
+### Features
+
+* add URL-based map configuration for Next.js app ([97acaf4](https://github.com/anct-cartographie-nationale/cartographie/commit/97acaf476e2cdf9f20460c9323fa54cb16e27b3a))
+
 # [6.4.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.3.2...v6.4.0) (2026-03-12)
 
 
