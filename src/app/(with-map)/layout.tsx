@@ -12,8 +12,9 @@ type LayoutProps = {
 };
 
 const Layout = async ({ children }: LayoutProps) => {
-  const referer = (await headers()).get('referer');
-  const searchParams = referer ? Object.fromEntries(new URL(referer).searchParams) : {};
+  const requestHeaders = await headers();
+  const currentUrl = requestHeaders.get('x-url');
+  const searchParams = currentUrl ? Object.fromEntries(new URL(currentUrl).searchParams) : {};
   const filters = filtersSchema.parse(searchParams);
 
   const [regionsAvecTotaux, departementsAvecTotaux] = await Promise.all([
