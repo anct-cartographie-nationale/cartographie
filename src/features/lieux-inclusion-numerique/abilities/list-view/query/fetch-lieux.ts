@@ -11,10 +11,12 @@ type PaginationParams = {
   limit: number;
 };
 
-export const fetchLieux = (filters: FiltersSchema, { page, limit }: PaginationParams) =>
-  inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
+export const fetchLieux = async (filters: FiltersSchema, { page, limit }: PaginationParams) => {
+  const [lieux] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
     paginate: { limit, offset: (page - 1) * limit },
     select: LIEU_LIST_FIELDS,
     filter: applyFilters(filters),
     order: ['nom', 'asc']
   });
+  return lieux;
+};

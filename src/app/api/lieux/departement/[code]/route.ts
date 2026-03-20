@@ -1,75 +1,45 @@
-import { unstable_cache } from 'next/cache';
-import { NextResponse } from 'next/server';
+import { pipe } from 'effect';
 import { z } from 'zod';
 import { appendCollectivites } from '@/features/collectivites-territoriales';
-import { asCount, countFromHeaders } from '@/libraries/api/options';
+import { countLieuxForDepartement } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux-for-departement';
+import { fetchLieuxForDepartement } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieux-for-departement';
 import { departementMatchingCode, departements } from '@/libraries/collectivites';
-import {
-  applyFilters,
-  type FiltersSchema,
-  filtersSchema,
-  inclusionNumeriqueFetchApi,
-  LIEU_LIST_FIELDS,
-  LIEUX_ROUTE,
-  type LieuxRouteOptions
-} from '@/libraries/inclusion-numerique-api';
+import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 import { toLieuListItem } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-list-item';
+import {
+  fromRoute,
+  handle,
+  use,
+  withDerive,
+  withFetch,
+  withPathParams,
+  withRequired,
+  withSearchParams
+} from '@/libraries/nextjs/route';
 
 const paginationSchema = z.object({
   page: z.coerce.number().int().positive().catch(1),
   limit: z.coerce.number().int().positive().catch(10)
 });
 
-const fetchDepartementLieux = async (departementCode: string, page: number, limit: number, filters: FiltersSchema) => {
-  const filter = {
-    'adresse->>code_insee': `like.${departementCode}%`,
-    ...applyFilters(filters)
-  };
+const querySchema = paginationSchema.extend(filtersSchema.shape);
 
-  const [[lieux], [_, headers]] = await Promise.all([
-    inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
-      paginate: { limit, offset: (page - 1) * limit },
-      select: LIEU_LIST_FIELDS,
-      filter,
-      order: ['nom', 'asc']
-    }),
-    inclusionNumeriqueFetchApi(LIEUX_ROUTE, ...asCount<LieuxRouteOptions>({ filter }))
-  ]);
-
-  return {
-    lieux: lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu))),
-    total: countFromHeaders(headers)
-  };
-};
-
-const getCachedDepartementLieux = (departementCode: string, page: number, limit: number, filters: FiltersSchema) =>
-  unstable_cache(
-    () => fetchDepartementLieux(departementCode, page, limit, filters),
-    ['departement-lieux', departementCode, String(page), String(limit), JSON.stringify(filters)],
-    {
-      revalidate: 21600,
-      tags: ['departement-lieux']
-    }
-  )();
-
-type RouteParams = {
-  params: Promise<{ code: string }>;
-};
-
-export const GET = async (request: Request, { params }: RouteParams) => {
-  const { code } = await params;
-  const departement = departements.find(departementMatchingCode(code));
-
-  if (!departement) {
-    return NextResponse.json({ error: 'Departement not found' }, { status: 404 });
-  }
-
-  const { searchParams: searchParamsMap } = new URL(request.url);
-  const searchParams = Object.fromEntries(searchParamsMap.entries());
-
-  const { page, limit } = paginationSchema.parse(searchParams);
-  const filters = filtersSchema.parse(searchParams);
-
-  const result = await getCachedDepartementLieux(code, page, limit, filters);
-  return Response.json(result);
-};
+export const GET = pipe(
+  fromRoute,
+  (r) => use(r)(withPathParams('code'), withSearchParams(querySchema)),
+  (r) => use(r)(withDerive('departement', ({ code }) => departements.find(departementMatchingCode(code)))),
+  (r) => use(r)(withRequired('departement')),
+  (r) =>
+    use(r)(
+      withFetch('lieux', ({ departement, searchParams: { page, limit, ...filters } }) =>
+        fetchLieuxForDepartement(departement)(filters, { page, limit })
+      ),
+      withFetch('total', ({ departement, searchParams: { page, limit, ...filters } }) =>
+        countLieuxForDepartement(departement)(filters)
+      )
+    ),
+  (r) =>
+    handle(r)(async ({ lieux, total }) =>
+      Response.json({ lieux: lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu))), total })
+    )
+);

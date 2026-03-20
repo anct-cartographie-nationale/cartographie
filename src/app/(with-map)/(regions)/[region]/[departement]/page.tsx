@@ -13,9 +13,9 @@ import {
   regionMatchingDepartement,
   regions
 } from '@/libraries/collectivites';
-import { filtersSchema, type LieuxRouteResponse } from '@/libraries/inclusion-numerique-api';
+import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 import { toLieuListItem } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-list-item';
-import { fromPage, render, use, withFetch, withMap, withPagination, withSearchParams } from '@/libraries/nextjs/page';
+import { fromPage, render, use, withFetch, withPagination, withSearchParams } from '@/libraries/nextjs/page';
 import { appPageTitle, pageSchema } from '@/libraries/utils';
 
 type PageProps = {
@@ -52,7 +52,6 @@ export default pipe(
         fetchLieuxForDepartement(departement)(searchParams, { page, limit: PAGE_SIZE })
       )
     ),
-  (p) => use(p)(withMap('lieux', ([items]: [LieuxRouteResponse, Headers]) => items)),
   (p) =>
     render(p)(async ({ region, departement, totalLieux, lieux, page }) => (
       <DepartementLieuxPage

@@ -1,6 +1,10 @@
 import type { NextRequest, NextResponse } from 'next/server';
 import type { Pipeline } from '../shared/types';
 
+export type RouteContext = {
+  params: Promise<Record<string, string>>;
+};
+
 export type AnyMiddleware = (
   ctx: Record<string, unknown>,
   request: NextRequest

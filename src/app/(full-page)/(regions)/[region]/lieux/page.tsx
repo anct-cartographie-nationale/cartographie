@@ -6,7 +6,7 @@ import { LieuxPage } from '@/features/lieux-inclusion-numerique';
 import { countLieuxForRegion } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux-for-region';
 import { fetchLieuxForRegion } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieux-for-region';
 import { type Region, regionMatchingSlug, regions } from '@/libraries/collectivites';
-import { filtersSchema, type LieuxRouteResponse } from '@/libraries/inclusion-numerique-api';
+import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 import { toLieuListItem } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-list-item';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import {
@@ -14,7 +14,6 @@ import {
   render,
   use,
   withFetch,
-  withMap,
   withPagination,
   withSearchParams,
   withUrlSearchParams
@@ -51,7 +50,6 @@ export default pipe(
         fetchLieuxForRegion(region)(searchParams, { page, limit: PAGE_SIZE })
       )
     ),
-  (p) => use(p)(withMap('lieux', ([items]: [LieuxRouteResponse, Headers]) => items)),
   (p) =>
     render(p)(async ({ region, totalLieux, lieux, page, urlSearchParams }) => (
       <LieuxPage

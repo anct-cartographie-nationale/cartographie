@@ -1,10 +1,7 @@
 import { headers } from 'next/headers';
 import type { ReactNode } from 'react';
 import ClientLayout from '@/app/(with-map)/client.layout';
-import {
-  getCachedDepartementsStats,
-  getCachedRegionsStats
-} from '@/features/collectivites-territoriales/abilities/stats-query';
+import { fetchDepartementsStats, fetchRegionsStats } from '@/features/collectivites-territoriales/abilities/stats-query';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 
 type LayoutProps = {
@@ -18,8 +15,8 @@ const Layout = async ({ children }: LayoutProps) => {
   const filters = filtersSchema.parse(searchParams);
 
   const [regionsAvecTotaux, departementsAvecTotaux] = await Promise.all([
-    getCachedRegionsStats(filters),
-    getCachedDepartementsStats(filters)
+    fetchRegionsStats(filters),
+    fetchDepartementsStats(filters)
   ]);
 
   return (

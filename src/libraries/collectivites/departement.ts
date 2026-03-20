@@ -10,7 +10,7 @@ export type Departement = {
 };
 
 export const departementMatchingCode =
-  (code: string) =>
+  (code: string | undefined) =>
   (departement: { code: string }): boolean =>
     departement.code === code;
 

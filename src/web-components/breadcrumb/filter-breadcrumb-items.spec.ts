@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { type BreadcrumbItem, filterBreadcrumbItems } from './filter-breadcrumb-items';
+import type { BreadcrumbItem } from '@/libraries/ui';
+import { filterBreadcrumbItems } from './filter-breadcrumb-items';
 
 describe('filterBreadcrumbItems', () => {
   const fullBreadcrumbs: BreadcrumbItem[] = [

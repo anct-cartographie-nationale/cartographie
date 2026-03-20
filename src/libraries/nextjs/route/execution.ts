@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server';
-import type { AnyMiddleware, MiddlewareEntry, RoutePipeline } from './types';
+import type { AnyMiddleware, MiddlewareEntry, RouteContext, RoutePipeline } from './types';
 
 const isResponse = (result: { ctx: Record<string, unknown> } | NextResponse): result is NextResponse =>
   result instanceof NextResponse;
@@ -22,9 +22,10 @@ const executeParallel = async (
 
 const executeMiddlewares = async (
   middlewares: MiddlewareEntry[],
+  initialCtx: Record<string, unknown>,
   request: NextRequest
 ): Promise<{ ctx: Record<string, unknown> } | NextResponse> => {
-  let ctx: Record<string, unknown> = {};
+  let ctx: Record<string, unknown> = initialCtx;
 
   for (const entry of middlewares) {
     if (Array.isArray(entry)) {
@@ -44,8 +45,9 @@ const executeMiddlewares = async (
 export const handle =
   <TCtx extends object>(pipeline: RoutePipeline<TCtx>) =>
   (handler: (ctx: TCtx & { request: NextRequest }) => Promise<Response>) =>
-  async (request: NextRequest): Promise<Response> => {
-    const result = await executeMiddlewares(pipeline.middlewares as MiddlewareEntry[], request);
+  async (request: NextRequest, context?: RouteContext): Promise<Response> => {
+    const params = (await context?.params) ?? {};
+    const result = await executeMiddlewares(pipeline.middlewares as MiddlewareEntry[], { params }, request);
     if (isResponse(result)) return result;
     return handler({ ...(result.ctx as TCtx), request });
   };
