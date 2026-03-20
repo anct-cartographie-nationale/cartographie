@@ -5,7 +5,7 @@ import { paginate } from './paginate';
 type PaginationProps = {
   itemsCount: number;
   pageSize: number;
-  curentPage?: number;
+  currentPage?: number;
   siblingCount?: number;
   boundaryCount?: number;
   nav?: {
@@ -20,7 +20,7 @@ type PaginationProps = {
 export const Pagination = ({
   itemsCount,
   pageSize,
-  curentPage = 1,
+  currentPage = 1,
   siblingCount = 2,
   boundaryCount = 1,
   nav,
@@ -31,14 +31,14 @@ export const Pagination = ({
   const { pages, lastPage, previousPage, nextPage } = paginate({
     itemsCount,
     pageSize,
-    curentPage,
+    currentPage,
     siblingCount,
     boundaryCount
   });
 
   return (
     <div className={cn('join', className)}>
-      {nav?.previous({ number: previousPage, disabled: curentPage <= 1, href })}
+      {nav?.previous({ number: previousPage, disabled: currentPage <= 1, href })}
       {pages.map((page) =>
         'spacer' in page ? (
           <span key={page.spacer} className='p-2 mx-2'>
@@ -48,7 +48,7 @@ export const Pagination = ({
           <Fragment key={page.number}>{children({ ...page, href })}</Fragment>
         )
       )}
-      {nav?.next({ number: nextPage, disabled: curentPage >= lastPage, href })}
+      {nav?.next({ number: nextPage, disabled: currentPage >= lastPage, href })}
     </div>
   );
 };

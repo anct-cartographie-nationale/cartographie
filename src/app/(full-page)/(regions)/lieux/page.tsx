@@ -39,7 +39,7 @@ export default pipe(
       <LieuxPage
         totalLieux={totalLieux}
         pageSize={PAGE_SIZE}
-        curentPage={page}
+        currentPage={page}
         lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}
         mapHref={hrefWithSearchParams('/')(urlSearchParams, ['page'])}
         exportHref={hrefWithSearchParams('/lieux/exporter')(urlSearchParams, ['page'])}

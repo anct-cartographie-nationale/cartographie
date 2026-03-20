@@ -30,13 +30,13 @@ const range =
 export const paginate = ({
   itemsCount,
   pageSize,
-  curentPage = 1,
+  currentPage = 1,
   siblingCount = 2,
   boundaryCount = 0
 }: {
   itemsCount: number;
   pageSize: number;
-  curentPage?: number;
+  currentPage?: number;
   siblingCount?: number;
   boundaryCount?: number;
 }): {
@@ -55,9 +55,9 @@ export const paginate = ({
   }
 
   const lastPage = Math.ceil(itemsCount / pageSize);
-  const previousPage = Math.max(1, curentPage - 1);
-  const nextPage = Math.min(lastPage, curentPage + 1);
-  const currentPageNumber = clamp(1, lastPage)(curentPage);
+  const previousPage = Math.max(1, currentPage - 1);
+  const nextPage = Math.min(lastPage, currentPage + 1);
+  const currentPageNumber = clamp(1, lastPage)(currentPage);
 
   if (lastPage <= (boundaryCount + siblingCount) * 2 + 3) {
     return {

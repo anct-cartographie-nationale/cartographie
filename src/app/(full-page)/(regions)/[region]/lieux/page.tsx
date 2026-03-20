@@ -56,7 +56,7 @@ export default pipe(
       <LieuxPage
         totalLieux={totalLieux}
         pageSize={PAGE_SIZE}
-        curentPage={page}
+        currentPage={page}
         lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}
         breadcrumbsItems={[
           { label: 'France', href: hrefWithSearchParams('/')(urlSearchParams, ['page']) },

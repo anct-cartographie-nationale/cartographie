@@ -22,7 +22,7 @@ import { LieuxList } from './lieux-list';
 export const DepartementLieuxPage = ({
   totalLieux,
   pageSize,
-  curentPage,
+  currentPage,
   lieux,
   region,
   departement,
@@ -31,7 +31,7 @@ export const DepartementLieuxPage = ({
 }: {
   totalLieux: number;
   pageSize: number;
-  curentPage: number;
+  currentPage: number;
   lieux: LieuListItem[];
   region: Region;
   departement: Departement;
@@ -102,7 +102,7 @@ export const DepartementLieuxPage = ({
         <LieuxList searchParams={searchParams} lieux={lieux} className='flex flex-col gap-2' />
         <div className='text-center mt-10'>
           <Pagination
-            curentPage={curentPage}
+            currentPage={currentPage}
             itemsCount={totalLieux}
             pageSize={pageSize}
             siblingCount={1}

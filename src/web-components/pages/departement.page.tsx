@@ -46,7 +46,7 @@ export const Page: FC = () => {
     <DepartementLieuxPage
       totalLieux={data?.total ?? 0}
       pageSize={PAGE_SIZE}
-      curentPage={currentPage}
+      currentPage={currentPage}
       lieux={data?.lieux ?? []}
       region={region}
       departement={departement}
