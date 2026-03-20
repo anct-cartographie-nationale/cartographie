@@ -29,19 +29,19 @@ export const fetchTotalLieux = async (searchParams?: URLSearchParams): Promise<n
   const response = await fetch(buildUrl('/stats/total', searchParams));
   if (!response.ok) throw new Error('Failed to fetch total lieux');
   const data = await response.json();
-  return data.total;
+  return data.totalLieux;
 };
 
 export const fetchRegionTotalLieux = async (slug: string, searchParams?: URLSearchParams): Promise<number> => {
   const response = await fetch(buildUrl(`/stats/regions/${slug}`, searchParams));
   if (!response.ok) throw new Error('Failed to fetch region total lieux');
   const data = await response.json();
-  return data.total;
+  return data.totalLieux;
 };
 
 export type DepartementLieuxResponse = {
   lieux: LieuListItem[];
-  total: number;
+  totalLieux: number;
 };
 
 export const fetchDepartementLieux = async (
@@ -61,7 +61,7 @@ export const fetchDepartementLieux = async (
 
 export type LieuxResponse = {
   lieux: LieuListItem[];
-  total: number;
+  totalLieux: number;
 };
 
 export const fetchAllLieux = async (

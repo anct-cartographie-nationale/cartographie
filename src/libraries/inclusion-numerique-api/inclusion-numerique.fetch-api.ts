@@ -33,9 +33,6 @@ const separators: {
   [MEDIATEURS_ROUTE]: {}
 };
 
-export const isResponseError = (error: unknown): error is ResponseError =>
-  error instanceof Error && error.name === 'ResponseError';
-
 const withStripNullsHeader = (headers: Headers): Headers => {
   headers.set('Accept', 'application/vnd.pgrst.array+json;nulls=stripped');
   return headers;
