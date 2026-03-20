@@ -35,9 +35,7 @@ export const fetchDepartementsStats = (filters: FiltersSchema): Promise<Departem
   Promise.all(filterDepartementsByTerritoire(filters).map((departement) => fetchDepartementCount(departement, filters)));
 
 export const fetchRegionsStats = async (filters: FiltersSchema): Promise<RegionWithCount[]> => {
-  const departementsAvecTotaux = await Promise.all(
-    filterDepartementsByTerritoire(filters).map((departement) => fetchDepartementCount(departement, filters))
-  );
+  const departementsAvecTotaux = await fetchDepartementsStats(filters);
 
   return filterRegionsByTerritoire(filters).map((region) => ({
     ...region,
