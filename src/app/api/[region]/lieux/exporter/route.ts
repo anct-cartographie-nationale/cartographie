@@ -1,21 +1,10 @@
 import { pipe } from 'effect';
+import { withRegion } from '@/features/collectivites-territoriales/middlewares/route';
 import { mediationNumeriqueToCsv } from '@/features/lieux-inclusion-numerique';
 import { fetchAllLieuxForRegion } from '@/features/lieux-inclusion-numerique/abilities/export/query';
-import { regionMatchingSlug, regions } from '@/libraries/collectivites';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 import { toSchemaLieuMediationNumerique } from '@/libraries/inclusion-numerique-api/transfer/to-schema-lieu-mediation-numerique';
-import {
-  csvResponse,
-  fromRoute,
-  handle,
-  use,
-  withDerive,
-  withErrorHandler,
-  withFetch,
-  withPathParams,
-  withRequired,
-  withSearchParams
-} from '@/libraries/nextjs/route';
+import { csvResponse, fromRoute, handle, use, withErrorHandler, withFetch, withSearchParams } from '@/libraries/nextjs/route';
 
 const DEFAULT_ERROR_MESSAGE = "Erreur lors de l'export des lieux.";
 
@@ -25,9 +14,7 @@ const ERROR_MESSAGE_MAP: { [key: number]: string } = {
 
 export const GET = pipe(
   fromRoute,
-  (r) => use(r)(withPathParams({ regionSlug: 'region' }), withSearchParams(filtersSchema)),
-  (r) => use(r)(withDerive('region', ({ regionSlug }) => regions.find(regionMatchingSlug(regionSlug)))),
-  (r) => use(r)(withRequired('region')),
+  (r) => use(r)(withRegion(), withSearchParams(filtersSchema)),
   (r) => use(r)(withFetch('lieux', ({ region, searchParams }) => fetchAllLieuxForRegion(region)(searchParams))),
   (r) =>
     handle(r)(

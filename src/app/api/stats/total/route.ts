@@ -6,6 +6,6 @@ import { fromRoute, handle, use, withFetch, withSearchParams } from '@/libraries
 export const GET = pipe(
   fromRoute,
   (r) => use(r)(withSearchParams(filtersSchema)),
-  (r) => use(r)(withFetch('total', ({ searchParams }) => countLieux(searchParams))),
-  (r) => handle(r)(async ({ total }) => Response.json({ total }))
+  (r) => use(r)(withFetch('totalLieux', ({ searchParams }) => countLieux(searchParams))),
+  (r) => handle(r)(async ({ totalLieux }) => Response.json({ totalLieux }))
 );
