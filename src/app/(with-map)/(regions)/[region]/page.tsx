@@ -2,7 +2,7 @@ import { pipe } from 'effect';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { DepartementsPage } from '@/features/cartographie';
-import { withRegion } from '@/features/collectivites-territoriales';
+import { withRegion } from '@/features/collectivites-territoriales/middlewares/page';
 import { countLieuxForRegion } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux-for-region';
 import {
   filterDepartementsByTerritoire,

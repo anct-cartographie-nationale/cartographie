@@ -1,6 +1,7 @@
 import { pipe } from 'effect';
 import type { Metadata } from 'next';
-import { appendCollectivites, withDepartement, withRegion } from '@/features/collectivites-territoriales';
+import { appendCollectivites } from '@/features/collectivites-territoriales';
+import { withDepartement, withRegion } from '@/features/collectivites-territoriales/middlewares/page';
 import { FicheLieuPage } from '@/features/lieux-inclusion-numerique';
 import { fetchLieuDetails } from '@/features/lieux-inclusion-numerique/abilities/detail-view/query/fetch-lieu-details';
 import { inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/libraries/inclusion-numerique-api';
