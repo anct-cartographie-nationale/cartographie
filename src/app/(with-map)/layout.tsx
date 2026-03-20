@@ -1,32 +1,27 @@
-import { headers } from 'next/headers';
-import type { ReactNode } from 'react';
+import { pipe } from 'effect';
 import ClientLayout from '@/app/(with-map)/client.layout';
-import {
-  getCachedDepartementsStats,
-  getCachedRegionsStats
-} from '@/features/collectivites-territoriales/abilities/stats-query';
+import { fetchDepartementsStats, fetchRegionsStats } from '@/features/collectivites-territoriales/abilities/stats-query';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
+import { fromLayout, renderLayout, use, withFetch, withSearchParamsFromHeaders } from '@/libraries/nextjs/layout';
 
-type LayoutProps = {
-  children: ReactNode;
-};
+const SIX_HOURS = 6 * 60 * 60;
 
-const Layout = async ({ children }: LayoutProps) => {
-  const requestHeaders = await headers();
-  const currentUrl = requestHeaders.get('x-url');
-  const searchParams = currentUrl ? Object.fromEntries(new URL(currentUrl).searchParams) : {};
-  const filters = filtersSchema.parse(searchParams);
-
-  const [regionsAvecTotaux, departementsAvecTotaux] = await Promise.all([
-    getCachedRegionsStats(filters),
-    getCachedDepartementsStats(filters)
-  ]);
-
-  return (
-    <ClientLayout regions={regionsAvecTotaux} departements={departementsAvecTotaux}>
-      {children}
-    </ClientLayout>
-  );
-};
-
-export default Layout;
+export default pipe(
+  fromLayout,
+  (r) => use(r)(withSearchParamsFromHeaders(filtersSchema)),
+  (r) =>
+    use(r)(
+      withFetch('regions', ({ searchParams }) => fetchRegionsStats(searchParams), {
+        cache: { cacheKey: ({ searchParams }) => ['regions', searchParams], revalidate: SIX_HOURS }
+      }),
+      withFetch('departements', ({ searchParams }) => fetchDepartementsStats(searchParams), {
+        cache: { cacheKey: ({ searchParams }) => ['departements', searchParams], revalidate: SIX_HOURS }
+      })
+    ),
+  (r) =>
+    renderLayout(r)(({ regions, departements }, children) => (
+      <ClientLayout regions={regions} departements={departements}>
+        {children}
+      </ClientLayout>
+    ))
+);

@@ -19,7 +19,7 @@ type LieuxPageProps = {
   exportHref: string;
   lieux: LieuListItem[];
   totalLieux: number;
-  curentPage: number;
+  currentPage: number;
   pageSize: number;
 };
 
@@ -29,7 +29,7 @@ export const LieuxPage = ({
   exportHref,
   lieux,
   totalLieux,
-  curentPage,
+  currentPage,
   pageSize
 }: LieuxPageProps): ReactNode => {
   const searchParams = inject(URL_SEARCH_PARAMS);
@@ -57,7 +57,7 @@ export const LieuxPage = ({
         />
         <div className='text-center mt-10'>
           <Pagination
-            curentPage={curentPage}
+            currentPage={currentPage}
             itemsCount={totalLieux}
             pageSize={pageSize}
             href={hrefWithSearchParams()(searchParams)}

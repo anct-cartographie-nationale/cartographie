@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
-export const middleware = (request: NextRequest) => {
+export const proxy = (request: NextRequest) => {
   const response = NextResponse.next();
   response.headers.set('x-url', request.url);
   return response;

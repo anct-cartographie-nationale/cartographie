@@ -1,11 +1,13 @@
+import { pipe } from 'effect';
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import { appendCollectivites, withDepartement, withRegion } from '@/features/collectivites-territoriales';
+import { appendCollectivites } from '@/features/collectivites-territoriales';
+import { withDepartement, withRegion } from '@/features/collectivites-territoriales/middlewares/page';
 import { FicheLieuPage } from '@/features/lieux-inclusion-numerique';
+import { fetchLieuDetails } from '@/features/lieux-inclusion-numerique/abilities/detail-view/query/fetch-lieu-details';
 import { inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/libraries/inclusion-numerique-api';
 import { toLieuDetails } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-details';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
-import { page, withParams, withUrlSearchParams } from '@/libraries/nextjs/page';
+import { fromPage, render, use, withFetch, withParams, withRequired, withUrlSearchParams } from '@/libraries/nextjs/page';
 import { appPageTitle } from '@/libraries/utils';
 
 type PageProps = {
@@ -27,19 +29,13 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
   };
 };
 
-export default page
-  .withAll(withRegion(), withDepartement(), withParams('id'), withUrlSearchParams())
-  .render(async ({ region, departement, id, urlSearchParams }) => {
-    const [lieux] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
-      paginate: { limit: 1, offset: 0 },
-      filter: { id: `eq.${decodeURIComponent(id)}` }
-    });
-
-    const lieu = lieux[0];
-
-    if (!lieu) return notFound();
-
-    return (
+export default pipe(
+  fromPage,
+  (p) => use(p)(withRegion(), withDepartement(), withParams('id'), withUrlSearchParams()),
+  (p) => use(p)(withFetch('lieu', ({ id }) => fetchLieuDetails(id))),
+  (p) => use(p)(withRequired('lieu')),
+  (p) =>
+    render(p)(async ({ region, departement, lieu, urlSearchParams }) => (
       <FicheLieuPage
         lieu={toLieuDetails(appendCollectivites(lieu))}
         breadcrumbsItems={[
@@ -53,5 +49,5 @@ export default page
         ]}
         listHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])}
       />
-    );
-  });
+    ))
+);

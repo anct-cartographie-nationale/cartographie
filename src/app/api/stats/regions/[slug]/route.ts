@@ -1,50 +1,19 @@
-import { unstable_cache } from 'next/cache';
-import { NextResponse } from 'next/server';
-import { asCount, buildAndFilter, countFromHeaders, filterUnion } from '@/libraries/api/options';
-import { type Region, regionMatchingSlug, regions } from '@/libraries/collectivites';
-import {
-  applyFilters,
-  codeInseeStartWithFilterTemplate,
-  type FiltersSchema,
-  filtersSchema,
-  inclusionNumeriqueFetchApi,
-  LIEUX_ROUTE,
-  type LieuxRouteOptions
-} from '@/libraries/inclusion-numerique-api';
+import { pipe } from 'effect';
+import { withRegion } from '@/features/collectivites-territoriales/middlewares/route';
+import { countLieuxForRegion } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux-for-region';
+import { filtersSchema } from '@/libraries/inclusion-numerique-api';
+import { fromRoute, handle, use, withFetch, withSearchParams } from '@/libraries/nextjs/route';
 
-const fetchRegionTotalLieux = async (region: Region, filters: FiltersSchema) => {
-  const [_, headers] = await inclusionNumeriqueFetchApi(
-    LIEUX_ROUTE,
-    ...asCount<LieuxRouteOptions>({
-      filter: buildAndFilter(filterUnion(region.departements)(codeInseeStartWithFilterTemplate), applyFilters(filters))
-    })
-  );
+const SIX_HOURS = 6 * 60 * 60;
 
-  return countFromHeaders(headers);
-};
-
-const getCachedRegionTotalLieux = (region: Region, filters: FiltersSchema) =>
-  unstable_cache(() => fetchRegionTotalLieux(region, filters), ['region-total', region.slug, JSON.stringify(filters)], {
-    revalidate: 21600,
-    tags: ['region-total']
-  })();
-
-type RouteParams = {
-  params: Promise<{ slug: string }>;
-};
-
-export const GET = async (request: Request, { params }: RouteParams) => {
-  const { slug } = await params;
-  const region: Region | undefined = regions.find(regionMatchingSlug(slug));
-
-  if (!region) {
-    return NextResponse.json({ error: 'Region not found' }, { status: 404 });
-  }
-
-  const { searchParams: searchParamsMap } = new URL(request.url);
-  const searchParams = Object.fromEntries(searchParamsMap.entries());
-  const filters = filtersSchema.parse(searchParams);
-
-  const total = await getCachedRegionTotalLieux(region, filters);
-  return Response.json({ total });
-};
+export const GET = pipe(
+  fromRoute,
+  (r) => use(r)(withRegion('slug'), withSearchParams(filtersSchema)),
+  (r) =>
+    use(r)(
+      withFetch('totalLieux', ({ region, searchParams }) => countLieuxForRegion(region)(searchParams), {
+        cache: { cacheKey: ({ region, searchParams }) => ['region', region.code, searchParams], revalidate: SIX_HOURS }
+      })
+    ),
+  (r) => handle(r)(async ({ totalLieux }) => Response.json({ totalLieux }))
+);

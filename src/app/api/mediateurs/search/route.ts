@@ -1,23 +1,15 @@
-import { NextResponse } from 'next/server';
+import { pipe } from 'effect';
 import { z } from 'zod';
-import { inclusionNumeriqueFetchApi, MEDIATEURS_ROUTE } from '@/libraries/inclusion-numerique-api';
+import { searchMediateursByName } from '@/features/lieux-inclusion-numerique/abilities/mediateurs-search/query/search-mediateurs-by-name';
+import { fromRoute, handle, use, withFetch, withSearchParams } from '@/libraries/nextjs/route';
 
 const searchSchema = z.object({
   q: z.string().min(1).max(100)
 });
 
-export const GET = async (request: Request) => {
-  const { searchParams: searchParamsMap } = new URL(request.url);
-  const searchParams = Object.fromEntries(searchParamsMap.entries());
-
-  const parsed = searchSchema.safeParse(searchParams);
-  if (!parsed.success) return NextResponse.json({ error: z.treeifyError(parsed.error).properties }, { status: 422 });
-
-  const [lieux] = await inclusionNumeriqueFetchApi(MEDIATEURS_ROUTE, {
-    filter: {
-      name: parsed.data.q
-    }
-  });
-
-  return Response.json(lieux);
-};
+export const GET = pipe(
+  fromRoute,
+  (r) => use(r)(withSearchParams(searchSchema)),
+  (r) => use(r)(withFetch('mediateurs', ({ searchParams }) => searchMediateursByName(searchParams.q))),
+  (r) => handle(r)(async ({ mediateurs }) => Response.json(mediateurs))
+);

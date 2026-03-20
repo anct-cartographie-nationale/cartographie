@@ -24,9 +24,9 @@ export const Page: FC = () => {
 
   return (
     <LieuxPage
-      totalLieux={data?.total ?? 0}
+      totalLieux={data?.totalLieux ?? 0}
       pageSize={PAGE_SIZE}
-      curentPage={currentPage}
+      currentPage={currentPage}
       lieux={data?.lieux ?? []}
       mapHref={hrefWithSearchParams('/')(searchParams, ['page'])}
       exportHref={buildExportUrl('/lieux/exporter', searchParams)}
