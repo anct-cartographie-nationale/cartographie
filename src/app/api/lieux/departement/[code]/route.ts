@@ -1,10 +1,9 @@
 import { pipe } from 'effect';
-import { z } from 'zod';
 import { appendCollectivites } from '@/features/collectivites-territoriales';
 import { countLieuxForDepartement } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux-for-departement';
 import { fetchLieuxForDepartement } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieux-for-departement';
 import { departementMatchingCode, departements } from '@/libraries/collectivites';
-import { filtersSchema } from '@/libraries/inclusion-numerique-api';
+import { filtersSchema, paginationSchema } from '@/libraries/inclusion-numerique-api';
 import { toLieuListItem } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-list-item';
 import {
   fromRoute,
@@ -17,12 +16,7 @@ import {
   withSearchParams
 } from '@/libraries/nextjs/route';
 
-const paginationSchema = z.object({
-  page: z.coerce.number().int().positive().catch(1),
-  limit: z.coerce.number().int().positive().catch(10)
-});
-
-const querySchema = paginationSchema.extend(filtersSchema.shape);
+const querySchema = paginationSchema(10).extend(filtersSchema.shape);
 
 export const GET = pipe(
   fromRoute,
