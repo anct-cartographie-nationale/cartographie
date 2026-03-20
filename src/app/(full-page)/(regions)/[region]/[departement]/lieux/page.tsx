@@ -1,7 +1,8 @@
 import { pipe } from 'effect';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { appendCollectivites, withDepartement, withRegion } from '@/features/collectivites-territoriales';
+import { appendCollectivites } from '@/features/collectivites-territoriales';
+import { withDepartement, withRegion } from '@/features/collectivites-territoriales/middlewares/page';
 import { LieuxPage } from '@/features/lieux-inclusion-numerique';
 import { countLieuxForDepartement } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux-for-departement';
 import { fetchLieuxForDepartement } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieux-for-departement';
