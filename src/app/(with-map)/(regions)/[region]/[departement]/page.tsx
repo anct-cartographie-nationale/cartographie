@@ -58,7 +58,7 @@ export default pipe(
       <DepartementLieuxPage
         totalLieux={totalLieux}
         pageSize={PAGE_SIZE}
-        curentPage={page}
+        currentPage={page}
         lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}
         region={region}
         departement={departement}

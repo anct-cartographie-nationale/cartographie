@@ -40,7 +40,7 @@ export const Page: FC = () => {
     <LieuxPage
       totalLieux={data?.total ?? 0}
       pageSize={PAGE_SIZE}
-      curentPage={currentPage}
+      currentPage={currentPage}
       lieux={data?.lieux ?? []}
       breadcrumbsItems={breadcrumbsItems}
       mapHref={hrefWithSearchParams(`/${region.slug}`)(searchParams, ['page'])}

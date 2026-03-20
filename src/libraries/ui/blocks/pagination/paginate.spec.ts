@@ -51,7 +51,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 50,
       pageSize: 10,
-      curentPage: 3
+      currentPage: 3
     });
 
     expect(pages).toEqual([
@@ -67,7 +67,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 50,
       pageSize: 10,
-      curentPage: -2
+      currentPage: -2
     });
 
     expect(pages).toEqual([
@@ -83,7 +83,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 50,
       pageSize: 10,
-      curentPage: 7
+      currentPage: 7
     });
 
     expect(pages).toEqual([
@@ -99,7 +99,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 20,
+      currentPage: 20,
       siblingCount: 3
     });
 
@@ -118,7 +118,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 20,
+      currentPage: 20,
       siblingCount: 2,
       boundaryCount: 1
     });
@@ -140,7 +140,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 20,
+      currentPage: 20,
       siblingCount: 2,
       boundaryCount: 3
     });
@@ -166,7 +166,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 1,
+      currentPage: 1,
       siblingCount: 2,
       boundaryCount: 1
     });
@@ -188,7 +188,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 5,
+      currentPage: 5,
       siblingCount: 2,
       boundaryCount: 1
     });
@@ -210,7 +210,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 6,
+      currentPage: 6,
       siblingCount: 2,
       boundaryCount: 1
     });
@@ -232,7 +232,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 1,
+      currentPage: 1,
       siblingCount: 2,
       boundaryCount: 2
     });
@@ -256,7 +256,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 6,
+      currentPage: 6,
       siblingCount: 2,
       boundaryCount: 2
     });
@@ -280,7 +280,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 7,
+      currentPage: 7,
       siblingCount: 2,
       boundaryCount: 2
     });
@@ -304,7 +304,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 1,
+      currentPage: 1,
       siblingCount: 3,
       boundaryCount: 2
     });
@@ -330,7 +330,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 7,
+      currentPage: 7,
       siblingCount: 3,
       boundaryCount: 2
     });
@@ -356,7 +356,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 8,
+      currentPage: 8,
       siblingCount: 3,
       boundaryCount: 2
     });
@@ -382,7 +382,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 50,
+      currentPage: 50,
       siblingCount: 2,
       boundaryCount: 1
     });
@@ -404,7 +404,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 46,
+      currentPage: 46,
       siblingCount: 2,
       boundaryCount: 1
     });
@@ -426,7 +426,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 45,
+      currentPage: 45,
       siblingCount: 2,
       boundaryCount: 1
     });
@@ -448,7 +448,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 50,
+      currentPage: 50,
       siblingCount: 2,
       boundaryCount: 2
     });
@@ -472,7 +472,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 45,
+      currentPage: 45,
       siblingCount: 2,
       boundaryCount: 2
     });
@@ -496,7 +496,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 44,
+      currentPage: 44,
       siblingCount: 2,
       boundaryCount: 2
     });
@@ -520,7 +520,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 50,
+      currentPage: 50,
       siblingCount: 3,
       boundaryCount: 2
     });
@@ -546,7 +546,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 44,
+      currentPage: 44,
       siblingCount: 3,
       boundaryCount: 2
     });
@@ -572,7 +572,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 43,
+      currentPage: 43,
       siblingCount: 3,
       boundaryCount: 2
     });
@@ -598,7 +598,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 500,
       pageSize: 10,
-      curentPage: 43,
+      currentPage: 43,
       siblingCount: 3,
       boundaryCount: 2
     });
@@ -624,7 +624,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 140,
       pageSize: 25,
-      curentPage: 1,
+      currentPage: 1,
       siblingCount: 2,
       boundaryCount: 1
     });
@@ -643,7 +643,7 @@ describe('paginate', (): void => {
     const { pages } = paginate({
       itemsCount: 225,
       pageSize: 25,
-      curentPage: 1,
+      currentPage: 1,
       siblingCount: 2,
       boundaryCount: 1
     });
