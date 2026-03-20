@@ -1,8 +1,10 @@
 import type { NextRequest } from 'next/server';
 import type { AnyMiddleware, RoutePipeline, TypedMiddleware, UseRoute } from './types';
 
-export const fromRoute: RoutePipeline<object> = {
-  _ctx: {} as object,
+type InitialRouteContext = { params: Record<string, string> };
+
+export const fromRoute: RoutePipeline<InitialRouteContext> = {
+  _ctx: {} as InitialRouteContext,
   _extra: {} as NextRequest,
   _finalizer: 'route',
   middlewares: []

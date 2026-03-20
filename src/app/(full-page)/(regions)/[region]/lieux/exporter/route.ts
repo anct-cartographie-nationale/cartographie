@@ -12,7 +12,7 @@ import {
   withDerive,
   withErrorHandler,
   withFetch,
-  withPathParam,
+  withPathParams,
   withRequired,
   withSearchParams
 } from '@/libraries/nextjs/route';
@@ -25,7 +25,7 @@ const ERROR_MESSAGE_MAP: { [key: number]: string } = {
 
 export const GET = pipe(
   fromRoute,
-  (r) => use(r)(withPathParam('regionSlug', 0), withSearchParams(filtersSchema)),
+  (r) => use(r)(withPathParams({ regionSlug: 'region' }), withSearchParams(filtersSchema)),
   (r) => use(r)(withDerive('region', ({ regionSlug }) => regions.find(regionMatchingSlug(regionSlug)))),
   (r) => use(r)(withRequired('region')),
   (r) => use(r)(withFetch('lieux', ({ region, searchParams }) => fetchAllLieuxForRegion(region)(searchParams))),

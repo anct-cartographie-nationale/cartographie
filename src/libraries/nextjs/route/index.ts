@@ -6,7 +6,7 @@ export { fromRoute, use } from './builder';
 export { handle } from './execution';
 
 // Route-specific middlewares
-export { withErrorHandler, withPathParam, withRequired, withSearchParams } from './middlewares';
+export { withErrorHandler, withPathParams, withRequired, withSearchParams } from './middlewares';
 
 // Response helpers
 export { csvResponse } from './response';

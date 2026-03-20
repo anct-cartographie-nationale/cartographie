@@ -16,10 +16,12 @@ type PaginationParams = {
 
 export const fetchLieuxForDepartement =
   (departement: Departement) =>
-  (filters: FiltersSchema, { page, limit }: PaginationParams) =>
-    inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
+  async (filters: FiltersSchema, { page, limit }: PaginationParams) => {
+    const [lieux] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
       paginate: { limit, offset: (page - 1) * limit },
       select: LIEU_LIST_FIELDS,
       filter: buildAndFilter(filterUnion([departement.code])(codeInseeStartWithFilterTemplate), applyFilters(filters)),
       order: ['nom', 'asc']
     });
+    return lieux;
+  };

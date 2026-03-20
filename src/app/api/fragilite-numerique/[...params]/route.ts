@@ -9,11 +9,6 @@ export const GET = async (_: NextRequest, context: { params: Promise<{ params: s
 
   const upstream = await fetch(`${FRAGILITE_NUMERIQUE_API_URL}/${source}/${z}/${x}/${y}${QUERY_PARAMS}`);
   const arrayBuffer = await upstream.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
 
-  return new Response(buffer, {
-    headers: {
-      'content-type': 'application/vnd.mapbox-vector-tile'
-    }
-  });
+  return new Response(Buffer.from(arrayBuffer), { headers: { 'content-type': 'application/vnd.mapbox-vector-tile' } });
 };

@@ -1,17 +1,8 @@
-import type { BBox } from 'geojson';
-import { unstable_cache } from 'next/cache';
-import { NextResponse } from 'next/server';
+import { pipe } from 'effect';
 import { z } from 'zod';
-import {
-  applyFilters,
-  type FiltersSchema,
-  filtersSchema,
-  inclusionNumeriqueFetchApi,
-  LIEUX_ROUTE
-} from '@/libraries/inclusion-numerique-api';
-import { MAP_CHUNK_OPTIONS, mapChunk } from '@/libraries/map';
-
-type Localisation = { longitude: number; latitude: number };
+import { fetchLieuxForChunkServer } from '@/features/lieux-inclusion-numerique/abilities/map-view/query/fetch-lieux-for-chunk.server';
+import { filtersSchema } from '@/libraries/inclusion-numerique-api';
+import { fromRoute, handle, use, withFetch, withSearchParams } from '@/libraries/nextjs/route';
 
 const locationSchema = z.object({
   latitude: z.transform(Number).refine((latitude: number) => !Number.isNaN(latitude), {
@@ -22,43 +13,14 @@ const locationSchema = z.object({
   })
 });
 
-const fetchLieuxForChunk = ({ longitude, latitude }: Localisation, filters: FiltersSchema) => {
-  const [minLon, minLat, maxLon, maxLat]: BBox = mapChunk([longitude, latitude], MAP_CHUNK_OPTIONS);
-
-  return inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
-    select: ['id', 'nom', 'latitude', 'longitude'],
-    filter: {
-      latitude: [`gt.${minLat}`, `lte.${maxLat}`],
-      longitude: [`gt.${minLon}`, `lte.${maxLon}`],
-      ...applyFilters(filters)
-    }
-  });
-};
-
-const getCachedLieux = ({ longitude, latitude }: Localisation, filters: FiltersSchema) =>
-  unstable_cache(
-    () =>
-      fetchLieuxForChunk(
-        {
-          longitude,
-          latitude
-        },
-        filters
-      ),
-    [`${latitude}-${longitude}`, JSON.stringify(filters)],
-    {
-      revalidate: 43200,
-      tags: ['lieux-chunks']
-    }
-  )();
-
-export const GET = async (request: Request) => {
-  const { searchParams: searchParamsMap } = new URL(request.url);
-  const searchParams = Object.fromEntries(searchParamsMap.entries());
-
-  const parsed = locationSchema.safeParse(searchParams);
-  if (!parsed.success) return NextResponse.json({ error: z.treeifyError(parsed.error).properties }, { status: 422 });
-
-  const [lieux] = await getCachedLieux(parsed.data, filtersSchema.parse(searchParams));
-  return Response.json(lieux);
-};
+export const GET = pipe(
+  fromRoute,
+  (r) => use(r)(withSearchParams(locationSchema.extend(filtersSchema.shape))),
+  (r) =>
+    use(r)(
+      withFetch('lieux', ({ searchParams: { latitude, longitude, ...filters } }) =>
+        fetchLieuxForChunkServer([longitude, latitude], filters)
+      )
+    ),
+  (r) => handle(r)(async ({ lieux }) => Response.json(lieux))
+);

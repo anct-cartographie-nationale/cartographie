@@ -1,4 +1,3 @@
-import { unstable_cache } from 'next/cache';
 import { asCount, countFromHeaders } from '@/libraries/api/options';
 import {
   type Departement,
@@ -32,10 +31,10 @@ const fetchDepartementCount = async (departement: Departement, filters: FiltersS
   return { ...departement, nombreLieux: countFromHeaders(headers) };
 };
 
-const fetchDepartementsStats = async (filters: FiltersSchema): Promise<DepartementWithCount[]> =>
+export const fetchDepartementsStats = (filters: FiltersSchema): Promise<DepartementWithCount[]> =>
   Promise.all(filterDepartementsByTerritoire(filters).map((departement) => fetchDepartementCount(departement, filters)));
 
-const fetchRegionsStats = async (filters: FiltersSchema): Promise<RegionWithCount[]> => {
+export const fetchRegionsStats = async (filters: FiltersSchema): Promise<RegionWithCount[]> => {
   const departementsAvecTotaux = await Promise.all(
     filterDepartementsByTerritoire(filters).map((departement) => fetchDepartementCount(departement, filters))
   );
@@ -45,15 +44,3 @@ const fetchRegionsStats = async (filters: FiltersSchema): Promise<RegionWithCoun
     nombreLieux: region.departements.reduce(toRegionTotalCount(departementsAvecTotaux), 0)
   }));
 };
-
-export const getCachedRegionsStats = (filters: FiltersSchema): Promise<RegionWithCount[]> =>
-  unstable_cache(() => fetchRegionsStats(filters), ['regions-stats', JSON.stringify(filters)], {
-    revalidate: 21600,
-    tags: ['regions-stats']
-  })();
-
-export const getCachedDepartementsStats = (filters: FiltersSchema): Promise<DepartementWithCount[]> =>
-  unstable_cache(() => fetchDepartementsStats(filters), ['departements-stats', JSON.stringify(filters)], {
-    revalidate: 21600,
-    tags: ['departements-stats']
-  })();
