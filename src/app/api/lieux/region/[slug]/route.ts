@@ -34,10 +34,10 @@ export const GET = pipe(
       withFetch('lieux', ({ region, searchParams: { page, limit, ...filters } }) =>
         fetchLieuxForRegion(region)(filters, { page, limit })
       ),
-      withFetch('total', ({ region, searchParams: { page, limit, ...filters } }) => countLieuxForRegion(region)(filters))
+      withFetch('totalLieux', ({ region, searchParams: { page, limit, ...filters } }) => countLieuxForRegion(region)(filters))
     ),
   (r) =>
-    handle(r)(async ({ lieux, total }) =>
-      Response.json({ lieux: lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu))), total })
+    handle(r)(async ({ lieux, totalLieux }) =>
+      Response.json({ lieux: lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu))), totalLieux })
     )
 );

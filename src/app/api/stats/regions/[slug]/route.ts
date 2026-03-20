@@ -18,6 +18,6 @@ export const GET = pipe(
   (r) => use(r)(withPathParams('slug'), withSearchParams(filtersSchema)),
   (r) => use(r)(withDerive('region', ({ slug }) => regions.find(regionMatchingSlug(slug)))),
   (r) => use(r)(withRequired('region')),
-  (r) => use(r)(withFetch('total', ({ region, searchParams }) => countLieuxForRegion(region)(searchParams))),
-  (r) => handle(r)(async ({ total }) => Response.json({ total }))
+  (r) => use(r)(withFetch('totalLieux', ({ region, searchParams }) => countLieuxForRegion(region)(searchParams))),
+  (r) => handle(r)(async ({ totalLieux }) => Response.json({ totalLieux }))
 );

@@ -20,10 +20,10 @@ export const GET = pipe(
   (r) =>
     use(r)(
       withFetch('lieux', ({ searchParams: { page, limit, ...filters } }) => fetchLieux(filters, { page, limit })),
-      withFetch('total', ({ searchParams: { page, limit, ...filters } }) => countLieux(filters))
+      withFetch('totalLieux', ({ searchParams: { page, limit, ...filters } }) => countLieux(filters))
     ),
   (r) =>
-    handle(r)(async ({ lieux, total }) =>
-      Response.json({ lieux: lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu))), total })
+    handle(r)(async ({ lieux, totalLieux }) =>
+      Response.json({ lieux: lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu))), totalLieux })
     )
 );
