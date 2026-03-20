@@ -38,7 +38,7 @@ export const Page: FC = () => {
 
   return (
     <LieuxPage
-      totalLieux={data?.total ?? 0}
+      totalLieux={data?.totalLieux ?? 0}
       pageSize={PAGE_SIZE}
       currentPage={currentPage}
       lieux={data?.lieux ?? []}
