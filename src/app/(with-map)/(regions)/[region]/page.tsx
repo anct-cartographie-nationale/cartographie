@@ -1,4 +1,3 @@
-import { pipe } from 'effect';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { DepartementsPage } from '@/features/cartographie';
@@ -12,7 +11,7 @@ import {
   regions
 } from '@/libraries/collectivites';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
-import { fromPage, render, use, withFetch, withSearchParams } from '@/libraries/nextjs/page';
+import { pageBuilder, withFetch, withSearchParams } from '@/libraries/nextjs/page';
 import { appPageTitle } from '@/libraries/utils';
 
 type PageProps = {
@@ -32,18 +31,14 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
     : notFound();
 };
 
-export default pipe(
-  fromPage,
-  (p) => use(p)(withRegion(), withSearchParams(filtersSchema)),
-  (p) =>
-    use(p)(
-      withFetch('totalLieux', ({ region, searchParams }) => countLieuxForRegion(region)(searchParams)),
-      withFetch('departements', ({ region, searchParams }) =>
-        Promise.resolve(filterDepartementsByTerritoire(searchParams).filter(matchingDepartementsFrom(region)))
-      )
-    ),
-  (p) =>
-    render(p)(async ({ region, totalLieux, departements }) => (
-      <DepartementsPage totalLieux={totalLieux} region={region} departements={departements} />
-    ))
-);
+export default pageBuilder()
+  .use(withRegion(), withSearchParams(filtersSchema))
+  .use(
+    withFetch('totalLieux', ({ region, searchParams }) => countLieuxForRegion(region)(searchParams)),
+    withFetch('departements', ({ region, searchParams }) =>
+      Promise.resolve(filterDepartementsByTerritoire(searchParams).filter(matchingDepartementsFrom(region)))
+    )
+  )
+  .render(async ({ region, totalLieux, departements }) => (
+    <DepartementsPage totalLieux={totalLieux} region={region} departements={departements} />
+  ));

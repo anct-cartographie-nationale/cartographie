@@ -1,4 +1,3 @@
-import { pipe } from 'effect';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { appendCollectivites } from '@/features/collectivites-territoriales';
@@ -16,7 +15,7 @@ import {
 } from '@/libraries/collectivites';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 import { toLieuListItem } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-list-item';
-import { fromPage, render, use, withFetch, withPagination, withSearchParams } from '@/libraries/nextjs/page';
+import { pageBuilder, withFetch, withPagination, withSearchParams } from '@/libraries/nextjs/page';
 import { appPageTitle, pageSchema } from '@/libraries/utils';
 
 type PageProps = {
@@ -42,26 +41,22 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
     : notFound();
 };
 
-export default pipe(
-  fromPage,
-  (p) => use(p)(withRegion(), withDepartement(), withSearchParams(filtersSchema)),
-  (p) => use(p)(withPagination(pageSchema)),
-  (p) =>
-    use(p)(
-      withFetch('totalLieux', ({ departement, searchParams }) => countLieuxForDepartement(departement)(searchParams)),
-      withFetch('lieux', ({ departement, searchParams, page }) =>
-        fetchLieuxForDepartement(departement)(searchParams, { page, limit: PAGE_SIZE })
-      )
-    ),
-  (p) =>
-    render(p)(async ({ region, departement, totalLieux, lieux, page }) => (
-      <DepartementLieuxPage
-        totalLieux={totalLieux}
-        pageSize={PAGE_SIZE}
-        currentPage={page}
-        lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}
-        region={region}
-        departement={departement}
-      />
-    ))
-);
+export default pageBuilder()
+  .use(withRegion(), withDepartement(), withSearchParams(filtersSchema))
+  .use(withPagination(pageSchema))
+  .use(
+    withFetch('totalLieux', ({ departement, searchParams }) => countLieuxForDepartement(departement)(searchParams)),
+    withFetch('lieux', ({ departement, searchParams, page }) =>
+      fetchLieuxForDepartement(departement)(searchParams, { page, limit: PAGE_SIZE })
+    )
+  )
+  .render(async ({ region, departement, totalLieux, lieux, page }) => (
+    <DepartementLieuxPage
+      totalLieux={totalLieux}
+      pageSize={PAGE_SIZE}
+      currentPage={page}
+      lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}
+      region={region}
+      departement={departement}
+    />
+  ));

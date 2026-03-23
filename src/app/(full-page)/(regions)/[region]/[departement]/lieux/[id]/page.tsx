@@ -1,4 +1,3 @@
-import { pipe } from 'effect';
 import type { Metadata } from 'next';
 import { appendCollectivites } from '@/features/collectivites-territoriales';
 import { withDepartement, withRegion } from '@/features/collectivites-territoriales/middlewares/page';
@@ -7,7 +6,7 @@ import { fetchLieuDetails } from '@/features/lieux-inclusion-numerique/abilities
 import { inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/libraries/inclusion-numerique-api';
 import { toLieuDetails } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-details';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
-import { fromPage, render, use, withFetch, withParams, withRequired, withUrlSearchParams } from '@/libraries/nextjs/page';
+import { pageBuilder, withFetch, withParams, withRequired, withUrlSearchParams } from '@/libraries/nextjs/page';
 import { appPageTitle } from '@/libraries/utils';
 
 type PageProps = {
@@ -29,25 +28,22 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
   };
 };
 
-export default pipe(
-  fromPage,
-  (p) => use(p)(withRegion(), withDepartement(), withParams('id'), withUrlSearchParams()),
-  (p) => use(p)(withFetch('lieu', ({ id }) => fetchLieuDetails(id))),
-  (p) => use(p)(withRequired('lieu')),
-  (p) =>
-    render(p)(async ({ region, departement, lieu, urlSearchParams }) => (
-      <FicheLieuPage
-        lieu={toLieuDetails(appendCollectivites(lieu))}
-        breadcrumbsItems={[
-          { label: 'France', href: hrefWithSearchParams('/')(urlSearchParams, ['page']) },
-          { label: region.nom, href: hrefWithSearchParams(`/${region.slug}`)(urlSearchParams, ['page']) },
-          {
-            label: departement.nom,
-            href: hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])
-          },
-          { label: `${lieu.adresse.code_postal} ${lieu.adresse.commune}` }
-        ]}
-        listHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])}
-      />
-    ))
-);
+export default pageBuilder()
+  .use(withRegion(), withDepartement(), withParams('id'), withUrlSearchParams())
+  .use(withFetch('lieu', ({ id }) => fetchLieuDetails(id)))
+  .use(withRequired('lieu'))
+  .render(async ({ region, departement, lieu, urlSearchParams }) => (
+    <FicheLieuPage
+      lieu={toLieuDetails(appendCollectivites(lieu))}
+      breadcrumbsItems={[
+        { label: 'France', href: hrefWithSearchParams('/')(urlSearchParams, ['page']) },
+        { label: region.nom, href: hrefWithSearchParams(`/${region.slug}`)(urlSearchParams, ['page']) },
+        {
+          label: departement.nom,
+          href: hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])
+        },
+        { label: `${lieu.adresse.code_postal} ${lieu.adresse.commune}` }
+      ]}
+      listHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])}
+    />
+  ));

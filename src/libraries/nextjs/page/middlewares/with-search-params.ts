@@ -1,23 +1,10 @@
 import type { z } from 'zod';
-import type { PageProps } from '../types';
+import type { PageProps } from '../page-props';
 
 type SearchParamsProps = {
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
-/**
- * Middleware to extract and optionally validate search params.
- *
- * @example Without validation (legacy)
- * ```ts
- * page.with(withSearchParams<MyType>())
- * ```
- *
- * @example With Zod schema validation
- * ```ts
- * pipe(fromPage, (p) => use(p)(withSearchParams(mySchema)))
- * ```
- */
 export function withSearchParams<TSchema extends z.ZodType>(
   schema: TSchema
 ): (ctx: object, props: SearchParamsProps) => Promise<{ ctx: { searchParams: z.infer<TSchema> } }>;

@@ -1,8 +1,7 @@
-import { pipe } from 'effect';
 import { z } from 'zod';
 import { fetchLieuxForChunkServer } from '@/features/lieux-inclusion-numerique/abilities/map-view/query/fetch-lieux-for-chunk.server';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
-import { fromRoute, handle, use, withFetch, withSearchParams } from '@/libraries/nextjs/route';
+import { routeBuilder, withFetch, withSearchParams } from '@/libraries/nextjs/route';
 
 const locationSchema = z.object({
   latitude: z.transform(Number).refine((latitude: number) => !Number.isNaN(latitude), {
@@ -13,14 +12,11 @@ const locationSchema = z.object({
   })
 });
 
-export const GET = pipe(
-  fromRoute,
-  (r) => use(r)(withSearchParams(locationSchema.extend(filtersSchema.shape))),
-  (r) =>
-    use(r)(
-      withFetch('lieux', ({ searchParams: { latitude, longitude, ...filters } }) =>
-        fetchLieuxForChunkServer([longitude, latitude], filters)
-      )
-    ),
-  (r) => handle(r)(async ({ lieux }) => Response.json(lieux))
-);
+export const GET = routeBuilder()
+  .use(withSearchParams(locationSchema.extend(filtersSchema.shape)))
+  .use(
+    withFetch('lieux', ({ searchParams: { latitude, longitude, ...filters } }) =>
+      fetchLieuxForChunkServer([longitude, latitude], filters)
+    )
+  )
+  .handle(async ({ lieux }) => Response.json(lieux));
