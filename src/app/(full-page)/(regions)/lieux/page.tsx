@@ -20,8 +20,8 @@ export default pageBuilder()
   .use(withSearchParams(filtersSchema), withUrlSearchParams())
   .use(withPagination(pageSchema))
   .use(
-    withFetch('totalLieux', ({ searchParams }) => countLieux(searchParams)),
-    withFetch('lieux', ({ searchParams, page }) => fetchLieux(searchParams, { page, limit: PAGE_SIZE }))
+    withFetch('totalLieux', ({ searchParams }) => countLieux()(searchParams)),
+    withFetch('lieux', ({ searchParams, page }) => fetchLieux()(searchParams, { page, limit: PAGE_SIZE }))
   )
   .render(async ({ totalLieux, lieux, page, urlSearchParams }) => (
     <LieuxPage

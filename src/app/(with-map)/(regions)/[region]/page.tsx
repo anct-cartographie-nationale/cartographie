@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { DepartementsPage } from '@/features/cartographie';
 import { withRegion } from '@/features/collectivites-territoriales/middlewares/page';
-import { countLieuxForRegion } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux-for-region';
+import { countLieux } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux';
 import {
   filterDepartementsByTerritoire,
   matchingDepartementsFrom,
@@ -34,7 +34,7 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 export default pageBuilder()
   .use(withRegion(), withSearchParams(filtersSchema))
   .use(
-    withFetch('totalLieux', ({ region, searchParams }) => countLieuxForRegion(region)(searchParams)),
+    withFetch('totalLieux', ({ region, searchParams }) => countLieux(region)(searchParams)),
     withFetch('departements', ({ region, searchParams }) =>
       Promise.resolve(filterDepartementsByTerritoire(searchParams).filter(matchingDepartementsFrom(region)))
     )

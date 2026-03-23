@@ -3,8 +3,8 @@ import { notFound } from 'next/navigation';
 import { appendCollectivites } from '@/features/collectivites-territoriales';
 import { withRegion } from '@/features/collectivites-territoriales/middlewares/page';
 import { LieuxPage } from '@/features/lieux-inclusion-numerique';
-import { countLieuxForRegion } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux-for-region';
-import { fetchLieuxForRegion } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieux-for-region';
+import { countLieux } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux';
+import { fetchLieux } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieux';
 import { type Region, regionMatchingSlug, regions } from '@/libraries/collectivites';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 import { toLieuListItem } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-list-item';
@@ -35,10 +35,8 @@ export default pageBuilder()
   .use(withRegion(), withSearchParams(filtersSchema), withUrlSearchParams())
   .use(withPagination(pageSchema))
   .use(
-    withFetch('totalLieux', ({ region, searchParams }) => countLieuxForRegion(region)(searchParams)),
-    withFetch('lieux', ({ region, searchParams, page }) =>
-      fetchLieuxForRegion(region)(searchParams, { page, limit: PAGE_SIZE })
-    )
+    withFetch('totalLieux', ({ region, searchParams }) => countLieux(region)(searchParams)),
+    withFetch('lieux', ({ region, searchParams, page }) => fetchLieux(region)(searchParams, { page, limit: PAGE_SIZE }))
   )
   .render(async ({ region, totalLieux, lieux, page, urlSearchParams }) => (
     <LieuxPage

@@ -1,6 +1,6 @@
 import { appendCollectivites } from '@/features/collectivites-territoriales';
-import { countLieuxForDepartement } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux-for-departement';
-import { fetchLieuxForDepartement } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieux-for-departement';
+import { countLieux } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux';
+import { fetchLieux } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieux';
 import { departementMatchingCode, departements } from '@/libraries/collectivites';
 import { filtersSchema, paginationSchema } from '@/libraries/inclusion-numerique-api';
 import { toLieuListItem } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-list-item';
@@ -14,11 +14,9 @@ export const GET = routeBuilder()
   .use(withRequired('departement'))
   .use(
     withFetch('lieux', ({ departement, searchParams: { page, limit, ...filters } }) =>
-      fetchLieuxForDepartement(departement)(filters, { page, limit })
+      fetchLieux(departement)(filters, { page, limit })
     ),
-    withFetch('totalLieux', ({ departement, searchParams: { page, limit, ...filters } }) =>
-      countLieuxForDepartement(departement)(filters)
-    )
+    withFetch('totalLieux', ({ departement, searchParams: { page, limit, ...filters } }) => countLieux(departement)(filters))
   )
   .handle(async ({ lieux, totalLieux }) =>
     Response.json({ lieux: lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu))), totalLieux })

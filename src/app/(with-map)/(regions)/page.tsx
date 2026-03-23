@@ -7,7 +7,7 @@ import { pageBuilder, withDerive, withFetch, withSearchParams } from '@/librarie
 export default pageBuilder()
   .use(withSearchParams(filtersSchema))
   .use(
-    withFetch('totalLieux', ({ searchParams }) => countLieux(searchParams)),
+    withFetch('totalLieux', ({ searchParams }) => countLieux()(searchParams)),
     withDerive('regions', ({ searchParams }) => filterRegionsByTerritoire(searchParams))
   )
   .render(async ({ totalLieux, regions }) => <RegionsPage totalLieux={totalLieux} regions={regions} />);

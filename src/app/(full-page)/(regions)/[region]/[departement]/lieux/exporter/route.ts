@@ -1,6 +1,6 @@
 import { withDepartement, withRegion } from '@/features/collectivites-territoriales/middlewares/route';
 import { mediationNumeriqueToCsv } from '@/features/lieux-inclusion-numerique';
-import { fetchAllLieuxForDepartement } from '@/features/lieux-inclusion-numerique/abilities/export/query';
+import { fetchAllLieux } from '@/features/lieux-inclusion-numerique/abilities/export/query';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 import { toSchemaLieuMediationNumerique } from '@/libraries/inclusion-numerique-api/transfer/to-schema-lieu-mediation-numerique';
 import { csvResponse, routeBuilder, withErrorHandler, withFetch, withSearchParams } from '@/libraries/nextjs/route';
@@ -13,7 +13,7 @@ const ERROR_MESSAGE_MAP: { [key: number]: string } = {
 
 export const GET = routeBuilder()
   .use(withRegion(), withDepartement(), withSearchParams(filtersSchema))
-  .use(withFetch('lieux', ({ departement, searchParams }) => fetchAllLieuxForDepartement(departement)(searchParams)))
+  .use(withFetch('lieux', ({ departement, searchParams }) => fetchAllLieux(departement)(searchParams)))
   .handle(
     withErrorHandler(
       ERROR_MESSAGE_MAP,

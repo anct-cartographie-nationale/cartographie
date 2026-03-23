@@ -7,7 +7,7 @@ const SIX_HOURS = 6 * 60 * 60;
 export const GET = routeBuilder()
   .use(withSearchParams(filtersSchema))
   .use(
-    withFetch('totalLieux', ({ searchParams }) => countLieux(searchParams), {
+    withFetch('totalLieux', ({ searchParams }) => countLieux()(searchParams), {
       cache: { cacheKey: ({ searchParams }) => ['total', searchParams], revalidate: SIX_HOURS }
     })
   )
