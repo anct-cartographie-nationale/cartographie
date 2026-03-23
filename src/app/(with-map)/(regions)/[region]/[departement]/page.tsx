@@ -3,8 +3,8 @@ import { notFound } from 'next/navigation';
 import { appendCollectivites } from '@/features/collectivites-territoriales';
 import { withDepartement, withRegion } from '@/features/collectivites-territoriales/middlewares/page';
 import { DepartementLieuxPage } from '@/features/lieux-inclusion-numerique';
-import { countLieuxForDepartement } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux-for-departement';
-import { fetchLieuxForDepartement } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieux-for-departement';
+import { countLieux } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux';
+import { fetchLieux } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieux';
 import {
   type Departement,
   departementMatchingSlug,
@@ -45,9 +45,9 @@ export default pageBuilder()
   .use(withRegion(), withDepartement(), withSearchParams(filtersSchema))
   .use(withPagination(pageSchema))
   .use(
-    withFetch('totalLieux', ({ departement, searchParams }) => countLieuxForDepartement(departement)(searchParams)),
+    withFetch('totalLieux', ({ departement, searchParams }) => countLieux(departement)(searchParams)),
     withFetch('lieux', ({ departement, searchParams, page }) =>
-      fetchLieuxForDepartement(departement)(searchParams, { page, limit: PAGE_SIZE })
+      fetchLieux(departement)(searchParams, { page, limit: PAGE_SIZE })
     )
   )
   .render(async ({ region, departement, totalLieux, lieux, page }) => (
