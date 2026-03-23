@@ -1,6 +1,6 @@
 import { provide } from '@/libraries/injection';
 import { URL_SEARCH_PARAMS } from '@/libraries/nextjs';
-import type { PageProps } from '../page';
+import type { PageProps } from '../page-props';
 
 export const withUrlSearchParams =
   () =>

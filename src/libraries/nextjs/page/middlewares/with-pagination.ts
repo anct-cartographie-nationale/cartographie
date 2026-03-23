@@ -1,5 +1,5 @@
 import type { z } from 'zod';
-import type { PageProps } from '../types';
+import type { PageProps } from '../page-props';
 
 export const withPagination =
   <TSchema extends z.ZodType<number>>(schema: TSchema) =>

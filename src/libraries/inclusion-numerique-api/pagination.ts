@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-export const paginationSchema = (defaultLimit: number = 24) =>
+export const paginationSchema = (limit: number) =>
   z.object({
     page: z.coerce.number().int().positive().catch(1),
-    limit: z.coerce.number().int().positive().catch(defaultLimit)
+    limit: z.coerce.number().int().positive().catch(limit)
   });

@@ -1,4 +1,3 @@
-import { pipe } from 'effect';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { appendCollectivites } from '@/features/collectivites-territoriales';
@@ -17,15 +16,7 @@ import {
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 import { toLieuListItem } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-list-item';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
-import {
-  fromPage,
-  render,
-  use,
-  withFetch,
-  withPagination,
-  withSearchParams,
-  withUrlSearchParams
-} from '@/libraries/nextjs/page';
+import { pageBuilder, withFetch, withPagination, withSearchParams, withUrlSearchParams } from '@/libraries/nextjs/page';
 import { appPageTitle, pageSchema } from '@/libraries/utils';
 
 type PageProps = {
@@ -51,31 +42,27 @@ export const generateStaticParams = () =>
     return region ? { region: region.slug, departement: departement.slug } : null;
   });
 
-export default pipe(
-  fromPage,
-  (p) => use(p)(withRegion(), withDepartement(), withSearchParams(filtersSchema), withUrlSearchParams()),
-  (p) => use(p)(withPagination(pageSchema)),
-  (p) =>
-    use(p)(
-      withFetch('totalLieux', ({ departement, searchParams }) => countLieuxForDepartement(departement)(searchParams)),
-      withFetch('lieux', ({ departement, searchParams, page }) =>
-        fetchLieuxForDepartement(departement)(searchParams, { page, limit: PAGE_SIZE })
-      )
-    ),
-  (p) =>
-    render(p)(async ({ region, departement, totalLieux, lieux, page, urlSearchParams }) => (
-      <LieuxPage
-        totalLieux={totalLieux}
-        pageSize={PAGE_SIZE}
-        currentPage={page}
-        lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}
-        breadcrumbsItems={[
-          { label: 'France', href: hrefWithSearchParams('/')(urlSearchParams, ['page']) },
-          { label: region.nom, href: hrefWithSearchParams(`/${region.slug}`)(urlSearchParams, ['page']) },
-          { label: departement.nom }
-        ]}
-        mapHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])}
-        exportHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}/lieux/exporter`)(urlSearchParams, ['page'])}
-      />
-    ))
-);
+export default pageBuilder()
+  .use(withRegion(), withDepartement(), withSearchParams(filtersSchema), withUrlSearchParams())
+  .use(withPagination(pageSchema))
+  .use(
+    withFetch('totalLieux', ({ departement, searchParams }) => countLieuxForDepartement(departement)(searchParams)),
+    withFetch('lieux', ({ departement, searchParams, page }) =>
+      fetchLieuxForDepartement(departement)(searchParams, { page, limit: PAGE_SIZE })
+    )
+  )
+  .render(async ({ region, departement, totalLieux, lieux, page, urlSearchParams }) => (
+    <LieuxPage
+      totalLieux={totalLieux}
+      pageSize={PAGE_SIZE}
+      currentPage={page}
+      lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}
+      breadcrumbsItems={[
+        { label: 'France', href: hrefWithSearchParams('/')(urlSearchParams, ['page']) },
+        { label: region.nom, href: hrefWithSearchParams(`/${region.slug}`)(urlSearchParams, ['page']) },
+        { label: departement.nom }
+      ]}
+      mapHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])}
+      exportHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}/lieux/exporter`)(urlSearchParams, ['page'])}
+    />
+  ));

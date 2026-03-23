@@ -10,11 +10,11 @@ export type Departement = {
 };
 
 export const departementMatchingCode =
-  (code: string | undefined) =>
+  (code?: string) =>
   (departement: { code: string }): boolean =>
     departement.code === code;
 
 export const departementMatchingSlug =
-  (slug: string | undefined) =>
+  (slug?: string) =>
   (departement: { slug: string }): boolean =>
     departement.slug === slug;

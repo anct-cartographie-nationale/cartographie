@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import type { PageProps } from '../page';
+import type { PageProps } from '../page-props';
 
 type ExtractParams<TKeys extends string[]> = { [K in TKeys[number]]: string };
 
