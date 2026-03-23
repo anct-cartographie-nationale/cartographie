@@ -1,3 +1,16 @@
+# [6.6.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.5.0...v6.6.0) (2026-03-23)
+
+
+### Bug Fixes
+
+* align web component API responses with totalLieux naming ([1780cfa](https://github.com/anct-cartographie-nationale/cartographie/commit/1780cfa46feb42320177a3d6eb966f30b75d66de))
+* correct typo curentPage to currentPage ([4785461](https://github.com/anct-cartographie-nationale/cartographie/commit/4785461cdc6b9b371732d759794500f4329ad3a8))
+
+
+### Features
+
+* add caching support to withFetch middleware and layout pipeline ([c8eba70](https://github.com/anct-cartographie-nationale/cartographie/commit/c8eba7080da3093f3db32dd22ebd3806cb372f5f))
+
 # [6.5.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.4.0...v6.5.0) (2026-03-19)
 
 
