@@ -8,3 +8,6 @@ export {
   RegionsPage
 } from './abilities/map-view';
 export { addressCombobox, addressOptions, SearchAddress } from './abilities/search';
+export { withLegacyDepartement, withLegacyDepartementOnly } from './middlewares/page/with-legacy-departement';
+export { withLegacyId } from './middlewares/page/with-legacy-id';
+export { withLegacyRegion } from './middlewares/page/with-legacy-region';
