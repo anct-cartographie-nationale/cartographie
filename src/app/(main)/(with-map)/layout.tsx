@@ -1,7 +1,7 @@
-import ClientLayout from '@/app/(with-map)/client.layout';
 import { fetchDepartementsStats, fetchRegionsStats } from '@/features/collectivites-territoriales/abilities/stats-query';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 import { layoutBuilder, withFetch, withSearchParamsFromHeaders } from '@/libraries/nextjs/layout';
+import ClientLayout from './client.layout';
 
 const SIX_HOURS = 6 * 60 * 60;
 

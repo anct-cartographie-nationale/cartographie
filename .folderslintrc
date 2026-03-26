@@ -3,6 +3,7 @@
   "rules": [
     "@types/**",
     "types/**",
+    "content/**",
     "shared/**",
     "shared/injection/**",
     "shared/hooks/**",
