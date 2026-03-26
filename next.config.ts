@@ -15,6 +15,16 @@ const nextConfig: NextConfig = {
         ]
       }
     ];
+  },
+  async redirects() {
+    return [
+      { source: '/cartographie', destination: '/', permanent: true },
+      { source: '/cartographie/regions', destination: '/', permanent: true },
+      { source: '/cartographie/departements', destination: '/', permanent: true },
+      { source: '/orientation/:path*', destination: '/', permanent: true },
+      { source: '/coordinateurs/:path*', destination: '/', permanent: true },
+      { source: '/presentation', destination: 'https://inclusion-numerique.anct.gouv.fr/', permanent: true }
+    ];
   }
 };
 
