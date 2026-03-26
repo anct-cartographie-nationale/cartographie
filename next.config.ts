@@ -1,7 +1,9 @@
+import createMDX from '@next/mdx';
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
   basePath: process.env.NEXT_PUBLIC_BASE_PATH,
   assetPrefix: process.env.NEXT_ASSET_PREFIX,
   async headers() {
@@ -28,4 +30,8 @@ const nextConfig: NextConfig = {
   }
 };
 
-export default nextConfig;
+const withMDX = createMDX({
+  extension: /\.mdx?$/
+});
+
+export default withMDX(nextConfig);
