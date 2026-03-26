@@ -1,3 +1,16 @@
+# [6.7.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.6.0...v6.7.0) (2026-03-26)
+
+
+### Bug Fixes
+
+* update La Coop link to new URL ([05d9d4b](https://github.com/anct-cartographie-nationale/cartographie/commit/05d9d4b98e30ec6228fb1418030a634bda2b910b))
+
+
+### Features
+
+* add legacy Angular route redirects ([dcaf6fd](https://github.com/anct-cartographie-nationale/cartographie/commit/dcaf6fd88e07a483d66c2611886c7e7f2af5cd70))
+* add legal pages with MDX ([f385623](https://github.com/anct-cartographie-nationale/cartographie/commit/f385623c63f5801af3c8b961021d7984d41e2394))
+
 # [6.6.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.5.0...v6.6.0) (2026-03-23)
 
 
