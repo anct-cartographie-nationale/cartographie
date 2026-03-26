@@ -43,6 +43,9 @@
   },
   "dependencies": {
     "@gouvfr-anct/lieux-de-mediation-numerique": "^2.3.0",
+    "@mdx-js/loader": "^3.1.1",
+    "@mdx-js/react": "^3.1.1",
+    "@next/mdx": "^16.2.1",
     "@r2wc/react-to-web-component": "^2.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-popover": "^1.1.15",
@@ -92,6 +95,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "@testing-library/react": "^16.3.2",
     "@types/geojson": "^7946.0.16",
+    "@types/mdx": "^2.0.13",
     "@types/node": "^25.3.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

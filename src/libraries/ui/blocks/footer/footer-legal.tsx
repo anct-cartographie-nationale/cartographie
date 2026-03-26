@@ -15,12 +15,8 @@ export const FooterLegal = ({
       key: 'declaration-d-accessibilite',
       linkProps: { href: '/declaration-d-accessibilite', children: `Accessibilité : ${accessibility} conforme` }
     },
-    {
-      key: 'conditions-generales-d-utilisation',
-      linkProps: { href: '/conditions-generales-d-utilisation', children: 'Conditions générales d’utilisation' }
-    },
-    { key: 'mentions-legales', linkProps: { href: 'mentions-legales', children: 'Mentions légales' } },
-    { key: 'plan-du-site', linkProps: { href: '/plan-du-site', children: 'Plan du site' } },
+    { key: 'mentions-legales', linkProps: { href: '/mentions-legales', children: 'Mentions légales' } },
+    { key: 'donnees-personnelles', linkProps: { href: '/donnees-personnelles', children: 'Données personnelles' } },
     { key: 'gestion-des-cookies', linkProps: { href: '/gestion-des-cookies', children: 'Gestion des cookies' } }
   ];
 
