@@ -25,7 +25,7 @@ const LegalLayout = ({ children }: { children: ReactNode }) => (
               target='_blank'
               title='La Coop de la médiation numérique (nouvel onglet)'
               rel='noopener noreferrer'
-              href='https://lesbases.anct.gouv.fr/ressources/comment-apparaitre-ou-modifier-vos-donnees-sur-la-cartographie-nationale'
+              href='https://coop-numerique.anct.gouv.fr'
             >
               La Coop de la médiation numérique
             </Link>
