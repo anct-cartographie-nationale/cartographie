@@ -1,3 +1,10 @@
+# [6.8.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.7.0...v6.8.0) (2026-03-27)
+
+
+### Features
+
+* prefill error report mailto with lieu information ([d07c350](https://github.com/anct-cartographie-nationale/cartographie/commit/d07c350aaf6f28968f332a2cd7b91535e173227d))
+
 # [6.7.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.6.0...v6.7.0) (2026-03-26)
 
 
