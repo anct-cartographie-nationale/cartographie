@@ -6,7 +6,9 @@ import { MATOMO_CONFIG } from '@/libraries/analytics';
 import { provide } from '@/libraries/injection';
 import { invalidateMapLocationIfChanged, THEME_COLORS } from '@/libraries/map';
 import { Toaster } from '@/libraries/ui/blocks/toaster';
-import { API_BASE_URL, SITE_URL, TERRITOIRE_FILTER, type TerritoireType } from '@/shared/injection';
+import { API_BASE_URL } from '@/shared/injection/keys/api-base-url.key';
+import { SITE_URL } from '@/shared/injection/keys/site-url.key';
+import { TERRITOIRE_FILTER, type TerritoireType } from '@/shared/injection/keys/territoire-filter.key';
 import { getThemeColors } from '@/shared/ui';
 import { createAppRouter } from './router';
 

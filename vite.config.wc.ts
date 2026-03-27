@@ -28,7 +28,9 @@ export default defineConfig(({ command }) => {
       }
     },
     define: {
-      'process.env.NODE_ENV': JSON.stringify(isDev ? 'development' : 'production')
+      'process.env': JSON.stringify({
+        NODE_ENV: isDev ? 'development' : 'production'
+      })
     },
     worker: {
       format: 'es',
