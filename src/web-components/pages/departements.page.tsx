@@ -13,7 +13,7 @@ import {
 import { inject } from '@/libraries/injection';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { useFilteredSearchParams } from '@/shared/hooks';
-import { TERRITOIRE_FILTER } from '@/shared/injection';
+import { TERRITOIRE_FILTER } from '@/shared/injection/keys/territoire-filter.key';
 import { fetchRegionTotalLieux } from '../api';
 import { useBreadcrumbItems } from '../breadcrumb/use-breadcrumb-items';
 

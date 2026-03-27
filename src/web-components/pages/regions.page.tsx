@@ -6,7 +6,7 @@ import { RegionsPage } from '@/features/cartographie';
 import { filterRegionsByTerritoire } from '@/libraries/collectivites';
 import { inject } from '@/libraries/injection';
 import { useFilteredSearchParams } from '@/shared/hooks';
-import { TERRITOIRE_FILTER } from '@/shared/injection';
+import { TERRITOIRE_FILTER } from '@/shared/injection/keys/territoire-filter.key';
 import { fetchTotalLieux } from '../api';
 
 export const Page: FC = () => {

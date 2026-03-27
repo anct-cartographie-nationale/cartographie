@@ -1,5 +1,5 @@
 import type { BreadcrumbItem } from '@/libraries/ui/blocks/breadcrumbs';
-import type { TerritoireFilter } from '@/shared/injection';
+import type { TerritoireFilter } from '@/shared/injection/keys/territoire-filter.key';
 
 type BreadcrumbLevel = 'france' | 'region' | 'departement' | 'other';
 

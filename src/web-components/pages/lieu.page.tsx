@@ -12,7 +12,7 @@ import {
 } from '@/libraries/collectivites';
 import { inject } from '@/libraries/injection';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
-import { SITE_URL } from '@/shared/injection';
+import { SITE_URL } from '@/shared/injection/keys/site-url.key';
 import { fetchLieu } from '../api';
 import { useBreadcrumbItems } from '../breadcrumb/use-breadcrumb-items';
 

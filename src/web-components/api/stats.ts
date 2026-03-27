@@ -1,7 +1,7 @@
 import type { Departement, Region } from '@/libraries/collectivites';
 import type { LieuDetails, LieuListItem } from '@/libraries/inclusion-numerique-api';
 import { inject } from '@/libraries/injection';
-import { API_BASE_URL } from '@/shared/injection';
+import { API_BASE_URL } from '@/shared/injection/keys/api-base-url.key';
 
 export type RegionWithCount = Region & { nombreLieux: number };
 export type DepartementWithCount = Departement & { nombreLieux: number };
