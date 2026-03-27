@@ -7,6 +7,7 @@ customElements.define(
   r2wc(App, {
     props: {
       apiUrl: 'string',
+      siteUrl: 'string',
       logoUrl: 'string',
       appName: 'string',
       helpUrl: 'string',

@@ -1,6 +1,7 @@
 'use client';
 
 import { type FC, type PropsWithChildren, Suspense } from 'react';
+import { clientEnv } from '@/env.client';
 import { NAVBAR_CONFIG } from '@/features/brand/injection';
 import { provide } from '@/libraries/injection';
 import { invalidateMapLocationIfChanged, THEME_COLORS } from '@/libraries/map';
@@ -9,6 +10,7 @@ import { getThemeColors } from '@/shared/ui';
 import { API_BASE_URL } from '../keys/api-base-url.key';
 import { MAP_CONFIG } from '../keys/map-config.key';
 import { mapPositionSchema } from '../keys/map-position.schema';
+import { SITE_URL } from '../keys/site-url.key';
 import { TERRITOIRE_FILTER } from '../keys/territoire-filter.key';
 
 const MapPositionProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -28,6 +30,7 @@ const MapPositionProviderFallback: FC<PropsWithChildren> = ({ children }) => {
 
 export const ConfigProvider: FC<PropsWithChildren> = ({ children }) => {
   provide(API_BASE_URL, '/api');
+  provide(SITE_URL, clientEnv.NEXT_PUBLIC_SITE_URL);
   provide(NAVBAR_CONFIG, {
     logoUrl: '/images/app-logo.svg',
     appName: "Lieux d'inclusion numérique",

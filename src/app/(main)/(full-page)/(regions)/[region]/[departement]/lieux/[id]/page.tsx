@@ -32,18 +32,25 @@ export default pageBuilder()
   .use(withRegion(), withDepartement(), withParams('id'), withUrlSearchParams())
   .use(withFetch('lieu', ({ id }) => fetchLieuDetails(id)))
   .use(withRequired('lieu'))
-  .render(async ({ region, departement, lieu, urlSearchParams }) => (
-    <FicheLieuPage
-      lieu={toLieuDetails(appendCollectivites(lieu))}
-      breadcrumbsItems={[
-        { label: 'France', href: hrefWithSearchParams('/')(urlSearchParams, ['page']) },
-        { label: region.nom, href: hrefWithSearchParams(`/${region.slug}`)(urlSearchParams, ['page']) },
-        {
-          label: departement.nom,
-          href: hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])
-        },
-        { label: `${lieu.adresse.code_postal} ${lieu.adresse.commune}` }
-      ]}
-      listHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])}
-    />
-  ));
+  .render(async ({ region, departement, lieu, urlSearchParams }) => {
+    const siteUrl = process.env['NEXT_PUBLIC_SITE_URL'];
+    const lieuPath = `/${region.slug}/${departement.slug}/lieux/${encodeURIComponent(lieu.id)}`;
+    const lieuUrl = siteUrl ? `${siteUrl}${lieuPath}` : lieuPath;
+
+    return (
+      <FicheLieuPage
+        lieu={toLieuDetails(appendCollectivites(lieu))}
+        breadcrumbsItems={[
+          { label: 'France', href: hrefWithSearchParams('/')(urlSearchParams, ['page']) },
+          { label: region.nom, href: hrefWithSearchParams(`/${region.slug}`)(urlSearchParams, ['page']) },
+          {
+            label: departement.nom,
+            href: hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])
+          },
+          { label: `${lieu.adresse.code_postal} ${lieu.adresse.commune}` }
+        ]}
+        listHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])}
+        lieuUrl={lieuUrl}
+      />
+    );
+  });
