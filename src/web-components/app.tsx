@@ -6,12 +6,13 @@ import { MATOMO_CONFIG } from '@/libraries/analytics';
 import { provide } from '@/libraries/injection';
 import { invalidateMapLocationIfChanged, THEME_COLORS } from '@/libraries/map';
 import { Toaster } from '@/libraries/ui/blocks/toaster';
-import { API_BASE_URL, TERRITOIRE_FILTER, type TerritoireType } from '@/shared/injection';
+import { API_BASE_URL, SITE_URL, TERRITOIRE_FILTER, type TerritoireType } from '@/shared/injection';
 import { getThemeColors } from '@/shared/ui';
 import { createAppRouter } from './router';
 
 type AppProps = {
   apiUrl?: string;
+  siteUrl?: string;
   logoUrl?: string;
   appName?: string;
   helpUrl?: string;
@@ -28,6 +29,7 @@ type AppProps = {
 
 export const App: FC<AppProps> = ({
   apiUrl = '',
+  siteUrl,
   logoUrl,
   appName,
   helpUrl,
@@ -42,6 +44,7 @@ export const App: FC<AppProps> = ({
   matomoSiteId
 }) => {
   provide(API_BASE_URL, apiUrl);
+  provide(SITE_URL, siteUrl);
   provide(NAVBAR_CONFIG, { logoUrl, appName, helpUrl, helpLabel, homeUrl: routeInitiale });
   provide(MAP_CONFIG, { latitude, longitude, zoom });
   invalidateMapLocationIfChanged({ latitude, longitude, zoom });

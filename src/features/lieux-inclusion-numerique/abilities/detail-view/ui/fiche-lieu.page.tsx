@@ -19,9 +19,25 @@ type FicheLieuPageProps = {
   breadcrumbsItems?: { label: string; href?: string }[];
   listHref: string;
   lieu: LieuDetails;
+  lieuUrl: string;
 };
 
-export const FicheLieuPage = ({ breadcrumbsItems = [], listHref, lieu }: FicheLieuPageProps): ReactNode => (
+const buildSignalementMailto = (lieu: LieuDetails, lieuUrl: string): string => {
+  const subject = `Demande mise à jour - ${lieu.nom}`;
+  const body = `À noter :
+si vous êtes médiateur numérique, vous pouvez mettre à jour le lieu directement depuis La Coop' de la Médiation Numérique (vous pouvez vous connecter https://coop-numerique.anct.gouv.fr/ depuis ce lien et suivre ce tutoriel pour la mise à jour d'un lieu https://docs.numerique.gouv.fr/docs/5e76c8e6-7edd-4062-9294-b3a65e35b571/).
+La mise à jour s'effectue chaque soir et sera disponible le lendemain sur la cartographie.
+
+ELEMENTS A CONSERVER POUR L'EQUIPE SUPPORT :
+
+Informations sur le lieu :
+URL : ${lieuUrl}
+ADRESSE : ${lieu.adresse}`;
+
+  return `mailto:cartographie.sonum@anct.gouv.fr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+};
+
+export const FicheLieuPage = ({ breadcrumbsItems = [], listHref, lieu, lieuUrl }: FicheLieuPageProps): ReactNode => (
   <div className='overflow-scroll'>
     <SkipLinksPortal />
     <Breadcrumbs items={breadcrumbsItems} className='px-8 py-4 border-b-1 border-base-200' />
@@ -57,7 +73,7 @@ export const FicheLieuPage = ({ breadcrumbsItems = [], listHref, lieu }: FicheLi
             <hr className='border-base-200 my-6' />
           </>
         )}
-        <ButtonLink kind='btn-outline' color='btn-primary' href='mailto:cartographie.sonum@anct.gouv.fr'>
+        <ButtonLink kind='btn-outline' color='btn-primary' href={buildSignalementMailto(lieu, lieuUrl)}>
           <RiAlertLine aria-hidden={true} />
           Signaler une erreur sur les informations du lieu
         </ButtonLink>

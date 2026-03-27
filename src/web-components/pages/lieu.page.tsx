@@ -10,7 +10,9 @@ import {
   regionMatchingSlug,
   regions
 } from '@/libraries/collectivites';
+import { inject } from '@/libraries/injection';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
+import { SITE_URL } from '@/shared/injection';
 import { fetchLieu } from '../api';
 import { useBreadcrumbItems } from '../breadcrumb/use-breadcrumb-items';
 
@@ -41,11 +43,16 @@ export const Page: FC = () => {
   if (!region || !departement) return <div>Page non trouvée</div>;
   if (!lieu) return <div>Chargement...</div>;
 
+  const siteUrl = inject(SITE_URL);
+  const lieuPath = `/${region.slug}/${departement.slug}/lieux/${encodeURIComponent(id)}`;
+  const lieuUrl = siteUrl ? `${siteUrl}${lieuPath}` : lieuPath;
+
   return (
     <FicheLieuPage
       lieu={lieu}
       breadcrumbsItems={breadcrumbsItems}
       listHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(searchParams, ['page'])}
+      lieuUrl={lieuUrl}
     />
   );
 };
