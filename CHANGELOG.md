@@ -1,3 +1,10 @@
+## [6.9.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.9.0...v6.9.1) (2026-03-30)
+
+
+### Bug Fixes
+
+* disable Matomo proxy to use direct tracking URL ([a19d258](https://github.com/anct-cartographie-nationale/cartographie/commit/a19d258dcc719508550fa87bb9fad51c017be66f))
+
 # [6.9.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.8.0...v6.9.0) (2026-03-27)
 
 
