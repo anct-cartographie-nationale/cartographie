@@ -48,6 +48,8 @@ jobs:
           echo NEXT_ASSET_PREFIX="${{ vars.NEXT_ASSET_PREFIX }}" >> .env
           echo NEXT_PUBLIC_BASE_PATH="${{ vars.NEXT_PUBLIC_BASE_PATH }}" >> .env
           echo INCLUSION_NUMERIQUE_API_TOKEN="${{ secrets.INCLUSION_NUMERIQUE_API_TOKEN }}" >> .env
+          echo NEXT_PUBLIC_MATOMO_URL="${{ vars.NEXT_PUBLIC_MATOMO_URL }}" >> .env
+          echo NEXT_PUBLIC_MATOMO_SITE_ID="${{ vars.NEXT_PUBLIC_MATOMO_SITE_ID }}" >> .env
 
       - name: Build
         run: pnpm build
