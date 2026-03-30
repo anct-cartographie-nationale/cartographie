@@ -113,7 +113,7 @@ Ajoutez la balise `<cartographie-inclusion-numerique>` dans le `<body>`, juste a
 
 ```html
 <cartographie-inclusion-numerique
-  api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
+  api-url="https://cartographie.societenumerique.gouv.fr/api"
 />
 ```
 
@@ -133,7 +133,7 @@ Ajoutez la balise `<cartographie-inclusion-numerique>` dans le `<body>`, juste a
   </head>
   <body style="height: 100vh; margin: 0">
     <cartographie-inclusion-numerique
-      api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
+      api-url="https://cartographie.societenumerique.gouv.fr/api"
     />
 
     <script src="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6.9.0/dist-wc/cartographie.umd.js"></script>
@@ -153,7 +153,7 @@ Vous pouvez personnaliser l'apparence en ajoutant des attributs à la balise. Te
 
 ```html
 <cartographie-inclusion-numerique
-  api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
+  api-url="https://cartographie.societenumerique.gouv.fr/api"
   logo-url="https://pub-e63b17b4d990438a83af58c15949f8a2.r2.dev/mark/hexa.png"
   app-name="Hub Numérique"
 />
@@ -168,7 +168,7 @@ Vous pouvez personnaliser l'apparence en ajoutant des attributs à la balise. Te
 
 ```html
 <cartographie-inclusion-numerique
-  api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
+  api-url="https://cartographie.societenumerique.gouv.fr/api"
   help-url="mailto:contact@hub-numerique.fr"
   help-label="Besoin d'aide ?"
 />
@@ -185,7 +185,7 @@ Par défaut, la carte est centrée sur la France métropolitaine. Vous pouvez mo
 
 ```html
 <cartographie-inclusion-numerique
-  api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
+  api-url="https://cartographie.societenumerique.gouv.fr/api"
   latitude="-21.1151"
   longitude="55.5364"
   zoom="10"
@@ -210,7 +210,7 @@ Vous pouvez afficher uniquement les lieux d'un ou plusieurs territoires spécifi
 
 ```html
 <cartographie-inclusion-numerique
-  api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
+  api-url="https://cartographie.societenumerique.gouv.fr/api"
   territoire-type="departements"
   territoires="69"
   route-initiale="/auvergne-rhone-alpes/rhone"
@@ -221,7 +221,7 @@ Vous pouvez afficher uniquement les lieux d'un ou plusieurs territoires spécifi
 
 ```html
 <cartographie-inclusion-numerique
-  api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
+  api-url="https://cartographie.societenumerique.gouv.fr/api"
   territoire-type="regions"
   territoires="11"
   route-initiale="/ile-de-france"
@@ -232,7 +232,7 @@ Vous pouvez afficher uniquement les lieux d'un ou plusieurs territoires spécifi
 
 ```html
 <cartographie-inclusion-numerique
-  api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
+  api-url="https://cartographie.societenumerique.gouv.fr/api"
   territoire-type="communes"
   territoires="76351,76447"
   latitude="49.4944"
@@ -275,7 +275,7 @@ Si vous disposez de votre propre instance [Matomo](https://matomo.org/), vous po
 
 ```html
 <cartographie-inclusion-numerique
-  api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
+  api-url="https://cartographie.societenumerique.gouv.fr/api"
   matomo-url="https://analytics.mon-site.fr"
   matomo-site-id="1"
 />
@@ -422,7 +422,7 @@ Pour utiliser ces couleurs, créez une balise `<style>` dans le `<head>` de votr
   </head>
   <body style="height: 100vh; margin: 0">
     <cartographie-inclusion-numerique
-      api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
+      api-url="https://cartographie.societenumerique.gouv.fr/api"
     />
     <script src="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6.9.0/dist-wc/cartographie.umd.js"></script>
   </body>
@@ -445,7 +445,7 @@ Pour utiliser ces couleurs, créez une balise `<style>` dans le `<head>` de votr
   </head>
   <body style="height: 100vh; margin: 0">
     <cartographie-inclusion-numerique
-      api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
+      api-url="https://cartographie.societenumerique.gouv.fr/api"
       logo-url="https://pub-e63b17b4d990438a83af58c15949f8a2.r2.dev/mark/hexa.png"
       app-name="Hub Numérique"
       help-url="mailto:contact@hub-numerique.fr"
@@ -472,7 +472,7 @@ Pour utiliser ces couleurs, créez une balise `<style>` dans le `<head>` de votr
   </head>
   <body style="height: 100vh; margin: 0">
     <cartographie-inclusion-numerique
-      api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
+      api-url="https://cartographie.societenumerique.gouv.fr/api"
       app-name="Inclusion Numérique Rhône"
       latitude="45.7640"
       longitude="4.8357"
@@ -521,7 +521,7 @@ Pour utiliser ces couleurs, créez une balise `<style>` dans le `<head>` de votr
   </head>
   <body style="height: 100vh; margin: 0">
     <cartographie-inclusion-numerique
-      api-url="https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud/api"
+      api-url="https://cartographie.societenumerique.gouv.fr/api"
       app-name="Mon Hub Numérique"
     />
     <script src="https://cdn.jsdelivr.net/npm/@gouvfr-anct/cartographie-nationale@6.9.0/dist-wc/cartographie.umd.js"></script>

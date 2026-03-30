@@ -26,7 +26,7 @@ L'intégration par URL est idéale si vous souhaitez :
 ## URL de base
 
 ```
-https://cartographieprodappcj0ppnhkz-cartographie-prod-app-container.functions.fnc.fr-par.scw.cloud
+https://cartographie.societenumerique.gouv.fr
 ```
 
 ---
