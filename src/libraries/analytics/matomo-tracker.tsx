@@ -17,7 +17,8 @@ const MatomoAnalytics = () => {
       siteId: clientEnv.NEXT_PUBLIC_MATOMO_SITE_ID,
       pathname,
       searchParams,
-      disableCookies: true
+      disableCookies: true,
+      useProxy: false
     });
   }, [pathname, searchParams]);
 
