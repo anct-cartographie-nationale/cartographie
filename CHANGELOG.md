@@ -1,3 +1,11 @@
+## [6.9.2](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.9.1...v6.9.2) (2026-04-01)
+
+
+### Bug Fixes
+
+* filter out lieux without code_insee from API responses ([671638a](https://github.com/anct-cartographie-nationale/cartographie/commit/671638a17db00bf5455ce8d66338c12ef61c4561))
+* set minScale to 1 to avoid cold starts ([5f4cfc8](https://github.com/anct-cartographie-nationale/cartographie/commit/5f4cfc8b7f16ad39a67d502506b7e831c1bbd78f))
+
 ## [6.9.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.9.0...v6.9.1) (2026-03-30)
 
 
