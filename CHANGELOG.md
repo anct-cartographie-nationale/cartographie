@@ -1,3 +1,10 @@
+## [6.9.3](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.9.2...v6.9.3) (2026-04-01)
+
+
+### Bug Fixes
+
+* preserve specific code_insee filters over default not.is.null ([f5d08c1](https://github.com/anct-cartographie-nationale/cartographie/commit/f5d08c12923ddfe52e141b9defaaf1d792e7d99b))
+
 ## [6.9.2](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.9.1...v6.9.2) (2026-04-01)
 
 
