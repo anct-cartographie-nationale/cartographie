@@ -22,7 +22,7 @@ const container = new containers.Container(
     tags: config.tags,
     namespaceId: namespace.id,
     registryImage: APP_IMAGE_NAME,
-    minScale: 0,
+    minScale: 1,
     maxScale: 3,
     port: 3000,
     protocol: 'http1',
