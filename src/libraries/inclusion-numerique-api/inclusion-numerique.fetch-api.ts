@@ -38,12 +38,24 @@ const withStripNullsHeader = (headers: Headers): Headers => {
   return headers;
 };
 
+const withRequiredCodeInsee = <TRoute extends InclusionNumeriqueApiRoute>(
+  route: TRoute,
+  options?: InclusionNumeriqueApiOptions[TRoute]
+): InclusionNumeriqueApiOptions[TRoute] | undefined =>
+  route === LIEUX_ROUTE
+    ? ({
+        ...options,
+        filter: { ...options?.filter, 'adresse->>code_insee': 'not.is.null' }
+      } as InclusionNumeriqueApiOptions[TRoute])
+    : options;
+
 export const inclusionNumeriqueFetchApi = async <TRoute extends InclusionNumeriqueApiRoute>(
   route: TRoute,
   options?: InclusionNumeriqueApiOptions[TRoute],
   headers?: Headers,
   fetchOptions?: { noCache?: boolean }
 ): Promise<[InclusionNumeriqueApiResponse[TRoute], Headers]> => {
+  const finalOptions = withRequiredCodeInsee(route, options);
   const res = await fetchApi(
     {
       baseUrl: 'https://api.inclusion-numerique.anct.gouv.fr',
@@ -52,7 +64,7 @@ export const inclusionNumeriqueFetchApi = async <TRoute extends InclusionNumeriq
       ...(fetchOptions?.noCache != null && { noCache: fetchOptions.noCache })
     },
     withStripNullsHeader(headers ?? new Headers())
-  )(route, options ? toQueryParams(options, separators[route]) : undefined);
+  )(route, finalOptions ? toQueryParams(finalOptions, separators[route]) : undefined);
 
   if (!res.ok) {
     throw new ResponseError('Failed to fetch data from inclusion-numerique API', res);
