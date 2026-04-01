@@ -45,7 +45,7 @@ const withRequiredCodeInsee = <TRoute extends InclusionNumeriqueApiRoute>(
   route === LIEUX_ROUTE
     ? ({
         ...options,
-        filter: { ...options?.filter, 'adresse->>code_insee': 'not.is.null' }
+        filter: { 'adresse->>code_insee': 'not.is.null', ...options?.filter }
       } as InclusionNumeriqueApiOptions[TRoute])
     : options;
 
