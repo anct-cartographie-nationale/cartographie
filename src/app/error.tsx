@@ -7,7 +7,7 @@ import { Button } from '@/libraries/ui/primitives/button';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 
 const ErrorPage = ({ reset }: { error: globalThis.Error & { digest?: string }; reset: () => void }) => (
-  <main id={contentId} className='overflow-scroll flex h-full max-h-dvh'>
+  <main id={contentId} className='overflow-scroll flex h-dvh'>
     <div className='container m-auto'>
       <div className='grid grid-cols-1 md:grid-cols-5 xl:gap-42 gap-21 mt-12 mb-48 items-center 2xl:mx-68 xl:mx-36 lg:mx-24 md:mx-20 mx-4'>
         <div className='md:col-span-3'>
