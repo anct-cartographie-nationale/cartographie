@@ -50,4 +50,10 @@ test.describe('Department page 404', () => {
 
     expect(response?.status()).toBe(404);
   });
+
+  test('should display 404 for department not in region', async ({ page }) => {
+    const response = await page.goto('/ile-de-france/ain');
+
+    expect(response?.status()).toBe(404);
+  });
 });
