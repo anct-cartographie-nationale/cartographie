@@ -1,3 +1,21 @@
+# [6.10.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.9.3...v6.10.0) (2026-04-07)
+
+
+### Bug Fixes
+
+* correct glob pattern in lint-staged config ([9af2925](https://github.com/anct-cartographie-nationale/cartographie/commit/9af29250065b67a3c897ac97e35492051688c9e9))
+* stabilize flaky search e2e test ([e132a29](https://github.com/anct-cartographie-nationale/cartographie/commit/e132a2985d260e9e800b8c4b336ded410651f277))
+
+
+### Features
+
+* add health check endpoint for Scaleway container ([293b799](https://github.com/anct-cartographie-nationale/cartographie/commit/293b799f618342b9243950dafd70c5022f20b7eb))
+
+
+### Performance Improvements
+
+* increase e2e test parallelism to 4 workers in CI ([595dc51](https://github.com/anct-cartographie-nationale/cartographie/commit/595dc5105a2008d30c8100f8c0d3fd86163350b5))
+
 ## [6.9.3](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.9.2...v6.9.3) (2026-04-01)
 
 
