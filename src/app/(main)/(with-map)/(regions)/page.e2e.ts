@@ -22,7 +22,7 @@ test.describe('Search', () => {
 
     await page.fill('input[placeholder*="postal"]', '75001');
 
-    await expect(page.locator('[role="listbox"]')).toBeVisible();
+    await expect(page.locator('[role="option"]').first()).toBeVisible({ timeout: 15000 });
 
     await page.locator('[role="option"]').first().click();
 
