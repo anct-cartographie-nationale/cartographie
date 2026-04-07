@@ -32,6 +32,6 @@ export type LieuDetails = {
     nom: string;
     labels?: string[];
     email?: string;
-    phone?: string;
+    telephone?: string;
   }[];
 };

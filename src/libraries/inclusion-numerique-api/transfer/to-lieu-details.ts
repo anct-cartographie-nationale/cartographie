@@ -85,6 +85,6 @@ export const toLieuDetails = ({
       nom: `${mediateur.prenom} ${mediateur.nom}`,
       labels: mediateur?.label ?? [],
       ...(mediateur.email ? { email: mediateur.email } : {}),
-      ...(mediateur.telephone ? { phone: formatPhoneNumber(mediateur.telephone) } : {})
+      ...(mediateur.telephone ? { telephone: formatPhoneNumber(mediateur.telephone) } : {})
     })) ?? []
 });
