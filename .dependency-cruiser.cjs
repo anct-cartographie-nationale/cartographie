@@ -29,7 +29,8 @@ const FORBIDDEN_GLOBAL = [
         '(^|/)tsconfig[.]json$', // TypeScript config
         '(^|/)(?:babel|webpack|vite)[.]config[.](?:js|cjs|mjs|ts|cts|mts|json)$', // other configs
         '@[^/]+/default[.]tsx$', // Next.js parallel routes default files
-        '[.]wc[.]tsx?$' // Web Components variants
+        '[.]wc[.]tsx?$', // Web Components variants
+        '^src/app/api/.*route[.]ts$' // Next.js API routes
       ]
     },
     to: {}

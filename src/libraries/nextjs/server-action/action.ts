@@ -107,4 +107,4 @@ const createActionBuilder = <TContext extends object>(middlewares: MiddlewareEnt
 
 export const serverAction = createActionBuilder<object>([]);
 
-export type { ActionMiddleware, ActionBuilder };
+export type { ActionBuilder, ActionMiddleware };

@@ -40,14 +40,6 @@ export default defineConfig(({ command }) => {
         }
       }
     },
-    esbuild: {
-      target: 'esnext'
-    },
-    optimizeDeps: {
-      esbuildOptions: {
-        target: 'esnext'
-      }
-    },
     build: {
       target: 'esnext',
       lib: {
