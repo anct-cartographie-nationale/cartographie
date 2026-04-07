@@ -1,3 +1,10 @@
+# [6.11.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.10.1...v6.11.0) (2026-04-07)
+
+
+### Features
+
+* add user-friendly error page for API failures ([f462ef5](https://github.com/anct-cartographie-nationale/cartographie/commit/f462ef50141a7e74821e86343a2d3e0edd7b5ef2))
+
 ## [6.10.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.10.0...v6.10.1) (2026-04-07)
 
 
