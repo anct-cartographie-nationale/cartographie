@@ -1,3 +1,10 @@
+## [6.11.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.11.0...v6.11.1) (2026-04-07)
+
+
+### Bug Fixes
+
+* **wc:** fix process.env not replaced in Vite 8 build ([ede7ff9](https://github.com/anct-cartographie-nationale/cartographie/commit/ede7ff9329caf6c0859adb0a7ecba90694ed7d8a))
+
 # [6.11.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.10.1...v6.11.0) (2026-04-07)
 
 
