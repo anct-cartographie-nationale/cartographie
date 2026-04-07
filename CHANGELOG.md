@@ -1,3 +1,10 @@
+## [6.10.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.10.0...v6.10.1) (2026-04-07)
+
+
+### Bug Fixes
+
+* rename mediateur phone property to telephone ([07425cf](https://github.com/anct-cartographie-nationale/cartographie/commit/07425cfcdd26ab926ce695788db578936301d84e))
+
 # [6.10.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.9.3...v6.10.0) (2026-04-07)
 
 
