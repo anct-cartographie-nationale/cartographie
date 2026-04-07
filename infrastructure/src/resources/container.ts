@@ -28,7 +28,14 @@ const container = new containers.Container(
     protocol: 'http1',
     environmentVariables: {
       HOSTNAME: '0.0.0.0'
-    }
+    },
+    healthChecks: [
+      {
+        https: [{ path: '/api/health' }],
+        failureThreshold: 3,
+        interval: '10s'
+      }
+    ]
   },
   { provider: scalewayProvider }
 );
