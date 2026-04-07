@@ -40,7 +40,7 @@ ADRESSE : ${lieu.adresse}`;
 export const FicheLieuPage = ({ breadcrumbsItems = [], listHref, lieu, lieuUrl }: FicheLieuPageProps): ReactNode => (
   <div className='overflow-scroll'>
     <SkipLinksPortal />
-    <Breadcrumbs items={breadcrumbsItems} className='px-8 py-4 border-b-1 border-base-200' />
+    <Breadcrumbs items={breadcrumbsItems} className='px-8 py-4 border-b border-base-200' />
     <main id={contentId} className='container mx-auto px-4 lg:flex gap-16'>
       <article className='flex-1/2 lg:flex-2/3 2xl:flex-3/4 mb-12'>
         <ButtonLink kind='btn-link' href={hrefWithSearchParams(listHref)()} className='no-underline my-4 px-2'>

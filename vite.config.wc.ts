@@ -28,13 +28,12 @@ export default defineConfig(({ command }) => {
       }
     },
     define: {
-      'process.env': JSON.stringify({
-        NODE_ENV: isDev ? 'development' : 'production'
-      })
+      'process.env.NODE_ENV': JSON.stringify(isDev ? 'development' : 'production'),
+      'process.env': JSON.stringify({ NODE_ENV: isDev ? 'development' : 'production' }),
     },
     worker: {
       format: 'es',
-      rollupOptions: {
+      rolldownOptions: {
         output: {
           format: 'es'
         }
@@ -49,14 +48,14 @@ export default defineConfig(({ command }) => {
         fileName: (format) => `cartographie.${format}.js`
       },
       outDir: path.resolve(__dirname, 'dist-wc'),
-      rollupOptions: {
+      rolldownOptions: {
         external: [],
         output: {
-          globals: {}
+          globals: {},
+          inlineDynamicImports: true
         }
       },
-      sourcemap: true,
-      minify: 'esbuild'
+      sourcemap: true
     }
   };
 });
