@@ -200,13 +200,13 @@ describe('to lieu details', () => {
           nom: 'Bruno Desmarais',
           labels: ['Conseiller Numérique', 'Aidants Connect'],
           email: 'nomprenom@mail.com',
-          phone: '06 12 34 56 78'
+          telephone: '06 12 34 56 78'
         },
         {
           nom: 'Sofia Ben Youssef-Dubois',
           labels: ['Aidants Connect'],
           email: 'nomprenom@mail.com',
-          phone: '06 98 76 54 32'
+          telephone: '06 98 76 54 32'
         },
         {
           nom: 'Lucie Marchand',
