@@ -30,3 +30,26 @@ test.describe('Lieux list page', () => {
     await expect(page.locator('[data-testid="lieu-card"]').first()).toBeVisible();
   });
 });
+
+test.describe('Lieux list page edge cases', () => {
+  test('should handle invalid filter values gracefully', async ({ page }) => {
+    const response = await page.goto('/lieux?accessibilite=valeur_invalide');
+
+    expect(response?.status()).toBe(200);
+    await expect(page.locator('[data-testid="lieu-card"]').first()).toBeVisible();
+  });
+
+  test('should handle negative page number', async ({ page }) => {
+    const response = await page.goto('/lieux?page=-1');
+
+    expect(response?.status()).toBe(200);
+    await expect(page.locator('[data-testid="lieu-card"]').first()).toBeVisible();
+  });
+
+  test('should handle page number beyond results', async ({ page }) => {
+    const response = await page.goto('/lieux?page=999999');
+
+    expect(response?.status()).toBe(200);
+    await expect(page.locator('[data-testid="lieu-card"]')).toHaveCount(0);
+  });
+});
