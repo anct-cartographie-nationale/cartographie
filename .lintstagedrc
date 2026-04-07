@@ -2,7 +2,7 @@
   "*.{js,mjs,jsx,ts,tsx}": [
     "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
   ],
-  "*.{css}": [
+  "*.css": [
     "biome check --write --no-errors-on-unmatched --files-ignore-unknown=true"
   ],
   "*.{md,json,xml,html,sh,yml,yaml}": [
