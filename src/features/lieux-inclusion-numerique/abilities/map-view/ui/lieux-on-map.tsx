@@ -1,7 +1,7 @@
 'use client';
 
 import Supercluster from 'mutable-supercluster';
-import { Suspense, useEffect, useMemo, useState } from 'react';
+import { memo, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import { Popup } from 'react-map-gl/maplibre';
 import type { ClusterFeature, ClusterProperties, PointFeature } from 'supercluster';
 import { provide } from '@/libraries/injection';
@@ -22,6 +22,27 @@ const isCluster = (
   feature: PointFeature<Lieu> | ClusterFeature<ClusterProperties>
 ): feature is ClusterFeature<ClusterProperties> => 'cluster_id' in feature.properties;
 
+const LieuMarkerLink = memo(({ feature, searchParams }: { feature: PointFeature<Lieu>; searchParams: URLSearchParams }) => {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <Link
+      href={hrefWithSearchParams(`/lieux/${feature.properties.id}`)(searchParams, ['page'])}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {hovered && (
+        <Popup {...feature.properties} anchor='bottom' offset={[0, -20]} closeButton={false}>
+          <h2 className='font-bold uppercase text-center'>{feature.properties.nom}</h2>
+        </Popup>
+      )}
+      <LieuMarker title={feature.properties.nom} {...feature.properties} />
+    </Link>
+  );
+});
+
+LieuMarkerLink.displayName = 'LieuMarkerLink';
+
 export const LieuxOnMapContent = () => {
   useMemo(() => {
     provide(LIEUX_CACHE, lieuxCache);
@@ -35,8 +56,6 @@ export const LieuxOnMapContent = () => {
   useEffect(() => {
     setSearchParams(searchParams);
   }, [searchParams]);
-
-  const [hoveredId, setHoveredId] = useState<string>();
 
   const [map] = useSubscribe(map$);
 
@@ -52,14 +71,16 @@ export const LieuxOnMapContent = () => {
 
   const lieux$Instance = useMemo(() => lieux$(supercluster), [supercluster]);
 
-  const handleSplitCluster =
+  const handleSplitCluster = useCallback(
     ({ geometry, properties }: ClusterFeature<ClusterProperties>) =>
-    () =>
-      map?.flyTo({
-        center: [geometry.coordinates?.[0] ?? 0, geometry.coordinates?.[1] ?? 0],
-        zoom: supercluster.getClusterExpansionZoom(properties.cluster_id),
-        duration: 400
-      });
+      () =>
+        map?.flyTo({
+          center: [geometry.coordinates?.[0] ?? 0, geometry.coordinates?.[1] ?? 0],
+          zoom: supercluster.getClusterExpansionZoom(properties.cluster_id),
+          duration: 400
+        }),
+    [map, supercluster]
+  );
 
   return (
     <Subscribe to$={lieux$Instance}>
@@ -75,19 +96,7 @@ export const LieuxOnMapContent = () => {
               </ClusterMarker>
             </button>
           ) : (
-            <Link
-              href={hrefWithSearchParams(`/lieux/${feature.properties.id}`)(searchParams, ['page'])}
-              key={feature.properties.id}
-              onMouseEnter={() => setHoveredId(feature.properties.id)}
-              onMouseLeave={() => setHoveredId(undefined)}
-            >
-              {hoveredId === feature.properties.id && (
-                <Popup {...feature.properties} anchor='bottom' offset={[0, -20]} closeButton={false}>
-                  <h2 className='font-bold uppercase text-center'>{feature.properties.nom}</h2>
-                </Popup>
-              )}
-              <LieuMarker title={feature.properties.nom} {...feature.properties} />
-            </Link>
+            <LieuMarkerLink key={feature.properties.id} feature={feature} searchParams={searchParams} />
           )
         )
       }
