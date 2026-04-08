@@ -1,3 +1,15 @@
+## [6.13.3](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.2...v6.13.3) (2026-04-08)
+
+
+### Bug Fixes
+
+* handle PostgREST 416 response for out-of-range pagination ([714a389](https://github.com/anct-cartographie-nationale/cartographie/commit/714a389e6ad63ace98f8730e6054e14705943f78))
+
+
+### Performance Improvements
+
+* disable link prefetch on high-volume components ([d9eb798](https://github.com/anct-cartographie-nationale/cartographie/commit/d9eb798ca32030eea42ec910698d684e36c512f2)), closes [hi#volume](https://github.com/hi/issues/volume)
+
 ## [6.13.2](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.1...v6.13.2) (2026-04-08)
 
 
