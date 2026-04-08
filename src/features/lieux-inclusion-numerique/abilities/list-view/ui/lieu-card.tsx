@@ -6,6 +6,7 @@ import { LieuLogo } from '@/libraries/ui/logos/lieu.logo';
 import { Badge } from '@/libraries/ui/primitives/badge';
 import { Card } from '@/libraries/ui/primitives/card';
 import { cn } from '@/libraries/utils';
+import { OpenBadge } from './open-badge';
 
 type LieuCardProps = Omit<LieuListItem, 'id' | 'region' | 'departement'> & {
   size: 'md' | 'lg';
@@ -17,7 +18,7 @@ export const LieuCard = ({
   adresse,
   telephone,
   distance,
-  isOpen,
+  horaires,
   isByAppointment,
   isFranceServices,
   isConum,
@@ -29,13 +30,9 @@ export const LieuCard = ({
       <div className='flex justify-between gap-4'>
         <div>
           <h2 className={cn('card-title text-primary', size === 'lg' && 'text-xl')}>{nom}</h2>
-          {(isOpen || isByAppointment) && (
+          {(horaires || isByAppointment) && (
             <div className={cn('flex gap-2', size === 'md' && 'mt-2', size === 'lg' && 'mt-3')}>
-              {isOpen && (
-                <Badge color='badge-success' scale='badge-sm' className='font-bold uppercase'>
-                  Ouvert
-                </Badge>
-              )}
+              {horaires && <OpenBadge horaires={horaires} />}
               {isByAppointment && (
                 <Badge color='badge-info' scale='badge-sm' className='font-bold uppercase'>
                   Sur rendez-vous

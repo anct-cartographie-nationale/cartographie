@@ -2,23 +2,9 @@ import type { LieuxRouteResponse } from '../routes';
 import type { LieuListItem } from '../types';
 import { formatPhoneNumber } from './format-phone-number';
 import { geographicDistance } from './geographic-distance';
-import { isOpenNow } from './is-open-now';
-
-const isDefined = <T>(value: T | null | undefined): value is T => value != null;
-
-const isOpen =
-  (date: Date) =>
-  (horaires: string | undefined): boolean =>
-    isDefined(horaires) ? isOpenNow(date)(horaires) : false;
 
 export const toLieuListItem =
-  (
-    date: Date,
-    localisation?: {
-      latitude: number;
-      longitude: number;
-    }
-  ) =>
+  (localisation?: { latitude: number; longitude: number }) =>
   ({
     id,
     nom,
@@ -41,7 +27,7 @@ export const toLieuListItem =
       ? { distance: (geographicDistance({ latitude, longitude }, localisation) / 1000).toFixed(2) }
       : {}),
     ...(telephone ? { telephone: formatPhoneNumber(telephone) } : {}),
-    isOpen: isOpen(date)(horaires),
+    ...(horaires ? { horaires } : {}),
     isByAppointment: modalites_acces?.includes('Se présenter') ?? false,
     isFranceServices: dispositif_programmes_nationaux?.includes('France Services') ?? false,
     isConum: dispositif_programmes_nationaux?.includes('Conseillers numériques') ?? false

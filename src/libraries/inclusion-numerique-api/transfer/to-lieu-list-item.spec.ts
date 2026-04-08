@@ -24,7 +24,7 @@ describe('to lieu list item', () => {
       services: ['Aide aux démarches administratives']
     };
 
-    const lieuListItem: LieuListItem = toLieuListItem(new Date('2022-07-22T10:00:00.000Z'))(lieu);
+    const lieuListItem: LieuListItem = toLieuListItem()(lieu);
 
     expect(lieuListItem).toEqual({
       id: '1',
@@ -39,7 +39,6 @@ describe('to lieu list item', () => {
       },
       departement: '75',
       region: 'Île-de-France',
-      isOpen: false,
       isByAppointment: false,
       isFranceServices: false,
       isConum: false
@@ -72,7 +71,7 @@ describe('to lieu list item', () => {
       services: ['Aide aux démarches administratives']
     };
 
-    const lieuListItem: LieuListItem = toLieuListItem(new Date('2025-09-11T15:00:00.000Z'), {
+    const lieuListItem: LieuListItem = toLieuListItem({
       latitude: 48.8566,
       longitude: 2.3522
     })(lieu);
@@ -92,7 +91,7 @@ describe('to lieu list item', () => {
       region: 'Île-de-France',
       telephone: '01 23 45 67 89',
       distance: '0.45',
-      isOpen: true,
+      horaires: 'Mo-Fr 09:00-12:00,13:30-17:30; Tu 10:00-12:30,13:30-17:30',
       isByAppointment: true,
       isFranceServices: true,
       isConum: true
