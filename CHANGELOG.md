@@ -1,3 +1,11 @@
+## [6.13.8](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.7...v6.13.8) (2026-04-08)
+
+
+### Bug Fixes
+
+* configure robots.txt with correct site URL and block AI crawlers ([f8a01f1](https://github.com/anct-cartographie-nationale/cartographie/commit/f8a01f177e53ebc2a407820e96948e6d040fbba1))
+* output robots.txt and sitemap to public/ for Docker deployment ([52684db](https://github.com/anct-cartographie-nationale/cartographie/commit/52684dbc8e0af9019f4a60f1272dfc2afd33d225))
+
 ## [6.13.7](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.6...v6.13.7) (2026-04-08)
 
 
