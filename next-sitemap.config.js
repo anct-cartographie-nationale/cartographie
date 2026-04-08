@@ -4,7 +4,7 @@ export default {
   generateRobotsTxt: true,
   generateIndexSitemap: false,
   exclude: ['/manifest.webmanifest'],
-  outDir: './out',
+  outDir: './public',
   changefreq: 'monthly',
   robotsTxtOptions: {
     policies: [
