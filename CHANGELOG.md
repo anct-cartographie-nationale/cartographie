@@ -1,3 +1,10 @@
+## [6.13.4](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.3...v6.13.4) (2026-04-08)
+
+
+### Performance Improvements
+
+* disable link prefetch on region and department tag lists ([81418f4](https://github.com/anct-cartographie-nationale/cartographie/commit/81418f4fa8de40b4f3aab50956889ad96e59542e))
+
 ## [6.13.3](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.2...v6.13.3) (2026-04-08)
 
 
