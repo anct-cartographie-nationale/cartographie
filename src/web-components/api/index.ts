@@ -1,4 +1,5 @@
 export type {
+  AllStats,
   DepartementLieuxResponse,
   DepartementWithCount,
   LieuChunk,
@@ -12,6 +13,7 @@ export type {
 export {
   buildExportUrl,
   fetchAllLieux,
+  fetchAllStats,
   fetchDepartementLieux,
   fetchDepartementsStats,
   fetchLieu,

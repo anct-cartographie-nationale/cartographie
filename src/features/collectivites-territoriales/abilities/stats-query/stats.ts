@@ -25,21 +25,27 @@ const fetchAllCodeInsee = async (filters: FiltersSchema): Promise<string[]> => {
 const toRegionTotalCount = (departementsAvecTotaux: DepartementWithCount[]) => (total: number, code: string) =>
   total + (departementsAvecTotaux.find(departementMatchingCode(code))?.nombreLieux ?? 0);
 
-export const fetchDepartementsStats = async (filters: FiltersSchema): Promise<DepartementWithCount[]> => {
+export type AllStats = { regions: RegionWithCount[]; departements: DepartementWithCount[] };
+
+export const fetchAllStats = async (filters: FiltersSchema): Promise<AllStats> => {
   const codeInsees = await fetchAllCodeInsee(filters);
   const countsByDept = aggregateByDepartement(codeInsees);
 
-  return filterDepartementsByTerritoire(filters).map((dept) => ({
+  const departements = filterDepartementsByTerritoire(filters).map((dept) => ({
     ...dept,
     nombreLieux: countsByDept.get(dept.code) ?? 0
   }));
-};
 
-export const fetchRegionsStats = async (filters: FiltersSchema): Promise<RegionWithCount[]> => {
-  const departementsAvecTotaux = await fetchDepartementsStats(filters);
-
-  return filterRegionsByTerritoire(filters).map((region) => ({
+  const regions = filterRegionsByTerritoire(filters).map((region) => ({
     ...region,
-    nombreLieux: region.departements.reduce(toRegionTotalCount(departementsAvecTotaux), 0)
+    nombreLieux: region.departements.reduce(toRegionTotalCount(departements), 0)
   }));
+
+  return { regions, departements };
 };
+
+export const fetchDepartementsStats = async (filters: FiltersSchema): Promise<DepartementWithCount[]> =>
+  (await fetchAllStats(filters)).departements;
+
+export const fetchRegionsStats = async (filters: FiltersSchema): Promise<RegionWithCount[]> =>
+  (await fetchAllStats(filters)).regions;

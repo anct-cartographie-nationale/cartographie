@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { appendCollectivites } from '@/features/collectivites-territoriales';
 import { withRegion } from '@/features/collectivites-territoriales/middlewares/page';
 import { LieuxPage } from '@/features/lieux-inclusion-numerique';
-import { countLieux } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux';
 import { fetchLieux } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieux';
 import { type Region, regionMatchingSlug, regions } from '@/libraries/collectivites';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
@@ -34,13 +33,10 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 export default pageBuilder()
   .use(withRegion(), withSearchParams(filtersSchema), withUrlSearchParams())
   .use(withPagination(pageSchema))
-  .use(
-    withFetch('totalLieux', ({ region, searchParams }) => countLieux(region)(searchParams)),
-    withFetch('lieux', ({ region, searchParams, page }) => fetchLieux(region)(searchParams, { page, limit: PAGE_SIZE }))
-  )
-  .render(async ({ region, totalLieux, lieux, page, urlSearchParams }) => (
+  .use(withFetch('lieuxData', ({ region, searchParams, page }) => fetchLieux(region)(searchParams, { page, limit: PAGE_SIZE })))
+  .render(async ({ region, lieuxData: { lieux, total }, page, urlSearchParams }) => (
     <LieuxPage
-      totalLieux={totalLieux}
+      totalLieux={total}
       pageSize={PAGE_SIZE}
       currentPage={page}
       lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}

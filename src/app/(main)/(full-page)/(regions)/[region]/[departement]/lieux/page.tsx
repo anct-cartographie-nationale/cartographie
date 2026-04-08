@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { appendCollectivites } from '@/features/collectivites-territoriales';
 import { withDepartement, withRegion } from '@/features/collectivites-territoriales/middlewares/page';
 import { LieuxPage } from '@/features/lieux-inclusion-numerique';
-import { countLieux } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux';
 import { fetchLieux } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieux';
 import {
   type Departement,
@@ -46,14 +45,13 @@ export default pageBuilder()
   .use(withRegion(), withDepartement(), withSearchParams(filtersSchema), withUrlSearchParams())
   .use(withPagination(pageSchema))
   .use(
-    withFetch('totalLieux', ({ departement, searchParams }) => countLieux(departement)(searchParams)),
-    withFetch('lieux', ({ departement, searchParams, page }) =>
+    withFetch('lieuxData', ({ departement, searchParams, page }) =>
       fetchLieux(departement)(searchParams, { page, limit: PAGE_SIZE })
     )
   )
-  .render(async ({ region, departement, totalLieux, lieux, page, urlSearchParams }) => (
+  .render(async ({ region, departement, lieuxData: { lieux, total }, page, urlSearchParams }) => (
     <LieuxPage
-      totalLieux={totalLieux}
+      totalLieux={total}
       pageSize={PAGE_SIZE}
       currentPage={page}
       lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}

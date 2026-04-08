@@ -16,7 +16,7 @@ const resolvePositions = ({ lieux, positions }: PositionsWithCache, searchParams
     : merge(
         of(lieux),
         from(positions).pipe(
-          mergeMap((position: Position2D): Observable<Lieu[]> => from(inject(LIEUX_FOR_CHUNK)(position, searchParams))),
+          mergeMap((position: Position2D): Observable<Lieu[]> => from(inject(LIEUX_FOR_CHUNK)(position, searchParams)), 6),
           scan((accumulated: Lieu[], newLieux: Lieu[]): Lieu[] => [...accumulated, ...newLieux], lieux)
         )
       );

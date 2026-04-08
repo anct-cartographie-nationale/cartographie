@@ -13,17 +13,19 @@ const buildUrl = (path: string, searchParams?: URLSearchParams) => {
 
 export const buildExportUrl = (path: string, searchParams?: URLSearchParams) => buildUrl(path, searchParams);
 
-export const fetchRegionsStats = async (searchParams?: URLSearchParams): Promise<RegionWithCount[]> => {
-  const response = await fetch(buildUrl('/stats/regions', searchParams));
-  if (!response.ok) throw new Error('Failed to fetch regions stats');
+export type AllStats = { regions: RegionWithCount[]; departements: DepartementWithCount[] };
+
+export const fetchAllStats = async (searchParams?: URLSearchParams): Promise<AllStats> => {
+  const response = await fetch(buildUrl('/stats', searchParams));
+  if (!response.ok) throw new Error('Failed to fetch stats');
   return response.json();
 };
 
-export const fetchDepartementsStats = async (searchParams?: URLSearchParams): Promise<DepartementWithCount[]> => {
-  const response = await fetch(buildUrl('/stats/departements', searchParams));
-  if (!response.ok) throw new Error('Failed to fetch departements stats');
-  return response.json();
-};
+export const fetchRegionsStats = async (searchParams?: URLSearchParams): Promise<RegionWithCount[]> =>
+  (await fetchAllStats(searchParams)).regions;
+
+export const fetchDepartementsStats = async (searchParams?: URLSearchParams): Promise<DepartementWithCount[]> =>
+  (await fetchAllStats(searchParams)).departements;
 
 export const fetchTotalLieux = async (searchParams?: URLSearchParams): Promise<number> => {
   const response = await fetch(buildUrl('/stats/total', searchParams));
