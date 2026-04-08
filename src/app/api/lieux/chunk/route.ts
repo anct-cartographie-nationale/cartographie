@@ -3,6 +3,8 @@ import { fetchLieuxForChunkServer } from '@/features/lieux-inclusion-numerique/a
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 import { routeBuilder, withFetch, withSearchParams } from '@/libraries/nextjs/route';
 
+const SIX_HOURS = 6 * 60 * 60;
+
 const locationSchema = z.object({
   latitude: z.transform(Number).refine((latitude: number) => !Number.isNaN(latitude), {
     message: 'le paramètre latitude est requis et dois être un nombre, ex : ?latitude=42.1337'
@@ -15,8 +17,10 @@ const locationSchema = z.object({
 export const GET = routeBuilder()
   .use(withSearchParams(locationSchema.extend(filtersSchema.shape)))
   .use(
-    withFetch('lieux', ({ searchParams: { latitude, longitude, ...filters } }) =>
-      fetchLieuxForChunkServer([longitude, latitude], filters)
+    withFetch(
+      'lieux',
+      ({ searchParams: { latitude, longitude, ...filters } }) => fetchLieuxForChunkServer([longitude, latitude], filters),
+      { cache: { cacheKey: ({ searchParams }) => ['chunk', searchParams], revalidate: SIX_HOURS } }
     )
   )
   .handle(async ({ lieux }) => Response.json(lieux));

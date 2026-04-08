@@ -4,6 +4,7 @@ import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { API_BASE_URL } from '@/shared/injection';
 import { LIEUX_CACHE, type LieuxForChunk } from '../../../injection';
 import type { Lieu } from './lieu';
+import { ensureCacheLimit } from './lieux.cache';
 
 const cacheKeyAt = (searchParams: URLSearchParams): string => searchParams.toString();
 
@@ -42,6 +43,7 @@ export const fetchLieuxForChunk: LieuxForChunk = async (
 
   const lieux = await response.json();
 
+  ensureCacheLimit(lieuxCache);
   lieuxCache.set(cacheKey, lieux);
 
   return lieux;
