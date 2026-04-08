@@ -115,7 +115,7 @@ const wafStage = new EdgeServicesWafStage(
     pipelineId: pipeline.id,
     backendStageId: backendStage.id,
     mode: 'enable',
-    paranoiaLevel: 3
+    paranoiaLevel: 1
   },
   { provider: scalewayProvider }
 );
@@ -145,7 +145,8 @@ const cacheStage = new EdgeServicesCacheStage(
   name('edge-services-cache-stage'),
   {
     pipelineId: pipeline.id,
-    routeStageId: routeStage.id
+    routeStageId: routeStage.id,
+    fallbackTtl: 21600
   },
   { provider: scalewayProvider }
 );

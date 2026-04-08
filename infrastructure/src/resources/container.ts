@@ -22,6 +22,8 @@ const container = new containers.Container(
     tags: config.tags,
     namespaceId: namespace.id,
     registryImage: APP_IMAGE_NAME,
+    cpuLimit: 560,
+    memoryLimit: 1024,
     minScale: 1,
     maxScale: 3,
     port: 3000,
