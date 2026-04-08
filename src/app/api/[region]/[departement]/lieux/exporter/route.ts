@@ -1,9 +1,9 @@
 import { withDepartement, withRegion } from '@/features/collectivites-territoriales/middlewares/route';
-import { mediationNumeriqueToCsvLines } from '@/features/lieux-inclusion-numerique';
+import { mediationNumeriqueToCsv } from '@/features/lieux-inclusion-numerique';
 import { fetchAllLieux } from '@/features/lieux-inclusion-numerique/abilities/export/query';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 import { toSchemaLieuMediationNumerique } from '@/libraries/inclusion-numerique-api/transfer/to-schema-lieu-mediation-numerique';
-import { csvStreamResponse, routeBuilder, withErrorHandler, withFetch, withSearchParams } from '@/libraries/nextjs/route';
+import { csvResponse, routeBuilder, withErrorHandler, withFetch, withSearchParams } from '@/libraries/nextjs/route';
 
 const DEFAULT_ERROR_MESSAGE = "Erreur lors de l'export des lieux.";
 
@@ -19,7 +19,7 @@ export const GET = routeBuilder()
       ERROR_MESSAGE_MAP,
       DEFAULT_ERROR_MESSAGE
     )(async ({ lieux, departement }) =>
-      csvStreamResponse(mediationNumeriqueToCsvLines(lieux.map(toSchemaLieuMediationNumerique)), {
+      csvResponse(mediationNumeriqueToCsv(lieux.map(toSchemaLieuMediationNumerique)), {
         filename: `lieux-inclusion-numerique-${departement.slug}`
       })
     )
