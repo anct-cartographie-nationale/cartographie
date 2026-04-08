@@ -66,6 +66,10 @@ export const inclusionNumeriqueFetchApi = async <TRoute extends InclusionNumeriq
     withStripNullsHeader(headers ?? new Headers())
   )(route, finalOptions ? toQueryParams(finalOptions, separators[route]) : undefined);
 
+  if (res.status === 416) {
+    return [[] as InclusionNumeriqueApiResponse[TRoute], res.headers];
+  }
+
   if (!res.ok) {
     throw new ResponseError('Failed to fetch data from inclusion-numerique API', res);
   }
