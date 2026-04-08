@@ -1,7 +1,7 @@
 'use client';
 
 import Supercluster from 'mutable-supercluster';
-import { Suspense, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { Popup } from 'react-map-gl/maplibre';
 import type { ClusterFeature, ClusterProperties, PointFeature } from 'supercluster';
 import { provide } from '@/libraries/injection';
@@ -16,18 +16,25 @@ import type { Lieu } from '../query/lieu';
 import { lieuxCache } from '../query/lieux.cache';
 import { lieux$ } from '../query/lieux.stream';
 import { fetchLieuxForChunk } from '../query/lieux-for-chunk.fetch';
+import { setSearchParams } from '../query/search-params.stream';
 
 const isCluster = (
   feature: PointFeature<Lieu> | ClusterFeature<ClusterProperties>
 ): feature is ClusterFeature<ClusterProperties> => 'cluster_id' in feature.properties;
 
 export const LieuxOnMapContent = () => {
-  provide(LIEUX_CACHE, lieuxCache);
-  provide(LIEUX_FOR_CHUNK, fetchLieuxForChunk);
+  useMemo(() => {
+    provide(LIEUX_CACHE, lieuxCache);
+    provide(LIEUX_FOR_CHUNK, fetchLieuxForChunk);
+  }, []);
 
   const urlSearchParams = useSearchParams();
   const baseSearchParams: URLSearchParams = useMemo(() => new URLSearchParams(urlSearchParams), [urlSearchParams]);
   const searchParams = useFilteredSearchParams(baseSearchParams);
+
+  useEffect(() => {
+    setSearchParams(searchParams);
+  }, [searchParams]);
 
   const [hoveredId, setHoveredId] = useState<string>();
 
@@ -43,7 +50,7 @@ export const LieuxOnMapContent = () => {
     []
   );
 
-  const lieux$Instance = useMemo(() => lieux$(supercluster, searchParams), [supercluster, searchParams]);
+  const lieux$Instance = useMemo(() => lieux$(supercluster), [supercluster]);
 
   const handleSplitCluster =
     ({ geometry, properties }: ClusterFeature<ClusterProperties>) =>
