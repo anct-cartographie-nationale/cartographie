@@ -19,16 +19,13 @@ export default pageBuilder()
   .use(withSearchParams(filtersSchema), withUrlSearchParams())
   .use(withPagination(pageSchema))
   .use(withFetch('lieuxData', ({ searchParams, page }) => fetchLieux()(searchParams, { page, limit: PAGE_SIZE })))
-  .render(async ({ lieuxData: { lieux, total }, page, urlSearchParams }) => {
-    const now = new Date();
-    return (
-      <LieuxPage
-        totalLieux={total}
-        pageSize={PAGE_SIZE}
-        currentPage={page}
-        lieux={lieux.map((lieu) => toLieuListItem(now)(appendCollectivites(lieu)))}
-        mapHref={hrefWithSearchParams('/')(urlSearchParams, ['page'])}
-        exportHref={hrefWithSearchParams('/lieux/exporter')(urlSearchParams, ['page'])}
-      />
-    );
-  });
+  .render(async ({ lieuxData: { lieux, total }, page, urlSearchParams }) => (
+    <LieuxPage
+      totalLieux={total}
+      pageSize={PAGE_SIZE}
+      currentPage={page}
+      lieux={lieux.map((lieu) => toLieuListItem()(appendCollectivites(lieu)))}
+      mapHref={hrefWithSearchParams('/')(urlSearchParams, ['page'])}
+      exportHref={hrefWithSearchParams('/lieux/exporter')(urlSearchParams, ['page'])}
+    />
+  ));

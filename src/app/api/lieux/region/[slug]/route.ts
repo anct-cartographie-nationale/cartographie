@@ -17,7 +17,6 @@ export const GET = routeBuilder()
       { cache: { cacheKey: ({ region, searchParams }) => ['lieux', region.code, searchParams], revalidate: SIX_HOURS } }
     )
   )
-  .handle(async ({ lieuxData: { lieux, total } }) => {
-    const now = new Date();
-    return Response.json({ lieux: lieux.map((lieu) => toLieuListItem(now)(appendCollectivites(lieu))), totalLieux: total });
-  });
+  .handle(async ({ lieuxData: { lieux, total } }) =>
+    Response.json({ lieux: lieux.map((lieu) => toLieuListItem()(appendCollectivites(lieu))), totalLieux: total })
+  );

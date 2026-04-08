@@ -48,16 +48,13 @@ export default pageBuilder()
       fetchLieux(departement)(searchParams, { page, limit: PAGE_SIZE })
     )
   )
-  .render(async ({ region, departement, lieuxData: { lieux, total }, page }) => {
-    const now = new Date();
-    return (
-      <DepartementLieuxPage
-        totalLieux={total}
-        pageSize={PAGE_SIZE}
-        currentPage={page}
-        lieux={lieux.map((lieu) => toLieuListItem(now)(appendCollectivites(lieu)))}
-        region={region}
-        departement={departement}
-      />
-    );
-  });
+  .render(async ({ region, departement, lieuxData: { lieux, total }, page }) => (
+    <DepartementLieuxPage
+      totalLieux={total}
+      pageSize={PAGE_SIZE}
+      currentPage={page}
+      lieux={lieux.map((lieu) => toLieuListItem()(appendCollectivites(lieu)))}
+      region={region}
+      departement={departement}
+    />
+  ));

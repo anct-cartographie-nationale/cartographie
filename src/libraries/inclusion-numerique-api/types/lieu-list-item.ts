@@ -13,7 +13,7 @@ export type LieuListItem = {
   };
   telephone?: string;
   distance?: string;
-  isOpen?: boolean;
+  horaires?: string;
   isByAppointment?: boolean;
   isFranceServices?: boolean;
   isConum?: boolean;
