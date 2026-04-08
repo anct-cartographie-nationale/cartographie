@@ -19,6 +19,7 @@ export const LieuxList = ({ lieux, size = 'md', searchParams, className }: Lieux
           <Link
             className='no-underline'
             href={hrefWithSearchParams(`/${region}/${departement}/lieux/${id}`)(searchParams, ['page'])}
+            prefetch={false}
           >
             <LieuCard className='hover:bg-base-300 h-full' {...lieu} size={size} />
           </Link>

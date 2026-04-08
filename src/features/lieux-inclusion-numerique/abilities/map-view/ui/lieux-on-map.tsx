@@ -28,6 +28,7 @@ const LieuMarkerLink = memo(({ feature, searchParams }: { feature: PointFeature<
   return (
     <Link
       href={hrefWithSearchParams(`/lieux/${feature.properties.id}`)(searchParams, ['page'])}
+      prefetch={false}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >

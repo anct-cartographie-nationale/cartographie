@@ -21,6 +21,7 @@ export const DepartementsOnMap = ({
     <Link
       href={hrefWithSearchParams(`/${regions.find(regionMatchingDepartement({ code }))?.slug}/${slug}`)(searchParams, ['page'])}
       key={code}
+      prefetch={false}
       onClick={() => trackEvent({ category: MatomoCategory.NAVIGATION, action: MatomoAction.DEPARTMENT_SELECT, name: nom })}
     >
       <ClusterMarker title={`Département ${nom}`} isMuted={!selectedRegion?.departements.includes(code)} {...localisation}>
