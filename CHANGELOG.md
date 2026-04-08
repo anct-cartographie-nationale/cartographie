@@ -1,3 +1,10 @@
+## [6.13.7](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.6...v6.13.7) (2026-04-08)
+
+
+### Bug Fixes
+
+* upgrade Node.js from 20 to 22 for Web Streams compatibility ([33aba51](https://github.com/anct-cartographie-nationale/cartographie/commit/33aba51f0f55976b0c7d7fccb8d22762e2980515))
+
 ## [6.13.6](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.5...v6.13.6) (2026-04-08)
 
 
