@@ -45,20 +45,38 @@ export const App: FC<AppProps> = ({
   matomoUrl,
   matomoSiteId
 }) => {
-  provide(API_BASE_URL, apiUrl);
-  provide(SITE_URL, siteUrl);
-  provide(NAVBAR_CONFIG, { logoUrl, appName, helpUrl, helpLabel, homeUrl: routeInitiale });
-  provide(MAP_CONFIG, { latitude, longitude, zoom });
+  useMemo(() => {
+    provide(API_BASE_URL, apiUrl);
+    provide(SITE_URL, siteUrl);
+    provide(NAVBAR_CONFIG, { logoUrl, appName, helpUrl, helpLabel, homeUrl: routeInitiale });
+    provide(MAP_CONFIG, { latitude, longitude, zoom });
+    provide(TERRITOIRE_FILTER, {
+      type: territoireType as TerritoireType | undefined,
+      codes: territoires
+        ?.split(',')
+        .map((s) => s.trim())
+        .filter(Boolean)
+    });
+    provide(MATOMO_CONFIG, { url: matomoUrl, siteId: matomoSiteId });
+    provide(THEME_COLORS, getThemeColors);
+  }, [
+    apiUrl,
+    siteUrl,
+    logoUrl,
+    appName,
+    helpUrl,
+    helpLabel,
+    routeInitiale,
+    latitude,
+    longitude,
+    zoom,
+    territoireType,
+    territoires,
+    matomoUrl,
+    matomoSiteId
+  ]);
+
   invalidateMapLocationIfChanged({ latitude, longitude, zoom });
-  provide(TERRITOIRE_FILTER, {
-    type: territoireType as TerritoireType | undefined,
-    codes: territoires
-      ?.split(',')
-      .map((s) => s.trim())
-      .filter(Boolean)
-  });
-  provide(MATOMO_CONFIG, { url: matomoUrl, siteId: matomoSiteId });
-  provide(THEME_COLORS, getThemeColors);
 
   const router = useMemo(() => createAppRouter(routeInitiale), [routeInitiale]);
 

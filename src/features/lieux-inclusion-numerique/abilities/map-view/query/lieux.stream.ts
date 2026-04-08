@@ -5,6 +5,7 @@ import { inject } from '@/libraries/injection';
 import { boundingBox$, boundingBoxCenter, MAP_CHUNK_OPTIONS, type Position2D, splitBondingBox, zoom$ } from '@/libraries/map';
 import { LIEUX_CACHE, LIEUX_FOR_CHUNK } from '../../../injection';
 import type { Lieu } from './lieu';
+import { searchParams$ } from './search-params.stream';
 
 type PositionsWithCache = { lieux: Lieu[]; positions: Position2D[] };
 
@@ -40,15 +41,14 @@ const toPointFeature = <T extends { latitude: number; longitude: number }>(prope
 });
 
 export const lieux$ = (
-  supercluster: Supercluster<Lieu, ClusterProperties>,
-  searchParams: URLSearchParams
+  supercluster: Supercluster<Lieu, ClusterProperties>
 ): Observable<{
   features: (PointFeature<Lieu> | ClusterFeature<ClusterProperties>)[];
 }> =>
-  combineLatest([zoom$, boundingBox$])
+  combineLatest([zoom$, boundingBox$, searchParams$])
     .pipe(
       filter(([zoom]) => zoom > 9),
-      switchMap(([zoom, boundingBox]) => {
+      switchMap(([zoom, boundingBox, searchParams]) => {
         const centers: Position2D[] = splitBondingBox(boundingBox, MAP_CHUNK_OPTIONS).map(boundingBoxCenter);
 
         return centers.length === 0
