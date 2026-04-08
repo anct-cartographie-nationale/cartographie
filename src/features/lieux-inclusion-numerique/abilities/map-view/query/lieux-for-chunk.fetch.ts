@@ -6,7 +6,14 @@ import { LIEUX_CACHE, type LieuxForChunk } from '../../../injection';
 import type { Lieu } from './lieu';
 import { ensureCacheLimit } from './lieux.cache';
 
-const cacheKeyAt = (searchParams: URLSearchParams): string => searchParams.toString();
+const cacheKeyAt = (position: Position2D, searchParams: URLSearchParams): string => {
+  const [longitude, latitude] = position;
+  const filters = new URLSearchParams(searchParams);
+  filters.delete('page');
+  filters.delete('latitude');
+  filters.delete('longitude');
+  return `${latitude.toFixed(4)},${longitude.toFixed(4)}|${filters.toString()}`;
+};
 
 const searchParamsWithLocation =
   (position: Position2D) =>
@@ -28,7 +35,7 @@ export const fetchLieuxForChunk: LieuxForChunk = async (
   const [longitude, latitude] = position;
 
   const searchParams: URLSearchParams = searchParamsWithLocation(position)(urlSearchParams);
-  const cacheKey: string = cacheKeyAt(searchParams);
+  const cacheKey: string = cacheKeyAt(position, urlSearchParams);
 
   const lieuxCache: Map<string, Lieu[]> = inject(LIEUX_CACHE);
 
