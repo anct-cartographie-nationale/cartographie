@@ -1,3 +1,10 @@
+## [6.13.5](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.4...v6.13.5) (2026-04-08)
+
+
+### Bug Fixes
+
+* revert CSV export from ReadableStream to plain response ([982ade9](https://github.com/anct-cartographie-nationale/cartographie/commit/982ade97f61c24786100aade54dc17aa35898587))
+
 ## [6.13.4](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.3...v6.13.4) (2026-04-08)
 
 
