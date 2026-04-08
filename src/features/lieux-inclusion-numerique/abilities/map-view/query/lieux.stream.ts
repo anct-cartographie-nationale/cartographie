@@ -1,10 +1,23 @@
 import type Supercluster from 'mutable-supercluster';
-import { combineLatest, filter, from, map, merge, mergeMap, type Observable, of, scan, switchMap } from 'rxjs';
+import {
+  combineLatest,
+  distinctUntilChanged,
+  filter,
+  from,
+  map,
+  merge,
+  mergeMap,
+  type Observable,
+  of,
+  scan,
+  switchMap
+} from 'rxjs';
 import type { ClusterFeature, ClusterProperties, PointFeature } from 'supercluster';
 import { inject } from '@/libraries/injection';
 import { boundingBox$, boundingBoxCenter, MAP_CHUNK_OPTIONS, type Position2D, splitBondingBox, zoom$ } from '@/libraries/map';
 import { LIEUX_CACHE, LIEUX_FOR_CHUNK } from '../../../injection';
 import type { Lieu } from './lieu';
+import { touchCache } from './lieux.cache';
 import { searchParams$ } from './search-params.stream';
 
 type PositionsWithCache = { lieux: Lieu[]; positions: Position2D[] };
@@ -24,10 +37,10 @@ const resolvePositions = ({ lieux, positions }: PositionsWithCache, searchParams
 
 const toPositionsWithCache = ({ lieux, positions }: PositionsWithCache, position: Position2D) => {
   const cacheKey = `${position}`;
-  const lieuxCache = inject(LIEUX_CACHE);
+  const cached = touchCache(inject(LIEUX_CACHE), cacheKey);
 
-  return lieuxCache.has(cacheKey)
-    ? { lieux: [...lieux, ...(lieuxCache.get(cacheKey) ?? [])], positions }
+  return cached !== undefined
+    ? { lieux: [...lieux, ...cached], positions }
     : { lieux: lieux, positions: [...positions, position] };
 };
 
@@ -47,6 +60,15 @@ export const lieux$ = (
 }> =>
   combineLatest([zoom$, boundingBox$, searchParams$])
     .pipe(
+      distinctUntilChanged(
+        ([prevZoom, prevBbox, prevParams], [nextZoom, nextBbox, nextParams]) =>
+          prevZoom === nextZoom &&
+          prevBbox[0] === nextBbox[0] &&
+          prevBbox[1] === nextBbox[1] &&
+          prevBbox[2] === nextBbox[2] &&
+          prevBbox[3] === nextBbox[3] &&
+          prevParams.toString() === nextParams.toString()
+      ),
       filter(([zoom]) => zoom > 9),
       switchMap(([zoom, boundingBox, searchParams]) => {
         const centers: Position2D[] = splitBondingBox(boundingBox, MAP_CHUNK_OPTIONS).map(boundingBoxCenter);
