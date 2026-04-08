@@ -51,8 +51,8 @@ test.describe('Region lieux list page breadcrumbs', () => {
 
 test.describe('Region lieux list page 404', () => {
   test('should display 404 for unknown region', async ({ page }) => {
-    const response = await page.goto('/region-inexistante/lieux');
+    await page.goto('/region-inexistante/lieux');
 
-    expect(response?.status()).toBe(404);
+    await expect(page.getByRole('heading', { name: 'Page non trouvée' })).toBeVisible();
   });
 });

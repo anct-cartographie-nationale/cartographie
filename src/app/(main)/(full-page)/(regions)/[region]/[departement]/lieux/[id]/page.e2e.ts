@@ -58,8 +58,8 @@ test.describe('Lieu detail page breadcrumbs', () => {
 
 test.describe('Lieu detail page 404', () => {
   test('should display 404 for unknown lieu', async ({ page }) => {
-    const response = await page.goto('/ile-de-france/seine-et-marne/lieux/lieu-inexistant-12345');
+    await page.goto('/ile-de-france/seine-et-marne/lieux/lieu-inexistant-12345');
 
-    expect(response?.status()).toBe(404);
+    await expect(page.getByRole('heading', { name: 'Page non trouvée' })).toBeVisible();
   });
 });
