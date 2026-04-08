@@ -6,7 +6,13 @@ const searchSchema = z.object({
   q: z.string().min(1).max(100)
 });
 
+const SIX_HOURS = 6 * 60 * 60;
+
 export const GET = routeBuilder()
   .use(withSearchParams(searchSchema))
-  .use(withFetch('mediateurs', ({ searchParams }) => searchMediateursByName(searchParams.q)))
+  .use(
+    withFetch('mediateurs', ({ searchParams }) => searchMediateursByName(searchParams.q), {
+      cache: { cacheKey: ({ searchParams }) => ['mediateurs', searchParams.q], revalidate: SIX_HOURS }
+    })
+  )
   .handle(async ({ mediateurs }) => Response.json(mediateurs));
