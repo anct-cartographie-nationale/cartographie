@@ -10,7 +10,7 @@ import { type Departement, departements, type Region, regions } from '@/librarie
 import { Button } from '@/libraries/ui/primitives/button';
 import { cn } from '@/libraries/utils';
 import { useFilteredSearchParams } from '@/shared/hooks';
-import { type DepartementWithCount, fetchDepartementsStats, fetchRegionsStats, type RegionWithCount } from '../api';
+import { type AllStats, type DepartementWithCount, fetchAllStats, type RegionWithCount } from '../api';
 
 const defaultRegions: RegionWithCount[] = (regions as Region[]).map((region) => ({
   ...region,
@@ -28,14 +28,11 @@ export const WithMapLayout = () => {
   const baseSearchParams = useMemo(() => new URLSearchParams(search), [search]);
   const searchParams = useFilteredSearchParams(baseSearchParams);
 
-  const { data: regionsWithCount = defaultRegions } = useQuery({
-    queryKey: ['stats', 'regions', searchParams.toString()],
-    queryFn: () => fetchRegionsStats(searchParams)
-  });
+  const defaultStats: AllStats = { regions: defaultRegions, departements: defaultDepartements };
 
-  const { data: departementsWithCount = defaultDepartements } = useQuery({
-    queryKey: ['stats', 'departements', searchParams.toString()],
-    queryFn: () => fetchDepartementsStats(searchParams)
+  const { data: { regions: regionsWithCount, departements: departementsWithCount } = defaultStats } = useQuery({
+    queryKey: ['stats', searchParams.toString()],
+    queryFn: () => fetchAllStats(searchParams)
   });
 
   return (

@@ -58,6 +58,8 @@ export const asCount = <T extends PaginateOptions>(options: T): [T, Headers] => 
   new Headers({ Prefer: 'count=exact' })
 ];
 
+export const withCount = (): Headers => new Headers({ Prefer: 'count=exact' });
+
 export const countFromHeaders = (headers: Headers): number => {
   const match = headers.get('content-range')?.match(/\/(\d+)$/);
   return match?.[1] == null ? 0 : parseInt(match[1], 10);
