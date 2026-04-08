@@ -78,6 +78,7 @@ export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regio
               <Link
                 href={hrefWithSearchParams(slug)(searchParams, ['page'])}
                 key={code}
+                prefetch={false}
                 className='tag badge-primary badge-soft'
               >
                 {nom}
