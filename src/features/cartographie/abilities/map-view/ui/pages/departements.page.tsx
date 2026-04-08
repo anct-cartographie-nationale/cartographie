@@ -83,6 +83,7 @@ export const DepartementsPage = ({
               <Link
                 href={hrefWithSearchParams(`/${region.slug}/${slug}`)(searchParams, ['page'])}
                 key={code}
+                prefetch={false}
                 className='tag badge-primary badge-soft'
               >
                 ({code}) {nom}
