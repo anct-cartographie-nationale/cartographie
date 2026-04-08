@@ -1,3 +1,10 @@
+## [6.13.6](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.5...v6.13.6) (2026-04-08)
+
+
+### Bug Fixes
+
+* move opening_hours computation from server to client ([a8da3b8](https://github.com/anct-cartographie-nationale/cartographie/commit/a8da3b8afabce5ac9766027a6ab6334c4321c6d2))
+
 ## [6.13.5](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.4...v6.13.5) (2026-04-08)
 
 
