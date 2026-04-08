@@ -1,3 +1,15 @@
+# [6.12.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.11.1...v6.12.0) (2026-04-08)
+
+
+### Features
+
+* **infra:** add Cockpit Grafana data sources sync ([1c68115](https://github.com/anct-cartographie-nationale/cartographie/commit/1c6811546ac391976a4aac01b636c59b314d33a9))
+
+
+### Performance Improvements
+
+* reduce stats API calls from 102 to 1 ([bea07a6](https://github.com/anct-cartographie-nationale/cartographie/commit/bea07a6b95863bc13ad18b871b1c2fd9fe19a893))
+
 ## [6.11.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.11.0...v6.11.1) (2026-04-07)
 
 
