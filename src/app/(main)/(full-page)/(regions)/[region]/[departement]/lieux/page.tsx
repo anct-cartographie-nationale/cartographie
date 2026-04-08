@@ -49,18 +49,21 @@ export default pageBuilder()
       fetchLieux(departement)(searchParams, { page, limit: PAGE_SIZE })
     )
   )
-  .render(async ({ region, departement, lieuxData: { lieux, total }, page, urlSearchParams }) => (
-    <LieuxPage
-      totalLieux={total}
-      pageSize={PAGE_SIZE}
-      currentPage={page}
-      lieux={lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu)))}
-      breadcrumbsItems={[
-        { label: 'France', href: hrefWithSearchParams('/')(urlSearchParams, ['page']) },
-        { label: region.nom, href: hrefWithSearchParams(`/${region.slug}`)(urlSearchParams, ['page']) },
-        { label: departement.nom }
-      ]}
-      mapHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])}
-      exportHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}/lieux/exporter`)(urlSearchParams, ['page'])}
-    />
-  ));
+  .render(async ({ region, departement, lieuxData: { lieux, total }, page, urlSearchParams }) => {
+    const now = new Date();
+    return (
+      <LieuxPage
+        totalLieux={total}
+        pageSize={PAGE_SIZE}
+        currentPage={page}
+        lieux={lieux.map((lieu) => toLieuListItem(now)(appendCollectivites(lieu)))}
+        breadcrumbsItems={[
+          { label: 'France', href: hrefWithSearchParams('/')(urlSearchParams, ['page']) },
+          { label: region.nom, href: hrefWithSearchParams(`/${region.slug}`)(urlSearchParams, ['page']) },
+          { label: departement.nom }
+        ]}
+        mapHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(urlSearchParams, ['page'])}
+        exportHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}/lieux/exporter`)(urlSearchParams, ['page'])}
+      />
+    );
+  });

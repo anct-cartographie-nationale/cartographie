@@ -21,6 +21,7 @@ export const GET = routeBuilder()
       }
     )
   )
-  .handle(async ({ lieuxData: { lieux, total } }) =>
-    Response.json({ lieux: lieux.map((lieu) => toLieuListItem(new Date())(appendCollectivites(lieu))), totalLieux: total })
-  );
+  .handle(async ({ lieuxData: { lieux, total } }) => {
+    const now = new Date();
+    return Response.json({ lieux: lieux.map((lieu) => toLieuListItem(now)(appendCollectivites(lieu))), totalLieux: total });
+  });
