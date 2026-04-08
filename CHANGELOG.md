@@ -1,3 +1,24 @@
+## [6.13.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.0...v6.13.1) (2026-04-08)
+
+
+### Bug Fixes
+
+* remove lazy loading on CheckboxGroup to prevent filter flash ([100c5db](https://github.com/anct-cartographie-nationale/cartographie/commit/100c5db61e5ecce6247d081f16b4c7215a6be3ef))
+
+
+### Performance Improvements
+
+* add AbortSignal timeout on API fetch calls ([4ffd46d](https://github.com/anct-cartographie-nationale/cartographie/commit/4ffd46dcd54c79725e9f4944db3068cded4e1891))
+* add caching for mediateurs search and fragilite-numerique tiles ([524d145](https://github.com/anct-cartographie-nationale/cartographie/commit/524d1450a84b89c4d3201f2619b871a06bcfe8db))
+* add distinctUntilChanged and LRU cache eviction for map chunks ([4ae0595](https://github.com/anct-cartographie-nationale/cartographie/commit/4ae059526f0c8e2018ed187c79227f6b6ea4c09e))
+* extract Date instantiation outside map callbacks ([5006e6e](https://github.com/anct-cartographie-nationale/cartographie/commit/5006e6e96c48040a0ffcc68bc23f58a6c806f394))
+* optimize map chunk cache key to improve hit rate ([e09770d](https://github.com/anct-cartographie-nationale/cartographie/commit/e09770da770352ec9a2fa56682e170955f59b302))
+* optimize React rendering for map markers ([4294ba2](https://github.com/anct-cartographie-nationale/cartographie/commit/4294ba25dc27ac10192752b4d43b43bbf2e4c506))
+* optimize React rendering for map markers and list items ([ee5071a](https://github.com/anct-cartographie-nationale/cartographie/commit/ee5071aa30a888e872de35585fc6ba99404abc68))
+* stabilize lieux$ observable and move DI out of render path ([f8d6fee](https://github.com/anct-cartographie-nationale/cartographie/commit/f8d6fee96188d3f270249c1c6825f7c855a6dbe6))
+* stream CSV exports via ReadableStream ([ef01d81](https://github.com/anct-cartographie-nationale/cartographie/commit/ef01d8176d8ee49e9c01d3f64b95f6b8599e352a))
+* use pre-computed Maps for collectivites lookup ([a4bbcc9](https://github.com/anct-cartographie-nationale/cartographie/commit/a4bbcc91b1e4b00ca844e663a46092dc22662ae5))
+
 # [6.13.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.12.0...v6.13.0) (2026-04-08)
 
 
