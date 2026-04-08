@@ -1,3 +1,10 @@
+## [6.13.2](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.1...v6.13.2) (2026-04-08)
+
+
+### Performance Improvements
+
+* optimize Scaleway container resources and edge services configuration ([ed7cf47](https://github.com/anct-cartographie-nationale/cartographie/commit/ed7cf4737bac680d457429cf77f9038212113758))
+
 ## [6.13.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.0...v6.13.1) (2026-04-08)
 
 
