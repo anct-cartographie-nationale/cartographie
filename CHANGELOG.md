@@ -1,3 +1,16 @@
+# [6.13.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.12.0...v6.13.0) (2026-04-08)
+
+
+### Features
+
+* add loading states with Suspense for main routes ([faf7080](https://github.com/anct-cartographie-nationale/cartographie/commit/faf7080266206ff3735c4b53e987e8f92735394b))
+
+
+### Performance Improvements
+
+* add HTTP and server-side caching for API routes ([4cefcd7](https://github.com/anct-cartographie-nationale/cartographie/commit/4cefcd72bd2490980bb7f4d4f0d0756ac688a9be))
+* additional API optimizations ([3e791f5](https://github.com/anct-cartographie-nationale/cartographie/commit/3e791f5bded21540dcbb9c5bae11375f30f78a2b))
+
 # [6.12.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.11.1...v6.12.0) (2026-04-08)
 
 
