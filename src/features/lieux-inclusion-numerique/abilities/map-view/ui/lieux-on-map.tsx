@@ -1,7 +1,7 @@
 'use client';
 
 import Supercluster from 'mutable-supercluster';
-import { memo, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
+import { memo, Suspense, useEffect, useMemo, useState } from 'react';
 import { Popup } from 'react-map-gl/maplibre';
 import type { ClusterFeature, ClusterProperties, PointFeature } from 'supercluster';
 import { provide } from '@/libraries/injection';
@@ -71,16 +71,14 @@ export const LieuxOnMapContent = () => {
 
   const lieux$Instance = useMemo(() => lieux$(supercluster), [supercluster]);
 
-  const handleSplitCluster = useCallback(
+  const handleSplitCluster =
     ({ geometry, properties }: ClusterFeature<ClusterProperties>) =>
-      () =>
-        map?.flyTo({
-          center: [geometry.coordinates?.[0] ?? 0, geometry.coordinates?.[1] ?? 0],
-          zoom: supercluster.getClusterExpansionZoom(properties.cluster_id),
-          duration: 400
-        }),
-    [map, supercluster]
-  );
+    () =>
+      map?.flyTo({
+        center: [geometry.coordinates?.[0] ?? 0, geometry.coordinates?.[1] ?? 0],
+        zoom: supercluster.getClusterExpansionZoom(properties.cluster_id),
+        duration: 400
+      });
 
   return (
     <Subscribe to$={lieux$Instance}>

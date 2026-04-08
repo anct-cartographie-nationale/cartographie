@@ -101,7 +101,9 @@ export const Navbar = ({ searchSlot, filtersSlot }: NavbarProps) => {
                   className: 'collapse lg:collapse-open w-fit'
                 })}
               >
-                <div className='collapse-content py-1! pl-0! pr-1!'>{filtersSlot}</div>
+                <div className='collapse-content py-1! pl-0! pr-1!'>
+                  <Suspense fallback={<div>Chargement...</div>}>{filtersSlot}</Suspense>
+                </div>
               </div>
             )}
           </div>

@@ -22,11 +22,8 @@ export const csvStreamResponse = (lines: Iterable<string>, { filename, withDate 
   const stream = new ReadableStream({
     pull(controller) {
       const { value, done } = iterator.next();
-      if (done) {
-        controller.close();
-      } else {
-        controller.enqueue(encoder.encode(value));
-      }
+      if (done) controller.close();
+      else controller.enqueue(encoder.encode(value));
     }
   });
 
