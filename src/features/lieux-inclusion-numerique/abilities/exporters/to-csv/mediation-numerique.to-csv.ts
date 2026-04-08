@@ -111,6 +111,16 @@ const toObjectFields = (fields: string[], obj: Record<string, unknown>) => [...f
 const extraFieldsFor = (lieuxMediationNumerique: SchemaLieuMediationNumerique[]): string[] =>
   Array.from(new Set(lieuxMediationNumerique.reduce(toObjectFields, []).filter(notInSchemaLieuMediationNumerique)));
 
+export function* mediationNumeriqueToCsvLines(lieuxMediationNumerique: SchemaLieuMediationNumerique[]): Generator<string> {
+  const extraFields: string[] = extraFieldsFor(lieuxMediationNumerique);
+  const toCsvLine = toLieuMediationNumeriqueCsvLine(extraFields);
+
+  yield `${csvLineFrom([...HEADERS, ...extraFields])}\n`;
+  for (const lieu of lieuxMediationNumerique) {
+    yield `${toCsvLine(lieu)}\n`;
+  }
+}
+
 export const mediationNumeriqueToCsv = (lieuxMediationNumerique: SchemaLieuMediationNumerique[]): string => {
   const extraFields: string[] = extraFieldsFor(lieuxMediationNumerique);
   return `${csvLineFrom([...HEADERS, ...extraFields])}\n${lieuxMediationNumerique.map(toLieuMediationNumeriqueCsvLine(extraFields)).join('\n')}`;
