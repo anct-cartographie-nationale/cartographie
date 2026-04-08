@@ -27,13 +27,8 @@ import { RegionsOnMap } from './regions-on-map';
 
 const defaultConfig = france.find(({ nom }) => nom === 'France métropolitaine');
 
-let saveMapLocationTimer: ReturnType<typeof setTimeout> | undefined;
-
 export const saveMapLocation = (zoom: number, lng: number, lat: number) => {
-  clearTimeout(saveMapLocationTimer);
-  saveMapLocationTimer = setTimeout(() => {
-    sessionStorage.setItem('mapLocation', JSON.stringify({ zoom, lng, lat }));
-  }, 500);
+  sessionStorage.setItem('mapLocation', JSON.stringify({ zoom, lng, lat }));
 };
 
 const handleZoomEnd = ({ target }: ViewStateChangeEvent) => {

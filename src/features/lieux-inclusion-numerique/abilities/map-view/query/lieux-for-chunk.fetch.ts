@@ -4,7 +4,7 @@ import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { API_BASE_URL } from '@/shared/injection';
 import { LIEUX_CACHE, type LieuxForChunk } from '../../../injection';
 import type { Lieu } from './lieu';
-import { ensureCacheLimit, touchCache } from './lieux.cache';
+import { ensureCacheLimit } from './lieux.cache';
 
 const cacheKeyAt = (position: Position2D, searchParams: URLSearchParams): string => {
   const [longitude, latitude] = position;
@@ -39,8 +39,7 @@ export const fetchLieuxForChunk: LieuxForChunk = async (
 
   const lieuxCache: Map<string, Lieu[]> = inject(LIEUX_CACHE);
 
-  const cached = touchCache(lieuxCache, cacheKey);
-  if (cached !== undefined) return cached;
+  if (lieuxCache.has(cacheKey)) return lieuxCache.get(cacheKey) ?? [];
 
   const response: Response = await fetch(hrefWithSearchParams(`${inject(API_BASE_URL)}/lieux/chunk`)(searchParams, ['page']), {
     signal: AbortSignal.timeout(15_000)
