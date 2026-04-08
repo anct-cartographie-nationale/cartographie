@@ -10,3 +10,12 @@ export const ensureCacheLimit = (cache: Map<string, Lieu[]>): void => {
     if (firstKey) cache.delete(firstKey);
   }
 };
+
+export const touchCache = (cache: Map<string, Lieu[]>, key: string): Lieu[] | undefined => {
+  const value = cache.get(key);
+  if (value !== undefined) {
+    cache.delete(key);
+    cache.set(key, value);
+  }
+  return value;
+};
