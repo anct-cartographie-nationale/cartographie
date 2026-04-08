@@ -58,7 +58,7 @@ export const inclusionNumeriqueFetchApi = async <TRoute extends InclusionNumeriq
   const finalOptions = withRequiredCodeInsee(route, options);
   const res = await fetchApi(
     {
-      baseUrl: 'https://api.inclusion-numerique.anct.gouv.fr',
+      baseUrl: serverEnv.INCLUSION_NUMERIQUE_API_URL,
       revalidate: 21600,
       token: serverEnv.INCLUSION_NUMERIQUE_API_TOKEN,
       ...(fetchOptions?.noCache != null && { noCache: fetchOptions.noCache })
