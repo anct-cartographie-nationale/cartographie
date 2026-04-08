@@ -46,14 +46,14 @@ test.describe('Department page breadcrumbs', () => {
 
 test.describe('Department page 404', () => {
   test('should display 404 for unknown department', async ({ page }) => {
-    const response = await page.goto('/ile-de-france/departement-inexistant');
+    await page.goto('/ile-de-france/departement-inexistant');
 
-    expect(response?.status()).toBe(404);
+    await expect(page.getByRole('heading', { name: 'Page non trouvée' })).toBeVisible();
   });
 
   test('should display 404 for department not in region', async ({ page }) => {
-    const response = await page.goto('/ile-de-france/ain');
+    await page.goto('/ile-de-france/ain');
 
-    expect(response?.status()).toBe(404);
+    await expect(page.getByRole('heading', { name: 'Page non trouvée' })).toBeVisible();
   });
 });

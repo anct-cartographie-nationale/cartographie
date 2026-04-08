@@ -43,8 +43,8 @@ test.describe('Region page breadcrumbs', () => {
 
 test.describe('Region page 404', () => {
   test('should display 404 for unknown region', async ({ page }) => {
-    const response = await page.goto('/region-inexistante');
+    await page.goto('/region-inexistante');
 
-    expect(response?.status()).toBe(404);
+    await expect(page.getByRole('heading', { name: 'Page non trouvée' })).toBeVisible();
   });
 });

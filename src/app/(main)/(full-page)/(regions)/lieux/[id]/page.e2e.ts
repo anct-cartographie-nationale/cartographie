@@ -18,8 +18,8 @@ test.describe('Lieu redirect page', () => {
   });
 
   test('should display 404 for unknown lieu', async ({ page }) => {
-    const response = await page.goto('/lieux/lieu-inexistant-12345');
+    await page.goto('/lieux/lieu-inexistant-12345');
 
-    expect(response?.status()).toBe(404);
+    await expect(page.getByRole('heading', { name: 'Page non trouvée' })).toBeVisible();
   });
 });

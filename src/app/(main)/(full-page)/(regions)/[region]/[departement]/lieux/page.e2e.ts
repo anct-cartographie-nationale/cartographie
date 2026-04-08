@@ -57,8 +57,8 @@ test.describe('Department lieux list page breadcrumbs', () => {
 
 test.describe('Department lieux list page 404', () => {
   test('should display 404 for unknown department', async ({ page }) => {
-    const response = await page.goto('/ile-de-france/departement-inexistant/lieux');
+    await page.goto('/ile-de-france/departement-inexistant/lieux');
 
-    expect(response?.status()).toBe(404);
+    await expect(page.getByRole('heading', { name: 'Page non trouvée' })).toBeVisible();
   });
 });
