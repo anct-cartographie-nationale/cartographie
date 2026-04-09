@@ -1,3 +1,10 @@
+## [6.13.9](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.8...v6.13.9) (2026-04-09)
+
+
+### Performance Improvements
+
+* increase container resources to 1120 mVCPU / 2048 MB ([5fd7058](https://github.com/anct-cartographie-nationale/cartographie/commit/5fd70588ae2d59f6e528c951f10f62b7ce3a5a9e))
+
 ## [6.13.8](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.7...v6.13.8) (2026-04-08)
 
 
