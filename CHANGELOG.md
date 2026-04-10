@@ -1,3 +1,10 @@
+## [6.13.10](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.9...v6.13.10) (2026-04-10)
+
+
+### Bug Fixes
+
+* disable Next.js cache on export fetch to avoid Node.js streaming crash ([a9624aa](https://github.com/anct-cartographie-nationale/cartographie/commit/a9624aab8534166592c957be2dcf8ed8e6d9b33c))
+
 ## [6.13.9](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.8...v6.13.9) (2026-04-09)
 
 
