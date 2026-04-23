@@ -3,7 +3,7 @@ FROM node:22-alpine
 RUN apk add --no-cache nginx nginx-mod-http-geoip2 && \
     mkdir -p /var/cache/nginx
 
-COPY entrypoint.sh /app/entrypoint.sh
+COPY infrastructure/nginx/entrypoint.sh /app/entrypoint.sh
 COPY infrastructure/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY infrastructure/nginx/403.html /usr/share/nginx/html/403.html
 

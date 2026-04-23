@@ -1,0 +1,11 @@
+node_modules
+.git
+.github
+.next/cache
+dist-wc
+e2e
+docs
+*.md
+.env*
+.husky
+.vscode
