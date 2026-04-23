@@ -1,3 +1,10 @@
+## [6.14.5](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.4...v6.14.5) (2026-04-23)
+
+
+### Performance Improvements
+
+* skip cache for RSC requests and add XFF debug logging ([d86f9e5](https://github.com/anct-cartographie-nationale/cartographie/commit/d86f9e59b4408dde7cd867cc9bde946710ec74bb))
+
 ## [6.14.4](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.3...v6.14.4) (2026-04-23)
 
 
