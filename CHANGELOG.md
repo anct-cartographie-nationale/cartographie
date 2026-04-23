@@ -1,3 +1,27 @@
+# [6.14.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.10...v6.14.0) (2026-04-23)
+
+
+### Bug Fixes
+
+* exclude infrastructure tests from regular test run ([119aa57](https://github.com/anct-cartographie-nationale/cartographie/commit/119aa57efd1a32c1131fd0c25bed5820605197ca))
+* harden geo-filter and improve cache configuration ([40e2926](https://github.com/anct-cartographie-nationale/cartographie/commit/40e292654bef58c9217d47df16f06a325e2e8375))
+* hide nginx version, add error logs and graceful shutdown ([b4602a7](https://github.com/anct-cartographie-nationale/cartographie/commit/b4602a78d6a882e997d7cee6ee8b3c93c3d16f5e))
+
+
+### Features
+
+* add geographic whitelist via Nginx reverse proxy with GeoIP2 ([358e08f](https://github.com/anct-cartographie-nationale/cartographie/commit/358e08ffa48d3b5aa2d52f0fc9728179f22223fd))
+* add rate limiting, custom 403 page and proxy timeouts ([9eb9498](https://github.com/anct-cartographie-nationale/cartographie/commit/9eb94981845f6406bda1d358e6d68d3ea4b4bc50))
+* add structured access logs with country and cache status ([a84e9ad](https://github.com/anct-cartographie-nationale/cartographie/commit/a84e9adc064f2b4ef40ce0a81b4a8e6877d89389))
+* add US to geo-whitelist for search engine crawlers and CI ([36b7380](https://github.com/anct-cartographie-nationale/cartographie/commit/36b7380dbfd79983d03690a2b93b85201afc1a71))
+* integrate CrowdSec for collaborative threat detection ([1f717e6](https://github.com/anct-cartographie-nationale/cartographie/commit/1f717e6d67e141764fe38ee05950f6ab4eccff7c))
+
+
+### Performance Improvements
+
+* add gzip compression, upstream keepalive and auto workers ([2045815](https://github.com/anct-cartographie-nationale/cartographie/commit/20458157f4dabd224194967561d1b04d66c71b93))
+* add Nginx reverse proxy cache with 6h TTL ([908f6b6](https://github.com/anct-cartographie-nationale/cartographie/commit/908f6b6e1b5f1c75d0d6a76f744365cd3baf97ae))
+
 ## [6.13.10](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.9...v6.13.10) (2026-04-10)
 
 
