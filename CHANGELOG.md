@@ -1,3 +1,10 @@
+## [6.14.2](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.1...v6.14.2) (2026-04-23)
+
+
+### Bug Fixes
+
+* fix container startup for Scaleway deployment ([523c5ae](https://github.com/anct-cartographie-nationale/cartographie/commit/523c5ae25c155cae4544b6bf7bbfbcb53eae9392))
+
 ## [6.14.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.0...v6.14.1) (2026-04-23)
 
 
