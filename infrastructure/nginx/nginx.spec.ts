@@ -125,4 +125,17 @@ describe('Nginx reverse proxy', () => {
       expect(response.headers.get('X-Cache-Status')).toBeNull();
     });
   });
+
+  describe('page 403 personnalisée', () => {
+    it('affiche un message en français pour les requêtes bloquées', async () => {
+      const response = await fetch(baseUrl, {
+        headers: { 'X-Forwarded-For': '114.114.114.114' }
+      });
+      const body = await response.text();
+
+      expect(body).toContain('lang="fr"');
+      expect(body).toContain('Service non disponible depuis votre position');
+      expect(body).toContain('territoire français');
+    });
+  });
 });
