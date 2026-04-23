@@ -5,36 +5,30 @@ RUN apk add --no-cache \
     bash gettext && \
     mkdir -p /var/cache/nginx /var/log/nginx /etc/systemd/system
 
-# CrowdSec agent
+# CrowdSec : install agent + bouncer + bootstrap + cleanup en un seul layer
 ARG CROWDSEC_VERSION=1.6.8
+ARG BOUNCER_VERSION=1.1.1
 RUN wget -qO /tmp/crowdsec.tgz \
       "https://github.com/crowdsecurity/crowdsec/releases/download/v${CROWDSEC_VERSION}/crowdsec-release.tgz" && \
     tar xzf /tmp/crowdsec.tgz -C /tmp && \
     cd /tmp/crowdsec-v${CROWDSEC_VERSION} && \
     bash ./wizard.sh --bininstall && \
-    rm -rf /tmp/crowdsec* /usr/local/lib/crowdsec/plugins /usr/local/include
-
-# CrowdSec OpenResty bouncer (Lua files)
-ARG BOUNCER_VERSION=1.1.1
-RUN wget -qO /tmp/bouncer.tgz \
+    wget -qO /tmp/bouncer.tgz \
       "https://github.com/crowdsecurity/cs-openresty-bouncer/releases/download/v${BOUNCER_VERSION}/crowdsec-openresty-bouncer.tgz" && \
     tar xzf /tmp/bouncer.tgz -C /tmp && \
     mkdir -p /usr/lib/nginx/lualib/plugins/crowdsec /var/lib/crowdsec/lua/templates /etc/crowdsec/bouncers && \
     cp /tmp/crowdsec-openresty-bouncer-v*/lua/lib/crowdsec.lua /usr/lib/nginx/lualib/ && \
     cp /tmp/crowdsec-openresty-bouncer-v*/lua/lib/plugins/crowdsec/*.lua /usr/lib/nginx/lualib/plugins/crowdsec/ && \
     cp /tmp/crowdsec-openresty-bouncer-v*/templates/*.html /var/lib/crowdsec/lua/templates/ && \
-    rm -rf /tmp/bouncer* /tmp/crowdsec-openresty*
-
-# CrowdSec bootstrap (collections + machine + bouncer key)
-RUN cscli machines add -a --force 2>/dev/null && \
+    cscli machines add -a --force 2>/dev/null && \
     cscli hub update && \
     cscli collections install crowdsecurity/nginx --force && \
     cscli collections install crowdsecurity/http-cve --force && \
     BOUNCER_KEY=$(cscli bouncers add nginx-bouncer -o raw) && \
-    printf 'ENABLED=true\nAPI_URL=http://127.0.0.1:8080\nAPI_KEY=%s\nMODE=stream\nUPDATE_FREQUENCY=10\nCACHE_EXPIRATION=1\nBOUNCING_ON_TYPE=all\nFALLBACK_REMEDIATION=ban\nREQUEST_TIMEOUT=3000\nBAN_TEMPLATE_PATH=/var/lib/crowdsec/lua/templates/ban.html\nSSL_VERIFY=false\n' "$BOUNCER_KEY" > /etc/crowdsec/bouncers/crowdsec-openresty-bouncer.conf
-
-# Disable CAPI (offline mode)
-RUN sed -i '/online_client/,/credentials_path/d' /etc/crowdsec/config.yaml
+    printf 'ENABLED=true\nAPI_URL=http://127.0.0.1:8080\nAPI_KEY=%s\nMODE=stream\nUPDATE_FREQUENCY=10\nCACHE_EXPIRATION=1\nBOUNCING_ON_TYPE=all\nFALLBACK_REMEDIATION=ban\nREQUEST_TIMEOUT=3000\nBAN_TEMPLATE_PATH=/var/lib/crowdsec/lua/templates/ban.html\nSSL_VERIFY=false\n' "$BOUNCER_KEY" > /etc/crowdsec/bouncers/crowdsec-openresty-bouncer.conf && \
+    sed -i '/online_client/,/credentials_path/d' /etc/crowdsec/config.yaml && \
+    rm -rf /tmp/crowdsec* /tmp/bouncer* /usr/local/lib/crowdsec/plugins /usr/local/include /usr/local/bin/cscli && \
+    apk del --no-cache bash gettext
 
 COPY infrastructure/nginx/entrypoint.sh /app/entrypoint.sh
 COPY infrastructure/nginx/nginx.conf /etc/nginx/nginx.conf
