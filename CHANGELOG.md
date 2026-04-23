@@ -1,3 +1,10 @@
+## [6.14.7](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.6...v6.14.7) (2026-04-23)
+
+
+### Bug Fixes
+
+* trust all private/reserved IP ranges for realip ([dff519e](https://github.com/anct-cartographie-nationale/cartographie/commit/dff519e09907466efa62bb6e1cb38d27653a3ee0))
+
 ## [6.14.6](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.5...v6.14.6) (2026-04-23)
 
 
