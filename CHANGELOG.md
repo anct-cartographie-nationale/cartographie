@@ -1,3 +1,10 @@
+## [6.14.9](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.8...v6.14.9) (2026-04-23)
+
+
+### Bug Fixes
+
+* use system theme preference instead of forcing dark mode ([b8448bd](https://github.com/anct-cartographie-nationale/cartographie/commit/b8448bd6decff2e30661b191c6c8bbc487f9afb4))
+
 ## [6.14.8](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.7...v6.14.8) (2026-04-23)
 
 
