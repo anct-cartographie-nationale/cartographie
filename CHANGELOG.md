@@ -1,3 +1,11 @@
+## [6.14.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.0...v6.14.1) (2026-04-23)
+
+
+### Performance Improvements
+
+* reduce Docker image size by 42% (530 → 308 MB) ([8448241](https://github.com/anct-cartographie-nationale/cartographie/commit/8448241c31ed668ac29538281ba2b49872dcb9d2))
+* reduce Docker image size by removing unused CrowdSec plugins ([acaf09d](https://github.com/anct-cartographie-nationale/cartographie/commit/acaf09d04819d2ba369f1ea1f17c3c66c5640304))
+
 # [6.14.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.13.10...v6.14.0) (2026-04-23)
 
 
