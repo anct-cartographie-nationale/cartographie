@@ -1,3 +1,10 @@
+## [6.14.6](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.5...v6.14.6) (2026-04-23)
+
+
+### Bug Fixes
+
+* fix realip extraction for Scaleway proxy chain ([8d2a361](https://github.com/anct-cartographie-nationale/cartographie/commit/8d2a361de9654b17597f05bdb0e22e180616ab7d))
+
 ## [6.14.5](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.4...v6.14.5) (2026-04-23)
 
 
