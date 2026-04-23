@@ -1,3 +1,10 @@
+## [6.14.8](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.7...v6.14.8) (2026-04-23)
+
+
+### Bug Fixes
+
+* re-enable geo-blocking now that realip works correctly ([8162988](https://github.com/anct-cartographie-nationale/cartographie/commit/81629887361050b85850347fec3d6cfde67ca73a))
+
 ## [6.14.7](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.6...v6.14.7) (2026-04-23)
 
 
