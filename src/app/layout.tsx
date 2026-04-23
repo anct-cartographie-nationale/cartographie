@@ -7,12 +7,12 @@ import { ThemeProvider } from '@/libraries/ui/theme/providers';
 import { ConfigProvider } from '@/shared/injection';
 
 const RootLayout = ({ children }: { children: ReactNode }) => (
-  <html lang='fr' data-theme='light' suppressHydrationWarning>
+  <html lang='fr' suppressHydrationWarning>
     <body>
       <NuqsAdapter>
         <ConfigProvider>
           <MatomoTracker />
-          <ThemeProvider attribute='data-theme' defaultTheme='dark' enableSystem disableTransitionOnChange>
+          <ThemeProvider attribute='data-theme' defaultTheme='system' enableSystem disableTransitionOnChange>
             <Toaster directionY='toast-top' directionX='toast-center' />
             {children}
           </ThemeProvider>
