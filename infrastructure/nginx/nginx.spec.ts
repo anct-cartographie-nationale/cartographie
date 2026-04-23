@@ -171,6 +171,18 @@ describe('Nginx reverse proxy', () => {
 
       expect(server).not.toMatch(/\d+\.\d+/);
     });
+
+    it('limite le débit à 10 req/s par IP (429 au-delà du burst)', async () => {
+      const headers = { 'X-Forwarded-For': '193.252.19.3' };
+      const requests = Array.from({ length: 50 }, () =>
+        fetch(`${baseUrl}/rate-limit-${Date.now()}-${Math.random()}`, { headers }).then((r) => r.status)
+      );
+
+      const statuses = await Promise.all(requests);
+      const tooManyRequests = statuses.filter((s) => s === 429);
+
+      expect(tooManyRequests.length).toBeGreaterThan(0);
+    });
   });
 
   describe('CrowdSec', () => {
