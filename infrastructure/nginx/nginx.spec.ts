@@ -192,10 +192,11 @@ describe('Nginx reverse proxy', () => {
       expect(result.exitCode).toBe(0);
     });
 
-    it('le bouncer est enregistré', async () => {
-      const result = await container.exec(['cscli', 'bouncers', 'list', '-o', 'raw']);
+    it('le bouncer est configuré', async () => {
+      const result = await container.exec(['cat', '/etc/crowdsec/bouncers/crowdsec-openresty-bouncer.conf']);
 
-      expect(result.output).toContain('nginx-bouncer');
+      expect(result.output).toContain('ENABLED=true');
+      expect(result.output).toContain('API_URL=http://127.0.0.1:8080');
     });
   });
 });
