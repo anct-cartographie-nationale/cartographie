@@ -41,16 +41,13 @@ describe('Nginx reverse proxy', () => {
         { country: 'Suisse', code: 'CH', ip: '178.195.0.1' },
         { country: 'États-Unis', code: 'US', ip: '8.8.8.8' },
         { country: 'Finlande', code: 'FI', ip: '91.152.0.1' }
-      ])(
-        'autorise le trafic depuis $country ($code / $ip)',
-        async ({ ip }) => {
-          const response = await fetch(baseUrl, {
-            headers: { 'X-Forwarded-For': ip }
-          });
+      ])('autorise le trafic depuis $country ($code / $ip)', async ({ ip }) => {
+        const response = await fetch(baseUrl, {
+          headers: { 'X-Forwarded-For': ip }
+        });
 
-          expect(response.status).toBe(200);
-        }
-      );
+        expect(response.status).toBe(200);
+      });
 
       // Les DOM-TOM (GP, MQ, GF, RE, YT, PM, NC, WF, BL, MF) utilisent
       // principalement des IP résolues comme FR par DB-IP Lite (ISP français).
@@ -70,16 +67,13 @@ describe('Nginx reverse proxy', () => {
         { country: 'Pakistan', code: 'PK', ip: '39.32.0.1' },
         { country: 'Kazakhstan', code: 'KZ', ip: '95.56.0.1' },
         { country: 'Biélorussie', code: 'BY', ip: '93.84.0.1' }
-      ])(
-        'bloque le trafic depuis $country ($code / $ip)',
-        async ({ ip }) => {
-          const response = await fetch(baseUrl, {
-            headers: { 'X-Forwarded-For': ip }
-          });
+      ])('bloque le trafic depuis $country ($code / $ip)', async ({ ip }) => {
+        const response = await fetch(baseUrl, {
+          headers: { 'X-Forwarded-For': ip }
+        });
 
-          expect(response.status).toBe(403);
-        }
-      );
+        expect(response.status).toBe(403);
+      });
     });
 
     describe('anti-spoofing X-Forwarded-For', () => {

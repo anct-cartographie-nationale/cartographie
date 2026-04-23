@@ -4,7 +4,7 @@ RUN apk add --no-cache nginx nginx-mod-http-geoip2 && \
     mkdir -p /var/cache/nginx
 
 COPY entrypoint.sh /app/entrypoint.sh
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY infrastructure/nginx/nginx.conf /etc/nginx/nginx.conf
 
 ARG DBIP_DATE
 RUN wget -O /tmp/dbip-country-lite.mmdb.gz "https://download.db-ip.com/free/dbip-country-lite-${DBIP_DATE}.mmdb.gz" && \
