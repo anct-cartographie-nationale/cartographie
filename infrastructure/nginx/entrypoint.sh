@@ -1,5 +1,8 @@
 #!/bin/sh
 
+export HOSTNAME="${HOSTNAME:-0.0.0.0}"
+export PORT=3000
+
 node server.js &
 NODE_PID=$!
 
