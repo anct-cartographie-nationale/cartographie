@@ -1,3 +1,10 @@
+## [6.14.4](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.3...v6.14.4) (2026-04-23)
+
+
+### Bug Fixes
+
+* disable geo-blocking temporarily ([6201633](https://github.com/anct-cartographie-nationale/cartographie/commit/620163386d5826c200e5b5bdb095bab434c17401))
+
 ## [6.14.3](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.2...v6.14.3) (2026-04-23)
 
 
