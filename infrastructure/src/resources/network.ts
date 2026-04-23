@@ -67,7 +67,7 @@ const backend = new loadbalancers.Backend(
     name: name('app-lb-backend'),
     lbId: appLoadBalancer.id,
     forwardProtocol: 'http',
-    forwardPort: 3000
+    forwardPort: 80
   },
   { provider: scalewayProvider }
 );
