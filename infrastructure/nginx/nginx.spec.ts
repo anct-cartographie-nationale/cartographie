@@ -124,6 +124,16 @@ describe('Nginx reverse proxy', () => {
       expect(response.status).toBe(403);
       expect(response.headers.get('X-Cache-Status')).toBeNull();
     });
+
+    it('crée des entrées cache distinctes par page', async () => {
+      const headers = { 'X-Forwarded-For': '193.252.19.3' };
+
+      const pageA = await fetch(`${baseUrl}/page-a-${Date.now()}`, { headers });
+      expect(pageA.headers.get('X-Cache-Status')).toBe('MISS');
+
+      const pageB = await fetch(`${baseUrl}/page-b-${Date.now()}`, { headers });
+      expect(pageB.headers.get('X-Cache-Status')).toBe('MISS');
+    });
   });
 
   describe('page 403 personnalisée', () => {
@@ -136,6 +146,44 @@ describe('Nginx reverse proxy', () => {
       expect(body).toContain('lang="fr"');
       expect(body).toContain('Service non disponible depuis votre position');
       expect(body).toContain('territoire français');
+    });
+  });
+
+  describe('compression', () => {
+    it("compresse les réponses avec gzip quand le client l'accepte", async () => {
+      const response = await fetch(baseUrl, {
+        headers: {
+          'X-Forwarded-For': '193.252.19.3',
+          'Accept-Encoding': 'gzip'
+        }
+      });
+
+      expect(response.headers.get('Content-Encoding')).toBe('gzip');
+    });
+  });
+
+  describe('sécurité', () => {
+    it('masque la version de Nginx dans le header Server', async () => {
+      const response = await fetch(baseUrl, {
+        headers: { 'X-Forwarded-For': '193.252.19.3' }
+      });
+      const server = response.headers.get('Server');
+
+      expect(server).not.toMatch(/\d+\.\d+/);
+    });
+  });
+
+  describe('CrowdSec', () => {
+    it('le LAPI est accessible dans le container', async () => {
+      const result = await container.exec(['wget', '-qO-', 'http://127.0.0.1:8080/health']);
+
+      expect(result.exitCode).toBe(0);
+    });
+
+    it('le bouncer est enregistré', async () => {
+      const result = await container.exec(['cscli', 'bouncers', 'list', '-o', 'raw']);
+
+      expect(result.output).toContain('nginx-bouncer');
     });
   });
 });
