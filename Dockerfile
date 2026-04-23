@@ -12,7 +12,7 @@ RUN wget -qO /tmp/crowdsec.tgz \
     tar xzf /tmp/crowdsec.tgz -C /tmp && \
     cd /tmp/crowdsec-v${CROWDSEC_VERSION} && \
     bash ./wizard.sh --bininstall && \
-    rm -rf /tmp/crowdsec*
+    rm -rf /tmp/crowdsec* /usr/local/lib/crowdsec/plugins /usr/local/include
 
 # CrowdSec OpenResty bouncer (Lua files)
 ARG BOUNCER_VERSION=1.1.1
