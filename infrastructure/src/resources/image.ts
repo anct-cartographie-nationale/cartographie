@@ -16,10 +16,15 @@ const namespace = new registry.Namespace(
   { provider: scalewayProvider }
 );
 
+const dbipDate = new Date().toISOString().slice(0, 7);
+
 const build = {
   context: '../',
   dockerfile: '../Dockerfile',
   platform: 'linux/amd64',
+  args: {
+    DBIP_DATE: dbipDate
+  },
   cacheFrom: {
     images: [namespace.endpoint.apply((endpoint) => `${endpoint}/${config.projectSlug}:latest`)]
   }

@@ -26,7 +26,7 @@ const container = new containers.Container(
     memoryLimit: 2048,
     minScale: 1,
     maxScale: 3,
-    port: 3000,
+    port: 80,
     protocol: 'http1',
     environmentVariables: {
       HOSTNAME: '0.0.0.0'
