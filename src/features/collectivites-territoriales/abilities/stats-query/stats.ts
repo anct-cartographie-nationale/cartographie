@@ -5,22 +5,12 @@ import {
   filterRegionsByTerritoire,
   type Region
 } from '@/libraries/collectivites';
-import { applyFilters, type FiltersSchema, inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/libraries/inclusion-numerique-api';
+import type { FiltersSchema } from '@/libraries/inclusion-numerique-api';
+import { filterLieux, getAllLieux } from '@/libraries/lieux-cache';
 import { aggregateByDepartement } from './aggregate-by-departement';
 
 export type RegionWithCount = Region & { nombreLieux: number };
 export type DepartementWithCount = Departement & { nombreLieux: number };
-
-type CodeInseeResponse = { code_insee: string }[];
-
-const fetchAllCodeInsee = async (filters: FiltersSchema): Promise<string[]> => {
-  const [data] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
-    select: ['adresse->>code_insee'] as never,
-    filter: applyFilters(filters)
-  });
-
-  return (data as unknown as CodeInseeResponse).map((row) => row.code_insee).filter(Boolean);
-};
 
 const toRegionTotalCount = (departementsAvecTotaux: DepartementWithCount[]) => (total: number, code: string) =>
   total + (departementsAvecTotaux.find(departementMatchingCode(code))?.nombreLieux ?? 0);
@@ -28,7 +18,9 @@ const toRegionTotalCount = (departementsAvecTotaux: DepartementWithCount[]) => (
 export type AllStats = { regions: RegionWithCount[]; departements: DepartementWithCount[] };
 
 export const fetchAllStats = async (filters: FiltersSchema): Promise<AllStats> => {
-  const codeInsees = await fetchAllCodeInsee(filters);
+  const allLieux = await getAllLieux();
+  const filtered = filterLieux(allLieux, filters);
+  const codeInsees = filtered.map((lieu) => lieu.adresse.code_insee).filter(Boolean);
   const countsByDept = aggregateByDepartement(codeInsees);
 
   const departements = filterDepartementsByTerritoire(filters).map((dept) => ({

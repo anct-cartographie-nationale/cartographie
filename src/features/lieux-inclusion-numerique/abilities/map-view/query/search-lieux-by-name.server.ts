@@ -1,11 +1,7 @@
-import { inclusionNumeriqueFetchApi, LIEUX_ROUTE } from '@/libraries/inclusion-numerique-api';
+import { getAllLieux } from '@/libraries/lieux-cache';
 
 export const searchLieuxByName = async (query: string) => {
-  const [lieux] = await inclusionNumeriqueFetchApi(LIEUX_ROUTE, {
-    select: ['id', 'nom', 'latitude', 'longitude', 'adresse'],
-    filter: { nom: `ilike.%${query}%` },
-    paginate: { limit: 10, offset: 0 }
-  });
-
-  return lieux;
+  const allLieux = await getAllLieux();
+  const lowerQuery = query.toLowerCase();
+  return allLieux.filter((lieu) => lieu.nom.toLowerCase().includes(lowerQuery)).slice(0, 10);
 };

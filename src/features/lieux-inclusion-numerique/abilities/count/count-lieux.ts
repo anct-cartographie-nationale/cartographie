@@ -1,19 +1,9 @@
-import { asCount, countFromHeaders } from '@/libraries/api/options';
-import {
-  buildCollectiviteFilter,
-  type Collectivite,
-  type FiltersSchema,
-  inclusionNumeriqueFetchApi,
-  LIEUX_ROUTE,
-  type LieuxRouteOptions
-} from '@/libraries/inclusion-numerique-api';
+import type { Collectivite, FiltersSchema } from '@/libraries/inclusion-numerique-api';
+import { filterLieux, getAllLieux } from '@/libraries/lieux-cache';
 
 export const countLieux =
   (collectivite?: Collectivite) =>
   async (filters: FiltersSchema): Promise<number> => {
-    const [, headers] = await inclusionNumeriqueFetchApi(
-      LIEUX_ROUTE,
-      ...asCount<LieuxRouteOptions>({ filter: buildCollectiviteFilter(filters, collectivite) })
-    );
-    return countFromHeaders(headers);
+    const allLieux = await getAllLieux();
+    return filterLieux(allLieux, filters, collectivite).length;
   };
