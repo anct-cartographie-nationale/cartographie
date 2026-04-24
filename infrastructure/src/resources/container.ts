@@ -22,10 +22,10 @@ const container = new containers.Container(
     tags: config.tags,
     namespaceId: namespace.id,
     registryImage: APP_IMAGE_NAME,
-    cpuLimit: 1120,
-    memoryLimit: 2048,
+    cpuLimit: 2240,
+    memoryLimit: 4096,
     minScale: 1,
-    maxScale: 3,
+    maxScale: 5,
     port: 80,
     protocol: 'http1',
     environmentVariables: {

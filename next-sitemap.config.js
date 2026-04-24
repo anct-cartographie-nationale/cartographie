@@ -8,7 +8,8 @@ export default {
   changefreq: 'monthly',
   robotsTxtOptions: {
     policies: [
-      { userAgent: '*', allow: '/', disallow: ['/api/'] },
+      { userAgent: '*', allow: '/', disallow: ['/api/', '/*?*'] },
+      { userAgent: 'bingbot', crawlDelay: 2 },
       { userAgent: 'GPTBot', disallow: '/' },
       { userAgent: 'ChatGPT-User', disallow: '/' },
       { userAgent: 'Google-Extended', disallow: '/' },
