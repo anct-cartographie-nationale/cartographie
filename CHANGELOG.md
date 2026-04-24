@@ -1,3 +1,10 @@
+# [6.15.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.11...v6.15.0) (2026-04-24)
+
+
+### Features
+
+* add POST /api/cache/reset endpoint for on-demand cache invalidation ([80781fc](https://github.com/anct-cartographie-nationale/cartographie/commit/80781fc0ea8956999a595bb11bbfcfdffafa9b23))
+
 ## [6.14.11](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.10...v6.14.11) (2026-04-24)
 
 
