@@ -172,6 +172,7 @@ const FORBIDDEN_APP = [
         '^src/content',
         '^src/app/\\(main\\)/metadata[.]ts$',
         'client[.]layout[.]tsx$',
+        '^src/env[.]',
         '^path$',
         '^fs$'
       ]

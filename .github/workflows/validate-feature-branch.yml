@@ -89,6 +89,7 @@ jobs:
           echo NEXT_ASSET_PREFIX="${{ vars.NEXT_ASSET_PREFIX }}" >> .env
           echo NEXT_PUBLIC_BASE_PATH="${{ vars.NEXT_PUBLIC_BASE_PATH }}" >> .env
           echo INCLUSION_NUMERIQUE_API_TOKEN="${{ secrets.INCLUSION_NUMERIQUE_API_TOKEN }}" >> .env
+          echo CACHE_RESET_TOKEN="${{ secrets.CACHE_RESET_TOKEN }}" >> .env
       - name: Build
         run: pnpm build
 
@@ -123,6 +124,7 @@ jobs:
           echo NEXT_ASSET_PREFIX="${{ vars.NEXT_ASSET_PREFIX }}" >> .env
           echo NEXT_PUBLIC_BASE_PATH="${{ vars.NEXT_PUBLIC_BASE_PATH }}" >> .env
           echo INCLUSION_NUMERIQUE_API_TOKEN="${{ secrets.INCLUSION_NUMERIQUE_API_TOKEN }}" >> .env
+          echo CACHE_RESET_TOKEN="${{ secrets.CACHE_RESET_TOKEN }}" >> .env
       - name: Build
         run: pnpm build
       - name: Test infrastructure
@@ -143,6 +145,7 @@ jobs:
           touch .env
           echo NEXT_PUBLIC_APP_NAME="${{ vars.NEXT_PUBLIC_APP_NAME }}" >> .env
           echo INCLUSION_NUMERIQUE_API_TOKEN="${{ secrets.INCLUSION_NUMERIQUE_API_TOKEN }}" >> .env
+          echo CACHE_RESET_TOKEN="${{ secrets.CACHE_RESET_TOKEN }}" >> .env
       - name: Run E2E tests
         run: pnpm test:e2e
 

@@ -115,9 +115,12 @@ Vérifie la syntaxe des commits réalisés depuis le dernier commit commun avec 
 
 - [GitHub Actions](https://docs.github.com/en/actions): outil d’intégration et de déploiement continu de GitHub
   - L'exécution des workflows est disponible sous [l'onglet Actions](https://github.com/anct-cartographie-nationale/cartographie/actions)
+- Secrets (dans Settings > Secrets and variables > Actions) :
+  - `INCLUSION_NUMERIQUE_API_TOKEN`: Token d’authentification pour l’API ANCT DataSpace
+  - `CACHE_RESET_TOKEN`: Token Bearer pour l’endpoint `POST /api/cache/reset`, permet de déclencher le rechargement du cache des lieux en mémoire après une mise à jour des données
 - Variables pour l’environnement `github-pages` :
-  - `NEXT_PUBLIC_BASE_PATH`: `/cartographie`, utilisé dans `NextConfig` au moment du build pour configurer le chemin de base de l'application `basePath`
-  - `NEXT_PUBLIC_ASSET_PREFIX`: `/cartographie`, utilisé dans `NextConfig` au moment du build pour configurer le chemin de base de l'application `assetPrefix`
+  - `NEXT_PUBLIC_BASE_PATH`: `/cartographie`, utilisé dans `NextConfig` au moment du build pour configurer le chemin de base de l’application `basePath`
+  - `NEXT_PUBLIC_ASSET_PREFIX`: `/cartographie`, utilisé dans `NextConfig` au moment du build pour configurer le chemin de base de l’application `assetPrefix`
 - Workflows:
   - [Validation des branches](./.github/workflows/validate-feature-branch.yml): Exécuté à chaque création de branche avec préfixe conventionnel. Vérifie la qualité avant fusion dans la branche `main`
   - [Publication sur GitHub Pages](./.github/workflows/publish-on-github-pages.yml): Exécuté lors des fusions dans la branche `main`. Construit et publie le site statique sur GitHub Pages.
