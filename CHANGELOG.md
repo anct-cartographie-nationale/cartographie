@@ -1,3 +1,10 @@
+## [6.15.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.0...v6.15.1) (2026-04-24)
+
+
+### Performance Improvements
+
+* add bot rate limiting and scale up infrastructure ([6ec2227](https://github.com/anct-cartographie-nationale/cartographie/commit/6ec222759a101b0b0cdb9c0078ac19f2c7710939))
+
 # [6.15.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.11...v6.15.0) (2026-04-24)
 
 
