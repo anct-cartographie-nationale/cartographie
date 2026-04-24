@@ -1,13 +1,5 @@
-import { countFromHeaders, withCount } from '@/libraries/api/options';
-import {
-  buildCollectiviteFilter,
-  type Collectivite,
-  type FiltersSchema,
-  inclusionNumeriqueFetchApi,
-  LIEU_LIST_FIELDS,
-  LIEUX_ROUTE,
-  type LieuxRouteResponse
-} from '@/libraries/inclusion-numerique-api';
+import type { Collectivite, FiltersSchema, LieuxRouteResponse } from '@/libraries/inclusion-numerique-api';
+import { filterLieux, getAllLieux } from '@/libraries/lieux-cache';
 
 type PaginationParams = {
   page: number;
@@ -22,15 +14,7 @@ export type LieuxWithTotal = {
 export const fetchLieux =
   (collectivite?: Collectivite) =>
   async (filters: FiltersSchema, { page, limit }: PaginationParams): Promise<LieuxWithTotal> => {
-    const [lieux, headers] = await inclusionNumeriqueFetchApi(
-      LIEUX_ROUTE,
-      {
-        paginate: { limit, offset: (page - 1) * limit },
-        select: LIEU_LIST_FIELDS,
-        filter: buildCollectiviteFilter(filters, collectivite),
-        order: ['nom', 'asc']
-      },
-      withCount()
-    );
-    return { lieux, total: countFromHeaders(headers) };
+    const allLieux = await getAllLieux();
+    const filtered = filterLieux(allLieux, filters, collectivite);
+    return { lieux: filtered.slice((page - 1) * limit, page * limit), total: filtered.length };
   };
