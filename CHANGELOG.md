@@ -1,3 +1,10 @@
+## [6.14.10](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.9...v6.14.10) (2026-04-24)
+
+
+### Performance Improvements
+
+* replace PostgREST API calls with in-memory BFF cache ([3d5ffab](https://github.com/anct-cartographie-nationale/cartographie/commit/3d5ffab4dd7c6b5e1e992161067074b04b3d3c3d))
+
 ## [6.14.9](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.8...v6.14.9) (2026-04-23)
 
 
