@@ -1,3 +1,11 @@
+## [6.14.11](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.10...v6.14.11) (2026-04-24)
+
+
+### Bug Fixes
+
+* preload lieux cache at startup and refresh in background ([e3a13f4](https://github.com/anct-cartographie-nationale/cartographie/commit/e3a13f4dbdb7e9e6fa20c26719336a2f18fe3c65))
+* use bracket notation for process.env access ([97248cd](https://github.com/anct-cartographie-nationale/cartographie/commit/97248cd3b3d7e102b91220ea08aa51f3857c15d0))
+
 ## [6.14.10](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.14.9...v6.14.10) (2026-04-24)
 
 
