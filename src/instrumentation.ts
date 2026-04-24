@@ -3,7 +3,7 @@ export async function onRequestError() {
 }
 
 export async function register() {
-  if (process.env.NEXT_RUNTIME === 'nodejs') {
+  if (process.env['NEXT_RUNTIME'] === 'nodejs') {
     const { getAllLieux } = await import('@/libraries/lieux-cache');
     await getAllLieux();
   }
