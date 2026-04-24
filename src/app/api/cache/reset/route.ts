@@ -1,0 +1,10 @@
+import { serverEnv } from '@/env.server';
+import { invalidateCache } from '@/libraries/lieux-cache';
+import { routeBuilder, withStaticBearerAuth } from '@/libraries/nextjs/route';
+
+export const POST = routeBuilder()
+  .use(withStaticBearerAuth(serverEnv.CACHE_RESET_TOKEN))
+  .handle(async () => {
+    invalidateCache();
+    return Response.json({ status: 'cache reset initiated' });
+  });

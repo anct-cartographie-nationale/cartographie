@@ -5,7 +5,8 @@ const serverEnvSchema = z.object({
   PROTOCOL: z.enum(['http', 'https']).default('https'),
   HOSTNAME: z.string().default('localhost'),
   PORT: z.coerce.number().int().min(1).max(65535).nullish(),
-  INCLUSION_NUMERIQUE_API_TOKEN: z.string().min(1, { message: 'INCLUSION_NUMERIQUE_API_TOKEN must not be empty' })
+  INCLUSION_NUMERIQUE_API_TOKEN: z.string().min(1, { message: 'INCLUSION_NUMERIQUE_API_TOKEN must not be empty' }),
+  CACHE_RESET_TOKEN: z.string().min(1, { message: 'CACHE_RESET_TOKEN must not be empty' })
 });
 
 export const serverEnv = serverEnvSchema.parse(process.env);

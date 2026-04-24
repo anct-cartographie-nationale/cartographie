@@ -7,10 +7,7 @@ type LieuxStore = {
   byId: Map<string, Lieu>;
 };
 
-const SIX_HOURS = 6 * 60 * 60 * 1000;
-
 let currentStore: Promise<LieuxStore> | null = null;
-let cacheTimestamp = 0;
 let isRefreshing = false;
 
 const collator = new Intl.Collator('fr', { sensitivity: 'base' });
@@ -23,35 +20,27 @@ const buildStore = (data: LieuxRouteResponse): LieuxStore => ({
 const fetchStore = (): Promise<LieuxStore> =>
   inclusionNumeriqueFetchApi(LIEUX_ROUTE, {}, undefined, { noCache: true }).then(([data]) => buildStore(data));
 
-const refreshInBackground = (): void => {
+const getStore = (): Promise<LieuxStore> => {
+  if (!currentStore) {
+    currentStore = fetchStore().catch((error: unknown) => {
+      currentStore = null;
+      throw error;
+    });
+  }
+  return currentStore;
+};
+
+export const invalidateCache = (): void => {
   if (isRefreshing) return;
   isRefreshing = true;
   fetchStore()
     .then((store) => {
       currentStore = Promise.resolve(store);
-      cacheTimestamp = Date.now();
     })
     .catch(() => {})
     .finally(() => {
       isRefreshing = false;
     });
-};
-
-const getStore = (): Promise<LieuxStore> => {
-  if (currentStore && Date.now() - cacheTimestamp > SIX_HOURS) {
-    refreshInBackground();
-  }
-
-  if (!currentStore) {
-    cacheTimestamp = Date.now();
-    currentStore = fetchStore().catch((error: unknown) => {
-      currentStore = null;
-      cacheTimestamp = 0;
-      throw error;
-    });
-  }
-
-  return currentStore;
 };
 
 export const getAllLieux = async (): Promise<LieuxRouteResponse> => (await getStore()).all;
