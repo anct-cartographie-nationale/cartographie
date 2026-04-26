@@ -13,15 +13,7 @@ const ERROR_MESSAGE_MAP: { [key: number]: string } = {
 
 export const GET = routeBuilder()
   .use(withRegion(), withDepartement(), withSearchParams(filtersSchema))
-  .use(
-    withFetch('lieux', ({ departement, searchParams }) => fetchAllLieux(departement)(searchParams), {
-      cache: {
-        cacheKey: ({ departement, searchParams }) => ['export', 'departement', departement.code, searchParams],
-        revalidate: false,
-        tags: ['lieux']
-      }
-    })
-  )
+  .use(withFetch('lieux', ({ departement, searchParams }) => fetchAllLieux(departement)(searchParams)))
   .handle(
     withErrorHandler(
       ERROR_MESSAGE_MAP,
