@@ -1,3 +1,17 @@
+## [6.15.2](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.1...v6.15.2) (2026-04-26)
+
+
+### Bug Fixes
+
+* add cache to lieu redirect page and remove stale Cache-Control headers ([65f5e7a](https://github.com/anct-cartographie-nationale/cartographie/commit/65f5e7a65c74e4aac80cabe42aafc0e82f00a5b2))
+* reduce SSR payload size and rate limit Facebook bot ([86c9a20](https://github.com/anct-cartographie-nationale/cartographie/commit/86c9a209225879cbfd7f86830e28f73fc1216cc3))
+
+
+### Performance Improvements
+
+* enable ISR with on-demand revalidation via cache tags ([c50fbbc](https://github.com/anct-cartographie-nationale/cartographie/commit/c50fbbcdd7415048218f269a76112a3cc3d19406))
+* switch all API routes from TTL to on-demand cache revalidation ([14b905c](https://github.com/anct-cartographie-nationale/cartographie/commit/14b905c03a706ea100c4d6cd88681b51fb0dd318))
+
 ## [6.15.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.0...v6.15.1) (2026-04-24)
 
 
