@@ -1,3 +1,10 @@
+## [6.15.4](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.3...v6.15.4) (2026-04-26)
+
+
+### Performance Improvements
+
+* lazy-load MapLibre via next/dynamic ([02f1c40](https://github.com/anct-cartographie-nationale/cartographie/commit/02f1c402183a47d5252dbb1e437cfd4d6db643e7))
+
 ## [6.15.3](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.2...v6.15.3) (2026-04-26)
 
 
