@@ -1,3 +1,10 @@
+## [6.15.9](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.8...v6.15.9) (2026-04-26)
+
+
+### Bug Fixes
+
+* add AI bots to nginx rate limiting and export blocking ([66f23e7](https://github.com/anct-cartographie-nationale/cartographie/commit/66f23e780f47d17d328f35d15efef91bcf391a46))
+
 ## [6.15.8](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.7...v6.15.8) (2026-04-26)
 
 
