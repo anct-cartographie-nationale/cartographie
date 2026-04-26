@@ -9,6 +9,8 @@ import type { BreadcrumbItem } from '@/libraries/ui/blocks/breadcrumbs';
 import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
 import { NextPageLink, PageLink, PreviousPageLink } from '@/libraries/ui/blocks/pagination/page-link';
 import { Pagination } from '@/libraries/ui/blocks/pagination/pagination';
+import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
+import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
 import { ExportLieux } from './export-lieux';
 import { LieuxList } from './lieux-list';
 import { useMapDepartementLocation } from './use-map-departement-location';
@@ -41,6 +43,7 @@ export const DepartementLieuxPage = ({
 
   return (
     <>
+      <SkipLinksPortal />
       <Breadcrumbs
         items={
           breadcrumbsItems ?? [
@@ -51,29 +54,31 @@ export const DepartementLieuxPage = ({
         }
       />
       {children}
-      <div className='flex justify-between items-center gap-2 mb-4 mt-3'>
-        <h1 className='font-bold uppercase text-xs text-base-title'>
-          <span className='sr-only'>{departement.nom}</span>
-          {totalLieux} lieux trouvés
-        </h1>
-        <ExportLieux
-          lieuxCount={totalLieux}
-          href={exportHref ?? hrefWithSearchParams(`${departement.slug}/lieux/exporter`)(searchParams, ['page'])}
-        />
-      </div>
-      <LieuxList searchParams={searchParams} lieux={lieux} className='flex flex-col gap-2' />
-      <div className='text-center mt-10'>
-        <Pagination
-          currentPage={currentPage}
-          itemsCount={totalLieux}
-          pageSize={pageSize}
-          siblingCount={1}
-          href={hrefWithSearchParams()(searchParams)}
-          nav={{ previous: PreviousPageLink, next: NextPageLink }}
-        >
-          {PageLink}
-        </Pagination>
-      </div>
+      <main id={contentId}>
+        <div className='flex justify-between items-center gap-2 mb-4 mt-3'>
+          <h1 className='font-bold uppercase text-xs text-base-title'>
+            <span className='sr-only'>{departement.nom}</span>
+            {totalLieux} lieux trouvés
+          </h1>
+          <ExportLieux
+            lieuxCount={totalLieux}
+            href={exportHref ?? hrefWithSearchParams(`${departement.slug}/lieux/exporter`)(searchParams, ['page'])}
+          />
+        </div>
+        <LieuxList searchParams={searchParams} lieux={lieux} className='flex flex-col gap-2' />
+        <div className='text-center mt-10'>
+          <Pagination
+            currentPage={currentPage}
+            itemsCount={totalLieux}
+            pageSize={pageSize}
+            siblingCount={1}
+            href={hrefWithSearchParams()(searchParams)}
+            nav={{ previous: PreviousPageLink, next: NextPageLink }}
+          >
+            {PageLink}
+          </Pagination>
+        </div>
+      </main>
     </>
   );
 };

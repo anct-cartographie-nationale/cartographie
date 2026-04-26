@@ -12,6 +12,8 @@ import {
 } from '@/libraries/collectivites';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 import { pageBuilder, withFetch, withSearchParams } from '@/libraries/nextjs/page';
+import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
+import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
 import { LocationFranceIllustration } from '@/libraries/ui/pictograms/map/location-france.illustration';
 import { appPageTitle } from '@/libraries/utils';
 
@@ -47,14 +49,21 @@ export default pageBuilder()
     )
   )
   .render(async ({ region, totalLieux, departements }) => (
-    <DepartementsPage totalLieux={totalLieux} region={region} departements={departements}>
-      <LocationFranceIllustration className='mt-10 mb-6' />
-      <h1 className='mb-12 text-3xl text-base-title font-light'>
-        {region.nom}
-        <br />
-        <span className='font-bold'>
-          {totalLieux} {"lieux d'inclusion numérique"}
-        </span>
-      </h1>
-    </DepartementsPage>
+    <>
+      <SkipLinksPortal />
+      <main id={contentId} className='flex flex-col justify-between h-full gap-16'>
+        <div>
+          <DepartementsPage totalLieux={totalLieux} region={region} departements={departements}>
+            <LocationFranceIllustration className='mt-10 mb-6' />
+            <h1 className='mb-12 text-3xl text-base-title font-light'>
+              {region.nom}
+              <br />
+              <span className='font-bold'>
+                {totalLieux} {"lieux d'inclusion numérique"}
+              </span>
+            </h1>
+          </DepartementsPage>
+        </div>
+      </main>
+    </>
   ));
