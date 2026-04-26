@@ -105,6 +105,7 @@ export const Cartographie = ({
           <Button
             kind='btn-ghost'
             className='px-2 bg-base-100 text-primary shadow rounded'
+            aria-label={fullScreen ? 'Quitter le plein écran' : 'Plein écran'}
             onClick={() => {
               trackEvent({
                 category: MatomoCategory.MAP,
@@ -114,7 +115,7 @@ export const Cartographie = ({
               setFullScreen((prev) => !prev);
             }}
           >
-            {fullScreen ? <RiFullscreenExitLine size={24} /> : <RiFullscreenLine size={24} />}
+            {fullScreen ? <RiFullscreenExitLine size={24} aria-hidden /> : <RiFullscreenLine size={24} aria-hidden />}
           </Button>
         </div>
         <Subscribe to$={zoom$} startWith={config.zoom}>
