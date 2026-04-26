@@ -7,7 +7,11 @@ const nextConfig: NextConfig = {
   basePath: process.env.NEXT_PUBLIC_BASE_PATH,
   assetPrefix: process.env.NEXT_ASSET_PREFIX,
   async headers() {
+    const assetPrefix = process.env.NEXT_ASSET_PREFIX;
     return [
+      ...(assetPrefix
+        ? [{ source: '/:path*', headers: [{ key: 'Link', value: `<${assetPrefix}>; rel=preconnect` }] }]
+        : []),
       {
         source: '/api/:path*',
         headers: [
