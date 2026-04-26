@@ -2,91 +2,51 @@
 
 import type { ReactNode } from 'react';
 import type { Region } from '@/libraries/collectivites';
-import { france } from '@/libraries/collectivites';
-import { inject } from '@/libraries/injection';
-import { map$, setZoom } from '@/libraries/map';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { Link, useSearchParams } from '@/libraries/nextjs/shim';
-import { useTap } from '@/libraries/reactivity/Subscribe';
-import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
-import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
-import { LocationFranceIllustration } from '@/libraries/ui/pictograms/map/location-france.illustration';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
-import { MAP_CONFIG } from '@/shared/injection';
-import { removeHighlightDecoupageAdministratif } from '@/shared/ui/highlight-decoupage-administratif';
+import { useMapInitialLocation } from './use-map-initial-location';
 
-const defaultConfig = france.find(({ nom }): boolean => nom === 'France métropolitaine');
-
-export const RegionsPage = ({ totalLieux, regions }: { totalLieux: number; regions: Region[] }): ReactNode => {
+export const RegionsPage = ({
+  totalLieux,
+  regions,
+  children
+}: {
+  totalLieux: number;
+  regions: Region[];
+  children?: ReactNode;
+}): ReactNode => {
   const urlSearchParams = useSearchParams();
   const searchParams: URLSearchParams = new URLSearchParams(urlSearchParams);
 
-  const customLocation = inject(MAP_CONFIG);
-
-  const customZoom = customLocation.zoom;
-  const isCustomZoomValid = customZoom != null && defaultConfig && customZoom > defaultConfig.zoom;
-
-  const initialLocation = defaultConfig
-    ? {
-        zoom: isCustomZoomValid ? customZoom : defaultConfig.zoom,
-        latitude: customLocation.latitude ?? defaultConfig.localisation.latitude,
-        longitude: customLocation.longitude ?? defaultConfig.localisation.longitude
-      }
-    : null;
-
-  useTap(map$, (map) => {
-    if (!initialLocation) return;
-    setZoom(initialLocation.zoom);
-    if (!map) return;
-    map.flyTo({
-      center: [initialLocation.longitude, initialLocation.latitude],
-      zoom: initialLocation.zoom,
-      duration: 400
-    });
-    if (!map.isStyleLoaded()) return;
-    removeHighlightDecoupageAdministratif(map);
-  });
-
-  if (!defaultConfig) return null;
+  useMapInitialLocation();
 
   return (
     <>
-      <SkipLinksPortal />
-      <main id={contentId} className='flex flex-col justify-between h-full gap-16'>
-        <div>
-          <LocationFranceIllustration className='mb-6 mt-18' />
-          <h1 className='mb-12 text-3xl text-base-title font-light'>
-            <span className='font-bold'>
-              {totalLieux} lieux
-              <br />
-              d’inclusion numérique
-            </span>
-          </h1>
-          <h2 className='font-bold uppercase text-xs text-base-title mb-3'>Filtrer par région</h2>
-          <div className='flex flex-wrap gap-1.5'>
-            {regions.map(({ nom, slug, code }) => (
-              <Link
-                href={hrefWithSearchParams(slug)(searchParams, ['page'])}
-                key={code}
-                prefetch={false}
-                className='tag badge-primary badge-soft'
-              >
-                {nom}
-              </Link>
-            ))}
-          </div>
-        </div>
-        <div className='pb-8'>
-          <ButtonLink
-            className='border-base-200'
-            kind='btn-outline'
-            color='btn-primary'
-            href={hrefWithSearchParams('/lieux')(searchParams)}
+      {children}
+      <h2 className='font-bold uppercase text-xs text-base-title mb-3'>Filtrer par région</h2>
+      <div className='flex flex-wrap gap-1.5'>
+        {regions.map(({ nom, slug, code }) => (
+          <Link
+            href={hrefWithSearchParams(slug)(searchParams, ['page'])}
+            key={code}
+            prefetch={false}
+            className='tag badge-primary badge-soft'
           >
-            Afficher la liste des {totalLieux} lieux
-          </ButtonLink>
-        </div>
-      </main>
+            {nom}
+          </Link>
+        ))}
+      </div>
+      <div className='pt-16 pb-8'>
+        <ButtonLink
+          className='border-base-200'
+          kind='btn-outline'
+          color='btn-primary'
+          href={hrefWithSearchParams('/lieux')(searchParams)}
+        >
+          Afficher la liste des {totalLieux} lieux
+        </ButtonLink>
+      </div>
     </>
   );
 };
