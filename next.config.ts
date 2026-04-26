@@ -16,14 +16,6 @@ const nextConfig: NextConfig = {
           { key: 'Access-Control-Allow-Headers', value: 'Content-Type' }
         ]
       },
-      {
-        source: '/api/stats/:path*',
-        headers: [{ key: 'Cache-Control', value: 'public, max-age=21600, s-maxage=21600' }]
-      },
-      {
-        source: '/api/lieux/:path*',
-        headers: [{ key: 'Cache-Control', value: 'public, max-age=3600, s-maxage=21600' }]
-      }
     ];
   },
   async redirects() {
