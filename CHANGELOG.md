@@ -1,3 +1,10 @@
+## [6.15.8](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.7...v6.15.8) (2026-04-26)
+
+
+### Bug Fixes
+
+* fix bot blocking on exports and remove unstable_cache for exports ([bc787d9](https://github.com/anct-cartographie-nationale/cartographie/commit/bc787d921385c9ca40d18409a42f3a613f3ae589))
+
 ## [6.15.7](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.6...v6.15.7) (2026-04-26)
 
 
