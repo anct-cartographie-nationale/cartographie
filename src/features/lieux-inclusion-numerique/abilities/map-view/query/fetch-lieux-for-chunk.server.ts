@@ -7,13 +7,15 @@ export const fetchLieuxForChunkServer = async (position: Position2D, filters: Fi
   const [minLon, minLat, maxLon, maxLat]: BBox = mapChunk(position, MAP_CHUNK_OPTIONS);
   const allLieux = await getAllLieux();
 
-  return filterLieux(allLieux, filters).filter(
-    (lieu) =>
-      lieu.latitude != null &&
-      lieu.longitude != null &&
-      lieu.latitude > minLat &&
-      lieu.latitude <= maxLat &&
-      lieu.longitude > minLon &&
-      lieu.longitude <= maxLon
-  );
+  return filterLieux(allLieux, filters)
+    .filter(
+      (lieu) =>
+        lieu.latitude != null &&
+        lieu.longitude != null &&
+        lieu.latitude > minLat &&
+        lieu.latitude <= maxLat &&
+        lieu.longitude > minLon &&
+        lieu.longitude <= maxLon
+    )
+    .map(({ id, nom, latitude, longitude }) => ({ id, nom, latitude, longitude }));
 };
