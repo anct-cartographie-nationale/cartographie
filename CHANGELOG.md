@@ -1,3 +1,17 @@
+## [6.15.3](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.2...v6.15.3) (2026-04-26)
+
+
+### Bug Fixes
+
+* **a11y:** add accessible names, image dimensions and link underlines ([3161684](https://github.com/anct-cartographie-nationale/cartographie/commit/3161684104c02fed032a4dfa25ae90b87400bf14))
+* block bot exports, exclude map tiles from rate limit, tune scaling ([e273c7a](https://github.com/anct-cartographie-nationale/cartographie/commit/e273c7aa864dba26bb72eb56d0de950653b087a2))
+
+
+### Performance Improvements
+
+* add immutable cache headers to static assets on S3 ([2ade3ac](https://github.com/anct-cartographie-nationale/cartographie/commit/2ade3ac4d8b9b45596320059236058999658529d))
+* switch CSV exports from in-memory to streaming response ([51ade24](https://github.com/anct-cartographie-nationale/cartographie/commit/51ade240c09973a6a035c9fc860f3c78fa148588))
+
 ## [6.15.2](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.1...v6.15.2) (2026-04-26)
 
 
