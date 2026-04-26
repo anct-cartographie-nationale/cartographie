@@ -8,7 +8,6 @@ import { ConfigProvider } from '@/shared/injection';
 
 const RootLayout = ({ children }: { children: ReactNode }) => (
   <html lang='fr' suppressHydrationWarning>
-    <head>{process.env['NEXT_ASSET_PREFIX'] && <link rel='preconnect' href={process.env['NEXT_ASSET_PREFIX']} />}</head>
     <body>
       <NuqsAdapter>
         <ConfigProvider>
