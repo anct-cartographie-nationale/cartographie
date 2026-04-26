@@ -8,7 +8,7 @@ test.describe('Homepage', () => {
   test('should display the homepage with regions', async ({ page }) => {
     await expect(page.locator('h1')).toContainText(/lieux.*inclusion numérique/);
     await expect(page.getByText('Filtrer par région')).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Île-de-France' })).toBeVisible();
+    await expect(page.locator('main').getByRole('link', { name: 'Île-de-France', exact: true })).toBeVisible();
   });
 
   test('should display the list button', async ({ page }) => {
