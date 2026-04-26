@@ -20,7 +20,11 @@ export default pageBuilder()
   .use(withPagination(pageSchema))
   .use(
     withFetch('lieuxData', ({ searchParams, page }) => fetchLieux()(searchParams, { page, limit: PAGE_SIZE }), {
-      cache: { cacheKey: ({ searchParams, page }) => ['lieuxData', searchParams, page], revalidate: false, tags: ['lieux'] }
+      cache: {
+        cacheKey: ({ searchParams, page }) => ['lieuxData', searchParams, page, PAGE_SIZE],
+        revalidate: false,
+        tags: ['lieux']
+      }
     })
   )
   .render(async ({ lieuxData: { lieux, total }, page, urlSearchParams }) => (
