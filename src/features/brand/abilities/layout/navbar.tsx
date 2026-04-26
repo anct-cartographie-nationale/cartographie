@@ -37,7 +37,7 @@ const HomeLink = ({
       kind='link-hover'
     >
       {/* biome-ignore lint/performance/noImgElement: next/image requires server access to public/ which is not available in standalone mode */}
-      {logoUrl && <img src={logoUrl} alt={appName ?? 'Logo'} className='h-8' />}
+      {logoUrl && <img src={logoUrl} alt='' width={32} height={32} className='h-8' />}
       {appName}
     </Link>
   );
@@ -59,7 +59,7 @@ const HomeLinkFallback = ({
     kind='link-hover'
   >
     {/* biome-ignore lint/performance/noImgElement: next/image requires server access to public/ which is not available in standalone mode */}
-    {logoUrl && <img src={logoUrl} alt={appName ?? 'Logo'} className='h-8' />}
+    {logoUrl && <img src={logoUrl} alt='' width={32} height={32} className='h-8' />}
     {appName}
   </Link>
 );

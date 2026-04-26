@@ -2,6 +2,10 @@
 @import "./components/components.css";
 @import "./dsfr/dsfr.css";
 
+.maplibregl-ctrl-attrib a {
+  text-decoration: underline;
+}
+
 @plugin "tailwindcss-animate";
 
 @plugin "@tailwindcss/typography";
