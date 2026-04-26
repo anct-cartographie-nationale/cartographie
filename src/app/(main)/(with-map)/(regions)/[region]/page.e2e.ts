@@ -9,7 +9,7 @@ test.describe('Region page', () => {
     await expect(page.locator('h1')).toContainText('Île-de-France');
     await expect(page.locator('h1')).toContainText(/\d+ lieux/);
     await expect(page.getByText('Filtrer par département')).toBeVisible();
-    await expect(page.getByRole('link', { name: /Paris/ })).toBeVisible();
+    await expect(page.locator('main').getByRole('link', { name: /\(75\) Paris/ })).toBeVisible();
   });
 
   test('should display the list button', async ({ page }) => {
@@ -19,7 +19,10 @@ test.describe('Region page', () => {
   test('should navigate to department page', async ({ page }) => {
     await Promise.all([
       page.waitForURL(/\/ile-de-france\/seine-et-marne(\?|$)/),
-      page.getByRole('link', { name: /Seine-et-Marne/ }).click()
+      page
+        .locator('main')
+        .getByRole('link', { name: /Seine-et-Marne/ })
+        .click()
     ]);
   });
 
