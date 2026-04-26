@@ -11,7 +11,11 @@ import { pageBuilder, withDerive, withFetch, withParams, withRequired, withUrlSe
 
 export default pageBuilder()
   .use(withParams('id'), withUrlSearchParams())
-  .use(withFetch('lieu', ({ id }) => fetchLieuById(id)))
+  .use(
+    withFetch('lieu', ({ id }) => fetchLieuById(id), {
+      cache: { cacheKey: ({ id }) => ['lieu-redirect', id], revalidate: false, tags: ['lieux'] }
+    })
+  )
   .use(withRequired('lieu'))
   .use(withDerive('code', ({ lieu }) => getDepartementCodeFromInsee(lieu.adresse.code_insee)))
   .use(
