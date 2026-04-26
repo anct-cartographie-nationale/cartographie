@@ -1,3 +1,16 @@
+## [6.15.5](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.4...v6.15.5) (2026-04-26)
+
+
+### Bug Fixes
+
+* **a11y:** add aria-label to map marker links ([cff6fc5](https://github.com/anct-cartographie-nationale/cartographie/commit/cff6fc5bb249ce07ac6be077439ac8205c20dca9))
+
+
+### Performance Improvements
+
+* add preconnect hint for S3 static assets ([d604bf5](https://github.com/anct-cartographie-nationale/cartographie/commit/d604bf51157d1614a4d70063f1c667d20a3e5822))
+* render LCP heading without waiting for map loading state ([6a85511](https://github.com/anct-cartographie-nationale/cartographie/commit/6a855110e7932cab50b723d52ef153c7f0cb74d3))
+
 ## [6.15.4](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.3...v6.15.4) (2026-04-26)
 
 
