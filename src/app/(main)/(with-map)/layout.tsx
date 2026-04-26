@@ -3,13 +3,11 @@ import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 import { layoutBuilder, withFetch, withSearchParamsFromHeaders } from '@/libraries/nextjs/layout';
 import ClientLayout from './client.layout';
 
-const SIX_HOURS = 6 * 60 * 60;
-
 export default layoutBuilder()
   .use(withSearchParamsFromHeaders(filtersSchema))
   .use(
     withFetch('stats', ({ searchParams }) => fetchAllStats(searchParams), {
-      cache: { cacheKey: ({ searchParams }) => ['stats', searchParams], revalidate: SIX_HOURS }
+      cache: { cacheKey: ({ searchParams }) => ['stats', searchParams], revalidate: false, tags: ['lieux'] }
     })
   )
   .render(({ stats: { regions, departements } }, children) => (

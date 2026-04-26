@@ -18,7 +18,11 @@ const PAGE_SIZE = 24;
 export default pageBuilder()
   .use(withSearchParams(filtersSchema), withUrlSearchParams())
   .use(withPagination(pageSchema))
-  .use(withFetch('lieuxData', ({ searchParams, page }) => fetchLieux()(searchParams, { page, limit: PAGE_SIZE })))
+  .use(
+    withFetch('lieuxData', ({ searchParams, page }) => fetchLieux()(searchParams, { page, limit: PAGE_SIZE }), {
+      cache: { cacheKey: ({ searchParams, page }) => ['lieuxData', searchParams, page], revalidate: false, tags: ['lieux'] }
+    })
+  )
   .render(async ({ lieuxData: { lieux, total }, page, urlSearchParams }) => (
     <LieuxPage
       totalLieux={total}

@@ -34,7 +34,13 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 export default pageBuilder()
   .use(withRegion(), withSearchParams(filtersSchema))
   .use(
-    withFetch('totalLieux', ({ region, searchParams }) => countLieux(region)(searchParams)),
+    withFetch('totalLieux', ({ region, searchParams }) => countLieux(region)(searchParams), {
+      cache: {
+        cacheKey: ({ region, searchParams }) => ['totalLieux', region.code, searchParams],
+        revalidate: false,
+        tags: ['lieux']
+      }
+    }),
     withFetch('departements', ({ region, searchParams }) =>
       Promise.resolve(filterDepartementsByTerritoire(searchParams).filter(matchingDepartementsFrom(region)))
     )

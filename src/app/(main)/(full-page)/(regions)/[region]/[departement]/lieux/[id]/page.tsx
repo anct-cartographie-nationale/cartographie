@@ -24,7 +24,11 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 
 export default pageBuilder()
   .use(withRegion(), withDepartement(), withParams('id'), withUrlSearchParams())
-  .use(withFetch('lieu', ({ id }) => fetchLieuDetails(id)))
+  .use(
+    withFetch('lieu', ({ id }) => fetchLieuDetails(id), {
+      cache: { cacheKey: ({ id }) => ['lieu', id], revalidate: false, tags: ['lieux'] }
+    })
+  )
   .use(withRequired('lieu'))
   .render(async ({ region, departement, lieu, urlSearchParams }) => {
     const siteUrl = process.env['NEXT_PUBLIC_SITE_URL'];
