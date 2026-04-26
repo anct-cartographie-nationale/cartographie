@@ -36,7 +36,7 @@ export default pageBuilder()
   .use(
     withFetch('lieuxData', ({ region, searchParams, page }) => fetchLieux(region)(searchParams, { page, limit: PAGE_SIZE }), {
       cache: {
-        cacheKey: ({ region, searchParams, page }) => ['lieuxData', region.code, searchParams, page],
+        cacheKey: ({ region, searchParams, page }) => ['lieuxData', 'region', region.code, searchParams, page, PAGE_SIZE],
         revalidate: false,
         tags: ['lieux']
       }

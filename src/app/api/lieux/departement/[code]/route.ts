@@ -6,7 +6,6 @@ import { toLieuListItem } from '@/libraries/inclusion-numerique-api/transfer/to-
 import { routeBuilder, withDerive, withFetch, withPathParams, withRequired, withSearchParams } from '@/libraries/nextjs/route';
 
 const PAGE_SIZE = 10;
-const SIX_HOURS = 6 * 60 * 60;
 
 export const GET = routeBuilder()
   .use(withPathParams('code'), withSearchParams(paginationSchema(PAGE_SIZE).extend(filtersSchema.shape)))
@@ -17,7 +16,11 @@ export const GET = routeBuilder()
       'lieuxData',
       ({ departement, searchParams: { page, limit, ...filters } }) => fetchLieux(departement)(filters, { page, limit }),
       {
-        cache: { cacheKey: ({ departement, searchParams }) => ['lieux', departement.code, searchParams], revalidate: SIX_HOURS }
+        cache: {
+          cacheKey: ({ departement, searchParams }) => ['lieux', 'departement', departement.code, searchParams],
+          revalidate: false,
+          tags: ['lieux']
+        }
       }
     )
   )

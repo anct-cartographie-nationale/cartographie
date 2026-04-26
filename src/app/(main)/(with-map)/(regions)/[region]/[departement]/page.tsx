@@ -49,7 +49,14 @@ export default pageBuilder()
       ({ departement, searchParams, page }) => fetchLieux(departement)(searchParams, { page, limit: PAGE_SIZE }),
       {
         cache: {
-          cacheKey: ({ departement, searchParams, page }) => ['lieuxData', departement.code, searchParams, page],
+          cacheKey: ({ departement, searchParams, page }) => [
+            'lieuxData',
+            'departement',
+            departement.code,
+            searchParams,
+            page,
+            PAGE_SIZE
+          ],
           revalidate: false,
           tags: ['lieux']
         }
