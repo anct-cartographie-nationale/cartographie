@@ -1,3 +1,18 @@
+## [6.15.7](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.6...v6.15.7) (2026-04-26)
+
+
+### Bug Fixes
+
+* increase global rate limit burst to 40 ([9c2877c](https://github.com/anct-cartographie-nationale/cartographie/commit/9c2877c39fc3646456422c03a8c91999fd4aab48))
+* restore breadcrumbsItems prop for web component compatibility ([3ce34b1](https://github.com/anct-cartographie-nationale/cartographie/commit/3ce34b1f7171be7e201770aaec7414f3598534af))
+* restore main landmark and skip links in refactored pages ([d2d2ea9](https://github.com/anct-cartographie-nationale/cartographie/commit/d2d2ea9a9cfdea07acfe6083c4fee0d59c42b5f5))
+
+
+### Performance Improvements
+
+* extract LCP content to server component for faster paint ([4c74a69](https://github.com/anct-cartographie-nationale/cartographie/commit/4c74a699c83467adcd693fbb53fafb53b43ba42f))
+* extract LCP content to server components for region and department pages ([17673b9](https://github.com/anct-cartographie-nationale/cartographie/commit/17673b97082212519690e995ac8844b68e6f9ce1))
+
 ## [6.15.6](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.5...v6.15.6) (2026-04-26)
 
 
