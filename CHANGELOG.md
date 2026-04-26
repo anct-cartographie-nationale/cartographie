@@ -1,3 +1,10 @@
+## [6.15.6](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.5...v6.15.6) (2026-04-26)
+
+
+### Performance Improvements
+
+* cache CSV exports with tags and increase nginx timeout ([5d465bb](https://github.com/anct-cartographie-nationale/cartographie/commit/5d465bb6667d0c1c9d9aa72830490254c8370223))
+
 ## [6.15.5](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.4...v6.15.5) (2026-04-26)
 
 
