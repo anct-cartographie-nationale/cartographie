@@ -5,6 +5,7 @@ import type { Departement, Region } from '@/libraries/collectivites';
 import type { LieuListItem } from '@/libraries/inclusion-numerique-api';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { useSearchParams } from '@/libraries/nextjs/shim';
+import type { BreadcrumbItem } from '@/libraries/ui/blocks/breadcrumbs';
 import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
 import { NextPageLink, PageLink, PreviousPageLink } from '@/libraries/ui/blocks/pagination/page-link';
 import { Pagination } from '@/libraries/ui/blocks/pagination/pagination';
@@ -19,6 +20,7 @@ export const DepartementLieuxPage = ({
   lieux,
   region,
   departement,
+  breadcrumbsItems,
   exportHref,
   children
 }: {
@@ -28,6 +30,7 @@ export const DepartementLieuxPage = ({
   lieux: LieuListItem[];
   region: Region;
   departement: Departement;
+  breadcrumbsItems?: BreadcrumbItem[];
   exportHref?: string;
   children?: ReactNode;
 }): ReactNode => {
@@ -39,11 +42,13 @@ export const DepartementLieuxPage = ({
   return (
     <>
       <Breadcrumbs
-        items={[
-          { label: 'France', href: hrefWithSearchParams('/')(searchParams, ['page']) },
-          { label: region.nom, href: hrefWithSearchParams(`/${region.slug}`)(searchParams, ['page']) },
-          { label: departement.nom }
-        ]}
+        items={
+          breadcrumbsItems ?? [
+            { label: 'France', href: hrefWithSearchParams('/')(searchParams, ['page']) },
+            { label: region.nom, href: hrefWithSearchParams(`/${region.slug}`)(searchParams, ['page']) },
+            { label: departement.nom }
+          ]
+        }
       />
       {children}
       <div className='flex justify-between items-center gap-2 mb-4 mt-3'>
