@@ -33,7 +33,15 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 export default pageBuilder()
   .use(withRegion(), withSearchParams(filtersSchema), withUrlSearchParams())
   .use(withPagination(pageSchema))
-  .use(withFetch('lieuxData', ({ region, searchParams, page }) => fetchLieux(region)(searchParams, { page, limit: PAGE_SIZE })))
+  .use(
+    withFetch('lieuxData', ({ region, searchParams, page }) => fetchLieux(region)(searchParams, { page, limit: PAGE_SIZE }), {
+      cache: {
+        cacheKey: ({ region, searchParams, page }) => ['lieuxData', region.code, searchParams, page],
+        revalidate: false,
+        tags: ['lieux']
+      }
+    })
+  )
   .render(async ({ region, lieuxData: { lieux, total }, page, urlSearchParams }) => (
     <LieuxPage
       totalLieux={total}

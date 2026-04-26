@@ -45,8 +45,16 @@ export default pageBuilder()
   .use(withRegion(), withDepartement(), withSearchParams(filtersSchema), withUrlSearchParams())
   .use(withPagination(pageSchema))
   .use(
-    withFetch('lieuxData', ({ departement, searchParams, page }) =>
-      fetchLieux(departement)(searchParams, { page, limit: PAGE_SIZE })
+    withFetch(
+      'lieuxData',
+      ({ departement, searchParams, page }) => fetchLieux(departement)(searchParams, { page, limit: PAGE_SIZE }),
+      {
+        cache: {
+          cacheKey: ({ departement, searchParams, page }) => ['lieuxData', departement.code, searchParams, page],
+          revalidate: false,
+          tags: ['lieux']
+        }
+      }
     )
   )
   .render(async ({ region, departement, lieuxData: { lieux, total }, page, urlSearchParams }) => (
