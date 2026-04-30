@@ -1,3 +1,10 @@
+# [6.16.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.10...v6.16.0) (2026-04-30)
+
+
+### Features
+
+* add embed map button in navbar with Matomo tracking ([c339f1b](https://github.com/anct-cartographie-nationale/cartographie/commit/c339f1ba7d95b1dcdc9f55946125a8770c348270))
+
 ## [6.15.10](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.9...v6.15.10) (2026-04-30)
 
 
