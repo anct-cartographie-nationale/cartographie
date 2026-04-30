@@ -7,6 +7,7 @@ import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
 import { ClipboardButton } from '@/libraries/ui/blocks/clipboard-button';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
+import { BackButtonLink } from '@/libraries/ui/primitives/back-button-link';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { Accompagnement } from './sections/accompagnement';
 import { ContactCard } from './sections/contact-card';
@@ -43,10 +44,10 @@ export const FicheLieuPage = ({ breadcrumbsItems = [], listHref, lieu, lieuUrl }
     <Breadcrumbs items={breadcrumbsItems} className='px-8 py-4 border-b border-base-200' />
     <main id={contentId} className='container mx-auto px-4 lg:flex gap-16'>
       <article className='flex-1/2 lg:flex-2/3 2xl:flex-3/4 mb-12'>
-        <ButtonLink kind='btn-link' href={hrefWithSearchParams(listHref)()} className='no-underline my-4 px-2'>
+        <BackButtonLink kind='btn-link' href={hrefWithSearchParams(listHref)()} className='no-underline my-4 px-2'>
           <RiArrowGoBackLine size={16} aria-hidden={true} />
           Retour à la liste
-        </ButtonLink>
+        </BackButtonLink>
         <InformationsGenerales {...lieu} />
         <hr className='border-base-200 mt-4 mb-6' />
         <section>

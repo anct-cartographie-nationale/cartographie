@@ -25,7 +25,7 @@ test.describe('Lieu detail page', () => {
 
   test('should navigate back to list', async ({ page }) => {
     await Promise.all([
-      page.waitForURL(/\/ile-de-france\/seine-et-marne(\?|$)/),
+      page.waitForURL(/\/ile-de-france\/seine-et-marne\/lieux(\?|$)/),
       page.getByRole('link', { name: /Retour à la liste/ }).click()
     ]);
   });
