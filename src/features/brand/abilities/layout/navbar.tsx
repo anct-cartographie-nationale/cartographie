@@ -11,6 +11,7 @@ import { CollapseController } from '@/libraries/ui/headless/collapse-controller'
 import { Button } from '@/libraries/ui/primitives/button';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { Link } from '@/libraries/ui/primitives/link';
+import { ContactAction } from '@/shared/contact';
 import { NAVBAR_CONFIG } from '../../injection/navbar-config.key';
 
 type NavbarProps = {
@@ -66,10 +67,9 @@ const HomeLinkFallback = ({
 );
 
 export const Navbar = ({ searchSlot, filtersSlot }: NavbarProps) => {
-  const { logoUrl, appName, helpUrl, helpLabel, homeUrl = '/' } = inject(NAVBAR_CONFIG);
+  const { logoUrl, appName, helpLabel, homeUrl = '/' } = inject(NAVBAR_CONFIG);
 
   const hasAppName = Boolean(appName);
-  const hasHelp = Boolean(helpUrl);
   const hasBrand = Boolean(logoUrl) || hasAppName;
 
   return (
@@ -83,12 +83,10 @@ export const Navbar = ({ searchSlot, filtersSlot }: NavbarProps) => {
               </Suspense>
             )}
             <div className='flex'>
-              {hasHelp && helpUrl && (
-                <ButtonLink href={helpUrl} kind='btn-link' className='no-underline'>
-                  <RiQuestionFill size={16} />
-                  {helpLabel ?? 'Aide'}
-                </ButtonLink>
-              )}
+              <ContactAction kind='btn-link' className='no-underline'>
+                <RiQuestionFill size={16} />
+                {helpLabel ?? 'Aide'}
+              </ContactAction>
               <ButtonLink
                 href='https://tally.so/r/VLV5K6'
                 kind='btn-link'
