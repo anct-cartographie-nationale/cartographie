@@ -1,3 +1,10 @@
+## [6.15.10](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.9...v6.15.10) (2026-04-30)
+
+
+### Bug Fixes
+
+* use browser history for back navigation from lieu detail page ([91009c8](https://github.com/anct-cartographie-nationale/cartographie/commit/91009c871f278b3256b726334eabf8b895a67d86))
+
 ## [6.15.9](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.8...v6.15.9) (2026-04-26)
 
 
