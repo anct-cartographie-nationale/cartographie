@@ -35,7 +35,7 @@ export const sendContactMessage = async (data: ContactFormData): Promise<ServerA
       from: serverEnv.CONTACT_EMAIL_FROM,
       to: serverEnv.CONTACT_EMAIL_TO,
       replyTo: parsed.data.email,
-      subject: `[Cartographie] ${parsed.data.typeDemande} — ${parsed.data.prenom} ${parsed.data.nom}`,
+      subject: `[Cartographie] ${parsed.data.typeDemande} - ${parsed.data.prenom} ${parsed.data.nom}`,
       html
     });
 

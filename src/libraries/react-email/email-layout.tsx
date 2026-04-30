@@ -24,10 +24,10 @@ export const EmailLayout = ({ preview, children }: EmailLayoutProps) => (
   <Html>
     <Head />
     <Tailwind config={tailwindConfig}>
-      <Body className='bg-base-200 p-6 font-[marianne,arial,sans-serif] text-[#161616]'>
+      <Body className='bg-base-200 p-6 text-[#161616]' style={{ fontFamily: 'Marianne, Arial, sans-serif' }}>
         <Preview>{preview}</Preview>
         <Container className='my-8 bg-white rounded-lg' style={{ maxWidth: '600px' }}>
-          <Section className='px-10 pt-8 pb-4 '>
+          <Section className='px-10 pt-8 pb-4'>
             <Row>
               <Column className='w-12'>
                 <Img width={40} height={40} src='https://cartographie.societenumerique.gouv.fr/images/app-logo.svg' alt='' />
@@ -38,11 +38,11 @@ export const EmailLayout = ({ preview, children }: EmailLayoutProps) => (
               </Column>
             </Row>
           </Section>
-          <Hr className='border-base-300 ' />
+          <Hr className='border-base-300' />
           <Section className='px-10 py-4'>{children}</Section>
         </Container>
         <Section style={{ maxWidth: '450px' }}>
-          <Text className='text-xs text-neutral m-0 text-center '>
+          <Text className='text-xs text-neutral m-0 text-center'>
             Ce message a été envoyé depuis le formulaire de contact de la cartographie nationale des lieux d'inclusion
             numérique.
           </Text>
