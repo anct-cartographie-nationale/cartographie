@@ -20,6 +20,7 @@ export const useRouter = () => {
   return useMemo(
     () => ({
       push: (url: string) => navigate({ to: url }),
+      back: () => window.history.back(),
       refresh: () => router.invalidate()
     }),
     [navigate, router]
