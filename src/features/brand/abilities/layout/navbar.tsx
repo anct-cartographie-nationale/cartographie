@@ -2,7 +2,8 @@
 
 import type { ReactNode } from 'react';
 import { Suspense } from 'react';
-import { RiMenuLine, RiQuestionFill } from 'react-icons/ri';
+import { RiCodeBlock, RiMenuLine, RiQuestionFill } from 'react-icons/ri';
+import { MatomoAction, MatomoCategory, trackEvent } from '@/libraries/analytics';
 import { inject } from '@/libraries/injection';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { useSearchParams } from '@/libraries/nextjs/shim';
@@ -88,6 +89,16 @@ export const Navbar = ({ searchSlot, filtersSlot }: NavbarProps) => {
                   {helpLabel ?? 'Aide'}
                 </ButtonLink>
               )}
+              <ButtonLink
+                href='https://tally.so/r/VLV5K6'
+                kind='btn-link'
+                className='no-underline'
+                target='_blank'
+                onClick={() => trackEvent({ category: MatomoCategory.EMBED, action: MatomoAction.EMBED_MAP_CLICK })}
+              >
+                <RiCodeBlock size={16} />
+                Intégrer la carte sur votre site
+              </ButtonLink>
               <Button kind='btn-link' className='px-2 lg:hidden' {...toggle}>
                 <RiMenuLine size={24} aria-hidden={true} />
               </Button>
