@@ -5,7 +5,7 @@ export const contactFormSchema = z.object({
   nom: z.string().min(1, 'Le champ nom est obligatoire'),
   email: z.string().email('Adresse e-mail invalide'),
   statut: z.string().min(1, 'Le champ statut est obligatoire'),
-  pageUrl: z.string(),
+  pageUrl: z.union([z.url('URL invalide'), z.literal('')]),
   typeDemande: z.string().min(1, 'Le champ type de demande est obligatoire'),
   description: z.string()
 });
