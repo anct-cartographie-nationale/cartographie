@@ -38,7 +38,7 @@ const HomeLink = ({
       kind='link-hover'
     >
       {/* biome-ignore lint/performance/noImgElement: next/image requires server access to public/ which is not available in standalone mode */}
-      {logoUrl && <img src={logoUrl} alt='' width={32} height={32} className='h-8' />}
+      {logoUrl && <img src={logoUrl} alt='' width={40} height={40} className='bg-primary-subtle rounded-lg' />}
       {appName}
     </Link>
   );
