@@ -71,7 +71,7 @@ export const ContactFormModal = ({ open, onClose, pageUrl }: ContactFormModalPro
     <Modal open={open} onClose={handleCancel} responsive>
       <ModalBox size='max-w-2xl' fullWidth>
         <ModalCloseButton />
-        <h2 className='text-2xl font-bold mb-2'>Contactez-nous</h2>
+        <h2 className='text-2xl font-bold mb-4'>Contactez-nous</h2>
         <p className='text-sm mb-4'>
           Si vous êtes médiateur ou médiatrice numérique, conseiller ou conseillère numérique, vous pouvez mettre à jour les
           informations directement depuis{' '}
@@ -94,10 +94,13 @@ export const ContactFormModal = ({ open, onClose, pageUrl }: ContactFormModalPro
           }}
           className='flex flex-col gap-4'
         >
+          <p className='text-xs text-neutral'>
+            <span className='text-error-content'>*</span> Champs obligatoires
+          </p>
           <form.AppField name='prenom'>
             {(field) => (
               <field.FieldGroup>
-                <Label>Prénom</Label>
+                <Label required>Prénom</Label>
                 <field.InputField isPending={isPending} className='w-full' />
                 <field.ErrorMessage />
               </field.FieldGroup>
@@ -106,7 +109,7 @@ export const ContactFormModal = ({ open, onClose, pageUrl }: ContactFormModalPro
           <form.AppField name='nom'>
             {(field) => (
               <field.FieldGroup>
-                <Label>Nom</Label>
+                <Label required>Nom</Label>
                 <field.InputField isPending={isPending} className='w-full' />
                 <field.ErrorMessage />
               </field.FieldGroup>
@@ -115,7 +118,7 @@ export const ContactFormModal = ({ open, onClose, pageUrl }: ContactFormModalPro
           <form.AppField name='email'>
             {(field) => (
               <field.FieldGroup>
-                <Label>Adresse e-mail</Label>
+                <Label required>Adresse e-mail</Label>
                 <field.InputField isPending={isPending} type='email' placeholder='votre@email.fr' className='w-full' />
                 <field.ErrorMessage />
               </field.FieldGroup>
@@ -124,11 +127,25 @@ export const ContactFormModal = ({ open, onClose, pageUrl }: ContactFormModalPro
           <form.AppField name='statut'>
             {(field) => (
               <field.FieldGroup>
-                <Label>Statut</Label>
+                <Label required>Statut</Label>
                 <field.SelectField
                   isPending={isPending}
                   options={STATUT_OPTIONS}
                   placeholder='Sélectionnez votre statut'
+                  className='w-full'
+                />
+                <field.ErrorMessage />
+              </field.FieldGroup>
+            )}
+          </form.AppField>
+          <form.AppField name='typeDemande'>
+            {(field) => (
+              <field.FieldGroup>
+                <Label required>Type de demande</Label>
+                <field.SelectField
+                  isPending={isPending}
+                  options={TYPE_DEMANDE_OPTIONS}
+                  placeholder='Sélectionnez le type de demande'
                   className='w-full'
                 />
                 <field.ErrorMessage />
@@ -140,19 +157,6 @@ export const ContactFormModal = ({ open, onClose, pageUrl }: ContactFormModalPro
               <field.FieldGroup>
                 <Label>URL de la page concernée</Label>
                 <field.InputField isPending={isPending} placeholder='https://...' className='w-full' />
-              </field.FieldGroup>
-            )}
-          </form.AppField>
-          <form.AppField name='typeDemande'>
-            {(field) => (
-              <field.FieldGroup>
-                <Label>Type de demande</Label>
-                <field.SelectField
-                  isPending={isPending}
-                  options={TYPE_DEMANDE_OPTIONS}
-                  placeholder='Sélectionnez le type de demande'
-                  className='w-full'
-                />
                 <field.ErrorMessage />
               </field.FieldGroup>
             )}
