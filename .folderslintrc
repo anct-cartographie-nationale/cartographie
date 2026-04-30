@@ -5,6 +5,7 @@
     "types/**",
     "content/**",
     "shared/**",
+    "shared/contact/**",
     "shared/injection/**",
     "shared/hooks/**",
     "shared/ui/**",

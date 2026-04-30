@@ -31,7 +31,6 @@ export const ConfigProvider: FC<PropsWithChildren> = ({ children }) => {
   provide(NAVBAR_CONFIG, {
     logoUrl: '/images/app-logo.svg',
     appName: "Lieux d'inclusion numérique",
-    helpUrl: 'mailto:cartographie.sonum@anct.gouv.fr',
     helpLabel: 'Aide'
   });
   provide(TERRITOIRE_FILTER, {});

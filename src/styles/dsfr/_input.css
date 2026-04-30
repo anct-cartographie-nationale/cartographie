@@ -1,9 +1,19 @@
-.input {
+.input,
+.select,
+.textarea {
   border: none;
   font-size: 16px;
-  border-bottom: 2px solid var(--color-primary);
+  border-bottom: 2px solid var(--color-base-content);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+
+  &.border-error-content {
+    border-bottom-color: var(--color-error-content);
+  }
+}
+
+.input:has(button) {
+  border-bottom-color: var(--color-primary);
 
   button:last-child {
     border-top-right-radius: var(--radius-field);

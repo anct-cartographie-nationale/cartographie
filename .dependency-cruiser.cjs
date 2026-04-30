@@ -363,7 +363,8 @@ const LIBRARY_DEPENDENCIES = {
   'lieux-cache': ['inclusion-numerique-api', 'collectivites'],
   collectivites: [],
   map: [],
-  ban: []
+  ban: [],
+  'react-email': []
 };
 
 // Generate interdependency rules for each library

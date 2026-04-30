@@ -8,7 +8,7 @@ import { ClipboardButton } from '@/libraries/ui/blocks/clipboard-button';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
 import { BackButtonLink } from '@/libraries/ui/primitives/back-button-link';
-import { ButtonLink } from '@/libraries/ui/primitives/button-link';
+import { ContactAction } from '@/shared/contact';
 import { Accompagnement } from './sections/accompagnement';
 import { ContactCard } from './sections/contact-card';
 import { Description } from './sections/description';
@@ -21,21 +21,6 @@ type FicheLieuPageProps = {
   listHref: string;
   lieu: LieuDetails;
   lieuUrl: string;
-};
-
-const buildSignalementMailto = (lieu: LieuDetails, lieuUrl: string): string => {
-  const subject = `Demande mise à jour - ${lieu.nom}`;
-  const body = `À noter :
-si vous êtes médiateur numérique, vous pouvez mettre à jour le lieu directement depuis La Coop' de la Médiation Numérique (vous pouvez vous connecter https://coop-numerique.anct.gouv.fr/ depuis ce lien et suivre ce tutoriel pour la mise à jour d'un lieu https://docs.numerique.gouv.fr/docs/5e76c8e6-7edd-4062-9294-b3a65e35b571/).
-La mise à jour s'effectue chaque soir et sera disponible le lendemain sur la cartographie.
-
-ELEMENTS A CONSERVER POUR L'EQUIPE SUPPORT :
-
-Informations sur le lieu :
-URL : ${lieuUrl}
-ADRESSE : ${lieu.adresse}`;
-
-  return `mailto:cartographie.sonum@anct.gouv.fr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 };
 
 export const FicheLieuPage = ({ breadcrumbsItems = [], listHref, lieu, lieuUrl }: FicheLieuPageProps): ReactNode => (
@@ -74,10 +59,10 @@ export const FicheLieuPage = ({ breadcrumbsItems = [], listHref, lieu, lieuUrl }
             <hr className='border-base-200 my-6' />
           </>
         )}
-        <ButtonLink kind='btn-outline' color='btn-primary' href={buildSignalementMailto(lieu, lieuUrl)}>
+        <ContactAction kind='btn-outline' color='btn-primary' pageUrl={lieuUrl}>
           <RiAlertLine aria-hidden={true} />
           Signaler une erreur sur les informations du lieu
-        </ButtonLink>
+        </ContactAction>
       </article>
       <aside className='flex-1/2 lg:flex-1/3 2xl:flex-1/4 mb-12 sticky top-0 self-start'>
         <div className='text-right'>
