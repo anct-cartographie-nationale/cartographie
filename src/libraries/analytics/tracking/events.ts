@@ -4,7 +4,8 @@ export const MatomoCategory = {
   EXPORT: 'Export',
   MAP: 'Map',
   FILTER: 'Filter',
-  LOCATION: 'Location'
+  LOCATION: 'Location',
+  EMBED: 'Embed'
 } as const;
 
 export const MatomoAction = {
@@ -18,7 +19,8 @@ export const MatomoAction = {
   ZOOM_CHANGE: 'zoom_change',
   LAYER_TOGGLE: 'layer_toggle',
   FULLSCREEN_TOGGLE: 'fullscreen_toggle',
-  FILTER_APPLY: 'filter_apply'
+  FILTER_APPLY: 'filter_apply',
+  EMBED_MAP_CLICK: 'embed_map_click'
 } as const;
 
 export type MatomoCategoryType = (typeof MatomoCategory)[keyof typeof MatomoCategory];
