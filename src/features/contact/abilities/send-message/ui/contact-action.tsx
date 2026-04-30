@@ -10,23 +10,26 @@ type ContactActionProps = ButtonClass & {
   pageUrl?: string;
 };
 
-const resolvePageUrl = (pageUrl?: string): string => {
-  if (pageUrl?.startsWith('http')) return pageUrl;
-  return `${window.location.origin}${pageUrl ?? window.location.pathname}`;
+const resolvePageUrl = (pageUrl: string): string => {
+  if (pageUrl.startsWith('http')) return pageUrl;
+  return `${window.location.origin}${pageUrl}`;
 };
 
 export const ContactAction = ({ children, className, pageUrl, ...buttonProps }: ContactActionProps) => {
-  const [resolvedUrl, setResolvedUrl] = useState<string>();
-
-  const handleOpen = () => setResolvedUrl(resolvePageUrl(pageUrl));
-  const handleClose = () => setResolvedUrl(undefined);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <Button onClick={handleOpen} className={className} {...buttonProps}>
+      <Button onClick={() => setIsOpen(true)} className={className} {...buttonProps}>
         {children}
       </Button>
-      <ContactFormModal open={resolvedUrl != null} onClose={handleClose} pageUrl={resolvedUrl} />
+      {isOpen && (
+        <ContactFormModal
+          open
+          onClose={() => setIsOpen(false)}
+          pageUrl={pageUrl != null ? resolvePageUrl(pageUrl) : undefined}
+        />
+      )}
     </>
   );
 };
