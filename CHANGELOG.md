@@ -1,3 +1,10 @@
+## [6.17.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.17.0...v6.17.1) (2026-04-30)
+
+
+### Bug Fixes
+
+* gracefully handle invalid territoire_type query parameter ([d37f489](https://github.com/anct-cartographie-nationale/cartographie/commit/d37f4898c5e396bec73eecccd9b5112e79957a35))
+
 # [6.17.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.16.0...v6.17.0) (2026-04-30)
 
 
