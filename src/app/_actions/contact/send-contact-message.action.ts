@@ -6,7 +6,9 @@ import { serverAction } from '@/libraries/nextjs/server-action';
 import { withInput } from '@/libraries/nextjs/server-action/middlewares/with-input';
 import { ServerActionSuccess } from '@/libraries/nextjs/server-action/server-action-result';
 
-export const sendContactMessageAction = serverAction.with(withInput(contactFormSchema)).mutation(async ({ ctx: { input } }) => {
-  await sendContactMessage(input);
-  return ServerActionSuccess();
-});
+export const sendContactMessageAction = serverAction
+  .with(withInput(contactFormSchema))
+  .mutation<void>(async ({ ctx: { input } }) => {
+    await sendContactMessage(input);
+    return ServerActionSuccess();
+  });

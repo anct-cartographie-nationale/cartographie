@@ -30,7 +30,7 @@ const TYPE_DEMANDE_OPTIONS = [
 type ContactFormModalProps = {
   open: boolean;
   onClose: () => void;
-  pageUrl?: string;
+  pageUrl?: string | undefined;
 };
 
 export const ContactFormModal = ({ open, onClose, pageUrl }: ContactFormModalProps) => {
