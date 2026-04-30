@@ -1,12 +1,16 @@
 'use client';
 
 import { type FC, type PropsWithChildren, Suspense } from 'react';
+import { sendContactMessageAction } from '@/app/_actions/contact/send-contact-message.action';
 import { NAVBAR_CONFIG } from '@/features/brand/injection';
+import { ContactAction } from '@/features/contact';
+import { SEND_CONTACT_MESSAGE_ACTION } from '@/features/contact/abilities/send-message/injection/send-contact-message-action.key';
 import { provide } from '@/libraries/injection';
 import { invalidateMapLocationIfChanged, THEME_COLORS } from '@/libraries/map';
 import { useSearchParams } from '@/libraries/nextjs/shim';
 import { getThemeColors } from '@/shared/ui';
 import { API_BASE_URL } from '../keys/api-base-url.key';
+import { CONTACT_ACTION } from '../keys/contact-action.key';
 import { MAP_CONFIG } from '../keys/map-config.key';
 import { mapPositionSchema } from '../keys/map-position.schema';
 import { TERRITOIRE_FILTER } from '../keys/territoire-filter.key';
@@ -35,6 +39,8 @@ export const ConfigProvider: FC<PropsWithChildren> = ({ children }) => {
   });
   provide(TERRITOIRE_FILTER, {});
   provide(THEME_COLORS, getThemeColors);
+  provide(SEND_CONTACT_MESSAGE_ACTION, sendContactMessageAction);
+  provide(CONTACT_ACTION, ContactAction);
 
   return (
     <Suspense fallback={<MapPositionProviderFallback>{children}</MapPositionProviderFallback>}>

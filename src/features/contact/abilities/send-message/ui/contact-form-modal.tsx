@@ -3,12 +3,13 @@
 import { useTransition } from 'react';
 import toast from 'react-hot-toast';
 import { Label, useAppForm } from '@/libraries/form';
+import { inject } from '@/libraries/injection';
 import { Button } from '@/libraries/ui/primitives/button';
 import { Link } from '@/libraries/ui/primitives/link';
 import { LoadingButton } from '@/libraries/ui/primitives/loading-button';
 import { Modal, ModalActions, ModalBox, ModalCloseButton } from '@/libraries/ui/primitives/modal';
-import { contactFormSchema } from './contact-form.schema';
-import { sendContactMessage } from './send-contact-message.action';
+import { contactFormSchema } from '../domain/contact-form.schema';
+import { SEND_CONTACT_MESSAGE_ACTION } from '../injection/send-contact-message-action.key';
 
 const STATUT_OPTIONS = [
   { label: "Structure d'inclusion numérique", value: "Structure d'inclusion numérique" },
@@ -33,6 +34,7 @@ type ContactFormModalProps = {
 };
 
 export const ContactFormModal = ({ open, onClose, pageUrl }: ContactFormModalProps) => {
+  const sendContactMessage = inject(SEND_CONTACT_MESSAGE_ACTION);
   const [isPending, startTransition] = useTransition();
 
   const form = useAppForm({

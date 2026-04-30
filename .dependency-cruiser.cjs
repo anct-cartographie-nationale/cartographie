@@ -173,6 +173,7 @@ const FORBIDDEN_APP = [
         '^src/app/\\(main\\)/metadata[.]ts$',
         'client[.]layout[.]tsx$',
         '^src/env[.]',
+        '^src/app/_actions',
         '^path$',
         '^fs$'
       ]
@@ -282,6 +283,8 @@ const FORBIDDEN_FEATURES = {
           '^src/features/$1/abilities/$2/ui',
           '^src/features/$1/abilities/$2/query',
           '^src/features/$1/abilities/$2/presenter',
+          '^src/features/$1/abilities/$2/domain',
+          '^src/features/$1/abilities/$2/.+[.]key[.]ts$',
           '^src/features/$1/domain',
           '^src/features/$1/injection',
           '^src/features/$1/ui',
@@ -326,6 +329,7 @@ const FORBIDDEN_FEATURES = {
           '^src/features/$1/domain',
           '^src/external-api/',
           '^src/libraries/',
+          '^src/env[.]',
           '^node_modules/'
         ]
       }
