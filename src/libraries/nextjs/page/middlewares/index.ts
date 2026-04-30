@@ -1,4 +1,5 @@
-export { ClientBinder, withClientBinder } from './with-client-binder';
+export { ClientBinder } from './client-binder';
+export { withClientBinder } from './with-client-binder';
 export { withPagination } from './with-pagination';
 export { withParams } from './with-params';
 export { withRequired } from './with-required';

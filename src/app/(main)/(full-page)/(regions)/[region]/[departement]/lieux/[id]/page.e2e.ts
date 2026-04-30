@@ -16,7 +16,7 @@ test.describe('Lieu detail page', () => {
   });
 
   test('should display report error button', async ({ page }) => {
-    await expect(page.getByRole('link', { name: /Signaler une erreur/ })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Signaler une erreur/ })).toBeVisible();
   });
 
   test('should display copy link button', async ({ page }) => {
