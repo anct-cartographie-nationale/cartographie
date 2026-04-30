@@ -64,7 +64,7 @@ export const filtersSchema = z.object({
   prise_rdv: commaSeparatedEnumArray(priseRDVEnum),
   dispositif_programmes_nationaux: commaSeparatedEnumArray(dispositifProgrammesNationauxEnum),
   autres_formations_labels: commaSeparatedEnumArray(autresFormationsLabelsEnum),
-  territoire_type: territoireTypeEnum.optional(),
+  territoire_type: territoireTypeEnum.optional().catch(undefined),
   territoires: commaSeparatedStringArray
 });
 
