@@ -1,6 +1,6 @@
 import { Column, Hr, Link, Row, Section, Text } from '@react-email/components';
 import { EmailLayout } from '@/libraries/react-email';
-import type { ContactFormData } from './contact-form.schema';
+import type { ContactFormData } from '../domain/contact-form.schema';
 
 const BADGE_COLORS: Record<string, { bg: string; text: string }> = {
   Bug: { bg: '#ffe9e9', text: '#ce0600' },
@@ -93,7 +93,7 @@ export const ContactMessageEmail = ({
     {description && (
       <Section className='mb-6'>
         <Hr className='border-base-300 mb-6' />
-        <Text className='text-xs text-neutral font-bold uppercase mb-2'>Description</Text>
+        <Text className='text-xs text-neutral font-bold uppercase mb-4'>Description</Text>
         <Text className='text-sm mt-0 whitespace-pre-line'>{description}</Text>
       </Section>
     )}

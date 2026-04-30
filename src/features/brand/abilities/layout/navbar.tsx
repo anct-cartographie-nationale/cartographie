@@ -11,7 +11,7 @@ import { CollapseController } from '@/libraries/ui/headless/collapse-controller'
 import { Button } from '@/libraries/ui/primitives/button';
 import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { Link } from '@/libraries/ui/primitives/link';
-import { ContactAction } from '@/shared/contact';
+import { CONTACT_ACTION } from '@/shared/injection/keys/contact-action.key';
 import { NAVBAR_CONFIG } from '../../injection/navbar-config.key';
 
 type NavbarProps = {
@@ -68,6 +68,7 @@ const HomeLinkFallback = ({
 
 export const Navbar = ({ searchSlot, filtersSlot }: NavbarProps) => {
   const { logoUrl, appName, helpLabel, homeUrl = '/' } = inject(NAVBAR_CONFIG);
+  const ContactAction = inject(CONTACT_ACTION);
 
   const hasAppName = Boolean(appName);
   const hasBrand = Boolean(logoUrl) || hasAppName;

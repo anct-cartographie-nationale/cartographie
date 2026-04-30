@@ -1,12 +1,23 @@
 import type { Metadata } from 'next';
+import { sendContactMessageAction } from '@/app/_actions/contact/send-contact-message.action';
 import { appendCollectivites } from '@/features/collectivites-territoriales';
 import { withDepartement, withRegion } from '@/features/collectivites-territoriales/middlewares/page';
+import { ContactAction } from '@/features/contact';
+import { SEND_CONTACT_MESSAGE_ACTION } from '@/features/contact/abilities/send-message/injection/send-contact-message-action.key';
 import { FicheLieuPage } from '@/features/lieux-inclusion-numerique';
 import { fetchLieuDetails } from '@/features/lieux-inclusion-numerique/abilities/detail-view/query/fetch-lieu-details';
 import { toLieuDetails } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-details';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
-import { pageBuilder, withFetch, withParams, withRequired, withUrlSearchParams } from '@/libraries/nextjs/page';
+import {
+  pageBuilder,
+  withClientBinder,
+  withFetch,
+  withParams,
+  withRequired,
+  withUrlSearchParams
+} from '@/libraries/nextjs/page';
 import { appPageTitle } from '@/libraries/utils';
+import { CONTACT_ACTION } from '@/shared/injection/keys/contact-action.key';
 
 type PageProps = {
   params: Promise<{ region: string; departement: string; id: string }>;
@@ -23,6 +34,7 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 };
 
 export default pageBuilder()
+  .use(withClientBinder(CONTACT_ACTION, ContactAction), withClientBinder(SEND_CONTACT_MESSAGE_ACTION, sendContactMessageAction))
   .use(withRegion(), withDepartement(), withParams('id'), withUrlSearchParams())
   .use(
     withFetch('lieu', ({ id }) => fetchLieuDetails(id), {
