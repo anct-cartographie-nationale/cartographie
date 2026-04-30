@@ -1,3 +1,10 @@
+# [6.17.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.16.0...v6.17.0) (2026-04-30)
+
+
+### Features
+
+* update icon ([50c540d](https://github.com/anct-cartographie-nationale/cartographie/commit/50c540da50a0d1b7e1e176c31c6cf596055dd2b6))
+
 # [6.16.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.15.10...v6.16.0) (2026-04-30)
 
 
