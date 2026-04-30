@@ -6,7 +6,13 @@ const serverEnvSchema = z.object({
   HOSTNAME: z.string().default('localhost'),
   PORT: z.coerce.number().int().min(1).max(65535).nullish(),
   INCLUSION_NUMERIQUE_API_TOKEN: z.string().min(1, { message: 'INCLUSION_NUMERIQUE_API_TOKEN must not be empty' }),
-  CACHE_RESET_TOKEN: z.string().min(1, { message: 'CACHE_RESET_TOKEN must not be empty' })
+  CACHE_RESET_TOKEN: z.string().min(1, { message: 'CACHE_RESET_TOKEN must not be empty' }),
+  SMTP_HOST: z.string().optional(),
+  SMTP_PORT: z.coerce.number().int().default(587),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional(),
+  CONTACT_EMAIL_TO: z.string().email().default('cartographie.sonum@anct.gouv.fr'),
+  CONTACT_EMAIL_FROM: z.string().email().default('ne-pas-repondre@cartographie.anct.gouv.fr')
 });
 
 export const serverEnv = serverEnvSchema.parse(process.env);
