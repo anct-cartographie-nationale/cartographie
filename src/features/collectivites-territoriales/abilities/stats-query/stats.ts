@@ -6,7 +6,7 @@ import {
   type Region
 } from '@/libraries/collectivites';
 import type { FiltersSchema } from '@/libraries/inclusion-numerique-api';
-import { filterLieux, getAllLieux } from '@/libraries/lieux-cache';
+import { filterLieux, getAllLieux, getOpeningHoursCache } from '@/libraries/lieux-cache';
 import { aggregateByDepartement } from './aggregate-by-departement';
 
 export type RegionWithCount = Region & { nombreLieux: number };
@@ -18,8 +18,8 @@ const toRegionTotalCount = (departementsAvecTotaux: DepartementWithCount[]) => (
 export type AllStats = { regions: RegionWithCount[]; departements: DepartementWithCount[] };
 
 export const fetchAllStats = async (filters: FiltersSchema): Promise<AllStats> => {
-  const allLieux = await getAllLieux();
-  const filtered = filterLieux(allLieux, filters);
+  const [allLieux, ohCache] = await Promise.all([getAllLieux(), getOpeningHoursCache()]);
+  const filtered = filterLieux(allLieux, filters, undefined, ohCache);
   const codeInsees = filtered.map((lieu) => lieu.adresse.code_insee).filter(Boolean);
   const countsByDept = aggregateByDepartement(codeInsees);
 
