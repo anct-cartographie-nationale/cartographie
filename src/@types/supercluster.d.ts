@@ -1,5 +1,6 @@
 declare module 'mutable-supercluster' {
   import type { BBox, Feature, Point } from 'geojson';
+
   interface ClusterProperties {
     cluster: boolean;
     cluster_id: number;

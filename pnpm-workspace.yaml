@@ -16,3 +16,9 @@ minimumReleaseAgeExclude:
   - '@next/*'
   - react
   - react-dom
+allowBuilds:
+  '@pulumi/command': true
+  cpu-features: true
+  protobufjs: true
+  sharp: true
+  ssh2: true

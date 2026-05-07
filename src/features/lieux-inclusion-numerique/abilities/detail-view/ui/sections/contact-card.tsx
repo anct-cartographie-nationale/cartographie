@@ -87,16 +87,15 @@ export const ContactCard = ({
               {adresse}
             </li>
             {siteInternetUrls.length > 0 && (
-              <li className='flex items-start gap-2'>
-                <div aria-hidden={true} className='mt-1'>
+              <li className='flex items-center gap-2'>
+                <div aria-hidden={true}>
                   <RiGlobalLine />
                 </div>
                 <div>
-                  <span className='sr-only'>Site internet&nbsp;:</span>
                   {siteInternetUrls.map((url) => (
                     <div key={url}>
-                      <Link color='link-primary' href={url} target='_blank' rel='noopener noreferrer' className='break-all'>
-                        {url}&nbsp;
+                      <Link color='link-primary' href={url} target='_blank' rel='noopener noreferrer'>
+                        Site internet&nbsp;
                         <RiExternalLinkLine className='inline-flex' aria-hidden={true} />
                       </Link>
                     </div>
