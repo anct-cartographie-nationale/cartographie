@@ -11,15 +11,22 @@ export type OpeningHoursCache = {
 type LieuxStore = {
   all: LieuxRouteResponse;
   byId: Map<string, Lieu>;
-  openingHours: OpeningHoursCache;
 };
 
+let currentData: Promise<LieuxRouteResponse> | null = null;
 let currentStore: Promise<LieuxStore> | null = null;
+let currentOHCache: Promise<OpeningHoursCache> | null = null;
 let isRefreshing = false;
 
 const collator = new Intl.Collator('fr', { sensitivity: 'base' });
 
-const computeOpeningHours = (data: LieuxRouteResponse): OpeningHoursCache => {
+const yieldToEventLoop = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
+
+const BATCH_SIZE = 100;
+
+const computeOpeningHours = async (data: LieuxRouteResponse): Promise<OpeningHoursCache> => {
+  await yieldToEventLoop();
+
   const parsed = new Map<string, OpeningHours>();
   const openOnWeekend = new Set<string>();
 
@@ -37,7 +44,8 @@ const computeOpeningHours = (data: LieuxRouteResponse): OpeningHoursCache => {
   const sundayEnd = new Date(sundayStart);
   sundayEnd.setHours(23, 59, 59, 999);
 
-  for (const lieu of data) {
+  for (let i = 0; i < data.length; i++) {
+    const lieu = data[i]!;
     if (!lieu.horaires) continue;
     try {
       const oh = new OpeningHours(lieu.horaires);
@@ -51,6 +59,7 @@ const computeOpeningHours = (data: LieuxRouteResponse): OpeningHoursCache => {
     } catch {
       // Invalid horaires format
     }
+    if (i % BATCH_SIZE === 0 && i > 0) await yieldToEventLoop();
   }
 
   return { parsed, openOnWeekend };
@@ -58,29 +67,49 @@ const computeOpeningHours = (data: LieuxRouteResponse): OpeningHoursCache => {
 
 const buildStore = (data: LieuxRouteResponse): LieuxStore => ({
   all: [...data].sort((a, b) => collator.compare(a.nom, b.nom)),
-  byId: new Map(data.map((lieu) => [lieu.id, lieu])),
-  openingHours: computeOpeningHours(data)
+  byId: new Map(data.map((lieu) => [lieu.id, lieu]))
 });
 
-const fetchStore = (): Promise<LieuxStore> =>
-  inclusionNumeriqueFetchApi(LIEUX_ROUTE, {}, undefined, { noCache: true }).then(([data]) => buildStore(data));
+const getData = (): Promise<LieuxRouteResponse> => {
+  if (!currentData) {
+    currentData = inclusionNumeriqueFetchApi(LIEUX_ROUTE, {}, undefined, { noCache: true })
+      .then(([data]) => data)
+      .catch((error: unknown) => {
+        currentData = null;
+        throw error;
+      });
+  }
+  return currentData;
+};
 
 const getStore = (): Promise<LieuxStore> => {
   if (!currentStore) {
-    currentStore = fetchStore().catch((error: unknown) => {
-      currentStore = null;
-      throw error;
-    });
+    currentStore = getData().then(buildStore);
   }
   return currentStore;
+};
+
+const getOHCache = (): Promise<OpeningHoursCache> => {
+  if (!currentOHCache) {
+    currentOHCache = getData()
+      .then(computeOpeningHours)
+      .catch((error: unknown) => {
+        currentOHCache = null;
+        throw error;
+      });
+  }
+  return currentOHCache;
 };
 
 export const invalidateCache = (): void => {
   if (isRefreshing) return;
   isRefreshing = true;
-  fetchStore()
-    .then((store) => {
-      currentStore = Promise.resolve(store);
+  const freshData = inclusionNumeriqueFetchApi(LIEUX_ROUTE, {}, undefined, { noCache: true }).then(([data]) => data);
+  freshData
+    .then((data) => {
+      currentData = Promise.resolve(data);
+      currentStore = Promise.resolve(buildStore(data));
+      currentOHCache = null;
     })
     .catch(() => {})
     .finally(() => {
@@ -92,4 +121,4 @@ export const getAllLieux = async (): Promise<LieuxRouteResponse> => (await getSt
 
 export const getLieuById = async (id: string): Promise<Lieu | undefined> => (await getStore()).byId.get(id);
 
-export const getOpeningHoursCache = async (): Promise<OpeningHoursCache> => (await getStore()).openingHours;
+export const getOpeningHoursCache = async (): Promise<OpeningHoursCache> => getOHCache();

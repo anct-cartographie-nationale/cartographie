@@ -271,9 +271,9 @@ describe('filterLieux', () => {
         lieu({ id: '3' })
       ];
       const ohCache = buildOpeningHoursCache(lieux);
-      const wednesdayAt10 = '2026-05-06T10:00:00.000+02:00';
+      const wednesdayAt12UTC = '2026-05-06T12:00:00.000Z';
 
-      const result = filterLieux(lieux, { ...emptyFilters, ouvert_actuellement: wednesdayAt10 }, undefined, ohCache);
+      const result = filterLieux(lieux, { ...emptyFilters, ouvert_actuellement: wednesdayAt12UTC }, undefined, ohCache);
 
       expect(result).toHaveLength(1);
       expect(result[0]?.id).toBe('1');
@@ -285,7 +285,7 @@ describe('filterLieux', () => {
 
       const result = filterLieux(
         lieux,
-        { ...emptyFilters, ouvert_actuellement: '2026-05-06T10:00:00.000+02:00' },
+        { ...emptyFilters, ouvert_actuellement: '2026-05-06T12:00:00.000Z' },
         undefined,
         ohCache
       );
@@ -299,7 +299,7 @@ describe('filterLieux', () => {
 
       const result = filterLieux(
         lieux,
-        { ...emptyFilters, ouvert_actuellement: '2026-05-06T10:00:00.000+02:00' },
+        { ...emptyFilters, ouvert_actuellement: '2026-05-06T12:00:00.000Z' },
         undefined,
         ohCache
       );
