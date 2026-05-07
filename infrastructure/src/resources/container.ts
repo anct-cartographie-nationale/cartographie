@@ -1,6 +1,8 @@
 import { containers } from '@pulumiverse/scaleway';
 import { config } from '../config';
+import { env } from '../env';
 import { name } from '../utils/name';
+import { EMAIL_SMTP_HOST, EMAIL_SMTP_PORT } from './email';
 import { APP_IMAGE_NAME } from './image';
 import { scalewayProvider } from './scaleway.provider';
 
@@ -30,7 +32,13 @@ const container = new containers.Container(
     port: 80,
     protocol: 'http1',
     environmentVariables: {
-      HOSTNAME: '0.0.0.0'
+      HOSTNAME: '0.0.0.0',
+      SMTP_HOST: EMAIL_SMTP_HOST,
+      SMTP_PORT: EMAIL_SMTP_PORT.apply((port) => String(port)),
+      SMTP_USER: env.SCW_DEFAULT_PROJECT_ID,
+      SMTP_PASS: env.SCW_SECRET_KEY,
+      CONTACT_EMAIL_TO: 'cartographie.sonum@anct.gouv.fr',
+      CONTACT_EMAIL_FROM: 'ne-pas-repondre@cartographie.anct.gouv.fr'
     },
     healthChecks: [
       {
