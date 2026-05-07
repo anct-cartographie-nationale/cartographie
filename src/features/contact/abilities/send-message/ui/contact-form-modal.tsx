@@ -73,21 +73,27 @@ export const ContactFormModal = ({ open, onClose, pageUrl }: ContactFormModalPro
     <Modal open={open} onClose={handleCancel} responsive>
       <ModalBox size='max-w-2xl' fullWidth>
         <ModalCloseButton />
-        <h2 className='text-2xl font-bold mb-4'>Contactez-nous</h2>
-        <p className='text-sm mb-4'>
-          Si vous êtes médiateur ou médiatrice numérique, conseiller ou conseillère numérique, vous pouvez mettre à jour les
-          informations directement depuis{' '}
-          <Link href='https://coop-numerique.anct.gouv.fr/' target='_blank' color='link-primary'>
-            la Coop' de la Médiation Numérique
-          </Link>
-          .{' '}
+        <h2 className='text-2xl font-bold mb-2'>Vous avez une question ou besoin d'aide ?</h2>
+        <p className='text-sm mb-2'>
+          Nous lisons tous les messages et nous nous engageons à vous répondre dans un délai maximum de 72 heures.
+        </p>
+        <p className='text-sm mb-2'>
+          Avant de nous écrire, vous trouverez peut-être votre réponse dans{' '}
           <Link
-            href='https://docs.numerique.gouv.fr/docs/5e76c8e6-7edd-4062-9294-b3a65e35b571/'
+            href='https://docs.numerique.gouv.fr/docs/a3fc0175-e136-4e23-8ef7-2fa9b5ef165e/'
             target='_blank'
             color='link-primary'
           >
-            Voir le tutoriel vidéo
+            notre documentation
           </Link>
+          .
+        </p>
+        <p className='text-sm mb-4'>
+          Si vous souhaitez mettre à jour les informations de votre structure sur la COOP de la médiation numérique, une{' '}
+          <Link href='https://www.loom.com/share/93ff67bcc11f4ae981921be6fe865df9' target='_blank' color='link-primary'>
+            vidéo explicative
+          </Link>{' '}
+          est disponible.
         </p>
         <form
           onSubmit={(e) => {

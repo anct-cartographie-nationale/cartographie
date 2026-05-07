@@ -19,6 +19,7 @@ minimumReleaseAgeExclude:
 allowBuilds:
   '@pulumi/command': true
   cpu-features: true
+  esbuild: true
   protobufjs: true
   sharp: true
   ssh2: true
