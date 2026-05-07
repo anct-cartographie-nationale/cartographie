@@ -19,16 +19,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v5
-        with:
-          version: latest
-
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
           node-version: latest
-          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+        with:
+          version: '11'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --ignore-scripts
@@ -59,17 +58,16 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v5
-        with:
-          version: latest
-
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
           node-version: latest
-          cache: 'pnpm'
           registry-url: 'https://registry.npmjs.org'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v5
+        with:
+          version: '11'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --ignore-scripts
