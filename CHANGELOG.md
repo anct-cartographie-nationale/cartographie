@@ -1,3 +1,10 @@
+# [6.18.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.17.1...v6.18.0) (2026-05-07)
+
+
+### Features
+
+* provision Scaleway TEM domain and inject SMTP config into container ([7728571](https://github.com/anct-cartographie-nationale/cartographie/commit/7728571b1af0e9ac9522baa8435942159ac7e821))
+
 ## [6.17.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.17.0...v6.17.1) (2026-04-30)
 
 
