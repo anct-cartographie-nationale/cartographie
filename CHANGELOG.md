@@ -1,3 +1,10 @@
+## [6.19.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.19.0...v6.19.1) (2026-05-07)
+
+
+### Performance Improvements
+
+* lazy OpeningHours parsing and two-pass filtering ([4f7f332](https://github.com/anct-cartographie-nationale/cartographie/commit/4f7f332b940c39b0a8479776ddabf64f2d446961))
+
 # [6.19.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.18.1...v6.19.0) (2026-05-07)
 
 
