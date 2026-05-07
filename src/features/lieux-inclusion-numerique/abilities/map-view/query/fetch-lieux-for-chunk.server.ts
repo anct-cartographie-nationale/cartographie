@@ -1,14 +1,11 @@
 import type { BBox } from 'geojson';
 import type { FiltersSchema } from '@/libraries/inclusion-numerique-api';
-import { filterLieux, getAllLieux, getOpeningHoursCache, needsOpeningHoursCache } from '@/libraries/lieux-cache';
+import { filterLieux, getAllLieux, getOpeningHoursCache } from '@/libraries/lieux-cache';
 import { MAP_CHUNK_OPTIONS, mapChunk, type Position2D } from '@/libraries/map';
 
 export const fetchLieuxForChunkServer = async (position: Position2D, filters: FiltersSchema) => {
   const [minLon, minLat, maxLon, maxLat]: BBox = mapChunk(position, MAP_CHUNK_OPTIONS);
-  const [allLieux, ohCache] = await Promise.all([
-    getAllLieux(),
-    needsOpeningHoursCache(filters) ? getOpeningHoursCache() : undefined
-  ]);
+  const [allLieux, ohCache] = await Promise.all([getAllLieux(), getOpeningHoursCache()]);
 
   const chunkLieux = allLieux.filter(
     (lieu) =>

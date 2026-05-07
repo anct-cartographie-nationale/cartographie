@@ -1,3 +1,3 @@
-export { filterLieux, needsOpeningHoursCache } from './filter-lieux';
-export type { OpeningHoursCache } from './lieux-cache';
+export { filterLieux } from './filter-lieux';
 export { getAllLieux, getLieuById, getOpeningHoursCache, invalidateCache } from './lieux-cache';
+export { OpeningHoursCache } from './opening-hours-cache';
