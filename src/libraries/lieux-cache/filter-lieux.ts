@@ -64,6 +64,9 @@ const toPredicates = (filters: FiltersSchema, collectivite?: Collectivite, ohCac
     filters.ouvert_le_week_end === true && ohCache != null ? isOpenOnWeekend(ohCache) : undefined
   ].filter((p): p is LieuPredicate => p != null);
 
+export const needsOpeningHoursCache = (filters: FiltersSchema): boolean =>
+  filters.ouvert_actuellement != null || filters.ouvert_le_week_end === true;
+
 export const filterLieux = (
   lieux: LieuxRouteResponse,
   filters: FiltersSchema,
