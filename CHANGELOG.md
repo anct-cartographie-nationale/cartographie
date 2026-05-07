@@ -1,3 +1,10 @@
+## [6.18.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.18.0...v6.18.1) (2026-05-07)
+
+
+### Bug Fixes
+
+* replace raw URL with "Site internet" label on lieu detail page ([2ae2aff](https://github.com/anct-cartographie-nationale/cartographie/commit/2ae2affe016c37e76fbfc7311987b6f7728e5599))
+
 # [6.18.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.17.1...v6.18.0) (2026-05-07)
 
 
