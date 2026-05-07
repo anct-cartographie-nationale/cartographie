@@ -1,7 +1,7 @@
 import type { Region } from '@/libraries/collectivites';
 import { regions } from '@/libraries/collectivites';
 import type { Collectivite, FiltersSchema, LieuxRouteResponse } from '@/libraries/inclusion-numerique-api';
-import type { OpeningHoursCache } from './lieux-cache';
+import type { OpeningHoursCache } from './opening-hours-cache';
 
 type Lieu = LieuxRouteResponse[number];
 type LieuPredicate = (lieu: Lieu) => boolean;
@@ -31,7 +31,7 @@ const containsAny = (accessor: (lieu: Lieu) => string[] | undefined, values: str
 const isOpenAt =
   (date: Date, ohCache: OpeningHoursCache): LieuPredicate =>
   (lieu) => {
-    const oh = ohCache.parsed.get(lieu.id);
+    const oh = ohCache.get(lieu.id);
     if (!oh) return false;
     try {
       return oh.getState(date);
@@ -40,12 +40,29 @@ const isOpenAt =
     }
   };
 
-const isOpenOnWeekend =
-  (ohCache: OpeningHoursCache): LieuPredicate =>
-  (lieu) =>
-    ohCache.openOnWeekend.has(lieu.id);
+const isOpenOnWeekend = (ohCache: OpeningHoursCache): LieuPredicate => {
+  const now = new Date();
 
-const toPredicates = (filters: FiltersSchema, collectivite?: Collectivite, ohCache?: OpeningHoursCache): LieuPredicate[] =>
+  const saturdayStart = new Date(now);
+  saturdayStart.setDate(saturdayStart.getDate() + ((6 - now.getDay() + 7) % 7 || 7));
+  saturdayStart.setHours(0, 0, 0, 0);
+  const saturdayEnd = new Date(saturdayStart);
+  saturdayEnd.setHours(23, 59, 59, 999);
+
+  const sundayStart = new Date(now);
+  sundayStart.setDate(sundayStart.getDate() + ((7 - now.getDay()) % 7 || 7));
+  sundayStart.setHours(0, 0, 0, 0);
+  const sundayEnd = new Date(sundayStart);
+  sundayEnd.setHours(23, 59, 59, 999);
+
+  return (lieu) => {
+    const oh = ohCache.get(lieu.id);
+    if (!oh) return false;
+    return oh.getOpenIntervals(saturdayStart, saturdayEnd).length > 0 || oh.getOpenIntervals(sundayStart, sundayEnd).length > 0;
+  };
+};
+
+const toFastPredicates = (filters: FiltersSchema, collectivite?: Collectivite): LieuPredicate[] =>
   [
     collectivite != null ? codeInseeStartsWith(collectiviteCodes(collectivite)) : undefined,
     filters.territoire_type && filters.territoires.length > 0
@@ -57,15 +74,16 @@ const toPredicates = (filters: FiltersSchema, collectivite?: Collectivite, ohCac
     containsAny((l) => l.frais_a_charge, filters.frais_a_charge),
     containsAny((l) => l.dispositif_programmes_nationaux, filters.dispositif_programmes_nationaux),
     containsAny((l) => l.autres_formations_labels, filters.autres_formations_labels),
-    filters.prise_rdv.length > 0 ? (lieu: Lieu) => lieu.prise_rdv != null : undefined,
+    filters.prise_rdv.length > 0 ? (lieu: Lieu) => lieu.prise_rdv != null : undefined
+  ].filter((p): p is LieuPredicate => p != null);
+
+const toOHPredicates = (filters: FiltersSchema, ohCache?: OpeningHoursCache): LieuPredicate[] =>
+  [
     filters.ouvert_actuellement != null && ohCache != null
       ? isOpenAt(new Date(filters.ouvert_actuellement), ohCache)
       : undefined,
     filters.ouvert_le_week_end === true && ohCache != null ? isOpenOnWeekend(ohCache) : undefined
   ].filter((p): p is LieuPredicate => p != null);
-
-export const needsOpeningHoursCache = (filters: FiltersSchema): boolean =>
-  filters.ouvert_actuellement != null || filters.ouvert_le_week_end === true;
 
 export const filterLieux = (
   lieux: LieuxRouteResponse,
@@ -73,6 +91,10 @@ export const filterLieux = (
   collectivite?: Collectivite,
   ohCache?: OpeningHoursCache
 ): LieuxRouteResponse => {
-  const predicates = toPredicates(filters, collectivite, ohCache);
-  return predicates.length > 0 ? lieux.filter((lieu) => predicates.every((p) => p(lieu))) : lieux;
+  const fastPredicates = toFastPredicates(filters, collectivite);
+  const ohPredicates = toOHPredicates(filters, ohCache);
+
+  const afterFast = fastPredicates.length > 0 ? lieux.filter((lieu) => fastPredicates.every((p) => p(lieu))) : lieux;
+
+  return ohPredicates.length > 0 ? afterFast.filter((lieu) => ohPredicates.every((p) => p(lieu))) : afterFast;
 };

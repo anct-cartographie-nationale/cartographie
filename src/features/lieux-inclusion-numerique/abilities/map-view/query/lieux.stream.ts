@@ -58,31 +58,29 @@ export const lieux$ = (
 ): Observable<{
   features: (PointFeature<Lieu> | ClusterFeature<ClusterProperties>)[];
 }> =>
-  combineLatest([zoom$, boundingBox$, searchParams$])
-    .pipe(
-      distinctUntilChanged(
-        ([prevZoom, prevBbox, prevParams], [nextZoom, nextBbox, nextParams]) =>
-          prevZoom === nextZoom &&
-          prevBbox[0] === nextBbox[0] &&
-          prevBbox[1] === nextBbox[1] &&
-          prevBbox[2] === nextBbox[2] &&
-          prevBbox[3] === nextBbox[3] &&
-          prevParams.toString() === nextParams.toString()
-      ),
-      filter(([zoom]) => zoom > 9),
-      switchMap(([zoom, boundingBox, searchParams]) => {
-        const centers: Position2D[] = splitBondingBox(boundingBox, MAP_CHUNK_OPTIONS).map(boundingBoxCenter);
+  combineLatest([zoom$, boundingBox$, searchParams$]).pipe(
+    distinctUntilChanged(
+      ([prevZoom, prevBbox, prevParams], [nextZoom, nextBbox, nextParams]) =>
+        prevZoom === nextZoom &&
+        prevBbox[0] === nextBbox[0] &&
+        prevBbox[1] === nextBbox[1] &&
+        prevBbox[2] === nextBbox[2] &&
+        prevBbox[3] === nextBbox[3] &&
+        prevParams.toString() === nextParams.toString()
+    ),
+    filter(([zoom]) => zoom > 9),
+    switchMap(([zoom, boundingBox, searchParams]) => {
+      const centers: Position2D[] = splitBondingBox(boundingBox, MAP_CHUNK_OPTIONS).map(boundingBoxCenter);
 
-        return centers.length === 0
-          ? of({ features: [] })
-          : resolvePositions(
-              centers.reduce<PositionsWithCache>(toPositionsWithCache, EMPTY_POSITIONS_WITH_CACHE),
-              searchParams
-            ).pipe(
-              map((lieux: Lieu[]) => ({
-                features: supercluster.load(lieux.map(toPointFeature)).getClusters(boundingBox, zoom)
-              }))
-            );
-      })
-    )
-    .pipe(filter(({ features }) => features.length > 0));
+      return centers.length === 0
+        ? of({ features: [] })
+        : resolvePositions(
+            centers.reduce<PositionsWithCache>(toPositionsWithCache, EMPTY_POSITIONS_WITH_CACHE),
+            searchParams
+          ).pipe(
+            map((lieux: Lieu[]) => ({
+              features: supercluster.load(lieux.map(toPointFeature)).getClusters(boundingBox, zoom)
+            }))
+          );
+    })
+  );

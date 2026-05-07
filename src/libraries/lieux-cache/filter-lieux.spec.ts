@@ -1,8 +1,7 @@
-import OpeningHours from 'opening_hours';
 import { describe, expect, it } from 'vitest';
 import type { FiltersSchema, LieuxRouteResponse } from '@/libraries/inclusion-numerique-api';
 import { filterLieux } from './filter-lieux';
-import type { OpeningHoursCache } from './lieux-cache';
+import { OpeningHoursCache } from './opening-hours-cache';
 
 const emptyFilters: FiltersSchema = {
   services: [],
@@ -26,41 +25,6 @@ const lieu = (overrides: Partial<LieuxRouteResponse[number]> = {}): LieuxRouteRe
     services: [],
     ...overrides
   }) as LieuxRouteResponse[number];
-
-const buildOpeningHoursCache = (lieux: LieuxRouteResponse): OpeningHoursCache => {
-  const parsed = new Map<string, OpeningHours>();
-  const openOnWeekend = new Set<string>();
-
-  const now = new Date();
-  const saturdayStart = new Date(now);
-  saturdayStart.setDate(saturdayStart.getDate() + ((6 - now.getDay() + 7) % 7 || 7));
-  saturdayStart.setHours(0, 0, 0, 0);
-  const saturdayEnd = new Date(saturdayStart);
-  saturdayEnd.setHours(23, 59, 59, 999);
-  const sundayStart = new Date(now);
-  sundayStart.setDate(sundayStart.getDate() + ((7 - now.getDay()) % 7 || 7));
-  sundayStart.setHours(0, 0, 0, 0);
-  const sundayEnd = new Date(sundayStart);
-  sundayEnd.setHours(23, 59, 59, 999);
-
-  for (const l of lieux) {
-    if (!l.horaires) continue;
-    try {
-      const oh = new OpeningHours(l.horaires);
-      parsed.set(l.id, oh);
-      if (
-        oh.getOpenIntervals(saturdayStart, saturdayEnd).length > 0 ||
-        oh.getOpenIntervals(sundayStart, sundayEnd).length > 0
-      ) {
-        openOnWeekend.add(l.id);
-      }
-    } catch {
-      // Invalid format
-    }
-  }
-
-  return { parsed, openOnWeekend };
-};
 
 describe('filterLieux', () => {
   describe('sans filtre', () => {
@@ -270,7 +234,7 @@ describe('filterLieux', () => {
         lieu({ id: '2', horaires: 'Sa 09:00-12:00' }),
         lieu({ id: '3' })
       ];
-      const ohCache = buildOpeningHoursCache(lieux);
+      const ohCache = new OpeningHoursCache(lieux);
       const wednesdayAt12UTC = '2026-05-06T12:00:00.000Z';
 
       const result = filterLieux(lieux, { ...emptyFilters, ouvert_actuellement: wednesdayAt12UTC }, undefined, ohCache);
@@ -281,7 +245,7 @@ describe('filterLieux', () => {
 
     it('exclut les lieux sans horaires', () => {
       const lieux = [lieu({ id: '1' })];
-      const ohCache = buildOpeningHoursCache(lieux);
+      const ohCache = new OpeningHoursCache(lieux);
 
       const result = filterLieux(
         lieux,
@@ -295,7 +259,7 @@ describe('filterLieux', () => {
 
     it('exclut les lieux avec des horaires invalides', () => {
       const lieux = [lieu({ id: '1', horaires: 'invalid format' })];
-      const ohCache = buildOpeningHoursCache(lieux);
+      const ohCache = new OpeningHoursCache(lieux);
 
       const result = filterLieux(
         lieux,
@@ -311,7 +275,7 @@ describe('filterLieux', () => {
   describe('filtre ouvert le week-end', () => {
     it('garde les lieux ouverts le samedi', () => {
       const lieux = [lieu({ id: '1', horaires: 'Mo-Sa 09:00-18:00' }), lieu({ id: '2', horaires: 'Mo-Fr 09:00-18:00' })];
-      const ohCache = buildOpeningHoursCache(lieux);
+      const ohCache = new OpeningHoursCache(lieux);
 
       const result = filterLieux(lieux, { ...emptyFilters, ouvert_le_week_end: true }, undefined, ohCache);
 
@@ -321,7 +285,7 @@ describe('filterLieux', () => {
 
     it('garde les lieux ouverts le dimanche', () => {
       const lieux = [lieu({ id: '1', horaires: 'Su 10:00-16:00' }), lieu({ id: '2', horaires: 'Mo-Fr 09:00-18:00' })];
-      const ohCache = buildOpeningHoursCache(lieux);
+      const ohCache = new OpeningHoursCache(lieux);
 
       const result = filterLieux(lieux, { ...emptyFilters, ouvert_le_week_end: true }, undefined, ohCache);
 
@@ -331,7 +295,7 @@ describe('filterLieux', () => {
 
     it('exclut les lieux sans horaires', () => {
       const lieux = [lieu({ id: '1' })];
-      const ohCache = buildOpeningHoursCache(lieux);
+      const ohCache = new OpeningHoursCache(lieux);
 
       const result = filterLieux(lieux, { ...emptyFilters, ouvert_le_week_end: true }, undefined, ohCache);
 
