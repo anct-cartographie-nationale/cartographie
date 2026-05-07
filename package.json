@@ -1,6 +1,6 @@
 {
   "name": "@gouvfr-anct/cartographie-nationale",
-  "version": "6.18.1",
+  "version": "6.19.0",
   "private": false,
   "type": "module",
   "main": "./dist-wc/cartographie.umd.js",

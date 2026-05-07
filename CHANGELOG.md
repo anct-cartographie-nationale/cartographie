@@ -1,3 +1,15 @@
+# [6.19.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.18.1...v6.19.0) (2026-05-07)
+
+
+### Bug Fixes
+
+* decouple OpeningHours cache from store init and fix timezone-dependent test ([203ef01](https://github.com/anct-cartographie-nationale/cartographie/commit/203ef0187c780c461df11618a3479c80a3b825db))
+
+
+### Features
+
+* add open now and open weekends availability filters with cached OpeningHours parsing ([5e43199](https://github.com/anct-cartographie-nationale/cartographie/commit/5e43199f3e4939fa0e925077adbd1f2d51f51b79))
+
 ## [6.18.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.18.0...v6.18.1) (2026-05-07)
 
 
