@@ -1,6 +1,7 @@
 import type { Region } from '@/libraries/collectivites';
 import { regions } from '@/libraries/collectivites';
 import type { Collectivite, FiltersSchema, LieuxRouteResponse } from '@/libraries/inclusion-numerique-api';
+import type { OpeningHoursCache } from './lieux-cache';
 
 type Lieu = LieuxRouteResponse[number];
 type LieuPredicate = (lieu: Lieu) => boolean;
@@ -27,8 +28,29 @@ const TERRITOIRE_MATCHERS: Record<NonNullable<FiltersSchema['territoire_type']>,
 const containsAny = (accessor: (lieu: Lieu) => string[] | undefined, values: string[]): LieuPredicate | undefined =>
   values.length > 0 ? (lieu) => accessor(lieu)?.some((v) => values.includes(v)) ?? false : undefined;
 
-const toPredicates = (filters: FiltersSchema, collectivite?: Collectivite): LieuPredicate[] =>
+const isOpenAt =
+  (date: Date, ohCache: OpeningHoursCache): LieuPredicate =>
+  (lieu) => {
+    const oh = ohCache.parsed.get(lieu.id);
+    if (!oh) return false;
+    try {
+      return oh.getState(date);
+    } catch {
+      return false;
+    }
+  };
+
+const isOpenOnWeekend =
+  (ohCache: OpeningHoursCache): LieuPredicate =>
+  (lieu) =>
+    ohCache.openOnWeekend.has(lieu.id);
+
+const toPredicates = (filters: FiltersSchema, collectivite?: Collectivite, ohCache?: OpeningHoursCache): LieuPredicate[] =>
   [
+    collectivite != null ? codeInseeStartsWith(collectiviteCodes(collectivite)) : undefined,
+    filters.territoire_type && filters.territoires.length > 0
+      ? TERRITOIRE_MATCHERS[filters.territoire_type](filters.territoires)
+      : undefined,
     containsAny((l) => l.services, filters.services),
     containsAny((l) => l.publics_specifiquement_adresses, filters.publics_specifiquement_adresses),
     containsAny((l) => l.prise_en_charge_specifique, filters.prise_en_charge_specifique),
@@ -36,17 +58,18 @@ const toPredicates = (filters: FiltersSchema, collectivite?: Collectivite): Lieu
     containsAny((l) => l.dispositif_programmes_nationaux, filters.dispositif_programmes_nationaux),
     containsAny((l) => l.autres_formations_labels, filters.autres_formations_labels),
     filters.prise_rdv.length > 0 ? (lieu: Lieu) => lieu.prise_rdv != null : undefined,
-    filters.territoire_type && filters.territoires.length > 0
-      ? TERRITOIRE_MATCHERS[filters.territoire_type](filters.territoires)
+    filters.ouvert_actuellement != null && ohCache != null
+      ? isOpenAt(new Date(filters.ouvert_actuellement), ohCache)
       : undefined,
-    collectivite != null ? codeInseeStartsWith(collectiviteCodes(collectivite)) : undefined
+    filters.ouvert_le_week_end === true && ohCache != null ? isOpenOnWeekend(ohCache) : undefined
   ].filter((p): p is LieuPredicate => p != null);
 
 export const filterLieux = (
   lieux: LieuxRouteResponse,
   filters: FiltersSchema,
-  collectivite?: Collectivite
+  collectivite?: Collectivite,
+  ohCache?: OpeningHoursCache
 ): LieuxRouteResponse => {
-  const predicates = toPredicates(filters, collectivite);
+  const predicates = toPredicates(filters, collectivite, ohCache);
   return predicates.length > 0 ? lieux.filter((lieu) => predicates.every((p) => p(lieu))) : lieux;
 };

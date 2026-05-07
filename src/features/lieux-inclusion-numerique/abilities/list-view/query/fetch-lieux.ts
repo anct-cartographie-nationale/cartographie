@@ -4,7 +4,7 @@ import {
   LIEU_LIST_FIELDS,
   type LieuxRouteResponse
 } from '@/libraries/inclusion-numerique-api';
-import { filterLieux, getAllLieux } from '@/libraries/lieux-cache';
+import { filterLieux, getAllLieux, getOpeningHoursCache } from '@/libraries/lieux-cache';
 
 type PaginationParams = {
   page: number;
@@ -22,7 +22,7 @@ const pick = (lieu: LieuxRouteResponse[number]): LieuxRouteResponse[number] =>
 export const fetchLieux =
   (collectivite?: Collectivite) =>
   async (filters: FiltersSchema, { page, limit }: PaginationParams): Promise<LieuxWithTotal> => {
-    const allLieux = await getAllLieux();
-    const filtered = filterLieux(allLieux, filters, collectivite);
+    const [allLieux, ohCache] = await Promise.all([getAllLieux(), getOpeningHoursCache()]);
+    const filtered = filterLieux(allLieux, filters, collectivite, ohCache);
     return { lieux: filtered.slice((page - 1) * limit, page * limit).map(pick), total: filtered.length };
   };

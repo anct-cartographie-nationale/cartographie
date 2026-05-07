@@ -56,6 +56,14 @@ const commaSeparatedStringArray = z
   )
   .catch([]);
 
+const optionalIsoDate = z.string().datetime({ offset: true }).optional().catch(undefined);
+
+const optionalBoolean = z
+  .enum(['true', 'false'])
+  .transform((val) => val === 'true')
+  .optional()
+  .catch(undefined);
+
 export const filtersSchema = z.object({
   services: commaSeparatedEnumArray(servicesEnum),
   publics_specifiquement_adresses: commaSeparatedEnumArray(publicsSpecifiquementAdressesEnum),
@@ -65,7 +73,9 @@ export const filtersSchema = z.object({
   dispositif_programmes_nationaux: commaSeparatedEnumArray(dispositifProgrammesNationauxEnum),
   autres_formations_labels: commaSeparatedEnumArray(autresFormationsLabelsEnum),
   territoire_type: territoireTypeEnum.optional().catch(undefined),
-  territoires: commaSeparatedStringArray
+  territoires: commaSeparatedStringArray,
+  ouvert_actuellement: optionalIsoDate,
+  ouvert_le_week_end: optionalBoolean
 });
 
 export type FiltersSchema = z.infer<typeof filtersSchema>;

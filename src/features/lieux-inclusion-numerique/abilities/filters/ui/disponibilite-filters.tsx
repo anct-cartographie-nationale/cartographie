@@ -13,29 +13,54 @@ const fraisAChargeOptions = [{ label: 'Gratuit', value: 'Gratuit', id: 'gratuit'
 
 const priseRdvOptions = [{ label: 'Prise de RDV en ligne', value: 'Prise de RDV en ligne', id: 'prise-de-rdv-en-ligne' }];
 
+const ouvertActuellementOptions = [{ label: 'Ouvert actuellement', value: 'true', id: 'ouvert-actuellement' }];
+
+const ouvertLeWeekEndOptions = [{ label: 'Ouvert le week-end', value: 'true', id: 'ouvert-le-week-end' }];
+
+const roundToQuarterHour = (date: Date): string => {
+  const rounded = new Date(date);
+  rounded.setMinutes(Math.floor(rounded.getMinutes() / 15) * 15, 0, 0);
+  return rounded.toISOString();
+};
+
 export const DisponibiliteFilters = () => {
   const router = useRouter();
   const [, startTransition] = useTransitionWithCallback(endLoad);
 
   const [fraisACharge, setFraisACharge] = useQueryState('frais_a_charge', { defaultValue: '' });
   const [priseRdv, setPriseRdv] = useQueryState('prise_rdv', { defaultValue: '' });
+  const [ouvertActuellement, setOuvertActuellement] = useQueryState('ouvert_actuellement', { defaultValue: '' });
+  const [ouvertLeWeekEnd, setOuvertLeWeekEnd] = useQueryState('ouvert_le_week_end', { defaultValue: '' });
 
   const defaultValues = {
     fraisACharge: fraisACharge.split(',').filter(noEmptyString),
-    priseRdv: priseRdv.split(',').filter(noEmptyString)
+    priseRdv: priseRdv.split(',').filter(noEmptyString),
+    ouvertActuellement: ouvertActuellement ? ['true'] : [],
+    ouvertLeWeekEnd: ouvertLeWeekEnd ? ['true'] : []
   };
 
-  const selectedFiltersCount = defaultValues.fraisACharge.length + defaultValues.priseRdv.length;
+  const selectedFiltersCount =
+    defaultValues.fraisACharge.length +
+    defaultValues.priseRdv.length +
+    defaultValues.ouvertActuellement.length +
+    defaultValues.ouvertLeWeekEnd.length;
 
   const form = useAppForm({
     defaultValues,
     onSubmit: async ({ value }) => {
-      if (arraysEqual(defaultValues.fraisACharge)(value.fraisACharge) && arraysEqual(defaultValues.priseRdv)(value.priseRdv))
+      if (
+        arraysEqual(defaultValues.fraisACharge)(value.fraisACharge) &&
+        arraysEqual(defaultValues.priseRdv)(value.priseRdv) &&
+        arraysEqual(defaultValues.ouvertActuellement)(value.ouvertActuellement) &&
+        arraysEqual(defaultValues.ouvertLeWeekEnd)(value.ouvertLeWeekEnd)
+      )
         return;
 
       startTransition(async () => {
         await setFraisACharge(value.fraisACharge.filter(noEmptyString).join(','));
         await setPriseRdv(value.priseRdv.filter(noEmptyString).join(','));
+        await setOuvertActuellement(value.ouvertActuellement.includes('true') ? roundToQuarterHour(new Date()) : '');
+        await setOuvertLeWeekEnd(value.ouvertLeWeekEnd.includes('true') ? 'true' : '');
         startLoad();
         router.refresh();
       });
@@ -59,6 +84,12 @@ export const DisponibiliteFilters = () => {
         onClose={form.handleSubmit}
       >
         <div className='p-8 flex flex-col gap-2'>
+          <form.AppField name='ouvertActuellement'>
+            {(field) => <field.CheckboxGroup options={ouvertActuellementOptions} isPending={false} />}
+          </form.AppField>
+          <form.AppField name='ouvertLeWeekEnd'>
+            {(field) => <field.CheckboxGroup options={ouvertLeWeekEndOptions} isPending={false} />}
+          </form.AppField>
           <form.AppField name='fraisACharge'>
             {(field) => <field.CheckboxGroup options={fraisAChargeOptions} isPending={false} />}
           </form.AppField>
