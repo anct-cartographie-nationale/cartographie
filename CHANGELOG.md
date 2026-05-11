@@ -1,3 +1,10 @@
+## [6.19.3](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.19.2...v6.19.3) (2026-05-11)
+
+
+### Reverts
+
+* Revert "fix: update TEM domain to inclusion-numerique.anct.gouv.fr" ([705ded9](https://github.com/anct-cartographie-nationale/cartographie/commit/705ded958afdcf2b93216134a6990dba89ced789))
+
 ## [6.19.2](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.19.1...v6.19.2) (2026-05-11)
 
 
