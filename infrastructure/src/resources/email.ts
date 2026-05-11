@@ -6,7 +6,7 @@ import { scalewayProvider } from './scaleway.provider';
 const domain = new tem.Domain(
   name('email-domain'),
   {
-    name: 'inclusion-numerique.anct.gouv.fr',
+    name: 'cartographie.anct.gouv.fr',
     acceptTos: true,
     region: 'fr-par'
   },
