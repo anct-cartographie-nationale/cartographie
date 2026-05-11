@@ -37,8 +37,8 @@ const container = new containers.Container(
       SMTP_PORT: EMAIL_SMTP_PORT.apply((port) => String(port)),
       SMTP_USER: env.SCW_DEFAULT_PROJECT_ID,
       SMTP_PASS: env.SCW_SECRET_KEY,
-      CONTACT_EMAIL_TO: 'cartographie.sonum@anct.gouv.fr',
-      CONTACT_EMAIL_FROM: 'ne-pas-repondre@cartographie.anct.gouv.fr'
+      CONTACT_EMAIL_TO: 'carto@inclusion-numerique.anct.gouv.fr',
+      CONTACT_EMAIL_FROM: 'ne-pas-repondre@inclusion-numerique.anct.gouv.fr'
     },
     healthChecks: [
       {
