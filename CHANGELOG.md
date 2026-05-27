@@ -1,3 +1,11 @@
+## [6.20.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.20.0...v6.20.1) (2026-05-27)
+
+
+### Bug Fixes
+
+* **ci:** pass GITHUB_TOKEN to Pulumi deploy to avoid plugin rate limit ([1467087](https://github.com/anct-cartographie-nationale/cartographie/commit/14670874cd3e3f47148d515a755400bb91754373))
+* exclude server-only ConfigProvider from web component bundle ([667f1e1](https://github.com/anct-cartographie-nationale/cartographie/commit/667f1e1e7eb0b82b91034f74805953197333ef70))
+
 # [6.20.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.19.3...v6.20.0) (2026-05-27)
 
 
