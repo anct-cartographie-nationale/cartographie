@@ -1,2 +1,9 @@
 pnpm exec lint-staged
 pnpm lint:architecture
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "❌ gitleaks n'est pas installé — scan de secrets requis avant commit."
+  echo "   Installation : brew install gitleaks  (ou https://github.com/gitleaks/gitleaks#installing)"
+  exit 1
+fi
+gitleaks protect --staged --redact --no-banner

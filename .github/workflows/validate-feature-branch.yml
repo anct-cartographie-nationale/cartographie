@@ -45,6 +45,19 @@ jobs:
       - name: CommitLint
         run: pnpm lint:commit
 
+  secret-scan:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   architecture-check:
     name: Architecture check
     runs-on: ubuntu-latest
