@@ -1,10 +1,17 @@
-import { containers } from '@pulumiverse/scaleway';
+import { containers, secrets } from '@pulumiverse/scaleway';
 import { config } from '../config';
-import { env } from '../env';
 import { name } from '../utils/name';
-import { EMAIL_SMTP_HOST, EMAIL_SMTP_PORT } from './email';
 import { APP_IMAGE_NAME } from './image';
 import { scalewayProvider } from './scaleway.provider';
+
+const SMTP_PASSWORD_SECRET_NAME = name('app-smtp-password');
+
+const smtpPassword = secrets
+  .getVersionOutput(
+    { secretName: SMTP_PASSWORD_SECRET_NAME, revision: 'latest', region: 'fr-par' },
+    { provider: scalewayProvider }
+  )
+  .data.apply((value) => Buffer.from(value, 'base64').toString('utf8'));
 
 const namespace = new containers.Namespace(
   name('container-namespace'),
@@ -33,12 +40,14 @@ const container = new containers.Container(
     protocol: 'http1',
     environmentVariables: {
       HOSTNAME: '0.0.0.0',
-      SMTP_HOST: EMAIL_SMTP_HOST,
-      SMTP_PORT: EMAIL_SMTP_PORT.apply((port) => String(port)),
-      SMTP_USER: env.SCW_DEFAULT_PROJECT_ID,
-      SMTP_PASS: env.SCW_SECRET_KEY,
-      CONTACT_EMAIL_TO: 'cartographie.sonum@anct.gouv.fr',
-      CONTACT_EMAIL_FROM: 'ne-pas-repondre@cartographie.anct.gouv.fr'
+      SMTP_HOST: config.email.smtp.host,
+      SMTP_PORT: config.email.smtp.port,
+      SMTP_USER: config.email.smtp.user,
+      CONTACT_EMAIL_TO: config.email.to,
+      CONTACT_EMAIL_FROM: config.email.from
+    },
+    secretEnvironmentVariables: {
+      SMTP_PASS: smtpPassword
     },
     healthChecks: [
       {
