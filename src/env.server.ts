@@ -11,8 +11,8 @@ const serverEnvSchema = z.object({
   SMTP_PORT: z.coerce.number().int().default(587),
   SMTP_USER: z.string().optional(),
   SMTP_PASS: z.string().optional(),
-  CONTACT_EMAIL_TO: z.string().email().default('cartographie.sonum@anct.gouv.fr'),
-  CONTACT_EMAIL_FROM: z.string().email().default('ne-pas-repondre@cartographie.anct.gouv.fr')
+  CONTACT_EMAIL_TO: z.string().email().default('carto@inclusion-numerique.anct.gouv.fr'),
+  CONTACT_EMAIL_FROM: z.string().email().default('noreply@inclusion-numerique.anct.gouv.fr')
 });
 
 export const serverEnv = serverEnvSchema.parse(process.env);
