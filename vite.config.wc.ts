@@ -16,8 +16,9 @@ export default defineConfig(({ command }) => {
         : [
             dts({
               include: ['src/web-components/**/*', 'src/@types/**/*'],
-              outDir: 'dist-wc',
-              rollupTypes: true
+              exclude: ['**/*.spec.*', '**/*.test.*'],
+              entryRoot: 'src',
+              outDirs: 'dist-wc'
             })
           ])
     ],
@@ -51,8 +52,7 @@ export default defineConfig(({ command }) => {
       rolldownOptions: {
         external: [],
         output: {
-          globals: {},
-          inlineDynamicImports: true
+          globals: {}
         }
       },
       sourcemap: true

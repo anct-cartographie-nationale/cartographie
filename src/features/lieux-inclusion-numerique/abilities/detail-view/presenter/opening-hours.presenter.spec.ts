@@ -16,7 +16,7 @@ import {
 
 describe('horaires presenter', (): void => {
   beforeEach(() => {
-    process.env.TZ = 'UTC';
+    process.env['TZ'] = 'UTC';
   });
 
   it('should get time table opening hours from osm opening hours, open every working day', (): void => {
