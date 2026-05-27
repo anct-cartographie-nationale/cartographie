@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 import { MatomoTracker } from '@/libraries/analytics';
 import { Toaster } from '@/libraries/ui/blocks/toaster';
 import { ThemeProvider } from '@/libraries/ui/theme/providers';
-import { ConfigProvider } from '@/shared/injection';
+import { ConfigProvider } from '@/shared/injection/providers/config.provider';
 
 const RootLayout = ({ children }: { children: ReactNode }) => (
   <html lang='fr' suppressHydrationWarning>
