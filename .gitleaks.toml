@@ -1,0 +1,9 @@
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Chemins autorisés (placeholders, lockfile)"
+paths = [
+  '''\.env\.example$''',
+  '''pnpm-lock\.yaml$'''
+]
