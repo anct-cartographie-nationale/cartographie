@@ -55,7 +55,7 @@ jobs:
         run: pnpm build
 
       - name: Deploy infrastructure
-        uses: pulumi/actions@v6
+        uses: pulumi/actions@v7
         with:
           command: up
           stack-name: marc-gavanier/cartographie/prod

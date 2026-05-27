@@ -168,7 +168,7 @@ jobs:
         run: pnpm install --frozen-lockfile
         working-directory: infrastructure
       - name: Preview infrastructure deployment
-        uses: pulumi/actions@v6
+        uses: pulumi/actions@v7
         with:
           command: preview
           stack-name: marc-gavanier/cartographie/prod
