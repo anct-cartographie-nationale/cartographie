@@ -1,14 +1,11 @@
 'use client';
 
+import { Breadcrumbs, NextPageLink, PageLink, Pagination, PreviousPageLink } from '@arckit/daisyui/blocks';
 import type { ReactNode } from 'react';
 import type { Departement, Region } from '@/libraries/collectivites';
 import type { LieuListItem } from '@/libraries/inclusion-numerique-api';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { useSearchParams } from '@/libraries/nextjs/shim';
-import type { BreadcrumbItem } from '@/libraries/ui/blocks/breadcrumbs';
-import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
-import { NextPageLink, PageLink, PreviousPageLink } from '@/libraries/ui/blocks/pagination/page-link';
-import { Pagination } from '@/libraries/ui/blocks/pagination/pagination';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
 import { ExportLieux } from './export-lieux';
@@ -32,7 +29,7 @@ export const DepartementLieuxPage = ({
   lieux: LieuListItem[];
   region: Region;
   departement: Departement;
-  breadcrumbsItems?: BreadcrumbItem[];
+  breadcrumbsItems?: { label: string; href?: string }[];
   exportHref?: string;
   children?: ReactNode;
 }): ReactNode => {

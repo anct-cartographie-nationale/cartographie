@@ -1,4 +1,4 @@
-import { Card } from '@/libraries/ui/primitives/card';
+import { Card } from '@arckit/daisyui/primitives';
 import { Skeleton } from '@/libraries/ui/primitives/skeleton';
 
 export const LieuCardSkeleton = () => (

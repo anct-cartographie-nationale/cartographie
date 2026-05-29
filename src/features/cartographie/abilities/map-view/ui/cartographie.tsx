@@ -3,6 +3,7 @@
 import { addOverlay, mapStyles, Overlay } from 'carte-facile';
 import { Map as MapLibre, NavigationControl, type ViewStateChangeEvent } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { Button, ButtonLink, Loading } from '@arckit/daisyui/primitives';
 import { useTheme } from 'next-themes';
 import type { ReactNode } from 'react';
 import { useState } from 'react';
@@ -15,9 +16,6 @@ import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { usePathname, useSearchParams } from '@/libraries/nextjs/shim';
 import { Subscribe } from '@/libraries/reactivity/Subscribe';
 import { DropdownControls } from '@/libraries/ui/map/dropdown-controls';
-import { Button } from '@/libraries/ui/primitives/button';
-import { ButtonLink } from '@/libraries/ui/primitives/button-link';
-import { Loading } from '@/libraries/ui/primitives/loading';
 import { cn } from '@/libraries/utils';
 import { ClientOnly } from '@/libraries/utils/client-only';
 import { MAP_CONFIG } from '@/shared/injection';

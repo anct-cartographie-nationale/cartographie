@@ -1,6 +1,6 @@
+import type { ButtonClass } from '@arckit/daisyui/primitives';
 import { keyFor } from 'piqure';
 import type { FC, ReactNode } from 'react';
-import type { ButtonClass } from '@/libraries/ui/primitives/button';
 
 export type ContactActionProps = ButtonClass & {
   children: ReactNode;

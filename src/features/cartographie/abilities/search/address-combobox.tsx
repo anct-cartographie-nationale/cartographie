@@ -57,7 +57,7 @@ export const addressCombobox: {
   itemToString: typeof itemToString;
   itemToKey: typeof itemToKey;
   loadSuggestions: typeof loadSuggestions;
-  beforeLoadSuggestions?: typeof beforeLoadSuggestions;
+  beforeLoadSuggestions: typeof beforeLoadSuggestions;
 } = {
   itemToString,
   itemToKey,

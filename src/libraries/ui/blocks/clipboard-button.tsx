@@ -1,8 +1,7 @@
 'use client';
 
+import { Button, type ButtonProps, Tooltip } from '@arckit/daisyui/primitives';
 import { useState } from 'react';
-import { Button, type ButtonProps } from '../primitives/button';
-import { Tooltip } from '../primitives/tooltip';
 
 type ClipboardButtonProps = ButtonProps & {
   target?: string;

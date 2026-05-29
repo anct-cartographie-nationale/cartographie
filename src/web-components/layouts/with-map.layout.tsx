@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@arckit/daisyui/primitives';
 import { useQuery } from '@tanstack/react-query';
 import { Outlet, useSearch } from '@tanstack/react-router';
 import { useMemo, useState } from 'react';
@@ -7,7 +8,6 @@ import { MapProvider } from 'react-map-gl/maplibre';
 import { Cartographie } from '@/features/cartographie';
 import { LieuxOnMap } from '@/features/lieux-inclusion-numerique';
 import { type Departement, departements, type Region, regions } from '@/libraries/collectivites';
-import { Button } from '@/libraries/ui/primitives/button';
 import { cn } from '@/libraries/utils';
 import { useFilteredSearchParams } from '@/shared/hooks';
 import { type AllStats, type DepartementWithCount, fetchAllStats, type RegionWithCount } from '../api';

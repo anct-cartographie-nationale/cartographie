@@ -1,5 +1,5 @@
+import { Dropdown } from '@arckit/daisyui/primitives-client';
 import type { ReactNode } from 'react';
-import { Dropdown } from '@/libraries/ui/primitives/dropdown';
 import { ReactControl } from './react-control';
 
 export const DropdownControls = ({

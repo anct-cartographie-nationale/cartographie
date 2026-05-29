@@ -1,7 +1,7 @@
+import { ButtonLink } from '@arckit/daisyui/primitives';
 import { OvoidBackground } from '@/libraries/ui/backgrounds/ovoid.background';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import { TechnicalErrorIllustration } from '@/libraries/ui/pictograms/system/technical-error.illustration';
-import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 
 const NotFound = async () => (
   <main id={contentId} className='overflow-scroll flex h-full'>

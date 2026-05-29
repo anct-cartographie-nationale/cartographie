@@ -1,3 +1,4 @@
+import { ThemeChanger } from '@arckit/daisyui/blocks-client';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { Navbar } from '@/features/brand/abilities/layout';
@@ -11,7 +12,6 @@ import {
 } from '@/features/lieux-inclusion-numerique';
 import { Footer, FooterLegal } from '@/libraries/ui/blocks/footer';
 import { footerId, skipLinksId } from '@/libraries/ui/blocks/skip-links/skip-links';
-import { ThemeChanger } from '@/libraries/ui/blocks/theme-changer';
 import { RepubliqueFrancaiseLogo } from '@/libraries/ui/logos';
 import { Link } from '@/libraries/ui/primitives/link';
 import { metadata as appMetadata } from './metadata';

@@ -1,3 +1,4 @@
+import { Toaster } from '@arckit/daisyui/blocks-client';
 import { RouterProvider } from '@tanstack/react-router';
 import { type FC, useMemo } from 'react';
 import { NAVBAR_CONFIG } from '@/features/brand/injection';
@@ -6,7 +7,6 @@ import { ContactAction } from '@/features/contact';
 import { MATOMO_CONFIG } from '@/libraries/analytics';
 import { provide } from '@/libraries/injection';
 import { invalidateMapLocationIfChanged, THEME_COLORS } from '@/libraries/map';
-import { Toaster } from '@/libraries/ui/blocks/toaster';
 import { API_BASE_URL } from '@/shared/injection/keys/api-base-url.key';
 import { CONTACT_ACTION } from '@/shared/injection/keys/contact-action.key';
 import { SITE_URL } from '@/shared/injection/keys/site-url.key';

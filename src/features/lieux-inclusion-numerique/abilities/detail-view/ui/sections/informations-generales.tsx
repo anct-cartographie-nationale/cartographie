@@ -1,10 +1,10 @@
 'use client';
 
+import { Button } from '@arckit/daisyui/primitives';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
 import { ConumLogo, FranceServicesLogo } from '@/libraries/ui/logos';
-import { Button } from '@/libraries/ui/primitives/button';
 import { WeekDay } from '../../presenter/opening-hours.presenter';
 import { CurrentlyOpen } from './currently-open';
 import { TimeTable } from './time-table';

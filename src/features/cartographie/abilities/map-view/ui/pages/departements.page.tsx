@@ -1,12 +1,11 @@
 'use client';
 
+import { Breadcrumbs } from '@arckit/daisyui/blocks';
+import { ButtonLink } from '@arckit/daisyui/primitives';
 import type { ReactNode } from 'react';
 import type { Departement, Region } from '@/libraries/collectivites';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { useSearchParams } from '@/libraries/nextjs/shim';
-import type { BreadcrumbItem } from '@/libraries/ui/blocks/breadcrumbs';
-import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
-import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { Link } from '@/libraries/ui/primitives/link';
 import { useMapRegionLocation } from './use-map-region-location';
 
@@ -20,7 +19,7 @@ export const DepartementsPage = ({
   region: Region;
   departements: Departement[];
   totalLieux: number;
-  breadcrumbsItems?: BreadcrumbItem[];
+  breadcrumbsItems?: { label: string; href?: string }[];
   children?: ReactNode;
 }): ReactNode => {
   const urlSearchParams = useSearchParams();

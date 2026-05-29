@@ -1,7 +1,7 @@
 'use client';
 
+import { Button, type ButtonClass } from '@arckit/daisyui/primitives';
 import { type ReactNode, useState } from 'react';
-import { Button, type ButtonClass } from '@/libraries/ui/primitives/button';
 import { ContactFormModal } from './contact-form-modal';
 
 type ContactActionProps = ButtonClass & {

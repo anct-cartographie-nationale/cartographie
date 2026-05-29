@@ -1,7 +1,7 @@
+import { Button } from '@arckit/daisyui/primitives';
 import { regions } from '@/libraries/collectivites';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import { LocationFranceIllustration } from '@/libraries/ui/pictograms/map/location-france.illustration';
-import { Button } from '@/libraries/ui/primitives/button';
 
 export default function Loading() {
   return (

@@ -1,5 +1,6 @@
 'use client';
 
+import { Button, Input } from '@arckit/daisyui/primitives';
 import { useId } from 'react';
 import { RiCloseCircleFill, RiSearchLine } from 'react-icons/ri';
 import { MatomoAction, MatomoCategory, trackEvent } from '@/libraries/analytics';
@@ -7,9 +8,7 @@ import type { Address } from '@/libraries/ban';
 import { map$ } from '@/libraries/map';
 import { useRouter } from '@/libraries/nextjs/shim';
 import { useSubscribe } from '@/libraries/reactivity/Subscribe';
-import { Button } from '@/libraries/ui/primitives/button';
 import { ComboBox } from '@/libraries/ui/primitives/combobox';
-import { Input } from '@/libraries/ui/primitives/input';
 import { Options } from '@/libraries/ui/primitives/options';
 import { cn } from '@/libraries/utils';
 import { highlightCommune, removeHighlightDecoupageAdministratif } from '@/shared/ui/highlight-decoupage-administratif';

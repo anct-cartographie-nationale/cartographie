@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./components/components.css";
 @import "./dsfr/dsfr.css";
+@source "../../node_modules/@arckit/daisyui/dist";
 
 .maplibregl-ctrl-attrib a {
   text-decoration: underline;

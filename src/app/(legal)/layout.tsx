@@ -1,9 +1,9 @@
+import { ThemeChanger } from '@arckit/daisyui/blocks-client';
 import type { ReactNode } from 'react';
 import { Navbar } from '@/features/brand/abilities/layout';
 import { Footer, FooterLegal } from '@/libraries/ui/blocks/footer';
-import { SkipLinksPortal } from '@/libraries/ui/blocks/skip-links';
 import { contentId, footerId, skipLinksId } from '@/libraries/ui/blocks/skip-links/skip-links';
-import { ThemeChanger } from '@/libraries/ui/blocks/theme-changer';
+import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
 import { RepubliqueFrancaiseLogo } from '@/libraries/ui/logos';
 import { Link } from '@/libraries/ui/primitives/link';
 

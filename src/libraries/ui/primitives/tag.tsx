@@ -1,8 +1,6 @@
+import type { Color, Kind, Scale } from '@arckit/daisyui/primitives';
 import type { ComponentProps } from 'react';
 import { cn } from '@/libraries/utils';
-import type { Color } from './color';
-import type { Kind } from './kind';
-import type { Scale } from './scale';
 
 export type TagClass<Prefix extends `${string}badge` = 'badge'> = {
   color?: `${Prefix}-${Color}`;

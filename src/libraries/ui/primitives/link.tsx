@@ -1,7 +1,7 @@
+import type { Color } from '@arckit/daisyui/primitives';
 import type { HTMLAttributeAnchorTarget, HTMLAttributes, ReactNode } from 'react';
 import { Link as NextLink, type LinkProps as NextLinkProps } from '@/libraries/nextjs/shim';
 import { cn } from '@/libraries/utils';
-import type { Color } from './color';
 
 export type LinkClass<Prefix extends `${string}link` = 'link'> = {
   color?: `${Prefix}-${Color}` | 'none';

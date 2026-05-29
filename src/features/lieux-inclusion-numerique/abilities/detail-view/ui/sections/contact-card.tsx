@@ -1,5 +1,6 @@
 'use client';
 
+import { ButtonLink, Card } from '@arckit/daisyui/primitives';
 import { mapStyles } from 'carte-facile';
 import { useTheme } from 'next-themes';
 import {
@@ -13,8 +14,6 @@ import {
 } from 'react-icons/ri';
 import { Map as MapLibre, NavigationControl } from 'react-map-gl/maplibre';
 import { LieuMarker } from '@/libraries/ui/map/markers';
-import { ButtonLink } from '@/libraries/ui/primitives/button-link';
-import { Card } from '@/libraries/ui/primitives/card';
 import { Link } from '@/libraries/ui/primitives/link';
 import { ClientOnly } from '@/libraries/utils';
 
