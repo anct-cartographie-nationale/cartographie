@@ -32,40 +32,38 @@ export const LieuxPage = ({
   currentPage,
   pageSize,
   searchParams
-}: LieuxPageProps): ReactNode => {
-  return (
-    <>
-      <SkipLinksPortal />
-      <main id={contentId} className='container mx-auto px-4'>
-        <div className='py-6 flex justify-between align-center gap-4'>
-          <Breadcrumbs items={breadcrumbsItems} />
-          <ButtonLink color='btn-primary' href={mapHref} className='ml-auto'>
-            <RiRoadMapLine aria-hidden={true} />
-            Afficher la carte
-          </ButtonLink>
-        </div>
-        <div className='flex justify-between items-center gap-2 mb-4'>
-          <LieuxCount totalLieux={totalLieux} />
-          <ExportLieux lieuxCount={totalLieux} href={exportHref} />
-        </div>
-        <LieuxList
-          searchParams={searchParams}
-          lieux={lieux}
-          size='lg'
-          className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2'
-        />
-        <div className='text-center mt-10'>
-          <Pagination
-            currentPage={currentPage}
-            itemsCount={totalLieux}
-            pageSize={pageSize}
-            href={hrefWithSearchParams()(searchParams)}
-            nav={{ previous: PreviousPageLink, next: NextPageLink }}
-          >
-            {PageLink}
-          </Pagination>
-        </div>
-      </main>
-    </>
-  );
-};
+}: LieuxPageProps): ReactNode => (
+  <>
+    <SkipLinksPortal />
+    <main id={contentId} className='container mx-auto px-4'>
+      <div className='py-6 flex justify-between align-center gap-4'>
+        <Breadcrumbs items={breadcrumbsItems} />
+        <ButtonLink color='btn-primary' href={mapHref} className='ml-auto'>
+          <RiRoadMapLine aria-hidden={true} />
+          Afficher la carte
+        </ButtonLink>
+      </div>
+      <div className='flex justify-between items-center gap-2 mb-4'>
+        <LieuxCount totalLieux={totalLieux} />
+        <ExportLieux lieuxCount={totalLieux} href={exportHref} />
+      </div>
+      <LieuxList
+        searchParams={searchParams}
+        lieux={lieux}
+        size='lg'
+        className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2'
+      />
+      <div className='text-center mt-10'>
+        <Pagination
+          currentPage={currentPage}
+          itemsCount={totalLieux}
+          pageSize={pageSize}
+          href={hrefWithSearchParams()(searchParams)}
+          nav={{ previous: PreviousPageLink, next: NextPageLink }}
+        >
+          {PageLink}
+        </Pagination>
+      </div>
+    </main>
+  </>
+);
