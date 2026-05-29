@@ -1,3 +1,5 @@
+import { withFetch } from '@arckit/nextjs/page';
+import { withPagination, withSearchParams } from '@arckit/nextjs/page/middlewares';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { appendCollectivites } from '@/features/collectivites-territoriales';
@@ -8,7 +10,7 @@ import { type Region, regionMatchingSlug, regions } from '@/libraries/collectivi
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 import { toLieuListItem } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-list-item';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
-import { pageBuilder, withFetch, withPagination, withSearchParams, withUrlSearchParams } from '@/libraries/nextjs/page';
+import { pageBuilder, withUrlSearchParams } from '@/libraries/nextjs/page';
 import { appPageTitle, pageSchema } from '@/libraries/utils';
 
 type PageProps = {
@@ -31,8 +33,12 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 };
 
 export default pageBuilder()
-  .use(withRegion(), withSearchParams(filtersSchema), withUrlSearchParams())
-  .use(withPagination(pageSchema))
+  .use(
+    withRegion(),
+    withSearchParams((raw) => filtersSchema.parse(raw)),
+    withUrlSearchParams()
+  )
+  .use(withPagination((value) => pageSchema.parse(value)))
   .use(
     withFetch('lieuxData', ({ region, searchParams, page }) => fetchLieux(region)(searchParams, { page, limit: PAGE_SIZE }), {
       cache: {

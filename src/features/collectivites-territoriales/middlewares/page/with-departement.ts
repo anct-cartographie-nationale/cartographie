@@ -1,3 +1,4 @@
+import type { PageProps } from '@arckit/nextjs/page';
 import { notFound } from 'next/navigation';
 import {
   type Departement,
@@ -7,7 +8,6 @@ import {
   regionMatchingSlug,
   regions
 } from '@/libraries/collectivites';
-import type { PageProps } from '@/libraries/nextjs/page';
 
 export const withDepartement =
   (slugKey: string = 'departement', regionSlugKey: string = 'region') =>

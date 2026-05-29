@@ -14,7 +14,7 @@ const LazyMap = dynamic(
       import('@/features/lieux-inclusion-numerique')
     ]);
 
-    const CartographieWithProvider = ({
+    return ({
       regions,
       departements,
       children,
@@ -37,8 +37,6 @@ const LazyMap = dynamic(
         </div>
       </MapProvider>
     );
-
-    return CartographieWithProvider;
   },
   { ssr: false, loading: () => <div className='w-full h-full bg-base-300 animate-pulse' /> }
 );

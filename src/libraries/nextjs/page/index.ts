@@ -1,13 +1,8 @@
-export { withDerive, withFetch, withMap } from '../shared/middlewares';
-export {
-  ClientBinder,
-  withClientBinder,
-  withPagination,
-  withParams,
-  withRequired,
-  withSearchParams,
-  withUrlSearchParams
-} from './middlewares';
-export type { PageBuilder } from './page-builder';
-export { pageBuilder } from './page-builder';
-export type { PageProps } from './page-props';
+import { createPageBuilder } from '@arckit/nextjs/page';
+import { withClientBinder } from './middlewares/with-client-binder';
+
+export { ClientBinder } from './middlewares/client-binder';
+export { withClientBinder } from './middlewares/with-client-binder';
+export { withUrlSearchParams } from './middlewares/with-url-search-params';
+
+export const pageBuilder = createPageBuilder(withClientBinder);

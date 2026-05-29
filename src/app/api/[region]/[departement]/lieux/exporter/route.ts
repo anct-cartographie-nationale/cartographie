@@ -1,9 +1,9 @@
+import { csvStreamResponse, routeBuilder, withErrorHandler, withFetch, withSearchParams } from '@arckit/nextjs/route';
 import { withDepartement, withRegion } from '@/features/collectivites-territoriales/middlewares/route';
 import { mediationNumeriqueToCsvLines } from '@/features/lieux-inclusion-numerique';
 import { fetchAllLieux } from '@/features/lieux-inclusion-numerique/abilities/export/query';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 import { toSchemaLieuMediationNumerique } from '@/libraries/inclusion-numerique-api/transfer/to-schema-lieu-mediation-numerique';
-import { csvStreamResponse, routeBuilder, withErrorHandler, withFetch, withSearchParams } from '@/libraries/nextjs/route';
 
 const DEFAULT_ERROR_MESSAGE = "Erreur lors de l'export des lieux.";
 
@@ -12,7 +12,11 @@ const ERROR_MESSAGE_MAP: { [key: number]: string } = {
 };
 
 export const GET = routeBuilder()
-  .use(withRegion(), withDepartement(), withSearchParams(filtersSchema))
+  .use(
+    withRegion(),
+    withDepartement(),
+    withSearchParams((raw) => filtersSchema.parse(raw))
+  )
   .use(withFetch('lieux', ({ departement, searchParams }) => fetchAllLieux(departement)(searchParams)))
   .handle(
     withErrorHandler(

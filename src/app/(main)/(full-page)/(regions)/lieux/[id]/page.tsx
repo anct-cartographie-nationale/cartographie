@@ -1,3 +1,5 @@
+import { withFetch, withMap } from '@arckit/nextjs/page';
+import { withParams, withRequired } from '@arckit/nextjs/page/middlewares';
 import { fetchLieuById } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieu-by-id';
 import {
   departementMatchingCode,
@@ -7,7 +9,7 @@ import {
   regions
 } from '@/libraries/collectivites';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
-import { pageBuilder, withDerive, withFetch, withParams, withRequired, withUrlSearchParams } from '@/libraries/nextjs/page';
+import { pageBuilder, withUrlSearchParams } from '@/libraries/nextjs/page';
 
 export default pageBuilder()
   .use(withParams('id'), withUrlSearchParams())
@@ -17,10 +19,10 @@ export default pageBuilder()
     })
   )
   .use(withRequired('lieu'))
-  .use(withDerive('code', ({ lieu }) => getDepartementCodeFromInsee(lieu.adresse.code_insee)))
+  .use(withMap('code', ({ lieu }) => getDepartementCodeFromInsee(lieu.adresse.code_insee)))
   .use(
-    withDerive('departement', ({ code }) => departements.find(departementMatchingCode(code))),
-    withDerive('region', ({ code }) => regions.find(regionMatchingDepartement({ code })))
+    withMap('departement', ({ code }) => departements.find(departementMatchingCode(code))),
+    withMap('region', ({ code }) => regions.find(regionMatchingDepartement({ code })))
   )
   .use(withRequired('departement', 'region'))
   .redirectTo(({ id, departement, region, urlSearchParams }) =>
