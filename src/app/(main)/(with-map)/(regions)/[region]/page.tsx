@@ -1,3 +1,5 @@
+import { withFetch } from '@arckit/nextjs/page';
+import { withSearchParams } from '@arckit/nextjs/page/middlewares';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { DepartementsPage } from '@/features/cartographie';
@@ -11,7 +13,7 @@ import {
   regions
 } from '@/libraries/collectivites';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
-import { pageBuilder, withFetch, withSearchParams } from '@/libraries/nextjs/page';
+import { pageBuilder } from '@/libraries/nextjs/page';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
 import { LocationFranceIllustration } from '@/libraries/ui/pictograms/map/location-france.illustration';
@@ -35,7 +37,10 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 };
 
 export default pageBuilder()
-  .use(withRegion(), withSearchParams(filtersSchema))
+  .use(
+    withRegion(),
+    withSearchParams((raw) => filtersSchema.parse(raw))
+  )
   .use(
     withFetch('totalLieux', ({ region, searchParams }) => countLieux(region)(searchParams), {
       cache: {

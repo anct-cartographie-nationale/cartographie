@@ -1,1 +1,0 @@
-export { cached } from './cached';

@@ -1,5 +1,5 @@
+import type { PageProps } from '@arckit/nextjs/page';
 import { redirect } from 'next/navigation';
-import type { PageProps } from '@/libraries/nextjs/page';
 
 export const withLegacyId =
   (paramKey: string = 'id') =>

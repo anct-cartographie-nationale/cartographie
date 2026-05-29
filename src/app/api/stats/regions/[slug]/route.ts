@@ -1,10 +1,13 @@
+import { routeBuilder, withFetch, withSearchParams } from '@arckit/nextjs/route';
 import { withRegion } from '@/features/collectivites-territoriales/middlewares/route';
 import { countLieux } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
-import { routeBuilder, withFetch, withSearchParams } from '@/libraries/nextjs/route';
 
 export const GET = routeBuilder()
-  .use(withRegion('slug'), withSearchParams(filtersSchema))
+  .use(
+    withRegion('slug'),
+    withSearchParams((raw) => filtersSchema.parse(raw))
+  )
   .use(
     withFetch('totalLieux', ({ region, searchParams }) => countLieux(region)(searchParams), {
       cache: {

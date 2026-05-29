@@ -1,7 +1,8 @@
+import { routeBuilder } from '@arckit/nextjs/route';
 import { revalidateTag } from 'next/cache';
 import { serverEnv } from '@/env.server';
 import { invalidateCache } from '@/libraries/lieux-cache';
-import { routeBuilder, withStaticBearerAuth } from '@/libraries/nextjs/route';
+import { withStaticBearerAuth } from '@/libraries/nextjs/route/middlewares/with-static-bearer-auth';
 
 export const POST = routeBuilder()
   .use(withStaticBearerAuth(serverEnv.CACHE_RESET_TOKEN))

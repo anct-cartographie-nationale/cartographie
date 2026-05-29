@@ -1,6 +1,6 @@
+import type { PageProps } from '@arckit/nextjs/page';
 import { redirect } from 'next/navigation';
 import { type Departement, departements, type Region, regionMatchingDepartement, regions } from '@/libraries/collectivites';
-import type { PageProps } from '@/libraries/nextjs/page';
 import { normalizeLegacyParam } from './normalize-legacy-param';
 
 export const withLegacyDepartement =
