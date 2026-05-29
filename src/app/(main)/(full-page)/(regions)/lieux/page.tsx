@@ -1,7 +1,7 @@
 import { withFetch } from '@arckit/nextjs/page';
 import { withPagination, withSearchParams } from '@arckit/nextjs/page/middlewares';
 import type { Metadata } from 'next';
-import { pageBuilder, withUrlSearchParams } from '@/configuration/nextjs';
+import { pageBuilder } from '@/configuration/nextjs';
 import { appendCollectivites } from '@/features/collectivites-territoriales';
 import { LieuxPage } from '@/features/lieux-inclusion-numerique';
 import { fetchLieux } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieux';
@@ -18,10 +18,7 @@ export const generateMetadata = async (): Promise<Metadata> => ({
 const PAGE_SIZE = 24;
 
 export default pageBuilder()
-  .use(
-    withSearchParams((raw) => filtersSchema.parse(raw)),
-    withUrlSearchParams()
-  )
+  .use(withSearchParams((raw) => filtersSchema.parse(raw)))
   .use(withPagination((value) => pageSchema.parse(value)))
   .use(
     withFetch('lieuxData', ({ searchParams, page }) => fetchLieux()(searchParams, { page, limit: PAGE_SIZE }), {
@@ -36,6 +33,7 @@ export default pageBuilder()
     <LieuxPage
       totalLieux={total}
       pageSize={PAGE_SIZE}
+      searchParams={urlSearchParams}
       currentPage={page}
       lieux={lieux.map((lieu) => toLieuListItem()(appendCollectivites(lieu)))}
       mapHref={hrefWithSearchParams('/')(urlSearchParams, ['page'])}

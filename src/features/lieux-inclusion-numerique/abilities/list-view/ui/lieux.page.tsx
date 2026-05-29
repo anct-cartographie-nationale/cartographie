@@ -1,8 +1,7 @@
 import type { ReactNode } from 'react';
 import { RiRoadMapLine } from 'react-icons/ri';
 import type { LieuListItem } from '@/libraries/inclusion-numerique-api';
-import { inject } from '@/libraries/injection';
-import { hrefWithSearchParams, URL_SEARCH_PARAMS } from '@/libraries/nextjs';
+import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
 import { NextPageLink, PageLink, PreviousPageLink } from '@/libraries/ui/blocks/pagination/page-link';
 import { Pagination } from '@/libraries/ui/blocks/pagination/pagination';
@@ -21,6 +20,7 @@ type LieuxPageProps = {
   totalLieux: number;
   currentPage: number;
   pageSize: number;
+  searchParams: URLSearchParams;
 };
 
 export const LieuxPage = ({
@@ -30,10 +30,9 @@ export const LieuxPage = ({
   lieux,
   totalLieux,
   currentPage,
-  pageSize
+  pageSize,
+  searchParams
 }: LieuxPageProps): ReactNode => {
-  const searchParams = inject(URL_SEARCH_PARAMS);
-
   return (
     <>
       <SkipLinksPortal />

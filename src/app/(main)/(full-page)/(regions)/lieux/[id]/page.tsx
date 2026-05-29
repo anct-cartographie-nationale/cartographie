@@ -1,6 +1,6 @@
 import { withFetch, withMap } from '@arckit/nextjs/page';
-import { withParams, withRequired } from '@arckit/nextjs/page/middlewares';
-import { pageBuilder, withUrlSearchParams } from '@/configuration/nextjs';
+import { withParams, withRequired, withSearchParams } from '@arckit/nextjs/page/middlewares';
+import { pageBuilder } from '@/configuration/nextjs';
 import { fetchLieuById } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieu-by-id';
 import {
   departementMatchingCode,
@@ -12,7 +12,7 @@ import {
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 
 export default pageBuilder()
-  .use(withParams('id'), withUrlSearchParams())
+  .use(withParams('id'), withSearchParams())
   .use(
     withFetch('lieu', ({ id }) => fetchLieuById(id), {
       cache: { cacheKey: ({ id }) => ['lieu-redirect', id], revalidate: false, tags: ['lieux'] }
