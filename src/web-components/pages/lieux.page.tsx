@@ -2,8 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useSearch } from '@tanstack/react-router';
 import { type FC, useMemo } from 'react';
 import { LieuxPage } from '@/features/lieux-inclusion-numerique';
-import { provide } from '@/libraries/injection';
-import { hrefWithSearchParams, URL_SEARCH_PARAMS } from '@/libraries/nextjs';
+import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { useFilteredSearchParams } from '@/shared/hooks';
 import { buildExportUrl, fetchAllLieux } from '../api';
 
@@ -15,8 +14,6 @@ export const Page: FC = () => {
   const searchParams = useFilteredSearchParams(baseSearchParams);
   const currentPage = search.page;
 
-  provide(URL_SEARCH_PARAMS, searchParams);
-
   const { data } = useQuery({
     queryKey: ['lieux', 'all', currentPage, searchParams.toString()],
     queryFn: () => fetchAllLieux(currentPage, PAGE_SIZE, searchParams)
@@ -26,6 +23,7 @@ export const Page: FC = () => {
     <LieuxPage
       totalLieux={data?.totalLieux ?? 0}
       pageSize={PAGE_SIZE}
+      searchParams={searchParams}
       currentPage={currentPage}
       lieux={data?.lieux ?? []}
       mapHref={hrefWithSearchParams('/')(searchParams, ['page'])}

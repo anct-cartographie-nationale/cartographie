@@ -1,8 +1,8 @@
 import { withFetch } from '@arckit/nextjs/page';
-import { withParams, withRequired } from '@arckit/nextjs/page/middlewares';
+import { withParams, withRequired, withSearchParams } from '@arckit/nextjs/page/middlewares';
 import type { Metadata } from 'next';
 import { sendContactMessageAction } from '@/app/_actions/contact/send-contact-message.action';
-import { pageBuilder, withClientBinder, withUrlSearchParams } from '@/configuration/nextjs';
+import { pageBuilder, withClientBinder } from '@/configuration/nextjs';
 import { appendCollectivites } from '@/features/collectivites-territoriales';
 import { withDepartement, withRegion } from '@/features/collectivites-territoriales/middlewares/page';
 import { ContactAction } from '@/features/contact';
@@ -30,7 +30,7 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 
 export default pageBuilder()
   .use(withClientBinder(CONTACT_ACTION, ContactAction), withClientBinder(SEND_CONTACT_MESSAGE_ACTION, sendContactMessageAction))
-  .use(withRegion(), withDepartement(), withParams('id'), withUrlSearchParams())
+  .use(withRegion(), withDepartement(), withParams('id'), withSearchParams())
   .use(
     withFetch('lieu', ({ id }) => fetchLieuDetails(id), {
       cache: { cacheKey: ({ id }) => ['lieu', id], revalidate: false, tags: ['lieux'] }

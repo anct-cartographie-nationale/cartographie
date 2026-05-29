@@ -2,7 +2,7 @@ import { withFetch } from '@arckit/nextjs/page';
 import { withPagination, withSearchParams } from '@arckit/nextjs/page/middlewares';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { pageBuilder, withUrlSearchParams } from '@/configuration/nextjs';
+import { pageBuilder } from '@/configuration/nextjs';
 import { appendCollectivites } from '@/features/collectivites-territoriales';
 import { withDepartement, withRegion } from '@/features/collectivites-territoriales/middlewares/page';
 import { LieuxPage } from '@/features/lieux-inclusion-numerique';
@@ -47,8 +47,7 @@ export default pageBuilder()
   .use(
     withRegion(),
     withDepartement(),
-    withSearchParams((raw) => filtersSchema.parse(raw)),
-    withUrlSearchParams()
+    withSearchParams((raw) => filtersSchema.parse(raw))
   )
   .use(withPagination((value) => pageSchema.parse(value)))
   .use(
@@ -75,6 +74,7 @@ export default pageBuilder()
     <LieuxPage
       totalLieux={total}
       pageSize={PAGE_SIZE}
+      searchParams={urlSearchParams}
       currentPage={page}
       lieux={lieux.map((lieu) => toLieuListItem()(appendCollectivites(lieu)))}
       breadcrumbsItems={[
