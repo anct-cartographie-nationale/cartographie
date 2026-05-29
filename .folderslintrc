@@ -4,6 +4,7 @@
     "@types/**",
     "types/**",
     "content/**",
+    "configuration/**",
     "shared/**",
     "shared/injection/**",
     "shared/hooks/**",

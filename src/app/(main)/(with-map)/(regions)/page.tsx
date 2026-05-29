@@ -1,10 +1,10 @@
 import { withFetch, withMap } from '@arckit/nextjs/page';
 import { withSearchParams } from '@arckit/nextjs/page/middlewares';
+import { pageBuilder } from '@/configuration/nextjs';
 import { RegionsPage } from '@/features/cartographie';
 import { countLieux } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux';
 import { filterRegionsByTerritoire } from '@/libraries/collectivites';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
-import { pageBuilder } from '@/libraries/nextjs/page';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
 import { LocationFranceIllustration } from '@/libraries/ui/pictograms/map/location-france.illustration';

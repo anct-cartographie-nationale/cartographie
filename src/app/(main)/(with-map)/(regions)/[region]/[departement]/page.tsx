@@ -2,6 +2,7 @@ import { withFetch } from '@arckit/nextjs/page';
 import { withPagination, withSearchParams } from '@arckit/nextjs/page/middlewares';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { pageBuilder } from '@/configuration/nextjs';
 import { appendCollectivites } from '@/features/collectivites-territoriales';
 import { withDepartement, withRegion } from '@/features/collectivites-territoriales/middlewares/page';
 import { DepartementLieuxPage } from '@/features/lieux-inclusion-numerique';
@@ -16,7 +17,6 @@ import {
 } from '@/libraries/collectivites';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 import { toLieuListItem } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-list-item';
-import { pageBuilder } from '@/libraries/nextjs/page';
 import { appPageTitle, pageSchema } from '@/libraries/utils';
 
 type PageProps = {

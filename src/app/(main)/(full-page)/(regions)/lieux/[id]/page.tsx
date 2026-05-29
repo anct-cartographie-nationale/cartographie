@@ -1,5 +1,6 @@
 import { withFetch, withMap } from '@arckit/nextjs/page';
 import { withParams, withRequired } from '@arckit/nextjs/page/middlewares';
+import { pageBuilder, withUrlSearchParams } from '@/configuration/nextjs';
 import { fetchLieuById } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieu-by-id';
 import {
   departementMatchingCode,
@@ -9,7 +10,6 @@ import {
   regions
 } from '@/libraries/collectivites';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
-import { pageBuilder, withUrlSearchParams } from '@/libraries/nextjs/page';
 
 export default pageBuilder()
   .use(withParams('id'), withUrlSearchParams())

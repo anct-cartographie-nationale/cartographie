@@ -155,8 +155,8 @@ const FORBIDDEN_APP = [
     comment:
       'Each file inside the `src/app` folder represents a primary entry point, such as a page or an API route. ' +
       'These entry points must remain isolated from one another. The only allowed dependencies are `src/features`, ' +
-      'which host business capabilities, `src/libraries` for shared technical utilities, `src/external-api` for API clients, ' +
-      'and global styles.',
+      'which host business capabilities, `src/libraries` for shared technical utilities, `src/configuration` for ' +
+      'framework wiring, `src/external-api` for API clients, and global styles.',
     severity: 'error',
     from: {
       path: ['^src/app']
@@ -165,6 +165,7 @@ const FORBIDDEN_APP = [
       pathNot: [
         'node_modules',
         '^src/libraries',
+        '^src/configuration',
         '^src/features',
         '^src/shared',
         '^src/external-api',
