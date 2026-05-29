@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@arckit/daisyui/theme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { FC, ReactNode } from 'react';
 import { MapProvider } from 'react-map-gl/maplibre';
@@ -11,7 +12,6 @@ import {
   TerritoiresPrioritairesFilters
 } from '@/features/lieux-inclusion-numerique';
 import { MatomoTracker } from '@/libraries/analytics';
-import { ThemeProvider } from '@/libraries/ui/theme/providers/theme.provider';
 import { LoadStreamSync } from './components/load-stream-sync';
 
 type WebComponentLayoutProps = {

@@ -1,8 +1,8 @@
 'use client';
 
+import type { ButtonClass } from '@arckit/daisyui/primitives';
+import { ButtonLink } from '@arckit/daisyui/primitives';
 import type { ReactNode } from 'react';
-import type { ButtonClass } from '@/libraries/ui/primitives/button';
-import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 
 type ContactActionProps = ButtonClass & {
   children: ReactNode;

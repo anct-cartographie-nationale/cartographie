@@ -1,4 +1,4 @@
-import { Input, type InputProps } from '@/libraries/ui/primitives/input';
+import { Input, type InputProps } from '@arckit/daisyui/primitives';
 import { cn } from '@/libraries/utils';
 import { useFieldContext } from '../form-context';
 import { hasError } from './has-error';

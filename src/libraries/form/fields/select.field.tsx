@@ -1,4 +1,4 @@
-import { Select, type SelectProps } from '@/libraries/ui/primitives/select';
+import { Select, type SelectProps } from '@arckit/daisyui/primitives';
 import { cn } from '@/libraries/utils';
 import { useFieldContext } from '../form-context';
 import { hasError } from './has-error';

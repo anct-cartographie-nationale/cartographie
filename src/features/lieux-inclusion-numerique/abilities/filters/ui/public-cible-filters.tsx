@@ -1,10 +1,10 @@
 'use client';
 
+import { IndicatorBadge } from '@arckit/daisyui/primitives';
+import { Popover, Trigger } from '@arckit/daisyui/primitives-client';
 import { useAppForm } from '@/libraries/form';
 import { endLoad, startLoad } from '@/libraries/map';
 import { useQueryState, useRouter } from '@/libraries/nextjs/shim';
-import { IndicatorBadge } from '@/libraries/ui/primitives/indicator-badge';
-import { Popover, Trigger } from '@/libraries/ui/primitives/popover';
 import { arraysEqual } from '@/libraries/utils/array';
 import { noEmptyString } from '@/libraries/utils/string';
 import { useTransitionWithCallback } from '@/libraries/utils/use-transition-with-callback';

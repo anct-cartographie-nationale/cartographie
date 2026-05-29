@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { BreadcrumbItem } from '@/libraries/ui';
+import type { BreadcrumbItem } from './filter-breadcrumb-items';
 import { filterBreadcrumbItems } from './filter-breadcrumb-items';
 
 describe('filterBreadcrumbItems', () => {

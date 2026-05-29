@@ -1,13 +1,12 @@
 'use client';
 
+import { Button, LoadingButton } from '@arckit/daisyui/primitives';
+import { Modal, ModalActions, ModalBox, ModalCloseButton } from '@arckit/daisyui/primitives-client';
 import { useTransition } from 'react';
 import toast from 'react-hot-toast';
 import { Label, useAppForm } from '@/libraries/form';
 import { inject } from '@/libraries/injection';
-import { Button } from '@/libraries/ui/primitives/button';
 import { Link } from '@/libraries/ui/primitives/link';
-import { LoadingButton } from '@/libraries/ui/primitives/loading-button';
-import { Modal, ModalActions, ModalBox, ModalCloseButton } from '@/libraries/ui/primitives/modal';
 import { contactFormSchema } from '../domain/contact-form.schema';
 import { SEND_CONTACT_MESSAGE_ACTION } from '../injection/send-contact-message-action.key';
 

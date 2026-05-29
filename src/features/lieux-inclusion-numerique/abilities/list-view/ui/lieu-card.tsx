@@ -1,10 +1,9 @@
+import { Badge, Card } from '@arckit/daisyui/primitives';
 import type { ReactNode } from 'react';
 import { RiMapPin2Line, RiPhoneLine } from 'react-icons/ri';
 import type { LieuListItem } from '@/libraries/inclusion-numerique-api';
 import { ConumLogo, FranceServicesLogo } from '@/libraries/ui/logos';
 import { LieuLogo } from '@/libraries/ui/logos/lieu.logo';
-import { Badge } from '@/libraries/ui/primitives/badge';
-import { Card } from '@/libraries/ui/primitives/card';
 import { cn } from '@/libraries/utils';
 import { OpenBadge } from './open-badge';
 

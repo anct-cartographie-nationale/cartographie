@@ -1,7 +1,7 @@
 'use client';
 
+import { Badge } from '@arckit/daisyui/primitives';
 import OpeningHours from 'opening_hours';
-import { Badge } from '@/libraries/ui/primitives/badge';
 
 export const OpenBadge = ({ horaires }: { horaires: string }) => {
   try {

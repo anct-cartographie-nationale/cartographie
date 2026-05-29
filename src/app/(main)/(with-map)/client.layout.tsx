@@ -1,9 +1,9 @@
 'use client';
 
+import { Button } from '@arckit/daisyui/primitives';
 import dynamic from 'next/dynamic';
 import { type ReactNode, useState } from 'react';
 import type { Departement, Region } from '@/libraries/collectivites';
-import { Button } from '@/libraries/ui/primitives/button';
 import { cn } from '@/libraries/utils';
 
 const LazyMap = dynamic(

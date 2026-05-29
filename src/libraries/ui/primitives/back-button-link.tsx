@@ -1,8 +1,8 @@
 'use client';
 
+import { ButtonLink, type ButtonLinkProps } from '@arckit/daisyui/primitives';
 import type { MouseEvent, ReactNode } from 'react';
 import { useRouter } from '@/libraries/nextjs/shim';
-import { ButtonLink, type ButtonLinkProps } from './button-link';
 
 export const BackButtonLink = ({ onClick, ...props }: ButtonLinkProps): ReactNode => {
   const router = useRouter();

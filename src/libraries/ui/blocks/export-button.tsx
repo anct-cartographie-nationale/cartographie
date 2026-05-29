@@ -1,7 +1,7 @@
 'use client';
 
+import { LoadingButton, type LoadingButtonProps } from '@arckit/daisyui/primitives';
 import { useState } from 'react';
-import { LoadingButton, type LoadingButtonProps } from '../primitives/loading-button';
 
 type ExportButtonProps = {
   href: string;

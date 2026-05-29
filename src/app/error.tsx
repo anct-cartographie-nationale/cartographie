@@ -1,10 +1,9 @@
 'use client';
 
+import { Button, ButtonLink } from '@arckit/daisyui/primitives';
 import { OvoidBackground } from '@/libraries/ui/backgrounds/ovoid.background';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import { TechnicalErrorIllustration } from '@/libraries/ui/pictograms/system/technical-error.illustration';
-import { Button } from '@/libraries/ui/primitives/button';
-import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 
 const ErrorPage = ({ reset }: { error: globalThis.Error & { digest?: string }; reset: () => void }) => (
   <main id={contentId} className='overflow-scroll flex h-dvh'>

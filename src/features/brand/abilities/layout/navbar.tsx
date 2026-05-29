@@ -1,5 +1,7 @@
 'use client';
 
+import { CollapseController } from '@arckit/daisyui/headless';
+import { Button, ButtonLink } from '@arckit/daisyui/primitives';
 import type { ReactNode } from 'react';
 import { Suspense } from 'react';
 import { RiCodeBlock, RiMenuLine, RiQuestionFill } from 'react-icons/ri';
@@ -7,9 +9,6 @@ import { MatomoAction, MatomoCategory, trackEvent } from '@/libraries/analytics'
 import { inject } from '@/libraries/injection';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { useSearchParams } from '@/libraries/nextjs/shim';
-import { CollapseController } from '@/libraries/ui/headless/collapse-controller';
-import { Button } from '@/libraries/ui/primitives/button';
-import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { Link } from '@/libraries/ui/primitives/link';
 import { CONTACT_ACTION } from '@/shared/injection/keys/contact-action.key';
 import { NAVBAR_CONFIG } from '../../injection/navbar-config.key';

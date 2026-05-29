@@ -1,5 +1,5 @@
+import { Checkbox as CheckboxBase, type CheckboxProps as CheckboxBaseProps } from '@arckit/daisyui/primitives';
 import type { ReactNode } from 'react';
-import { Checkbox as CheckboxBase, type CheckboxProps as CheckboxBaseProps } from '@/libraries/ui/primitives/checkbox';
 import { useFieldContext } from '../form-context';
 import { hasError } from './has-error';
 import { Label } from './label.field';

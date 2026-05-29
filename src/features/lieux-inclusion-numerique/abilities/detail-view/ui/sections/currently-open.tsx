@@ -1,5 +1,5 @@
+import { Badge } from '@arckit/daisyui/primitives';
 import { RiCheckboxCircleFill, RiCloseCircleFill } from 'react-icons/ri';
-import { Badge } from '@/libraries/ui/primitives/badge';
 import { openingState } from '../../presenter/opening-hours.presenter';
 
 const days = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];

@@ -1,12 +1,12 @@
 'use client';
 
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { Breadcrumbs } from '@arckit/daisyui/blocks';
 import type { ReactNode } from 'react';
 import { RiAlertLine, RiArrowGoBackLine, RiLink } from 'react-icons/ri';
 import type { LieuDetails } from '@/libraries/inclusion-numerique-api';
 import { inject } from '@/libraries/injection';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
-import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
 import { ClipboardButton } from '@/libraries/ui/blocks/clipboard-button';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';

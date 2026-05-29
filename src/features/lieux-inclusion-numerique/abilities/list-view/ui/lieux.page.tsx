@@ -1,13 +1,11 @@
+import { Breadcrumbs, NextPageLink, PageLink, Pagination, PreviousPageLink } from '@arckit/daisyui/blocks';
+import { ButtonLink } from '@arckit/daisyui/primitives';
 import type { ReactNode } from 'react';
 import { RiRoadMapLine } from 'react-icons/ri';
 import type { LieuListItem } from '@/libraries/inclusion-numerique-api';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
-import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
-import { NextPageLink, PageLink, PreviousPageLink } from '@/libraries/ui/blocks/pagination/page-link';
-import { Pagination } from '@/libraries/ui/blocks/pagination/pagination';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
-import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { ExportLieux } from './export-lieux';
 import { LieuxCount } from './lieux-count';
 import { LieuxList } from './lieux-list';

@@ -1,9 +1,9 @@
 'use client';
 
+import { Button } from '@arckit/daisyui/primitives';
 import { RiCrosshair2Line } from 'react-icons/ri';
 import { map$ } from '@/libraries/map';
 import { useSubscribe } from '@/libraries/reactivity/Subscribe';
-import { Button } from '@/libraries/ui/primitives/button';
 
 export const Geolocate = () => {
   const [map] = useSubscribe(map$);

@@ -1,4 +1,5 @@
-import type { BreadcrumbItem } from '@/libraries/ui/blocks/breadcrumbs';
+export type BreadcrumbItem = { label: string; href?: string };
+
 import type { TerritoireFilter } from '@/shared/injection/keys/territoire-filter.key';
 
 type BreadcrumbLevel = 'france' | 'region' | 'departement' | 'other';

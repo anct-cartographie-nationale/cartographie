@@ -1,4 +1,4 @@
-import { Textarea, type TextareaProps } from '@/libraries/ui/primitives/textarea';
+import { Textarea, type TextareaProps } from '@arckit/daisyui/primitives';
 import { cn } from '@/libraries/utils';
 import { useFieldContext } from '../form-context';
 import { hasError } from './has-error';

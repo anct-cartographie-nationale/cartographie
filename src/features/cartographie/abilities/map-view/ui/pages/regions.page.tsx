@@ -1,10 +1,10 @@
 'use client';
 
+import { ButtonLink } from '@arckit/daisyui/primitives';
 import type { ReactNode } from 'react';
 import type { Region } from '@/libraries/collectivites';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { Link, useSearchParams } from '@/libraries/nextjs/shim';
-import { ButtonLink } from '@/libraries/ui/primitives/button-link';
 import { useMapInitialLocation } from './use-map-initial-location';
 
 export const RegionsPage = ({
