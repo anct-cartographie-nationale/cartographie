@@ -17,6 +17,7 @@ minimumReleaseAgeExclude:
   - react
   - react-dom
   - '@arckit/*'
+  - '@babel/*'
 allowBuilds:
   '@pulumi/command': true
   cpu-features: true
