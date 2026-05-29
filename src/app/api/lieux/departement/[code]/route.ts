@@ -1,4 +1,4 @@
-import { routeBuilder, withFetch, withMap, withRequired, withSearchParams } from '@arckit/nextjs/route';
+import { routeBuilder, withFetch, withMap, withParams, withRequired, withSearchParams } from '@arckit/nextjs/route';
 import { appendCollectivites } from '@/features/collectivites-territoriales';
 import { fetchLieux } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieux';
 import { departementMatchingCode, departements } from '@/libraries/collectivites';
@@ -9,7 +9,8 @@ const PAGE_SIZE = 10;
 
 export const GET = routeBuilder()
   .use(withSearchParams((raw) => paginationSchema(PAGE_SIZE).extend(filtersSchema.shape).parse(raw)))
-  .use(withMap('departement', ({ params }) => departements.find(departementMatchingCode(params['code']))))
+  .use(withParams('code'))
+  .use(withMap('departement', ({ code }) => departements.find(departementMatchingCode(code))))
   .use(withRequired('departement'))
   .use(
     withFetch(
