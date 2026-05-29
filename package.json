@@ -44,7 +44,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@arckit/nextjs": "^1.14.0",
+    "@arckit/nextjs": "^1.15.0",
     "@arckit/pipeline": "^1.0.0",
     "@arckit/resultset": "^1.1.0",
     "@gouvfr-anct/lieux-de-mediation-numerique": "^2.3.0",
