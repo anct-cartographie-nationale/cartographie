@@ -1,5 +1,5 @@
+import { pageBuilder } from '@/configuration/nextjs';
 import { withLegacyDepartementOnly } from '@/features/cartographie';
-import { pageBuilder } from '@/libraries/nextjs/page';
 
 export default pageBuilder()
   .use(withLegacyDepartementOnly())

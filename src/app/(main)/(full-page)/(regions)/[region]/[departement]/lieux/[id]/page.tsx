@@ -2,6 +2,7 @@ import { withFetch } from '@arckit/nextjs/page';
 import { withParams, withRequired } from '@arckit/nextjs/page/middlewares';
 import type { Metadata } from 'next';
 import { sendContactMessageAction } from '@/app/_actions/contact/send-contact-message.action';
+import { pageBuilder, withClientBinder, withUrlSearchParams } from '@/configuration/nextjs';
 import { appendCollectivites } from '@/features/collectivites-territoriales';
 import { withDepartement, withRegion } from '@/features/collectivites-territoriales/middlewares/page';
 import { ContactAction } from '@/features/contact';
@@ -10,7 +11,6 @@ import { FicheLieuPage } from '@/features/lieux-inclusion-numerique';
 import { fetchLieuDetails } from '@/features/lieux-inclusion-numerique/abilities/detail-view/query/fetch-lieu-details';
 import { toLieuDetails } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-details';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
-import { pageBuilder, withClientBinder, withUrlSearchParams } from '@/libraries/nextjs/page';
 import { appPageTitle } from '@/libraries/utils';
 import { CONTACT_ACTION } from '@/shared/injection/keys/contact-action.key';
 
