@@ -4,12 +4,12 @@ import { initMatomoBrowser, matomoBrowserPageView } from '@arckit/telemetry/even
 import { useLocation } from '@tanstack/react-router';
 import { useEffect } from 'react';
 import { inject } from '@/libraries/injection';
-import { TRACKER_CONFIG } from './tracker-config.key';
+import { EVENT_TRACKER_CONFIG } from './event-tracker-config.key';
 
 const trackPageView = matomoBrowserPageView();
 
-export const Tracker = (): null => {
-  const config = inject(TRACKER_CONFIG);
+export const EventTracker = (): null => {
+  const config = inject(EVENT_TRACKER_CONFIG);
   const url = useLocation({ select: (location) => location.pathname + location.searchStr });
 
   useEffect(() => {

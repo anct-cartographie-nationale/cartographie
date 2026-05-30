@@ -2,7 +2,7 @@
 
 import toast from 'react-hot-toast';
 import { RiCloseCircleLine, RiDownloadFill } from 'react-icons/ri';
-import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry';
+import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry/event-tracker';
 import { ExportButton } from '@/libraries/ui/blocks/export-button';
 
 type ExportLieuxProps = {

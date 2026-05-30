@@ -5,7 +5,7 @@ import { Button, ButtonLink } from '@arckit/daisyui/primitives';
 import type { ReactNode } from 'react';
 import { Suspense } from 'react';
 import { RiCodeBlock, RiMenuLine, RiQuestionFill } from 'react-icons/ri';
-import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry';
+import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry/event-tracker';
 import { inject } from '@/libraries/injection';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { useSearchParams } from '@/libraries/nextjs/shim';

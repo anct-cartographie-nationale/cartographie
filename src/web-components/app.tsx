@@ -1,11 +1,12 @@
 import { Toaster } from '@arckit/daisyui/blocks-client';
 import { RouterProvider } from '@tanstack/react-router';
 import { type FC, useMemo } from 'react';
-import { TRACKER_CONFIG } from '@/configuration/telemetry';
+import { EVENT_TRACKER_CONFIG } from '@/configuration/telemetry/event-tracker';
 import { NAVBAR_CONFIG } from '@/features/brand/injection';
 import { MAP_CONFIG } from '@/features/cartographie/injection';
 import { ContactAction } from '@/features/contact';
 import { provide } from '@/libraries/injection';
+
 import { invalidateMapLocationIfChanged, THEME_COLORS } from '@/libraries/map';
 import { API_BASE_URL } from '@/shared/injection/keys/api-base-url.key';
 import { CONTACT_ACTION } from '@/shared/injection/keys/contact-action.key';
@@ -59,7 +60,7 @@ export const App: FC<AppProps> = ({
       .map((s) => s.trim())
       .filter(Boolean)
   });
-  provide(TRACKER_CONFIG, { url: matomoUrl, siteId: matomoSiteId });
+  provide(EVENT_TRACKER_CONFIG, { url: matomoUrl, siteId: matomoSiteId });
   provide(THEME_COLORS, getThemeColors);
   provide(CONTACT_ACTION, ContactAction);
 

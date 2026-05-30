@@ -1,4 +1,4 @@
-import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry';
+import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry/event-tracker';
 import type { Departement } from '@/libraries/collectivites';
 import { type Region, regionMatchingDepartement } from '@/libraries/collectivites';
 import { hrefWithSearchParams } from '@/libraries/nextjs';

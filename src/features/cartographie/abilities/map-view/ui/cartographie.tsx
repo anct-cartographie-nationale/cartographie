@@ -8,7 +8,7 @@ import { useTheme } from 'next-themes';
 import type { ReactNode } from 'react';
 import { useState } from 'react';
 import { RiFullscreenExitLine, RiFullscreenLine, RiListUnordered, RiStackLine } from 'react-icons/ri';
-import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry';
+import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry/event-tracker';
 import { type Departement, departementMatchingSlug, france, type Region, regionMatchingSlug } from '@/libraries/collectivites';
 import { inject } from '@/libraries/injection';
 import { load$, setBoundingBox, setMap, setZoom, zoom$ } from '@/libraries/map';

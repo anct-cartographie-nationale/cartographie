@@ -1,4 +1,4 @@
-import { eventTracker } from './event-tracker';
+import { matomoBrowserEventTracker } from '@arckit/telemetry/event-tracker';
 
 export const TrackerCategory = {
   SEARCH: 'Search',
@@ -34,6 +34,8 @@ type TrackEvent = {
   name?: string;
   value?: number;
 };
+
+export const eventTracker = matomoBrowserEventTracker();
 
 export const trackEvent = ({ category, action, ...properties }: TrackEvent): void => {
   eventTracker.track({ event: `${category} ${action}`, properties });
