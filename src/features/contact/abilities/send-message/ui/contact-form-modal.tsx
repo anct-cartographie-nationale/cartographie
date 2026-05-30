@@ -3,7 +3,7 @@
 import { Button, LoadingButton } from '@arckit/daisyui/primitives';
 import { Modal, ModalActions, ModalBox, ModalCloseButton } from '@arckit/daisyui/primitives-client';
 import { useAppForm } from '@arckit/form';
-import { Suspense, useTransition } from 'react';
+import { useTransition } from 'react';
 import toast from 'react-hot-toast';
 import { inject } from '@/libraries/injection';
 import { Link } from '@/libraries/ui/primitives/link';
@@ -101,112 +101,110 @@ export const ContactFormModal = ({ open, onClose, pageUrl }: ContactFormModalPro
           </Link>{' '}
           est disponible.
         </p>
-        <Suspense fallback={<div className='py-8 text-center text-sm text-neutral'>Chargement du formulaire…</div>}>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              form.handleSubmit();
-            }}
-            className='flex flex-col gap-4'
-          >
-            <p className='text-xs text-neutral'>
-              <span className='text-error-content'>*</span> Champs obligatoires
-            </p>
-            <form.AppField name='prenom'>
-              {(field) => (
-                <div>
-                  <field.Label required>Prénom</field.Label>
-                  <field.Input isPending={isPending} className='w-full' />
-                  <field.Error icon={<ErrorIcon />} className='text-error-content text-xs mt-3' />
-                </div>
-              )}
-            </form.AppField>
-            <form.AppField name='nom'>
-              {(field) => (
-                <div>
-                  <field.Label required>Nom</field.Label>
-                  <field.Input isPending={isPending} className='w-full' />
-                  <field.Error icon={<ErrorIcon />} className='text-error-content text-xs mt-3' />
-                </div>
-              )}
-            </form.AppField>
-            <form.AppField name='email'>
-              {(field) => (
-                <div>
-                  <field.Label required>Adresse e-mail</field.Label>
-                  <field.Input isPending={isPending} type='email' placeholder='votre@email.fr' className='w-full' />
-                  <field.Error icon={<ErrorIcon />} className='text-error-content text-xs mt-3' />
-                </div>
-              )}
-            </form.AppField>
-            <form.AppField name='statut'>
-              {(field) => (
-                <div>
-                  <field.Label required>Statut</field.Label>
-                  <field.Select isPending={isPending} className='w-full'>
-                    <option value='' disabled>
-                      Sélectionnez votre statut
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            form.handleSubmit();
+          }}
+          className='flex flex-col gap-4'
+        >
+          <p className='text-xs text-neutral'>
+            <span className='text-error-content'>*</span> Champs obligatoires
+          </p>
+          <form.AppField name='prenom'>
+            {(field) => (
+              <div>
+                <field.Label required>Prénom</field.Label>
+                <field.Input isPending={isPending} className='w-full' />
+                <field.Error icon={<ErrorIcon />} className='text-error-content text-xs mt-3' />
+              </div>
+            )}
+          </form.AppField>
+          <form.AppField name='nom'>
+            {(field) => (
+              <div>
+                <field.Label required>Nom</field.Label>
+                <field.Input isPending={isPending} className='w-full' />
+                <field.Error icon={<ErrorIcon />} className='text-error-content text-xs mt-3' />
+              </div>
+            )}
+          </form.AppField>
+          <form.AppField name='email'>
+            {(field) => (
+              <div>
+                <field.Label required>Adresse e-mail</field.Label>
+                <field.Input isPending={isPending} type='email' placeholder='votre@email.fr' className='w-full' />
+                <field.Error icon={<ErrorIcon />} className='text-error-content text-xs mt-3' />
+              </div>
+            )}
+          </form.AppField>
+          <form.AppField name='statut'>
+            {(field) => (
+              <div>
+                <field.Label required>Statut</field.Label>
+                <field.Select isPending={isPending} className='w-full'>
+                  <option value='' disabled>
+                    Sélectionnez votre statut
+                  </option>
+                  {STATUT_OPTIONS.map(({ label, value }) => (
+                    <option key={value} value={value}>
+                      {label}
                     </option>
-                    {STATUT_OPTIONS.map(({ label, value }) => (
-                      <option key={value} value={value}>
-                        {label}
-                      </option>
-                    ))}
-                  </field.Select>
-                  <field.Error icon={<ErrorIcon />} className='text-error-content text-xs mt-3' />
-                </div>
-              )}
-            </form.AppField>
-            <form.AppField name='typeDemande'>
-              {(field) => (
-                <div>
-                  <field.Label required>Type de demande</field.Label>
-                  <field.Select isPending={isPending} className='w-full'>
-                    <option value='' disabled>
-                      Sélectionnez le type de demande
+                  ))}
+                </field.Select>
+                <field.Error icon={<ErrorIcon />} className='text-error-content text-xs mt-3' />
+              </div>
+            )}
+          </form.AppField>
+          <form.AppField name='typeDemande'>
+            {(field) => (
+              <div>
+                <field.Label required>Type de demande</field.Label>
+                <field.Select isPending={isPending} className='w-full'>
+                  <option value='' disabled>
+                    Sélectionnez le type de demande
+                  </option>
+                  {TYPE_DEMANDE_OPTIONS.map(({ label, value }) => (
+                    <option key={value} value={value}>
+                      {label}
                     </option>
-                    {TYPE_DEMANDE_OPTIONS.map(({ label, value }) => (
-                      <option key={value} value={value}>
-                        {label}
-                      </option>
-                    ))}
-                  </field.Select>
-                  <field.Error icon={<ErrorIcon />} className='text-error-content text-xs mt-3' />
-                </div>
-              )}
-            </form.AppField>
-            <form.AppField name='pageUrl'>
-              {(field) => (
-                <div>
-                  <field.Label>URL de la page concernée</field.Label>
-                  <field.Input isPending={isPending} placeholder='https://...' className='w-full' />
-                  <field.Error icon={<ErrorIcon />} className='text-error-content text-xs mt-3' />
-                </div>
-              )}
-            </form.AppField>
-            <form.AppField name='description'>
-              {(field) => (
-                <div>
-                  <field.Label>Description</field.Label>
-                  <field.Textarea
-                    isPending={isPending}
-                    rows={5}
-                    placeholder='Décrivez votre demande en précisant les éléments concernés (titre, horaires, services, aidant rattaché...)'
-                    className='w-full'
-                  />
-                </div>
-              )}
-            </form.AppField>
-            <ModalActions>
-              <Button type='button' color='btn-primary' kind='btn-outline' onClick={handleCancel}>
-                Annuler
-              </Button>
-              <LoadingButton type='submit' color='btn-primary' isLoading={isPending}>
-                Envoyer
-              </LoadingButton>
-            </ModalActions>
-          </form>
-        </Suspense>
+                  ))}
+                </field.Select>
+                <field.Error icon={<ErrorIcon />} className='text-error-content text-xs mt-3' />
+              </div>
+            )}
+          </form.AppField>
+          <form.AppField name='pageUrl'>
+            {(field) => (
+              <div>
+                <field.Label>URL de la page concernée</field.Label>
+                <field.Input isPending={isPending} placeholder='https://...' className='w-full' />
+                <field.Error icon={<ErrorIcon />} className='text-error-content text-xs mt-3' />
+              </div>
+            )}
+          </form.AppField>
+          <form.AppField name='description'>
+            {(field) => (
+              <div>
+                <field.Label>Description</field.Label>
+                <field.Textarea
+                  isPending={isPending}
+                  rows={5}
+                  placeholder='Décrivez votre demande en précisant les éléments concernés (titre, horaires, services, aidant rattaché...)'
+                  className='w-full'
+                />
+              </div>
+            )}
+          </form.AppField>
+          <ModalActions>
+            <Button type='button' color='btn-primary' kind='btn-outline' onClick={handleCancel}>
+              Annuler
+            </Button>
+            <LoadingButton type='submit' color='btn-primary' isLoading={isPending}>
+              Envoyer
+            </LoadingButton>
+          </ModalActions>
+        </form>
       </ModalBox>
     </Modal>
   );
