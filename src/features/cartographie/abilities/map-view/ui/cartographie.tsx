@@ -8,7 +8,7 @@ import { useTheme } from 'next-themes';
 import type { ReactNode } from 'react';
 import { useState } from 'react';
 import { RiFullscreenExitLine, RiFullscreenLine, RiListUnordered, RiStackLine } from 'react-icons/ri';
-import { MatomoAction, MatomoCategory, trackEvent } from '@/libraries/analytics';
+import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry';
 import { type Departement, departementMatchingSlug, france, type Region, regionMatchingSlug } from '@/libraries/collectivites';
 import { inject } from '@/libraries/injection';
 import { load$, setBoundingBox, setMap, setZoom, zoom$ } from '@/libraries/map';
@@ -106,8 +106,8 @@ export const Cartographie = ({
             aria-label={fullScreen ? 'Quitter le plein écran' : 'Plein écran'}
             onClick={() => {
               trackEvent({
-                category: MatomoCategory.MAP,
-                action: MatomoAction.FULLSCREEN_TOGGLE,
+                category: TrackerCategory.MAP,
+                action: TrackerAction.FULLSCREEN_TOGGLE,
                 name: fullScreen ? 'exit' : 'enter'
               });
               setFullScreen((prev) => !prev);
@@ -151,8 +151,8 @@ export const Cartographie = ({
                       kind='btn-ghost'
                       onClick={() => {
                         trackEvent({
-                          category: MatomoCategory.MAP,
-                          action: MatomoAction.LAYER_TOGGLE,
+                          category: TrackerCategory.MAP,
+                          action: TrackerAction.LAYER_TOGGLE,
                           name: fragiliteNumeriqueLayer ? 'hide' : 'show'
                         });
                         setFragiliteNumeriqueLayer((prev) => !prev);

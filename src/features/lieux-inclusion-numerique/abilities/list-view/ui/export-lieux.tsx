@@ -2,7 +2,7 @@
 
 import toast from 'react-hot-toast';
 import { RiCloseCircleLine, RiDownloadFill } from 'react-icons/ri';
-import { MatomoAction, MatomoCategory, trackEvent } from '@/libraries/analytics';
+import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry';
 import { ExportButton } from '@/libraries/ui/blocks/export-button';
 
 type ExportLieuxProps = {
@@ -18,8 +18,8 @@ export const ExportLieux = ({ href, lieuxCount }: ExportLieuxProps) => (
     href={href}
     onExportStart={() => {
       trackEvent({
-        category: MatomoCategory.EXPORT,
-        action: MatomoAction.EXPORT_START,
+        category: TrackerCategory.EXPORT,
+        action: TrackerAction.EXPORT_START,
         name: String(lieuxCount)
       });
       toast.success(

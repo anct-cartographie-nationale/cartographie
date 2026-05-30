@@ -3,7 +3,7 @@
 import { Button, Input } from '@arckit/daisyui/primitives';
 import { useId } from 'react';
 import { RiCloseCircleFill, RiSearchLine } from 'react-icons/ri';
-import { MatomoAction, MatomoCategory, trackEvent } from '@/libraries/analytics';
+import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry';
 import type { Address } from '@/libraries/ban';
 import { map$ } from '@/libraries/map';
 import { useRouter } from '@/libraries/nextjs/shim';
@@ -24,8 +24,8 @@ export const SearchAddress = ({ className }: { className?: string }) => {
       {...addressCombobox}
       onSelectedItemChange={(address: Address) => {
         trackEvent({
-          category: MatomoCategory.SEARCH,
-          action: MatomoAction.SEARCH_SELECT,
+          category: TrackerCategory.SEARCH,
+          action: TrackerAction.SEARCH_SELECT,
           name: address.lieuId ? 'lieu' : address.citycode ? 'commune' : 'adresse'
         });
         if (address.x && address.y && map) {

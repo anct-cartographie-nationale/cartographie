@@ -1,4 +1,4 @@
-import { MatomoAction, MatomoCategory, trackEvent } from '@/libraries/analytics';
+import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry';
 import type { Region } from '@/libraries/collectivites';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { Link, useSearchParams } from '@/libraries/nextjs/shim';
@@ -20,7 +20,7 @@ export const RegionsOnMap = ({
       key={code}
       prefetch={false}
       aria-label={`${nom} : ${nombreLieux} lieux`}
-      onClick={() => trackEvent({ category: MatomoCategory.NAVIGATION, action: MatomoAction.REGION_SELECT, name: nom })}
+      onClick={() => trackEvent({ category: TrackerCategory.NAVIGATION, action: TrackerAction.REGION_SELECT, name: nom })}
     >
       <ClusterMarker title={`Région ${nom}`} isMuted={selectedRegion != null && selectedRegion.code !== code} {...localisation}>
         {nombreLieux}
