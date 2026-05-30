@@ -2,6 +2,7 @@ import { ThemeProvider } from '@arckit/daisyui/theme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { FC, ReactNode } from 'react';
 import { MapProvider } from 'react-map-gl/maplibre';
+import { Tracker } from '@/configuration/telemetry';
 import { Navbar } from '@/features/brand/abilities/layout';
 import { Geolocate, SearchAddress } from '@/features/cartographie';
 import {
@@ -11,7 +12,6 @@ import {
   PublicCibleFilters,
   TerritoiresPrioritairesFilters
 } from '@/features/lieux-inclusion-numerique';
-import { MatomoTracker } from '@/libraries/analytics';
 import { LoadStreamSync } from './components/load-stream-sync';
 
 type WebComponentLayoutProps = {
@@ -22,7 +22,7 @@ const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 10
 
 export const WebComponentLayout: FC<WebComponentLayoutProps> = ({ children }) => (
   <QueryClientProvider client={queryClient}>
-    <MatomoTracker />
+    <Tracker />
     <LoadStreamSync />
     <ThemeProvider attribute='data-theme' defaultTheme='light' enableSystem disableTransitionOnChange>
       <MapProvider>

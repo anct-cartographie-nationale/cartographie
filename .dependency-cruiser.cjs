@@ -289,6 +289,7 @@ const FORBIDDEN_FEATURES = {
           '^src/features/$1/domain',
           '^src/features/$1/injection',
           '^src/features/$1/ui',
+          '^src/configuration/',
           '^src/libraries/',
           '^src/shared/',
           '^src/external-api/',
@@ -445,13 +446,14 @@ const FORBIDDEN_WEB_COMPONENTS = [
   {
     name: 'web-components-allowed-dependencies',
     comment:
-      'Web components can depend on features, libraries, external-api, and other web-components files, but not on app.',
+      'Web components can depend on features, configuration, libraries, external-api, and other web-components files, but not on app.',
     severity: 'error',
     from: { path: ['^src/web-components'] },
     to: {
       pathNot: [
         '^src/web-components',
         '^src/features',
+        '^src/configuration',
         '^src/libraries',
         '^src/shared',
         '^src/external-api',

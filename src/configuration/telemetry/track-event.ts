@@ -1,4 +1,6 @@
-export const MatomoCategory = {
+import { eventTracker } from './event-tracker';
+
+export const TrackerCategory = {
   SEARCH: 'Search',
   NAVIGATION: 'Navigation',
   EXPORT: 'Export',
@@ -8,7 +10,7 @@ export const MatomoCategory = {
   EMBED: 'Embed'
 } as const;
 
-export const MatomoAction = {
+export const TrackerAction = {
   SEARCH_QUERY: 'search_query',
   SEARCH_SELECT: 'search_select',
   REGION_SELECT: 'region_select',
@@ -23,5 +25,16 @@ export const MatomoAction = {
   EMBED_MAP_CLICK: 'embed_map_click'
 } as const;
 
-export type MatomoCategoryType = (typeof MatomoCategory)[keyof typeof MatomoCategory];
-export type MatomoActionType = (typeof MatomoAction)[keyof typeof MatomoAction];
+export type TrackerCategoryType = (typeof TrackerCategory)[keyof typeof TrackerCategory];
+export type TrackerActionType = (typeof TrackerAction)[keyof typeof TrackerAction];
+
+type TrackEvent = {
+  category: TrackerCategoryType;
+  action: TrackerActionType;
+  name?: string;
+  value?: number;
+};
+
+export const trackEvent = ({ category, action, ...properties }: TrackEvent): void => {
+  eventTracker.track({ event: `${category} ${action}`, properties });
+};

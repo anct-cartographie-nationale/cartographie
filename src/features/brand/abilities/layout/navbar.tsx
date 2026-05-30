@@ -5,7 +5,7 @@ import { Button, ButtonLink } from '@arckit/daisyui/primitives';
 import type { ReactNode } from 'react';
 import { Suspense } from 'react';
 import { RiCodeBlock, RiMenuLine, RiQuestionFill } from 'react-icons/ri';
-import { MatomoAction, MatomoCategory, trackEvent } from '@/libraries/analytics';
+import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry';
 import { inject } from '@/libraries/injection';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { useSearchParams } from '@/libraries/nextjs/shim';
@@ -92,7 +92,7 @@ export const Navbar = ({ searchSlot, filtersSlot }: NavbarProps) => {
                 kind='btn-link'
                 className='no-underline'
                 target='_blank'
-                onClick={() => trackEvent({ category: MatomoCategory.EMBED, action: MatomoAction.EMBED_MAP_CLICK })}
+                onClick={() => trackEvent({ category: TrackerCategory.EMBED, action: TrackerAction.EMBED_MAP_CLICK })}
               >
                 <RiCodeBlock size={16} />
                 Intégrer la carte sur votre site
