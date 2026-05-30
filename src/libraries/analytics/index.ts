@@ -1,5 +1,4 @@
-import { sendEvent } from '@socialgouv/matomo-next';
-import { clientEnv } from '@/env.client';
+import { matomoBrowserEventTracker } from '@arckit/telemetry/event-tracker';
 
 export type { MatomoConfig } from './matomo-config.key';
 export { MATOMO_CONFIG } from './matomo-config.key';
@@ -12,7 +11,11 @@ type TrackEventProps =
   | { category: string; action: string; name: string; value?: never }
   | { category: string; action: string; name: string; value: number };
 
-export const trackEvent = (props: TrackEventProps): void => {
-  if (!clientEnv.NEXT_PUBLIC_MATOMO_URL) return;
-  sendEvent(props);
+const tracker = matomoBrowserEventTracker();
+
+export const trackEvent = ({ category, action, name, value }: TrackEventProps): void => {
+  tracker.track({
+    event: `${category} ${action}`,
+    properties: { ...(name != null ? { name } : {}), ...(value != null ? { value } : {}) }
+  });
 };
