@@ -2,6 +2,7 @@
 @import "./components/components.css";
 @import "./dsfr/dsfr.css";
 @source "../../node_modules/@arckit/daisyui/dist";
+@source "../../node_modules/@arckit/form/dist";
 
 .maplibregl-ctrl-attrib a {
   text-decoration: underline;

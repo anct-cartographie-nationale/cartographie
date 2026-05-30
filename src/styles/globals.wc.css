@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./components/components.css";
 @source "../../node_modules/@arckit/daisyui/dist";
+@source "../../node_modules/@arckit/form/dist";
 
 @plugin "tailwindcss-animate";
 
