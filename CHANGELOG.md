@@ -1,3 +1,15 @@
+# [6.21.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.20.2...v6.21.0) (2026-05-30)
+
+
+### Features
+
+* **analytics:** migrate Matomo to @arckit/telemetry ([118f113](https://github.com/anct-cartographie-nationale/cartographie/commit/118f113dec9391048a863303c11e63fca1e2b112))
+
+
+### Reverts
+
+* restore @arckit/resultset (required transitively by @arckit/nextjs) ([276fb23](https://github.com/anct-cartographie-nationale/cartographie/commit/276fb231e43299387b633007c9e6b40cf329610b))
+
 ## [6.20.2](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.20.1...v6.20.2) (2026-05-30)
 
 
