@@ -69,12 +69,9 @@ export default pageBuilder()
       }
     )
   )
-  .render(async ({ region, departement, lieuxData: { lieux, total }, page }) => (
+  .render(async ({ region, departement, lieuxData }) => (
     <DepartementLieuxPage
-      totalLieux={total}
-      pageSize={PAGE_SIZE}
-      currentPage={page}
-      lieux={lieux.map((lieu) => toLieuListItem()(appendCollectivites(lieu)))}
+      paginated={{ ...lieuxData, items: lieuxData.items.map((lieu) => toLieuListItem()(appendCollectivites(lieu))) }}
       region={region}
       departement={departement}
     />

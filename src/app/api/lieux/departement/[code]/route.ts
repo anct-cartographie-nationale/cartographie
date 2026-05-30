@@ -25,6 +25,6 @@ export const GET = routeBuilder()
       }
     )
   )
-  .handle(async ({ lieuxData: { lieux, total } }) =>
-    Response.json({ lieux: lieux.map((lieu) => toLieuListItem()(appendCollectivites(lieu))), totalLieux: total })
+  .handle(async ({ lieuxData: { items, totalItems } }) =>
+    Response.json({ lieux: items.map((lieu) => toLieuListItem()(appendCollectivites(lieu))), totalLieux: totalItems })
   );

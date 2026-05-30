@@ -1,3 +1,4 @@
+import { Page, PageSize, type Paginated, paginate } from '@arckit/resultset';
 import {
   type Collectivite,
   type FiltersSchema,
@@ -11,18 +12,14 @@ type PaginationParams = {
   limit: number;
 };
 
-export type LieuxWithTotal = {
-  lieux: LieuxRouteResponse;
-  total: number;
-};
-
 const pick = (lieu: LieuxRouteResponse[number]): LieuxRouteResponse[number] =>
   Object.fromEntries(LIEU_LIST_FIELDS.map((key) => [key, lieu[key]])) as LieuxRouteResponse[number];
 
 export const fetchLieux =
   (collectivite?: Collectivite) =>
-  async (filters: FiltersSchema, { page, limit }: PaginationParams): Promise<LieuxWithTotal> => {
+  async (filters: FiltersSchema, { page, limit }: PaginationParams): Promise<Paginated<LieuxRouteResponse[number]>> => {
     const [allLieux, ohCache] = await Promise.all([getAllLieux(), getOpeningHoursCache()]);
     const filtered = filterLieux(allLieux, filters, collectivite, ohCache);
-    return { lieux: filtered.slice((page - 1) * limit, page * limit).map(pick), total: filtered.length };
+    const paginated = paginate(filtered, { page: Page(page), pageSize: PageSize(limit) });
+    return { ...paginated, items: paginated.items.map(pick) };
   };

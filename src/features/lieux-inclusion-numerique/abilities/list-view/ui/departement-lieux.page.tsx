@@ -1,6 +1,7 @@
 'use client';
 
 import { Breadcrumbs, NextPageLink, PageLink, Pagination, PreviousPageLink } from '@arckit/daisyui/blocks';
+import type { Paginated } from '@arckit/resultset';
 import type { ReactNode } from 'react';
 import type { Departement, Region } from '@/libraries/collectivites';
 import type { LieuListItem } from '@/libraries/inclusion-numerique-api';
@@ -13,20 +14,14 @@ import { LieuxList } from './lieux-list';
 import { useMapDepartementLocation } from './use-map-departement-location';
 
 export const DepartementLieuxPage = ({
-  totalLieux,
-  pageSize,
-  currentPage,
-  lieux,
+  paginated: { items, totalItems, currentPage, pageSize },
   region,
   departement,
   breadcrumbsItems,
   exportHref,
   children
 }: {
-  totalLieux: number;
-  pageSize: number;
-  currentPage: number;
-  lieux: LieuListItem[];
+  paginated: Paginated<LieuListItem>;
   region: Region;
   departement: Departement;
   breadcrumbsItems?: { label: string; href?: string }[];
@@ -55,18 +50,18 @@ export const DepartementLieuxPage = ({
         <div className='flex justify-between items-center gap-2 mb-4 mt-3'>
           <h1 className='font-bold uppercase text-xs text-base-title'>
             <span className='sr-only'>{departement.nom}</span>
-            {totalLieux} lieux trouvés
+            {totalItems} lieux trouvés
           </h1>
           <ExportLieux
-            lieuxCount={totalLieux}
+            lieuxCount={totalItems}
             href={exportHref ?? hrefWithSearchParams(`${departement.slug}/lieux/exporter`)(searchParams, ['page'])}
           />
         </div>
-        <LieuxList searchParams={searchParams} lieux={lieux} className='flex flex-col gap-2' />
+        <LieuxList searchParams={searchParams} lieux={items} className='flex flex-col gap-2' />
         <div className='text-center mt-10'>
           <Pagination
             currentPage={currentPage}
-            itemsCount={totalLieux}
+            itemsCount={totalItems}
             pageSize={pageSize}
             siblingCount={1}
             href={hrefWithSearchParams()(searchParams)}

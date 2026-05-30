@@ -1,5 +1,6 @@
 import { Breadcrumbs, NextPageLink, PageLink, Pagination, PreviousPageLink } from '@arckit/daisyui/blocks';
 import { ButtonLink } from '@arckit/daisyui/primitives';
+import type { Paginated } from '@arckit/resultset';
 import type { ReactNode } from 'react';
 import { RiRoadMapLine } from 'react-icons/ri';
 import type { LieuListItem } from '@/libraries/inclusion-numerique-api';
@@ -14,10 +15,7 @@ type LieuxPageProps = {
   breadcrumbsItems?: { label: string; href?: string }[];
   mapHref: string;
   exportHref: string;
-  lieux: LieuListItem[];
-  totalLieux: number;
-  currentPage: number;
-  pageSize: number;
+  paginated: Paginated<LieuListItem>;
   searchParams: URLSearchParams;
 };
 
@@ -25,10 +23,7 @@ export const LieuxPage = ({
   breadcrumbsItems = [],
   mapHref,
   exportHref,
-  lieux,
-  totalLieux,
-  currentPage,
-  pageSize,
+  paginated: { items, totalItems, currentPage, pageSize },
   searchParams
 }: LieuxPageProps): ReactNode => (
   <>
@@ -42,19 +37,19 @@ export const LieuxPage = ({
         </ButtonLink>
       </div>
       <div className='flex justify-between items-center gap-2 mb-4'>
-        <LieuxCount totalLieux={totalLieux} />
-        <ExportLieux lieuxCount={totalLieux} href={exportHref} />
+        <LieuxCount totalLieux={totalItems} />
+        <ExportLieux lieuxCount={totalItems} href={exportHref} />
       </div>
       <LieuxList
         searchParams={searchParams}
-        lieux={lieux}
+        lieux={items}
         size='lg'
         className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2'
       />
       <div className='text-center mt-10'>
         <Pagination
           currentPage={currentPage}
-          itemsCount={totalLieux}
+          itemsCount={totalItems}
           pageSize={pageSize}
           href={hrefWithSearchParams()(searchParams)}
           nav={{ previous: PreviousPageLink, next: NextPageLink }}
