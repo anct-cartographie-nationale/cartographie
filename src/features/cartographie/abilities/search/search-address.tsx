@@ -3,7 +3,7 @@
 import { Button, Input } from '@arckit/daisyui/primitives';
 import { useId } from 'react';
 import { RiCloseCircleFill, RiSearchLine } from 'react-icons/ri';
-import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry';
+import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry/event-tracker';
 import type { Address } from '@/libraries/ban';
 import { map$ } from '@/libraries/map';
 import { useRouter } from '@/libraries/nextjs/shim';
