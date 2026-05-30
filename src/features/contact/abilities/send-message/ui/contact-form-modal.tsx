@@ -2,9 +2,9 @@
 
 import { Button, LoadingButton } from '@arckit/daisyui/primitives';
 import { Modal, ModalActions, ModalBox, ModalCloseButton } from '@arckit/daisyui/primitives-client';
+import { useAppForm } from '@arckit/form';
 import { useTransition } from 'react';
 import toast from 'react-hot-toast';
-import { Label, useAppForm } from '@/libraries/form';
 import { inject } from '@/libraries/injection';
 import { Link } from '@/libraries/ui/primitives/link';
 import { contactFormSchema } from '../domain/contact-form.schema';
@@ -25,6 +25,13 @@ const TYPE_DEMANDE_OPTIONS = [
   { label: 'Renseignements sur un lieu', value: 'Renseignements sur un lieu' },
   { label: 'Bug', value: 'Bug' }
 ];
+
+const ErrorIcon = () => (
+  // biome-ignore lint/a11y/noSvgWithoutTitle: decorative icon, the message conveys the information
+  <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='currentColor'>
+    <path d='M17.5,2.5h-11L1,12l5.5,9.5h11L23,12L17.5,2.5z M16.2,14.8l-1.4,1.4L12,13.4l-2.8,2.8l-1.4-1.4l2.8-2.8L7.8,9.2l1.4-1.4l2.8,2.8l2.8-2.8l1.4,1.4L13.4,12L16.2,14.8z' />
+  </svg>
+);
 
 type ContactFormModalProps = {
   open: boolean;
@@ -106,79 +113,87 @@ export const ContactFormModal = ({ open, onClose, pageUrl }: ContactFormModalPro
           </p>
           <form.AppField name='prenom'>
             {(field) => (
-              <field.FieldGroup>
-                <Label required>Prénom</Label>
-                <field.InputField isPending={isPending} className='w-full' />
-                <field.ErrorMessage />
-              </field.FieldGroup>
+              <div>
+                <field.Label required>Prénom</field.Label>
+                <field.Input isPending={isPending} className='w-full' />
+                <field.Error icon={<ErrorIcon />} className='text-error-content text-xs mt-3' />
+              </div>
             )}
           </form.AppField>
           <form.AppField name='nom'>
             {(field) => (
-              <field.FieldGroup>
-                <Label required>Nom</Label>
-                <field.InputField isPending={isPending} className='w-full' />
-                <field.ErrorMessage />
-              </field.FieldGroup>
+              <div>
+                <field.Label required>Nom</field.Label>
+                <field.Input isPending={isPending} className='w-full' />
+                <field.Error icon={<ErrorIcon />} className='text-error-content text-xs mt-3' />
+              </div>
             )}
           </form.AppField>
           <form.AppField name='email'>
             {(field) => (
-              <field.FieldGroup>
-                <Label required>Adresse e-mail</Label>
-                <field.InputField isPending={isPending} type='email' placeholder='votre@email.fr' className='w-full' />
-                <field.ErrorMessage />
-              </field.FieldGroup>
+              <div>
+                <field.Label required>Adresse e-mail</field.Label>
+                <field.Input isPending={isPending} type='email' placeholder='votre@email.fr' className='w-full' />
+                <field.Error icon={<ErrorIcon />} className='text-error-content text-xs mt-3' />
+              </div>
             )}
           </form.AppField>
           <form.AppField name='statut'>
             {(field) => (
-              <field.FieldGroup>
-                <Label required>Statut</Label>
-                <field.SelectField
-                  isPending={isPending}
-                  options={STATUT_OPTIONS}
-                  placeholder='Sélectionnez votre statut'
-                  className='w-full'
-                />
-                <field.ErrorMessage />
-              </field.FieldGroup>
+              <div>
+                <field.Label required>Statut</field.Label>
+                <field.Select isPending={isPending} className='w-full'>
+                  <option value='' disabled>
+                    Sélectionnez votre statut
+                  </option>
+                  {STATUT_OPTIONS.map(({ label, value }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </field.Select>
+                <field.Error icon={<ErrorIcon />} className='text-error-content text-xs mt-3' />
+              </div>
             )}
           </form.AppField>
           <form.AppField name='typeDemande'>
             {(field) => (
-              <field.FieldGroup>
-                <Label required>Type de demande</Label>
-                <field.SelectField
-                  isPending={isPending}
-                  options={TYPE_DEMANDE_OPTIONS}
-                  placeholder='Sélectionnez le type de demande'
-                  className='w-full'
-                />
-                <field.ErrorMessage />
-              </field.FieldGroup>
+              <div>
+                <field.Label required>Type de demande</field.Label>
+                <field.Select isPending={isPending} className='w-full'>
+                  <option value='' disabled>
+                    Sélectionnez le type de demande
+                  </option>
+                  {TYPE_DEMANDE_OPTIONS.map(({ label, value }) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </field.Select>
+                <field.Error icon={<ErrorIcon />} className='text-error-content text-xs mt-3' />
+              </div>
             )}
           </form.AppField>
           <form.AppField name='pageUrl'>
             {(field) => (
-              <field.FieldGroup>
-                <Label>URL de la page concernée</Label>
-                <field.InputField isPending={isPending} placeholder='https://...' className='w-full' />
-                <field.ErrorMessage />
-              </field.FieldGroup>
+              <div>
+                <field.Label>URL de la page concernée</field.Label>
+                <field.Input isPending={isPending} placeholder='https://...' className='w-full' />
+                <field.Error icon={<ErrorIcon />} className='text-error-content text-xs mt-3' />
+              </div>
             )}
           </form.AppField>
           <form.AppField name='description'>
             {(field) => (
-              <field.FieldGroup>
-                <Label>Description</Label>
-                <field.TextareaField
+              <div>
+                <field.Label>Description</field.Label>
+                <field.Textarea
                   isPending={isPending}
                   rows={5}
                   placeholder='Décrivez votre demande en précisant les éléments concernés (titre, horaires, services, aidant rattaché...)'
                   className='w-full'
                 />
-              </field.FieldGroup>
+              </div>
             )}
           </form.AppField>
           <ModalActions>

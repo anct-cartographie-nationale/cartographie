@@ -2,7 +2,7 @@
 
 import { IndicatorBadge } from '@arckit/daisyui/primitives';
 import { Popover, Trigger } from '@arckit/daisyui/primitives-client';
-import { useAppForm } from '@/libraries/form';
+import { useAppForm } from '@arckit/form';
 import { endLoad, startLoad } from '@/libraries/map';
 import { useQueryState, useRouter } from '@/libraries/nextjs/shim';
 import { arraysEqual } from '@/libraries/utils/array';
