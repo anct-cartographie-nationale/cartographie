@@ -1,3 +1,4 @@
+import { Page as toPage, PageSize as toPageSize } from '@arckit/resultset';
 import { skipToken, useQuery } from '@tanstack/react-query';
 import { useParams, useSearch } from '@tanstack/react-router';
 import { type FC, useMemo } from 'react';
@@ -44,11 +45,13 @@ export const Page: FC = () => {
 
   return (
     <LieuxPage
-      totalLieux={data?.totalLieux ?? 0}
-      pageSize={PAGE_SIZE}
+      paginated={{
+        items: data?.lieux ?? [],
+        totalItems: data?.totalLieux ?? 0,
+        currentPage: toPage(currentPage),
+        pageSize: toPageSize(PAGE_SIZE)
+      }}
       searchParams={searchParams}
-      currentPage={currentPage}
-      lieux={data?.lieux ?? []}
       breadcrumbsItems={breadcrumbsItems}
       mapHref={hrefWithSearchParams(`/${region.slug}/${departement.slug}`)(searchParams, ['page'])}
       exportHref={buildExportUrl(`/${region.slug}/${departement.slug}/lieux/exporter`, searchParams)}

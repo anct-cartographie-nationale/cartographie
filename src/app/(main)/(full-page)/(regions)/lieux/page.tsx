@@ -29,13 +29,10 @@ export default pageBuilder()
       }
     })
   )
-  .render(async ({ lieuxData: { lieux, total }, page, urlSearchParams }) => (
+  .render(async ({ lieuxData, urlSearchParams }) => (
     <LieuxPage
-      totalLieux={total}
-      pageSize={PAGE_SIZE}
+      paginated={{ ...lieuxData, items: lieuxData.items.map((lieu) => toLieuListItem()(appendCollectivites(lieu))) }}
       searchParams={urlSearchParams}
-      currentPage={page}
-      lieux={lieux.map((lieu) => toLieuListItem()(appendCollectivites(lieu)))}
       mapHref={hrefWithSearchParams('/')(urlSearchParams, ['page'])}
       exportHref={hrefWithSearchParams('/lieux/exporter')(urlSearchParams, ['page'])}
     />

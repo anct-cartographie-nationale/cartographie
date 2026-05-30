@@ -47,13 +47,10 @@ export default pageBuilder()
       }
     })
   )
-  .render(async ({ region, lieuxData: { lieux, total }, page, urlSearchParams }) => (
+  .render(async ({ region, lieuxData, urlSearchParams }) => (
     <LieuxPage
-      totalLieux={total}
-      pageSize={PAGE_SIZE}
+      paginated={{ ...lieuxData, items: lieuxData.items.map((lieu) => toLieuListItem()(appendCollectivites(lieu))) }}
       searchParams={urlSearchParams}
-      currentPage={page}
-      lieux={lieux.map((lieu) => toLieuListItem()(appendCollectivites(lieu)))}
       breadcrumbsItems={[
         { label: 'France', href: hrefWithSearchParams('/')(urlSearchParams, ['page']) },
         { label: region.nom }
