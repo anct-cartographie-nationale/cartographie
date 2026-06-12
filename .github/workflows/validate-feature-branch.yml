@@ -145,6 +145,8 @@ jobs:
         run: pnpm build
       - name: Test infrastructure
         run: pnpm test:infra
+        env:
+          DEBUG: 'testcontainers*'
 
   test-e2e:
     name: Test E2E
