@@ -36,9 +36,26 @@ COPY infrastructure/nginx/403.html /usr/share/nginx/html/403.html
 COPY infrastructure/nginx/acquis.yaml /etc/crowdsec/acquis.yaml
 
 ARG DBIP_DATE
-RUN wget -O /tmp/dbip-country-lite.mmdb.gz "https://download.db-ip.com/free/dbip-country-lite-${DBIP_DATE}.mmdb.gz" && \
-    gunzip /tmp/dbip-country-lite.mmdb.gz && \
-    mkdir -p /usr/share/GeoIP && \
+# DB-IP Lite ne garde en ligne que ~2 mois et publie le mois courant avec parfois
+# un jour de retard. On retente, puis on retombe sur le mois précédent si le mois
+# demandé n'est pas (encore) publié — évite de casser le build au passage de mois.
+RUN set -eu; \
+    year=${DBIP_DATE%-*}; month=${DBIP_DATE#*-}; month=${month#0}; \
+    prev_month=$((month - 1)); prev_year=$year; \
+    if [ "$prev_month" -eq 0 ]; then prev_month=12; prev_year=$((year - 1)); fi; \
+    prev=$(printf '%04d-%02d' "$prev_year" "$prev_month"); \
+    ok=0; \
+    for d in "$DBIP_DATE" "$prev"; do \
+      for attempt in 1 2 3; do \
+        echo "DB-IP Lite $d (tentative $attempt)"; \
+        if wget -O /tmp/dbip-country-lite.mmdb.gz "https://download.db-ip.com/free/dbip-country-lite-$d.mmdb.gz"; then ok=1; break; fi; \
+        sleep 2; \
+      done; \
+      [ "$ok" -eq 1 ] && break; \
+    done; \
+    [ "$ok" -eq 1 ]; \
+    gunzip /tmp/dbip-country-lite.mmdb.gz; \
+    mkdir -p /usr/share/GeoIP; \
     mv /tmp/dbip-country-lite.mmdb /usr/share/GeoIP/dbip-country-lite.mmdb
 
 WORKDIR /app
