@@ -49,6 +49,11 @@ export default sentryAuthToken
   ? withSentryConfig(config, {
       authToken: sentryAuthToken,
       silent: !process.env['CI'],
+      widenClientFileUpload: true,
+      disableLogger: true,
+      reactComponentAnnotation: { enabled: true },
+      tunnelRoute: '/monitoring',
+      sourcemaps: { deleteSourcemapsAfterUpload: true },
       ...(sentryOrg ? { org: sentryOrg } : {}),
       ...(sentryProject ? { project: sentryProject } : {})
     })

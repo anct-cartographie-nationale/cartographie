@@ -1,7 +1,13 @@
-import { register as registerErrorReporter } from '@/configuration/telemetry/error-reporter/client';
-import { register as registerEventTracker } from '@/configuration/telemetry/event-tracker/register';
-
-export { onRouterTransition } from '@/configuration/telemetry/event-tracker/register';
+import {
+  onRouterTransitionStart as captureRouterTransitionStart,
+  register as registerErrorReporter
+} from '@/configuration/telemetry/error-reporter/client';
+import { register as registerEventTracker, trackPageView } from '@/configuration/telemetry/event-tracker/register';
 
 registerErrorReporter();
 registerEventTracker();
+
+export const onRouterTransitionStart = (url: string, navigationType: 'push' | 'replace' | 'traverse'): void => {
+  captureRouterTransitionStart(url, navigationType);
+  trackPageView(url);
+};

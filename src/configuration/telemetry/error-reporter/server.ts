@@ -3,7 +3,7 @@ import { clientEnv } from '@/env.client';
 
 export const register = (): void => {
   if (!clientEnv.NEXT_PUBLIC_SENTRY_DSN) return;
-  Sentry.init({ dsn: clientEnv.NEXT_PUBLIC_SENTRY_DSN, tracesSampleRate: 0 });
+  Sentry.init({ dsn: clientEnv.NEXT_PUBLIC_SENTRY_DSN, tracesSampleRate: 0, sendDefaultPii: false });
 };
 
 export const onRequestError = Sentry.captureRequestError;
