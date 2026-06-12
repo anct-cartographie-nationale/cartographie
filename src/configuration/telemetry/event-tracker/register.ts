@@ -1,7 +1,7 @@
 import { initMatomoBrowser, matomoBrowserPageView } from '@arckit/telemetry/event-tracker';
 import { clientEnv } from '@/env.client';
 
-const trackPageView = matomoBrowserPageView();
+export const trackPageView = matomoBrowserPageView();
 
 export const register = (): void => {
   initMatomoBrowser({
@@ -11,5 +11,3 @@ export const register = (): void => {
   });
   trackPageView();
 };
-
-export const onRouterTransition = (href: string): void => trackPageView(href);

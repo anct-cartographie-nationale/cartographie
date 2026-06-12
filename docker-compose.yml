@@ -43,6 +43,23 @@ services:
       - '1025:1025'
       - '8025:8025'
 
+  # Sentry-compatible error tracking for local verification (single container, SQLite, ephemeral).
+  # Log in at http://localhost:8090 with admin@bugsink.local / admin, create a project, then copy its DSN into
+  # NEXT_PUBLIC_SENTRY_DSN in .env. Data is lost when the container is removed (down -v / rm).
+  bugsink:
+    image: bugsink/bugsink:2
+    container_name: bugsink
+    restart: unless-stopped
+    ports:
+      - '8090:8000'
+    environment:
+      # Local-only ephemeral container; not a real secret (kept low-entropy so secret scanners don't flag it).
+      SECRET_KEY: bugsink-local-development-only-not-a-real-secret-safe-to-commit-ephemeral-container
+      CREATE_SUPERUSER: admin@bugsink.local:admin
+      PORT: '8000'
+      BASE_URL: http://localhost:8090
+      BEHIND_HTTPS_PROXY: 'false'
+
 volumes:
   matomo-data:
   matomo-db-data:
