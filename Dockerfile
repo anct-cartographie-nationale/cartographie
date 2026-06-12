@@ -1,4 +1,7 @@
-FROM node:22-alpine
+# Pin Alpine: on alpine3.24 the lua-resty-* packages pull in openresty, which
+# conflicts with nginx + its geoip2/lua modules (apk error code 8). 3.23 keeps
+# the nginx-compatible package set. Pinning also makes the build reproducible.
+FROM node:22-alpine3.23
 
 RUN apk add --no-cache \
     nginx nginx-mod-http-geoip2 nginx-mod-http-lua nginx-mod-devel-kit lua-resty-http lua-resty-string lua5.1-cjson \
