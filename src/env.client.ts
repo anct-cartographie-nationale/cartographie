@@ -6,7 +6,8 @@ const clientEnvSchema = z.object({
   NEXT_PUBLIC_SITE_URL: z.string().url().optional(),
   NEXT_ASSET_PREFIX: z.string().default(''),
   NEXT_PUBLIC_MATOMO_URL: z.string().url().optional(),
-  NEXT_PUBLIC_MATOMO_SITE_ID: z.string().optional()
+  NEXT_PUBLIC_MATOMO_SITE_ID: z.string().optional(),
+  NEXT_PUBLIC_SENTRY_DSN: z.union([z.string().url(), z.literal('')]).optional()
 });
 
 export const clientEnv = clientEnvSchema.parse({
@@ -15,7 +16,8 @@ export const clientEnv = clientEnvSchema.parse({
   NEXT_PUBLIC_SITE_URL: process.env['NEXT_PUBLIC_SITE_URL'],
   NEXT_ASSET_PREFIX: process.env['NEXT_ASSET_PREFIX'],
   NEXT_PUBLIC_MATOMO_URL: process.env['NEXT_PUBLIC_MATOMO_URL'],
-  NEXT_PUBLIC_MATOMO_SITE_ID: process.env['NEXT_PUBLIC_MATOMO_SITE_ID']
+  NEXT_PUBLIC_MATOMO_SITE_ID: process.env['NEXT_PUBLIC_MATOMO_SITE_ID'],
+  NEXT_PUBLIC_SENTRY_DSN: process.env['NEXT_PUBLIC_SENTRY_DSN']
 });
 
 export type ClientEnv = z.infer<typeof clientEnvSchema>;

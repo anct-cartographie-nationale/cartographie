@@ -1,4 +1,5 @@
 import createMDX from '@next/mdx';
+import { withSentryConfig } from '@sentry/nextjs';
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
@@ -38,4 +39,22 @@ const withMDX = createMDX({
   extension: /\.mdx?$/
 });
 
-export default withMDX(nextConfig);
+const config = withMDX(nextConfig);
+
+const sentryAuthToken = process.env['SENTRY_AUTH_TOKEN'];
+const sentryOrg = process.env['SENTRY_ORG'];
+const sentryProject = process.env['SENTRY_PROJECT'];
+
+export default sentryAuthToken
+  ? withSentryConfig(config, {
+      authToken: sentryAuthToken,
+      silent: !process.env['CI'],
+      widenClientFileUpload: true,
+      disableLogger: true,
+      reactComponentAnnotation: { enabled: true },
+      tunnelRoute: '/monitoring',
+      sourcemaps: { deleteSourcemapsAfterUpload: true },
+      ...(sentryOrg ? { org: sentryOrg } : {}),
+      ...(sentryProject ? { project: sentryProject } : {})
+    })
+  : config;

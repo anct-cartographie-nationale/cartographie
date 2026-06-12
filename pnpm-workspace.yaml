@@ -20,6 +20,7 @@ minimumReleaseAgeExclude:
   - '@babel/*'
 allowBuilds:
   '@pulumi/command': true
+  '@sentry/cli': true
   cpu-features: true
   esbuild: true
   protobufjs: true
