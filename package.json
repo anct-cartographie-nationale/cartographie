@@ -47,7 +47,7 @@
   "dependencies": {
     "@arckit/daisyui": "^1.2.1",
     "@arckit/form": "^2.0.1",
-    "@arckit/nextjs": "^2.0.0",
+    "@arckit/nextjs": "^2.1.0",
     "@arckit/pipeline": "^1.0.0",
     "@arckit/resultset": "^2.0.0",
     "@arckit/telemetry": "^1.4.0",
