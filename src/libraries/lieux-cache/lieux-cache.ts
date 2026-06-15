@@ -36,11 +36,16 @@ const getData = (): Promise<LieuxRouteResponse> => {
 
 const getStore = (): Promise<LieuxStore> => {
   if (!currentStore) {
-    currentStore = getData().then((data) => {
-      const store = buildStore(data);
-      lastRefreshedAt = new Date().toISOString();
-      return store;
-    });
+    currentStore = getData()
+      .then((data) => {
+        const store = buildStore(data);
+        lastRefreshedAt = new Date().toISOString();
+        return store;
+      })
+      .catch((error: unknown) => {
+        currentStore = null;
+        throw error;
+      });
   }
   return currentStore;
 };
