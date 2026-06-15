@@ -40,7 +40,7 @@ const getStore = (): Promise<LieuxStore> => {
   return currentStore;
 };
 
-export const invalidateCache = (): void => {
+export const invalidateCache = (onError: (error: unknown) => void = () => {}): void => {
   if (isRefreshing) return;
   isRefreshing = true;
   const freshData = inclusionNumeriqueFetchApi(LIEUX_ROUTE, {}, undefined, { noCache: true }).then(([data]) => data);
@@ -49,7 +49,7 @@ export const invalidateCache = (): void => {
       currentData = Promise.resolve(data);
       currentStore = Promise.resolve(buildStore(data));
     })
-    .catch(() => {})
+    .catch(onError)
     .finally(() => {
       isRefreshing = false;
     });
