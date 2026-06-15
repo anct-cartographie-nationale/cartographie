@@ -1,6 +1,5 @@
 import { routeBuilder, withFetch, withSearchParams } from '@arckit/nextjs/route';
 import { z } from 'zod';
-import { withLogger } from '@/configuration/telemetry/logger/server';
 import { fetchLieuxForChunkServer } from '@/features/lieux-inclusion-numerique/abilities/map-view/query/fetch-lieux-for-chunk.server';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 
@@ -22,4 +21,4 @@ export const GET = routeBuilder()
       { cache: { cacheKey: ({ searchParams }) => ['chunk', searchParams], revalidate: false, tags: ['lieux'] } }
     )
   )
-  .handle(withLogger('api:lieux:chunk')(async ({ lieux }) => Response.json(lieux)));
+  .handle(async ({ lieux }) => Response.json(lieux));

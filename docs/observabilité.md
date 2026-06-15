@@ -1,6 +1,6 @@
-# Observabilité : capture d'erreurs (Sentry) et logs structurés (pino)
+# Observabilité : erreurs (Sentry) et logs JSON (nginx + pino)
 
-Ce document décrit l'observabilité de la Cartographie : la capture d'erreurs (Sentry), les logs structurés serveur (pino → Grafana), ce qui est capté, comment c'est câblé, et la configuration nécessaire en production.
+Ce document décrit l'observabilité de la Cartographie : la capture d'erreurs (Sentry), les logs JSON (nginx en couche edge, pino pour les événements applicatifs) collectés par Grafana, ce qui est capté, comment c'est câblé, et la configuration nécessaire en production.
 
 ## Table des matières
 
@@ -88,14 +88,14 @@ Voir `.env.example`. Côté Sentry :
 
 ## Logs structurés serveur
 
-En complément de Sentry (erreurs), les logs reposent sur **deux couches complémentaires**, toutes deux en **JSON sur stdout** → collectées automatiquement par Scaleway Cockpit (Loki), requêtables dans le Grafana intégré avec `| json`, 7 jours de rétention, sans agent :
+En complément de Sentry (erreurs), les logs reposent sur **deux couches distinctes**, toutes deux en **JSON sur stdout** → collectées automatiquement par Scaleway Cockpit (Loki), requêtables dans le Grafana intégré avec `| json`, 7 jours de rétention, sans agent :
 
-| Couche          | Source                            | Couvre                                                                                                                  | Pour                                            |
-|-----------------|-----------------------------------|-------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
-| **Edge**        | nginx (`access_log` JSON)         | **toutes** les requêtes (pages, statiques, 403, API) : `status`/`method`/`path`/`request_time`/`country`/`cache_status` | trafic, taux d'erreur, latence edge, géo, cache |
-| **Application** | pino (`@arckit/telemetry/logger`) | routes `/api/*` instrumentées + action : `event` sémantique, `status`, `durationMs` (app), `:success`/`:failure`        | alerting applicatif fin, durée hors edge        |
+| Couche          | Source                            | Couvre                                                                                                                                  | Pour                                                                          |
+|-----------------|-----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| **Edge**        | nginx (`access_log` JSON)         | **toutes** les requêtes (pages, statiques, 403, API) : `status`/`method`/`path`/`request_time`/`upstream_time`/`country`/`cache_status` | **source unique des logs de requêtes** : trafic, erreurs, latence, géo, cache |
+| **Application** | pino (`@arckit/telemetry/logger`) | événements applicatifs **invisibles côté edge** (ex. résultat d'une server action)                                                      | alerting métier                                                               |
 
-Les champs `status` / `method` / `path` sont **alignés** entre les deux couches → requêtes LogQL uniformes. *(Sentry reste la source des **erreurs** avec stack/contexte ; les logs servent au trafic/latence/alerting, pas au debug d'exception.)*
+> **Pas de log de requête au niveau applicatif.** nginx logge déjà chaque requête (statut, durée *app* via `upstream_time`, etc.) ; le dupliquer côté app (un `withLogger` par route) n'apporterait rien tant qu'on n'a ni tracing ni identité → c'est **nginx la source des logs de requêtes**. Le `logger` pino est réservé aux signaux que l'edge ne voit pas. Sentry reste la source des **erreurs** (stack/contexte).
 
 ### Couche edge — nginx
 
@@ -105,39 +105,29 @@ Les champs `status` / `method` / `path` sont **alignés** entre les deux couches
 
 Câblage dans `src/configuration/telemetry/logger/server.ts` (**server-only**, runtime Node) :
 
-| Export             | Rôle                                                                      |
-|--------------------|---------------------------------------------------------------------------|
-| `logger`           | `createPinoLogger({ getScope, getIdentity, getTrace })` — JSON sur stdout |
-| `withLogger`       | `createWithLogger(logger)` — enveloppe un handler de **route**            |
-| `withActionLogger` | `withLogger(logger)` (pilier action) — middleware de **server action**    |
+| Export             | Rôle                                                                                            |
+|--------------------|-------------------------------------------------------------------------------------------------|
+| `logger`           | `createPinoLogger({ getScope, getIdentity, getTrace })` — logs applicatifs ad-hoc (JSON stdout) |
+| `withActionLogger` | `withLogger(logger)` (pilier action) — middleware de **server action**                          |
 
-Le logger enveloppe le handler ; pour les routes d'export il passe **par-dessus** `withErrorHandler` afin de capter le statut final mappé :
+Seule l'**action contact** est instrumentée : une server action Next renvoie **HTTP 200 quel que soit le résultat métier**, donc nginx ne voit pas si l'envoi a réussi ou échoué — ce log capte le signal (les échecs vont aussi à Sentry) :
 
 ```ts
-// route simple
-.handle(withLogger('api:lieux')(async ({ lieux }) => Response.json(lieux)));
-// route d'export (logger au-dessus de l'error handler)
-.handle(withLogger('api:lieux:export')(withErrorHandler(MAP, MSG)(async ({ lieux }) => csvStreamResponse(...))));
-// server action
 .use(withActionLogger('action:contact:send'))
 ```
 
-**Forme des logs** : `event` = `<nom>:success` (retour) ou `<nom>:failure` (exception, puis rethrow → reste capté par `onRequestError`). Attributs : `method`, `path`, `status`, `durationMs` (+ `error.type` sur échec). Émission **différée** via `after()` (réponse non bloquante).
-
-**Couverture** : 19 des 21 routes + l'action contact. **Exclusions assumées** : `api/health` (sondée en continu par le monitoring → bruit) et `api/fragilite-numerique/[...params]` (handler Next brut hors `routeBuilder` + proxy de tuiles très fréquent).
+`event` = `action:contact:send:success` / `:failure` (+ `error.type`). Émission **différée** via `after()`. Le `logger` reste disponible pour de futurs événements applicatifs (signaux métier, dégradations) que l'edge ne capte pas.
 
 **Requêtes LogQL utiles** (Grafana → Explore). Remplace `<selecteur>` par le label réel du conteneur dans Cockpit (à confirmer dans Grafana → Explore : souvent `resource_name` / `container_name`, **pas** `service`) :
 
 ```logql
 # Edge (nginx) — toutes les requêtes
 {<selecteur>} | json | status >= 500                       # taux d'erreur global
-{<selecteur>} | json | request_time > 1.0                  # requêtes lentes (edge, secondes)
+{<selecteur>} | json | path =~ "/api/.*" | upstream_time > 1.0   # handlers /api lents (temps app, secondes)
 sum by (status) (count_over_time({<selecteur>} | json [5m]))
 
-# Application (pino) — routes instrumentées
-{<selecteur>} | json | event =~ ".*:failure"               # échecs applicatifs
-{<selecteur>} | json | durationMs > 1000                   # handlers lents (app, ms)
-{<selecteur>} | json | event = "api:lieux:export:failure"
+# Application (pino)
+{<selecteur>} | json | event = "action:contact:send:failure"   # échecs d'envoi du formulaire contact
 ```
 
 > Les `console.*` restants sont du code **navigateur** (`geolocate.tsx`, web-component) — non collectés par Scaleway (seul le stdout serveur l'est) et hors pino (Node-only).

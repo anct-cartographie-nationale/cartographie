@@ -1,6 +1,5 @@
 import { csvStreamResponse, routeBuilder, withFetch, withSearchParams } from '@arckit/nextjs/route';
 import { withErrorHandler } from '@/configuration/telemetry/error-reporter/server';
-import { withLogger } from '@/configuration/telemetry/logger/server';
 import { mediationNumeriqueToCsvLines } from '@/features/lieux-inclusion-numerique';
 import { fetchAllLieux } from '@/features/lieux-inclusion-numerique/abilities/export/query';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
@@ -16,14 +15,12 @@ export const GET = routeBuilder()
   .use(withSearchParams((raw) => filtersSchema.parse(raw)))
   .use(withFetch('lieux', ({ searchParams }) => fetchAllLieux()(searchParams)))
   .handle(
-    withLogger('page:lieux:export')(
-      withErrorHandler(
-        ERROR_MESSAGE_MAP,
-        DEFAULT_ERROR_MESSAGE
-      )(async ({ lieux }) =>
-        csvStreamResponse(mediationNumeriqueToCsvLines(lieux.map(toSchemaLieuMediationNumerique)), {
-          filename: 'lieux-inclusion-numerique'
-        })
-      )
+    withErrorHandler(
+      ERROR_MESSAGE_MAP,
+      DEFAULT_ERROR_MESSAGE
+    )(async ({ lieux }) =>
+      csvStreamResponse(mediationNumeriqueToCsvLines(lieux.map(toSchemaLieuMediationNumerique)), {
+        filename: 'lieux-inclusion-numerique'
+      })
     )
   );
