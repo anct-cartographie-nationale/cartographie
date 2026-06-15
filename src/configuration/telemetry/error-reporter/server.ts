@@ -3,15 +3,11 @@ import { withErrorReporter as createWithErrorReporter } from '@arckit/nextjs/tel
 import * as Sentry from '@sentry/nextjs';
 import { clientEnv } from '@/env.client';
 import { errorReporter } from './report-error';
+import { baseSentryOptions } from './sentry-options';
 
 export const register = (): void => {
   if (!clientEnv.NEXT_PUBLIC_SENTRY_DSN) return;
-  Sentry.init({
-    dsn: clientEnv.NEXT_PUBLIC_SENTRY_DSN,
-    tracesSampleRate: 0,
-    sendDefaultPii: false,
-    ...(clientEnv.NEXT_PUBLIC_SENTRY_ENVIRONMENT ? { environment: clientEnv.NEXT_PUBLIC_SENTRY_ENVIRONMENT } : {})
-  });
+  Sentry.init({ dsn: clientEnv.NEXT_PUBLIC_SENTRY_DSN, ...baseSentryOptions });
 };
 
 export const onRequestError = Sentry.captureRequestError;
