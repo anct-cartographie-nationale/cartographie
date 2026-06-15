@@ -1,6 +1,6 @@
-# Observabilité : capture d'erreurs (Sentry)
+# Observabilité : capture d'erreurs (Sentry) et logs structurés (pino)
 
-Ce document décrit le système de capture d'erreurs de la Cartographie : ce qui est capté, comment c'est câblé, et les étapes de configuration nécessaires pour que les erreurs remontent réellement en production.
+Ce document décrit l'observabilité de la Cartographie : la capture d'erreurs (Sentry), les logs structurés serveur (pino → Grafana), ce qui est capté, comment c'est câblé, et la configuration nécessaire en production.
 
 ## Table des matières
 
@@ -9,7 +9,7 @@ Ce document décrit le système de capture d'erreurs de la Cartographie : ce qui
 - [Configuration requise](#configuration-requise)
 - [⚠️ Ne pas lancer le wizard Sentry](#️-ne-pas-lancer-le-wizard-sentry)
 - [Vérification locale (Bugsink)](#vérification-locale-bugsink)
-- [Étapes opérationnelles](#étapes-opérationnelles)
+- [Logs structurés serveur](#logs-structurés-serveur)
 - [Limitations assumées](#limitations-assumées)
 
 ---
@@ -85,6 +85,43 @@ Voir `.env.example`. Côté Sentry :
 ## Vérification locale (Bugsink)
 
 `docker-compose.yml` fournit un service [Bugsink](https://www.bugsink.com/) (compatible protocole Sentry, conteneur unique, SQLite, éphémère) pour vérifier la capture de bout en bout sans toucher au projet Sentry de prod. Pointer `NEXT_PUBLIC_SENTRY_DSN` du `.env` local vers le DSN Bugsink, puis déclencher une erreur.
+
+## Logs structurés serveur
+
+En complément de Sentry (erreurs), les requêtes serveur émettent des **logs structurés JSON** via le pilier `logger` de `@arckit/telemetry` (pino). Scaleway Serverless Containers collecte automatiquement **stdout/stderr → Cockpit (Loki)**, consultable dans le Grafana intégré (LogQL), 7 jours de rétention, sans agent.
+
+Câblage dans `src/configuration/telemetry/logger/server.ts` (**server-only**, runtime Node) :
+
+| Export             | Rôle                                                                      |
+|--------------------|---------------------------------------------------------------------------|
+| `logger`           | `createPinoLogger({ getScope, getIdentity, getTrace })` — JSON sur stdout |
+| `withLogger`       | `createWithLogger(logger)` — enveloppe un handler de **route**            |
+| `withActionLogger` | `withLogger(logger)` (pilier action) — middleware de **server action**    |
+
+Le logger enveloppe le handler ; pour les routes d'export il passe **par-dessus** `withErrorHandler` afin de capter le statut final mappé :
+
+```ts
+// route simple
+.handle(withLogger('api:lieux')(async ({ lieux }) => Response.json(lieux)));
+// route d'export (logger au-dessus de l'error handler)
+.handle(withLogger('api:lieux:export')(withErrorHandler(MAP, MSG)(async ({ lieux }) => csvStreamResponse(...))));
+// server action
+.use(withActionLogger('action:contact:send'))
+```
+
+**Forme des logs** : `event` = `<nom>:success` (retour) ou `<nom>:failure` (exception, puis rethrow → reste capté par `onRequestError`). Attributs : `method`, `path`, `status`, `durationMs` (+ `error.type` sur échec). Émission **différée** via `after()` (réponse non bloquante).
+
+**Couverture** : 19 des 21 routes + l'action contact. **Exclusions assumées** : `api/health` (sondée en continu par le monitoring → bruit) et `api/fragilite-numerique/[...params]` (handler Next brut hors `routeBuilder` + proxy de tuiles très fréquent).
+
+**Requêtes LogQL utiles** (Grafana → Explore) :
+
+```logql
+{service="cartographie"} | json | status >= 500
+{service="cartographie"} | json | durationMs > 1000
+{service="cartographie"} | json | event = "api:lieux:export:failure"
+```
+
+> Les `console.*` restants sont du code **navigateur** (`geolocate.tsx`, web-component) — non collectés par Scaleway (seul le stdout serveur l'est) et hors pino (Node-only).
 
 ## Limitations assumées
 
