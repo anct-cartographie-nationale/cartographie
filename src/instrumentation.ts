@@ -6,6 +6,16 @@ export async function register() {
   registerErrorReporter();
   if (process.env['NEXT_RUNTIME'] === 'nodejs') {
     const { getAllLieux } = await import('@/libraries/lieux-cache');
-    await getAllLieux();
+    try {
+      await getAllLieux();
+    } catch (error) {
+      const { errorReporter } = await import('@/configuration/telemetry/error-reporter');
+      errorReporter.captureException({
+        error: error instanceof Error ? error : new Error(String(error)),
+        level: 'fatal',
+        attributes: { 'startup.phase': 'cache-warm' }
+      });
+      throw error;
+    }
   }
 }
