@@ -52,7 +52,6 @@ export default sentryAuthToken
       widenClientFileUpload: true,
       disableLogger: true,
       reactComponentAnnotation: { enabled: true },
-      tunnelRoute: '/monitoring',
       sourcemaps: { deleteSourcemapsAfterUpload: true },
       ...(sentryOrg ? { org: sentryOrg } : {}),
       ...(sentryProject ? { project: sentryProject } : {})
