@@ -1,4 +1,5 @@
-import { csvStreamResponse, routeBuilder, withErrorHandler, withFetch, withSearchParams } from '@arckit/nextjs/route';
+import { csvStreamResponse, routeBuilder, withFetch, withSearchParams } from '@arckit/nextjs/route';
+import { withErrorHandler } from '@/configuration/telemetry/error-reporter/server';
 import { withRegion } from '@/features/collectivites-territoriales/middlewares/route';
 import { mediationNumeriqueToCsvLines } from '@/features/lieux-inclusion-numerique';
 import { fetchAllLieux } from '@/features/lieux-inclusion-numerique/abilities/export/query';

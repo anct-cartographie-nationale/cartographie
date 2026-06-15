@@ -1,4 +1,5 @@
 import { Toaster } from '@arckit/daisyui/blocks-client';
+import { createNoopReporter } from '@arckit/telemetry/error-reporter';
 import { RouterProvider } from '@tanstack/react-router';
 import { type FC, useMemo } from 'react';
 import { EVENT_TRACKER_CONFIG } from '@/configuration/telemetry/event-tracker';
@@ -10,6 +11,7 @@ import { provide } from '@/libraries/injection';
 import { invalidateMapLocationIfChanged, THEME_COLORS } from '@/libraries/map';
 import { API_BASE_URL } from '@/shared/injection/keys/api-base-url.key';
 import { CONTACT_ACTION } from '@/shared/injection/keys/contact-action.key';
+import { ERROR_REPORTER } from '@/shared/injection/keys/error-reporter.key';
 import { SITE_URL } from '@/shared/injection/keys/site-url.key';
 import { TERRITOIRE_FILTER, type TerritoireType } from '@/shared/injection/keys/territoire-filter.key';
 import { getThemeColors } from '@/shared/ui';
@@ -49,6 +51,7 @@ export const App: FC<AppProps> = ({
   matomoSiteId
 }) => {
   provide(API_BASE_URL, apiUrl);
+  provide(ERROR_REPORTER, createNoopReporter());
   provide(SITE_URL, siteUrl);
   provide(NAVBAR_CONFIG, { logoUrl, appName, helpUrl, helpLabel, homeUrl: routeInitiale });
   provide(MAP_CONFIG, { latitude, longitude, zoom });

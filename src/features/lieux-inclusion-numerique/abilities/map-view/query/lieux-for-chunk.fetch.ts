@@ -1,7 +1,7 @@
 import { inject } from '@/libraries/injection';
 import type { Position2D } from '@/libraries/map';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
-import { API_BASE_URL } from '@/shared/injection';
+import { API_BASE_URL, ERROR_REPORTER } from '@/shared/injection';
 import { LIEUX_CACHE, type LieuxForChunk } from '../../../injection';
 import type { Lieu } from './lieu';
 import { ensureCacheLimit } from './lieux.cache';
@@ -46,7 +46,11 @@ export const fetchLieuxForChunk: LieuxForChunk = async (
   });
 
   if (!response.ok) {
-    console.error(`Failed to fetch lieux for chunk [${latitude}, ${longitude}]`);
+    inject(ERROR_REPORTER).captureMessage({
+      message: `Failed to fetch lieux for chunk [${latitude}, ${longitude}]`,
+      level: 'error',
+      attributes: { status: response.status, latitude, longitude }
+    });
     return [];
   }
 
