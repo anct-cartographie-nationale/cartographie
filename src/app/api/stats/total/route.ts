@@ -1,4 +1,5 @@
 import { routeBuilder, withFetch, withSearchParams } from '@arckit/nextjs/route';
+import { withLogger } from '@/configuration/telemetry/logger/server';
 import { countLieux } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 
@@ -9,4 +10,4 @@ export const GET = routeBuilder()
       cache: { cacheKey: ({ searchParams }) => ['total', searchParams], revalidate: false, tags: ['lieux'] }
     })
   )
-  .handle(async ({ totalLieux }) => Response.json({ totalLieux }));
+  .handle(withLogger('api:stats:total')(async ({ totalLieux }) => Response.json({ totalLieux })));

@@ -1,4 +1,5 @@
 import { routeBuilder, withFetch, withSearchParams } from '@arckit/nextjs/route';
+import { withLogger } from '@/configuration/telemetry/logger/server';
 import { withRegion } from '@/features/collectivites-territoriales/middlewares/route';
 import { countLieux } from '@/features/lieux-inclusion-numerique/abilities/count/count-lieux';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
@@ -17,4 +18,4 @@ export const GET = routeBuilder()
       }
     })
   )
-  .handle(async ({ totalLieux }) => Response.json({ totalLieux }));
+  .handle(withLogger('api:stats:regions:detail')(async ({ totalLieux }) => Response.json({ totalLieux })));
