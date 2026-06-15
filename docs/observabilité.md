@@ -45,6 +45,7 @@ L'enregistrement se fait via les points d'entrée Next.js :
 | Transitions de navigation                                     | `onRouterTransitionStart`                         |
 | Fetch chunk carte (client)                                    | `inject(ERROR_REPORTER).captureMessage`           |
 | Rafraîchissement cache en arrière-plan (`/api/cache/reset`)   | `invalidateCache(onError)` → reporter au boundary |
+| Chargement du cache au démarrage (warm-up ANCT)               | `instrumentation.ts` try/catch → `captureException` (`startup.phase`) |
 
 Les emails sont caviardés avant envoi (`beforeSend: scrubEvent`) ; `sendDefaultPii: false` retire cookies/headers/IP.
 
