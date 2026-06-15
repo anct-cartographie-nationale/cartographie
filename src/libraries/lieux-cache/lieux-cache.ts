@@ -50,11 +50,7 @@ const getStore = (): Promise<LieuxStore> => {
   return currentStore;
 };
 
-// Recharge le dataset depuis ANCT et remplace le cache mémoire. Renvoie la promesse du
-// refresh (rejetée en cas d'échec) ; les appels concurrents partagent le même refresh en cours.
-// L'appelant doit attendre cette promesse AVANT d'invalider les caches en aval (Next/nginx),
-// sinon ils se réamorcent avec des données encore périmées.
-export const invalidateCache = (): Promise<void> => {
+export const invalidateCache = async (): Promise<void> => {
   currentRefresh ??= inclusionNumeriqueFetchApi(LIEUX_ROUTE, {}, undefined, { noCache: true })
     .then(([data]) => data)
     .then((data) => {
