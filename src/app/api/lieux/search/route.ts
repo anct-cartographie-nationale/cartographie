@@ -1,5 +1,6 @@
 import { routeBuilder, withFetch, withSearchParams } from '@arckit/nextjs/route';
 import { z } from 'zod';
+import { withLogger } from '@/configuration/telemetry/logger/server';
 import { searchLieuxByName } from '@/features/lieux-inclusion-numerique/abilities/map-view/query/search-lieux-by-name.server';
 
 const searchSchema = z.object({
@@ -13,4 +14,4 @@ export const GET = routeBuilder()
       cache: { cacheKey: ({ searchParams }) => ['search', searchParams.q], revalidate: false, tags: ['lieux'] }
     })
   )
-  .handle(async ({ lieux }) => Response.json(lieux));
+  .handle(withLogger('api:lieux:search')(async ({ lieux }) => Response.json(lieux)));

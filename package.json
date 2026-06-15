@@ -47,7 +47,7 @@
   "dependencies": {
     "@arckit/daisyui": "^1.2.1",
     "@arckit/form": "^2.0.1",
-    "@arckit/nextjs": "^2.1.0",
+    "@arckit/nextjs": "^2.2.1",
     "@arckit/pipeline": "^1.0.0",
     "@arckit/resultset": "^2.0.0",
     "@arckit/telemetry": "^1.4.0",
@@ -82,6 +82,7 @@
     "nodemailer": "^8.0.10",
     "nuqs": "^2.8.9",
     "opening_hours": "^3.12.0",
+    "pino": "^10.3.1",
     "piqure": "^2.2.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

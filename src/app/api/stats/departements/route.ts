@@ -1,4 +1,5 @@
 import { routeBuilder, withFetch, withSearchParams } from '@arckit/nextjs/route';
+import { withLogger } from '@/configuration/telemetry/logger/server';
 import { fetchDepartementsStats } from '@/features/collectivites-territoriales/abilities/stats-query';
 import { filtersSchema } from '@/libraries/inclusion-numerique-api';
 
@@ -9,4 +10,4 @@ export const GET = routeBuilder()
       cache: { cacheKey: ({ searchParams }) => ['departements', searchParams], revalidate: false, tags: ['lieux'] }
     })
   )
-  .handle(async ({ departementsStats }) => Response.json(departementsStats));
+  .handle(withLogger('api:stats:departements')(async ({ departementsStats }) => Response.json(departementsStats)));
