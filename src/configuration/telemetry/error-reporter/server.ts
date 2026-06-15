@@ -6,7 +6,12 @@ import { errorReporter } from './report-error';
 
 export const register = (): void => {
   if (!clientEnv.NEXT_PUBLIC_SENTRY_DSN) return;
-  Sentry.init({ dsn: clientEnv.NEXT_PUBLIC_SENTRY_DSN, tracesSampleRate: 0, sendDefaultPii: false });
+  Sentry.init({
+    dsn: clientEnv.NEXT_PUBLIC_SENTRY_DSN,
+    tracesSampleRate: 0,
+    sendDefaultPii: false,
+    ...(clientEnv.NEXT_PUBLIC_SENTRY_ENVIRONMENT ? { environment: clientEnv.NEXT_PUBLIC_SENTRY_ENVIRONMENT } : {})
+  });
 };
 
 export const onRequestError = Sentry.captureRequestError;
