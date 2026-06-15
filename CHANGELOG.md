@@ -1,3 +1,10 @@
+## [6.22.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.22.0...v6.22.1) (2026-06-15)
+
+
+### Bug Fixes
+
+* **telemetry:** send Sentry events directly instead of via broken tunnel ([8eb182c](https://github.com/anct-cartographie-nationale/cartographie/commit/8eb182c613afb87169973bf3b17ad19ffb62f3f4))
+
 # [6.22.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.21.0...v6.22.0) (2026-06-15)
 
 
