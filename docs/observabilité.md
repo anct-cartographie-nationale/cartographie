@@ -90,6 +90,7 @@ Voir `.env.example`. Côté Sentry :
 
 Arbitrages conscients, à lever si le besoin apparaît :
 
+- **Pas de tunnel Sentry** (`tunnelRoute`) → les events sont envoyés **directement** au host du DSN. Le tunnel (proxy via `/monitoring` pour contourner les bloqueurs) est **incompatible avec notre déploiement `output: 'standalone'`** : la route auto-générée n'est pas tracée dans le bundle standalone, donc `/monitoring` renvoyait le HTML de l'app et les events étaient perdus. Comme l'instance est sur un domaine gouv custom (absent des listes Pi-hole/uBlock, qui ciblent `sentry.io`), l'envoi direct est fiable. Ne pas réintroduire `tunnelRoute` sans vérifier que la route est servie en prod.
 - **Pas de tracing distribué** (`tracesSampleRate: 0`) → les erreurs n'ont pas de trace liée. Le reporter supporte déjà `getTrace` ; il suffirait d'un petit taux + câbler le getter pour la corrélation erreur↔trace à travers l'API ANCT.
 - **Web-component sans reporting** — le build embarquable utilise `createNoopReporter()` pour garder Sentry hors du bundle. Les erreurs dans `<cartographie-inclusion-numerique>` sont invisibles. Option si besoin : beacon léger vers un endpoint de report.
 - **Pas de Session Replay** — choix de simplicité / vie privée pour une carte publique.
