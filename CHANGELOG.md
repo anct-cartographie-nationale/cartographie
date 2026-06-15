@@ -1,3 +1,21 @@
+# [6.22.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.21.0...v6.22.0) (2026-06-15)
+
+
+### Bug Fixes
+
+* **infra:** harden DB-IP download against month-boundary 404s ([0efe15b](https://github.com/anct-cartographie-nationale/cartographie/commit/0efe15bcadab5a2ff104e47ea99e76c5c6e33833))
+* **infra:** pin Alpine base image to 3.23 ([0fbe8d2](https://github.com/anct-cartographie-nationale/cartographie/commit/0fbe8d207bc025c80f08019f7453d6d7427ab7e5))
+
+
+### Features
+
+* **telemetry:** add sentry error reporting via @arckit/telemetry ([4f1548d](https://github.com/anct-cartographie-nationale/cartographie/commit/4f1548da416f412906d5972682f3bf2088b7c699))
+* **telemetry:** capture errors in CSV export routes, contact action and map fetch ([d2e357b](https://github.com/anct-cartographie-nationale/cartographie/commit/d2e357bdf3bcc0117e9b60efc4730ec38c242fa5))
+* **telemetry:** complete error-reporter wiring and capture paths ([e5c9fb1](https://github.com/anct-cartographie-nationale/cartographie/commit/e5c9fb199aff909ea1d0c385eafa889f50f6d929))
+* **telemetry:** report background cache refresh failures ([2c463d6](https://github.com/anct-cartographie-nationale/cartographie/commit/2c463d60af1add4696c63d6d16f4a43a0bf4f301))
+* **telemetry:** scrub PII and filter noise from Sentry events ([5f631b9](https://github.com/anct-cartographie-nationale/cartographie/commit/5f631b97aa825493512d12767178215fcc3bfd59))
+* **telemetry:** tag Sentry events with environment ([58fe28c](https://github.com/anct-cartographie-nationale/cartographie/commit/58fe28cd37a1d3658197fbe9e49dc687d9810dd2))
+
 # [6.21.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.20.2...v6.21.0) (2026-05-30)
 
 
