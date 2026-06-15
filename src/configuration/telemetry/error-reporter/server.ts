@@ -10,7 +10,15 @@ export const register = (): void => {
   Sentry.init({ dsn: clientEnv.NEXT_PUBLIC_SENTRY_DSN, ...baseSentryOptions });
 };
 
-export const onRequestError = Sentry.captureRequestError;
+// Tag les erreurs serveur avec le request_id propagé par nginx (header X-Request-Id)
+// → corrélation entre les access logs nginx et l'event Sentry.
+export const onRequestError = (...[error, request, errorContext]: Parameters<typeof Sentry.captureRequestError>): void => {
+  const requestId = request.headers['x-request-id'];
+  Sentry.withScope((scope) => {
+    if (typeof requestId === 'string') scope.setTag('request_id', requestId);
+    Sentry.captureRequestError(error, request, errorContext);
+  });
+};
 
 export const withErrorReporter = createWithErrorReporter(errorReporter);
 
