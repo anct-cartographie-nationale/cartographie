@@ -1,5 +1,4 @@
 import { routeBuilder, withFetch, withSearchParams } from '@arckit/nextjs/route';
-import { withLogger } from '@/configuration/telemetry/logger/server';
 import { appendCollectivites } from '@/features/collectivites-territoriales';
 import { withRegion } from '@/features/collectivites-territoriales/middlewares/route';
 import { fetchLieux } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieux';
@@ -26,8 +25,6 @@ export const GET = routeBuilder()
       }
     )
   )
-  .handle(
-    withLogger('api:lieux:region')(async ({ lieuxData: { items, totalItems } }) =>
-      Response.json({ lieux: items.map((lieu) => toLieuListItem()(appendCollectivites(lieu))), totalLieux: totalItems })
-    )
+  .handle(async ({ lieuxData: { items, totalItems } }) =>
+    Response.json({ lieux: items.map((lieu) => toLieuListItem()(appendCollectivites(lieu))), totalLieux: totalItems })
   );

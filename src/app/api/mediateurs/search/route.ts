@@ -1,6 +1,5 @@
 import { routeBuilder, withFetch, withSearchParams } from '@arckit/nextjs/route';
 import { z } from 'zod';
-import { withLogger } from '@/configuration/telemetry/logger/server';
 import { searchMediateursByName } from '@/features/lieux-inclusion-numerique/abilities/mediateurs-search/query/search-mediateurs-by-name';
 
 const searchSchema = z.object({
@@ -16,4 +15,4 @@ export const GET = routeBuilder()
       cache: { cacheKey: ({ searchParams }) => ['mediateurs', searchParams.q], revalidate: SIX_HOURS }
     })
   )
-  .handle(withLogger('api:mediateurs:search')(async ({ mediateurs }) => Response.json(mediateurs)));
+  .handle(async ({ mediateurs }) => Response.json(mediateurs));
