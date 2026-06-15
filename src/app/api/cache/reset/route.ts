@@ -9,8 +9,6 @@ export const POST = routeBuilder()
   .use(withStaticBearerAuth(serverEnv.CACHE_RESET_TOKEN))
   .handle(async () => {
     try {
-      // Recharger le cache mémoire AVANT d'invalider le cache de données Next : sinon une
-      // requête concurrente réamorcerait le tag 'lieux' avec des données encore périmées.
       await invalidateCache();
     } catch (error) {
       errorReporter.captureException({
