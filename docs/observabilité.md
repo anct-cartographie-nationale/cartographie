@@ -97,6 +97,8 @@ En complément de Sentry (erreurs), les logs reposent sur **deux couches distinc
 
 > **Pas de log de requête au niveau applicatif.** nginx logge déjà chaque requête (statut, durée *app* via `upstream_time`, etc.) ; le dupliquer côté app (un `withLogger` par route) n'apporterait rien tant qu'on n'a ni tracing ni identité → c'est **nginx la source des logs de requêtes**. Le `logger` pino est réservé aux signaux que l'edge ne voit pas. Sentry reste la source des **erreurs** (stack/contexte).
 
+**Corrélation logs ↔ Sentry.** nginx génère un `request_id` (`$request_id`), l'inclut dans son log JSON **et** le transmet à l'app (header `X-Request-Id`) ; `onRequestError` (`server.ts`) le pose comme **tag Sentry**. → d'un `500` repéré dans les logs nginx, on retrouve l'event Sentry via `request_id` (et inversement) : `{<selecteur>} | json | request_id = "<id>"`.
+
 ### Couche edge — nginx
 
 `infrastructure/nginx/nginx.conf` : `log_format main escape=json` → `access_log /dev/stdout main if=$loggable`. Le `map $loggable` exclut `/api/health` du stdout (sondé en continu = bruit). ⚠️ Le second `access_log … combined` (fichier) alimente **CrowdSec** — ne pas le modifier.
