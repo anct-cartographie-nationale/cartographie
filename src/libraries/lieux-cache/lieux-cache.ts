@@ -11,7 +11,7 @@ type LieuxStore = {
 
 let currentData: Promise<LieuxRouteResponse> | null = null;
 let currentStore: Promise<LieuxStore> | null = null;
-let isRefreshing = false;
+let currentRefresh: Promise<void> | null = null;
 let lastRefreshedAt: string | null = null;
 
 const collator = new Intl.Collator('fr', { sensitivity: 'base' });
@@ -50,20 +50,22 @@ const getStore = (): Promise<LieuxStore> => {
   return currentStore;
 };
 
-export const invalidateCache = (onError: (error: unknown) => void = () => {}): void => {
-  if (isRefreshing) return;
-  isRefreshing = true;
-  const freshData = inclusionNumeriqueFetchApi(LIEUX_ROUTE, {}, undefined, { noCache: true }).then(([data]) => data);
-  freshData
+// Recharge le dataset depuis ANCT et remplace le cache mémoire. Renvoie la promesse du
+// refresh (rejetée en cas d'échec) ; les appels concurrents partagent le même refresh en cours.
+// L'appelant doit attendre cette promesse AVANT d'invalider les caches en aval (Next/nginx),
+// sinon ils se réamorcent avec des données encore périmées.
+export const invalidateCache = (): Promise<void> => {
+  currentRefresh ??= inclusionNumeriqueFetchApi(LIEUX_ROUTE, {}, undefined, { noCache: true })
+    .then(([data]) => data)
     .then((data) => {
       currentData = Promise.resolve(data);
       currentStore = Promise.resolve(buildStore(data));
       lastRefreshedAt = new Date().toISOString();
     })
-    .catch(onError)
     .finally(() => {
-      isRefreshing = false;
+      currentRefresh = null;
     });
+  return currentRefresh;
 };
 
 export const getAllLieux = async (): Promise<LieuxRouteResponse> => (await getStore()).all;
