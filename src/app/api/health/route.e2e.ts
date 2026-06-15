@@ -5,6 +5,9 @@ test.describe('Health check endpoint', () => {
     const response = await request.get('/api/health');
 
     expect(response.status()).toBe(200);
-    expect(await response.json()).toEqual({ status: 'ok' });
+
+    const body = await response.json();
+    expect(body.status).toBe('ok');
+    expect(body.cache.lastRefreshedAt === null || typeof body.cache.lastRefreshedAt === 'string').toBe(true);
   });
 });
