@@ -12,6 +12,7 @@ type LieuxStore = {
 let currentData: Promise<LieuxRouteResponse> | null = null;
 let currentStore: Promise<LieuxStore> | null = null;
 let isRefreshing = false;
+let lastRefreshedAt: string | null = null;
 
 const collator = new Intl.Collator('fr', { sensitivity: 'base' });
 
@@ -35,7 +36,11 @@ const getData = (): Promise<LieuxRouteResponse> => {
 
 const getStore = (): Promise<LieuxStore> => {
   if (!currentStore) {
-    currentStore = getData().then(buildStore);
+    currentStore = getData().then((data) => {
+      const store = buildStore(data);
+      lastRefreshedAt = new Date().toISOString();
+      return store;
+    });
   }
   return currentStore;
 };
@@ -48,6 +53,7 @@ export const invalidateCache = (onError: (error: unknown) => void = () => {}): v
     .then((data) => {
       currentData = Promise.resolve(data);
       currentStore = Promise.resolve(buildStore(data));
+      lastRefreshedAt = new Date().toISOString();
     })
     .catch(onError)
     .finally(() => {
@@ -60,3 +66,5 @@ export const getAllLieux = async (): Promise<LieuxRouteResponse> => (await getSt
 export const getLieuById = async (id: string): Promise<Lieu | undefined> => (await getStore()).byId.get(id);
 
 export const getOpeningHoursCache = async (): Promise<OpeningHoursCache> => (await getStore()).openingHours;
+
+export const getCacheStatus = (): { lastRefreshedAt: string | null } => ({ lastRefreshedAt });
