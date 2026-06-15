@@ -88,7 +88,20 @@ Voir `.env.example`. Côté Sentry :
 
 ## Logs structurés serveur
 
-En complément de Sentry (erreurs), les requêtes serveur émettent des **logs structurés JSON** via le pilier `logger` de `@arckit/telemetry` (pino). Scaleway Serverless Containers collecte automatiquement **stdout/stderr → Cockpit (Loki)**, consultable dans le Grafana intégré (LogQL), 7 jours de rétention, sans agent.
+En complément de Sentry (erreurs), les logs reposent sur **deux couches complémentaires**, toutes deux en **JSON sur stdout** → collectées automatiquement par Scaleway Cockpit (Loki), requêtables dans le Grafana intégré avec `| json`, 7 jours de rétention, sans agent :
+
+| Couche          | Source                            | Couvre                                                                                                                  | Pour                                            |
+|-----------------|-----------------------------------|-------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
+| **Edge**        | nginx (`access_log` JSON)         | **toutes** les requêtes (pages, statiques, 403, API) : `status`/`method`/`path`/`request_time`/`country`/`cache_status` | trafic, taux d'erreur, latence edge, géo, cache |
+| **Application** | pino (`@arckit/telemetry/logger`) | routes `/api/*` instrumentées + action : `event` sémantique, `status`, `durationMs` (app), `:success`/`:failure`        | alerting applicatif fin, durée hors edge        |
+
+Les champs `status` / `method` / `path` sont **alignés** entre les deux couches → requêtes LogQL uniformes. *(Sentry reste la source des **erreurs** avec stack/contexte ; les logs servent au trafic/latence/alerting, pas au debug d'exception.)*
+
+### Couche edge — nginx
+
+`infrastructure/nginx/nginx.conf` : `log_format main escape=json` → `access_log /dev/stdout main if=$loggable`. Le `map $loggable` exclut `/api/health` du stdout (sondé en continu = bruit). ⚠️ Le second `access_log … combined` (fichier) alimente **CrowdSec** — ne pas le modifier.
+
+### Couche application — pino
 
 Câblage dans `src/configuration/telemetry/logger/server.ts` (**server-only**, runtime Node) :
 
@@ -113,12 +126,18 @@ Le logger enveloppe le handler ; pour les routes d'export il passe **par-dessus*
 
 **Couverture** : 19 des 21 routes + l'action contact. **Exclusions assumées** : `api/health` (sondée en continu par le monitoring → bruit) et `api/fragilite-numerique/[...params]` (handler Next brut hors `routeBuilder` + proxy de tuiles très fréquent).
 
-**Requêtes LogQL utiles** (Grafana → Explore) :
+**Requêtes LogQL utiles** (Grafana → Explore). Remplace `<selecteur>` par le label réel du conteneur dans Cockpit (à confirmer dans Grafana → Explore : souvent `resource_name` / `container_name`, **pas** `service`) :
 
 ```logql
-{service="cartographie"} | json | status >= 500
-{service="cartographie"} | json | durationMs > 1000
-{service="cartographie"} | json | event = "api:lieux:export:failure"
+# Edge (nginx) — toutes les requêtes
+{<selecteur>} | json | status >= 500                       # taux d'erreur global
+{<selecteur>} | json | request_time > 1.0                  # requêtes lentes (edge, secondes)
+sum by (status) (count_over_time({<selecteur>} | json [5m]))
+
+# Application (pino) — routes instrumentées
+{<selecteur>} | json | event =~ ".*:failure"               # échecs applicatifs
+{<selecteur>} | json | durationMs > 1000                   # handlers lents (app, ms)
+{<selecteur>} | json | event = "api:lieux:export:failure"
 ```
 
 > Les `console.*` restants sont du code **navigateur** (`geolocate.tsx`, web-component) — non collectés par Scaleway (seul le stdout serveur l'est) et hors pino (Node-only).
