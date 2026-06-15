@@ -1,3 +1,10 @@
+# [6.24.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.23.0...v6.24.0) (2026-06-15)
+
+
+### Features
+
+* **telemetry:** add structured server request logging ([73141cd](https://github.com/anct-cartographie-nationale/cartographie/commit/73141cd04f8d391968f2379b05f1f24281ba5d75))
+
 # [6.23.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.22.1...v6.23.0) (2026-06-15)
 
 
