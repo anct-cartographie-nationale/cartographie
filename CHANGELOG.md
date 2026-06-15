@@ -1,3 +1,10 @@
+# [6.23.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.22.1...v6.23.0) (2026-06-15)
+
+
+### Features
+
+* **health:** expose cache last-refresh timestamp ([f9a4d09](https://github.com/anct-cartographie-nationale/cartographie/commit/f9a4d091cfd0104b3f52890c99c7c2626cf3efc0))
+
 ## [6.22.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.22.0...v6.22.1) (2026-06-15)
 
 
