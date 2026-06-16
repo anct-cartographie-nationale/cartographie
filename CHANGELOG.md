@@ -1,3 +1,19 @@
+# [6.25.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.24.0...v6.25.0) (2026-06-16)
+
+
+### Bug Fixes
+
+* **cache:** await memory refresh before invalidating Next cache on reset ([2ea5904](https://github.com/anct-cartographie-nationale/cartographie/commit/2ea59047881c3fd73c55f3920b246f01c0410482))
+* **infra:** shorten nginx cache TTL to 5m so cache reset propagates ([62b786b](https://github.com/anct-cartographie-nationale/cartographie/commit/62b786b964660d14a808ca038cd8870e92d2883c))
+* **lieux-cache:** retry on failed load instead of caching rejection ([fe3379e](https://github.com/anct-cartographie-nationale/cartographie/commit/fe3379e7411d926df311a99dc26a3f4eb1d1ffff))
+
+
+### Features
+
+* **observability:** correlate nginx logs and Sentry via request_id ([aba6a86](https://github.com/anct-cartographie-nationale/cartographie/commit/aba6a868f0209a98c268ec1bab160acaa70f64cb))
+* **observability:** emit nginx access logs as JSON for Grafana ([4614093](https://github.com/anct-cartographie-nationale/cartographie/commit/4614093beeec01fdca6e79da0d859f4b5bc7cf1d))
+* **telemetry:** capture cache warm-up failure at startup ([5f70215](https://github.com/anct-cartographie-nationale/cartographie/commit/5f70215844fb49f2aecad31f4533a4c8b4fc63d5))
+
 # [6.24.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.23.0...v6.24.0) (2026-06-15)
 
 
