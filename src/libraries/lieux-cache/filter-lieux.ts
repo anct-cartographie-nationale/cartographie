@@ -74,7 +74,8 @@ const toFastPredicates = (filters: FiltersSchema, collectivite?: Collectivite): 
     containsAny((l) => l.frais_a_charge, filters.frais_a_charge),
     containsAny((l) => l.dispositif_programmes_nationaux, filters.dispositif_programmes_nationaux),
     containsAny((l) => l.autres_formations_labels, filters.autres_formations_labels),
-    filters.prise_rdv.length > 0 ? (lieu: Lieu) => lieu.prise_rdv != null : undefined
+    filters.prise_rdv.length > 0 ? (lieu: Lieu) => lieu.prise_rdv != null : undefined,
+    filters.source != null ? (lieu: Lieu) => lieu.source === filters.source : undefined
   ].filter((p): p is LieuPredicate => p != null);
 
 const toOHPredicates = (filters: FiltersSchema, ohCache?: OpeningHoursCache): LieuPredicate[] =>

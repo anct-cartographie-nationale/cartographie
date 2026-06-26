@@ -66,6 +66,9 @@ export const invalidateCache = async (): Promise<void> => {
 
 export const getAllLieux = async (): Promise<LieuxRouteResponse> => (await getStore()).all;
 
+export const getSources = async (): Promise<string[]> =>
+  [...new Set((await getAllLieux()).map((lieu) => lieu.source).filter(Boolean))].sort((a, b) => collator.compare(a, b));
+
 export const getLieuById = async (id: string): Promise<Lieu | undefined> => (await getStore()).byId.get(id);
 
 export const getOpeningHoursCache = async (): Promise<OpeningHoursCache> => (await getStore()).openingHours;
