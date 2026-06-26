@@ -113,6 +113,29 @@ describe('filterLieux', () => {
     });
   });
 
+  describe('filtre par source', () => {
+    it('garde les lieux de la source demandée', () => {
+      const lieux = [
+        lieu({ id: '1', source: 'data_inclusion' }),
+        lieu({ id: '2', source: 'conseiller_numerique' }),
+        lieu({ id: '3', source: 'data_inclusion' })
+      ];
+
+      const result = filterLieux(lieux, { ...emptyFilters, source: 'data_inclusion' });
+
+      expect(result).toHaveLength(2);
+      expect(result.map((l) => l.id)).toEqual(['1', '3']);
+    });
+
+    it('ne filtre pas quand source est undefined', () => {
+      const lieux = [lieu({ id: '1', source: 'data_inclusion' }), lieu({ id: '2', source: 'conseiller_numerique' })];
+
+      const result = filterLieux(lieux, { ...emptyFilters, source: undefined });
+
+      expect(result).toHaveLength(2);
+    });
+  });
+
   describe('combinaison de filtres (AND entre types)', () => {
     it('combine services ET dispositif (les deux doivent matcher)', () => {
       const lieux = [

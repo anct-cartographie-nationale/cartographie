@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@arckit/daisyui/theme';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 import type { FC, ReactNode } from 'react';
 import { MapProvider } from 'react-map-gl/maplibre';
 import { EventTracker } from '@/configuration/telemetry/event-tracker';
@@ -12,6 +12,7 @@ import {
   PublicCibleFilters,
   TerritoiresPrioritairesFilters
 } from '@/features/lieux-inclusion-numerique';
+import { fetchSources } from './api/stats';
 import { LoadStreamSync } from './components/load-stream-sync';
 
 type WebComponentLayoutProps = {
@@ -19,6 +20,11 @@ type WebComponentLayoutProps = {
 };
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 1000 * 60 * 5, retry: 1 } } });
+
+const DisponibiliteFiltersWithSources: FC = () => {
+  const { data: sources } = useQuery({ queryKey: ['sources'], queryFn: fetchSources });
+  return <DisponibiliteFilters sources={sources ?? []} />;
+};
 
 export const WebComponentLayout: FC<WebComponentLayoutProps> = ({ children }) => (
   <QueryClientProvider client={queryClient}>
@@ -38,7 +44,7 @@ export const WebComponentLayout: FC<WebComponentLayoutProps> = ({ children }) =>
               <>
                 <BesoinsFilters />
                 <PublicCibleFilters />
-                <DisponibiliteFilters />
+                <DisponibiliteFiltersWithSources />
                 <DispositifsFilters />
                 <TerritoiresPrioritairesFilters />
               </>

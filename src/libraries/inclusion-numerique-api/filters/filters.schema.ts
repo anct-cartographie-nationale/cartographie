@@ -64,6 +64,8 @@ const optionalBoolean = z
   .optional()
   .catch(undefined);
 
+const optionalString = z.string().trim().min(1).optional().catch(undefined);
+
 export const filtersSchema = z.object({
   services: commaSeparatedEnumArray(servicesEnum),
   publics_specifiquement_adresses: commaSeparatedEnumArray(publicsSpecifiquementAdressesEnum),
@@ -75,7 +77,8 @@ export const filtersSchema = z.object({
   territoire_type: territoireTypeEnum.optional().catch(undefined),
   territoires: commaSeparatedStringArray,
   ouvert_actuellement: optionalIsoDate,
-  ouvert_le_week_end: optionalBoolean
+  ouvert_le_week_end: optionalBoolean,
+  source: optionalString
 });
 
 export type FiltersSchema = z.infer<typeof filtersSchema>;

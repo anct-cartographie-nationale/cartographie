@@ -165,3 +165,10 @@ export const fetchMediateursSearch = async (query: string): Promise<MediateurSea
   if (!response.ok) throw new Error('Failed to fetch mediateurs search');
   return response.json();
 };
+
+export const fetchSources = async (): Promise<string[]> => {
+  const response = await fetch(buildUrl('/sources'));
+  if (!response.ok) throw new Error('Failed to fetch sources');
+  const data: { sources?: string[] } = await response.json();
+  return data.sources ?? [];
+};
