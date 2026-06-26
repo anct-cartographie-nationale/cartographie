@@ -1,3 +1,10 @@
+# [6.26.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.25.0...v6.26.0) (2026-06-26)
+
+
+### Features
+
+* **filters:** ajout d'un filtre par source de données ([a4f4fd0](https://github.com/anct-cartographie-nationale/cartographie/commit/a4f4fd0662c3b76ef8563c42dfb092e52e307a16))
+
 # [6.25.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.24.0...v6.25.0) (2026-06-16)
 
 
