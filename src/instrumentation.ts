@@ -4,7 +4,7 @@ export { onRequestError } from '@/configuration/telemetry/error-reporter/server'
 
 export async function register() {
   registerErrorReporter();
-  if (process.env['NEXT_RUNTIME'] === 'nodejs') {
+  if (process.env.NEXT_RUNTIME === 'nodejs') {
     const { getAllLieux } = await import('@/libraries/lieux-cache');
     try {
       await getAllLieux();

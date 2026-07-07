@@ -38,7 +38,7 @@ export default pageBuilder()
   )
   .use(withRequired('lieu'))
   .render(async ({ region, departement, lieu, urlSearchParams }) => {
-    const siteUrl = process.env['NEXT_PUBLIC_SITE_URL'];
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
     const lieuPath = `/${region.slug}/${departement.slug}/lieux/${encodeURIComponent(lieu.id)}`;
     const lieuUrl = siteUrl ? `${siteUrl}${lieuPath}` : lieuPath;
 
