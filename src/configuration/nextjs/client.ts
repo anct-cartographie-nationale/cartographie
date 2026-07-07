@@ -1,6 +1,7 @@
 'use client';
 
-import { createClientBinder } from '@arckit/nextjs/client/bindings';
-import { provideLazy } from '@/libraries/injection';
+import { createClientBinder, createUseServerAction } from '@arckit/nextjs/client/bindings';
+import { inject, provideLazy } from '@/libraries/injection';
 
 export const ClientBinder = createClientBinder(provideLazy);
+export const useServerAction = createUseServerAction(inject);

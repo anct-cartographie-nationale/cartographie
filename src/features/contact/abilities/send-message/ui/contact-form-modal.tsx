@@ -2,9 +2,10 @@
 
 import { Button, LoadingButton } from '@arckit/daisyui/primitives';
 import { Modal, ModalActions, ModalBox, ModalCloseButton } from '@arckit/daisyui/primitives-client';
-import { useAppForm } from '@arckit/form';
-import { useTransition } from 'react';
+import { handleAction, handleSubmit, useAppForm } from '@arckit/form';
+import { toastError } from '@arckit/nextjs/client';
 import toast from 'react-hot-toast';
+import { useServerAction } from '@/configuration/nextjs/client';
 import { inject } from '@/libraries/injection';
 import { Link } from '@/libraries/ui/primitives/link';
 import { contactFormSchema } from '../domain/contact-form.schema';
@@ -39,9 +40,21 @@ type ContactFormModalProps = {
   pageUrl?: string | undefined;
 };
 
+const ERROR_MESSAGES: Record<string, string> = {
+  'internal-error': "Une erreur est survenue lors de l'envoi de votre message. Veuillez réessayer."
+};
+
+const contactErrorMessage = (code: string): string => ERROR_MESSAGES[code] ?? 'Une erreur est survenue. Veuillez réessayer.';
+
 export const ContactFormModal = ({ open, onClose, pageUrl }: ContactFormModalProps) => {
-  const sendContactMessage = inject(SEND_CONTACT_MESSAGE_ACTION);
-  const [isPending, startTransition] = useTransition();
+  const [sendContactMessage, isPending] = useServerAction(inject(SEND_CONTACT_MESSAGE_ACTION), {
+    onSuccess: () => {
+      toast.success('Votre message a bien été envoyé.');
+      form.reset();
+      onClose();
+    },
+    onError: toastError(contactErrorMessage)
+  });
 
   const form = useAppForm({
     defaultValues: {
@@ -56,18 +69,7 @@ export const ContactFormModal = ({ open, onClose, pageUrl }: ContactFormModalPro
     validators: {
       onSubmit: contactFormSchema
     },
-    onSubmit: ({ value }) => {
-      startTransition(async () => {
-        const result = await sendContactMessage(value);
-        if (result.success) {
-          toast.success('Votre message a bien été envoyé.');
-          form.reset();
-          onClose();
-        } else {
-          toast.error(result.error);
-        }
-      });
-    }
+    onSubmit: handleAction(sendContactMessage)
   });
 
   const handleCancel = () => {
@@ -101,13 +103,7 @@ export const ContactFormModal = ({ open, onClose, pageUrl }: ContactFormModalPro
           </Link>{' '}
           est disponible.
         </p>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            form.handleSubmit();
-          }}
-          className='flex flex-col gap-4'
-        >
+        <form onSubmit={handleSubmit(form)} className='flex flex-col gap-4'>
           <p className='text-xs text-neutral'>
             <span className='text-error-content'>*</span> Champs obligatoires
           </p>
