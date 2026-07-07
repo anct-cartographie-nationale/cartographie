@@ -1,5 +1,5 @@
-import { render } from '@react-email/render';
 import nodemailer from 'nodemailer';
+import { render } from 'react-email';
 import { serverEnv } from '@/env.server';
 import type { ContactFormData } from '../domain/contact-form.schema';
 import type { SendContactMessage } from '../domain/send-contact-message';

@@ -1,5 +1,5 @@
-import { Body, Column, Container, Head, Hr, Html, Img, Preview, Row, Section, Tailwind, Text } from '@react-email/components';
 import type { ReactNode } from 'react';
+import { Body, Column, Container, Head, Hr, Html, Img, Preview, Row, Section, Tailwind, Text } from 'react-email';
 
 type EmailLayoutProps = {
   preview: string;
