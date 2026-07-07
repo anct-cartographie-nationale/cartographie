@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@arckit/daisyui':
-        specifier: ^1.2.1
+        specifier: ^1.2.2
         version: 1.2.2(8d846397e90aba4df26e88ad4f0af8dc)
       '@arckit/form':
         specifier: ^2.0.1

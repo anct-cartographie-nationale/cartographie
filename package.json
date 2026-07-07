@@ -45,7 +45,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@arckit/daisyui": "^1.2.1",
+    "@arckit/daisyui": "^1.2.2",
     "@arckit/form": "^2.0.1",
     "@arckit/nextjs": "^2.2.2",
     "@arckit/pipeline": "^1.0.0",
