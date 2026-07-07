@@ -1,4 +1,4 @@
-import { Column, Hr, Link, Row, Section, Text } from '@react-email/components';
+import { Column, Hr, Link, Row, Section, Text } from 'react-email';
 import { EmailLayout } from '@/libraries/react-email';
 import type { ContactFormData } from '../domain/contact-form.schema';
 
