@@ -1,3 +1,10 @@
+# [6.27.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.26.1...v6.27.0) (2026-07-10)
+
+
+### Features
+
+* **lieux-cache:** instrument store instances to diagnose stale fiches ([052847a](https://github.com/anct-cartographie-nationale/cartographie/commit/052847a3c47a96a4b40bc93fef7a57426026576d))
+
 ## [6.26.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.26.0...v6.26.1) (2026-07-07)
 
 
