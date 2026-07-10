@@ -10,29 +10,49 @@ type LieuxStore = {
   openingHours: OpeningHoursCache;
 };
 
-// Identity of THIS module instance. If the same process reports more than one
-// instanceId (same pid), the module is duplicated across server bundles; if the
-// pid also differs, requests are hitting distinct replicas. Either way it tells
-// us which store a given request was served from.
-const instanceId = randomUUID();
-const startedAt = new Date().toISOString();
+type LieuxCacheState = {
+  instanceId: string;
+  startedAt: string;
+  currentData: Promise<LieuxRouteResponse> | null;
+  currentStore: Promise<LieuxStore> | null;
+  currentRefresh: Promise<void> | null;
+  lastRefreshedAt: string | null;
+  storeBuiltAt: string | null;
+  lastTrigger: 'lazy' | 'refresh' | null;
+  buildCount: number;
+  size: number | null;
+};
 
-let currentData: Promise<LieuxRouteResponse> | null = null;
-let currentStore: Promise<LieuxStore> | null = null;
-let currentRefresh: Promise<void> | null = null;
-let lastRefreshedAt: string | null = null;
-let storeBuiltAt: string | null = null;
-let lastTrigger: 'lazy' | 'refresh' | null = null;
-let buildCount = 0;
-let size: number | null = null;
+// Anchor the store on globalThis so the two copies of this module — Next bundles
+// it once per server layer (RSC/pages vs route handlers) — share ONE store.
+// Without this, POST /api/cache/reset refreshes only the route-handler copy while
+// pages (generateMetadata, the fiche withFetch) keep serving a stale store built
+// at process start. globalThis is process-scoped, so this still needs a separate
+// answer for multi-replica autoscaling (a single reset reaches only one process).
+const globalStore = globalThis as typeof globalThis & { __lieuxCache?: LieuxCacheState };
+if (!globalStore.__lieuxCache) {
+  globalStore.__lieuxCache = {
+    instanceId: randomUUID(),
+    startedAt: new Date().toISOString(),
+    currentData: null,
+    currentStore: null,
+    currentRefresh: null,
+    lastRefreshedAt: null,
+    storeBuiltAt: null,
+    lastTrigger: null,
+    buildCount: 0,
+    size: null
+  };
+}
+const state = globalStore.__lieuxCache;
 
 const recordBuild = (data: LieuxRouteResponse, trigger: 'lazy' | 'refresh'): void => {
   const now = new Date().toISOString();
-  storeBuiltAt ??= now;
-  lastRefreshedAt = now;
-  lastTrigger = trigger;
-  buildCount += 1;
-  size = data.length;
+  state.storeBuiltAt ??= now;
+  state.lastRefreshedAt = now;
+  state.lastTrigger = trigger;
+  state.buildCount += 1;
+  state.size = data.length;
 };
 
 const collator = new Intl.Collator('fr', { sensitivity: 'base' });
@@ -44,45 +64,47 @@ const buildStore = (data: LieuxRouteResponse): LieuxStore => ({
 });
 
 const getData = (): Promise<LieuxRouteResponse> => {
-  if (!currentData) {
-    currentData = inclusionNumeriqueFetchApi(LIEUX_ROUTE, {}, undefined, { noCache: true })
+  if (!state.currentData) {
+    state.currentData = inclusionNumeriqueFetchApi(LIEUX_ROUTE, {}, undefined, { noCache: true })
       .then(([data]) => data)
       .catch((error: unknown) => {
-        currentData = null;
+        state.currentData = null;
         throw error;
       });
   }
-  return currentData;
+  return state.currentData;
 };
 
 const getStore = (): Promise<LieuxStore> => {
-  if (!currentStore) {
-    currentStore = getData()
+  if (!state.currentStore) {
+    state.currentStore = getData()
       .then((data) => {
         const store = buildStore(data);
         recordBuild(data, 'lazy');
         return store;
       })
       .catch((error: unknown) => {
-        currentStore = null;
+        state.currentStore = null;
         throw error;
       });
   }
-  return currentStore;
+  return state.currentStore;
 };
 
 export const invalidateCache = async (): Promise<void> => {
-  currentRefresh ??= inclusionNumeriqueFetchApi(LIEUX_ROUTE, {}, undefined, { noCache: true })
-    .then(([data]) => data)
-    .then((data) => {
-      currentData = Promise.resolve(data);
-      currentStore = Promise.resolve(buildStore(data));
-      recordBuild(data, 'refresh');
-    })
-    .finally(() => {
-      currentRefresh = null;
-    });
-  return currentRefresh;
+  if (!state.currentRefresh) {
+    state.currentRefresh = inclusionNumeriqueFetchApi(LIEUX_ROUTE, {}, undefined, { noCache: true })
+      .then(([data]) => data)
+      .then((data) => {
+        state.currentData = Promise.resolve(data);
+        state.currentStore = Promise.resolve(buildStore(data));
+        recordBuild(data, 'refresh');
+      })
+      .finally(() => {
+        state.currentRefresh = null;
+      });
+  }
+  return state.currentRefresh;
 };
 
 export const getAllLieux = async (): Promise<LieuxRouteResponse> => (await getStore()).all;
@@ -107,13 +129,13 @@ export type CacheStatus = {
 };
 
 export const getCacheStatus = (): CacheStatus => ({
-  instanceId,
+  instanceId: state.instanceId,
   pid: process.pid,
   uptimeSec: Math.round(process.uptime()),
-  startedAt,
-  storeBuiltAt,
-  lastRefreshedAt,
-  lastTrigger,
-  buildCount,
-  size
+  startedAt: state.startedAt,
+  storeBuiltAt: state.storeBuiltAt,
+  lastRefreshedAt: state.lastRefreshedAt,
+  lastTrigger: state.lastTrigger,
+  buildCount: state.buildCount,
+  size: state.size
 });
