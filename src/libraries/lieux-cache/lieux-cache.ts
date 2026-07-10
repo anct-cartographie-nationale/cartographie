@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { inclusionNumeriqueFetchApi, LIEUX_ROUTE, type LieuxRouteResponse } from '@/libraries/inclusion-numerique-api';
+import { sharedAcrossBundles } from '@/libraries/nextjs/shared-across-bundles';
 import { OpeningHoursCache } from './opening-hours-cache';
 
 type Lieu = LieuxRouteResponse[number];
@@ -23,15 +24,12 @@ type LieuxCacheState = {
   size: number | null;
 };
 
-// Anchor the store on globalThis so the two copies of this module — Next bundles
-// it once per server layer (RSC/pages vs route handlers) — share ONE store.
-// Without this, POST /api/cache/reset refreshes only the route-handler copy while
-// pages (generateMetadata, the fiche withFetch) keep serving a stale store built
-// at process start. globalThis is process-scoped, so this still needs a separate
-// answer for multi-replica autoscaling (a single reset reaches only one process).
-const globalStore = globalThis as typeof globalThis & { __lieuxCache?: LieuxCacheState };
-if (!globalStore.__lieuxCache) {
-  globalStore.__lieuxCache = {
+// One store per process, shared across Next's server bundle layers so that
+// POST /api/cache/reset (route-handler layer) and the fiche (pages layer) read
+// the same instance. Still per-replica — multi-replica is handled separately.
+const state = sharedAcrossBundles(
+  'lieux-cache',
+  (): LieuxCacheState => ({
     instanceId: randomUUID(),
     startedAt: new Date().toISOString(),
     currentData: null,
@@ -42,9 +40,8 @@ if (!globalStore.__lieuxCache) {
     lastTrigger: null,
     buildCount: 0,
     size: null
-  };
-}
-const state = globalStore.__lieuxCache;
+  })
+);
 
 const recordBuild = (data: LieuxRouteResponse, trigger: 'lazy' | 'refresh'): void => {
   const now = new Date().toISOString();

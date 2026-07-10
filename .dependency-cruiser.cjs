@@ -366,7 +366,7 @@ const LIBRARY_DEPENDENCIES = {
   analytics: ['injection'],
   nextjs: ['injection'],
   'inclusion-numerique-api': ['api', 'utils', 'collectivites', 'ban', 'injection'],
-  'lieux-cache': ['inclusion-numerique-api', 'collectivites'],
+  'lieux-cache': ['inclusion-numerique-api', 'collectivites', 'nextjs'],
   collectivites: [],
   map: [],
   ban: [],
