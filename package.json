@@ -1,6 +1,6 @@
 {
   "name": "@gouvfr-anct/cartographie-nationale",
-  "version": "6.27.0",
+  "version": "6.27.1",
   "private": false,
   "packageManager": "pnpm@11.5.2",
   "type": "module",

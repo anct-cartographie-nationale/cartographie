@@ -1,3 +1,10 @@
+## [6.27.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.27.0...v6.27.1) (2026-07-10)
+
+
+### Bug Fixes
+
+* **lieux-cache:** share store across bundle layers via globalThis singleton ([5053aac](https://github.com/anct-cartographie-nationale/cartographie/commit/5053aacfe4acb5f8a33a877b0770e09f1eb10f0f))
+
 # [6.27.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.26.1...v6.27.0) (2026-07-10)
 
 
