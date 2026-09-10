@@ -13,7 +13,7 @@ type ContactActionProps = ButtonClass & {
 const buildMailtoHref = (pageUrl?: string): string => {
   const subject = 'Demande de contact';
   const body = pageUrl ? `URL de la page concernée : ${pageUrl}` : '';
-  return `mailto:cartographie.sonum@anct.gouv.fr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  return `mailto:carto@inclusion-numerique.anct.gouv.fr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 };
 
 export const ContactAction = ({ children, className, pageUrl, ...buttonProps }: ContactActionProps) => (

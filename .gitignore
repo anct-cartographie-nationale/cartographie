@@ -55,3 +55,6 @@ next-env.d.ts
 # AI tools
 .agents/
 .claude/
+
+# Browser automation artifacts
+.playwright-mcp/
