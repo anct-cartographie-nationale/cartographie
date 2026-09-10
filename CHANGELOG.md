@@ -1,3 +1,10 @@
+# [6.28.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.27.3...v6.28.0) (2026-09-10)
+
+
+### Features
+
+* **legal:** servir la declaration d'accessibilite sur /accessibilite ([a305368](https://github.com/anct-cartographie-nationale/cartographie/commit/a3053686f323391d51c5eb2ff2ca61d7fee25a80))
+
 ## [6.27.3](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.27.2...v6.27.3) (2026-09-10)
 
 
