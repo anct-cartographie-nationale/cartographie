@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import DeclarationAccessibilite from '@/content/legal/declaration-d-accessibilite.mdx';
+import DeclarationAccessibilite from '@/content/legal/accessibilite.mdx';
 
 export const metadata: Metadata = {
   title: "Déclaration d'accessibilité | Cartographie Nationale",
