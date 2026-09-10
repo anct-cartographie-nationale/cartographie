@@ -77,7 +77,7 @@
     "mutable-supercluster": "^1.1.0",
     "next": "^16.3.4",
     "next-themes": "^0.4.6",
-    "nodemailer": "^9.1.0",
+    "nodemailer": "^9.1.1",
     "nuqs": "^2.10.1",
     "opening_hours": "^3.14.0",
     "pino": "^10.3.1",
