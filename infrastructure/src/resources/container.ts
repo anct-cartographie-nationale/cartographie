@@ -35,7 +35,7 @@ const container = new containers.Container(
     memoryLimit: 4096,
     minScale: 1,
     maxScale: 5,
-    maxConcurrency: 10,
+    scalingOptions: [{ concurrentRequestsThreshold: 10 }],
     port: 80,
     protocol: 'http1',
     environmentVariables: {
