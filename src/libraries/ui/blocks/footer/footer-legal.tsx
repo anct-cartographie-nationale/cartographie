@@ -12,8 +12,8 @@ export const FooterLegal = ({
 }) => {
   const links = [
     {
-      key: 'declaration-d-accessibilite',
-      linkProps: { href: '/declaration-d-accessibilite', children: `Accessibilité : ${accessibility} conforme` }
+      key: 'accessibilite',
+      linkProps: { href: '/accessibilite', children: `Accessibilité : ${accessibility} conforme` }
     },
     { key: 'mentions-legales', linkProps: { href: '/mentions-legales', children: 'Mentions légales' } },
     { key: 'donnees-personnelles', linkProps: { href: '/donnees-personnelles', children: 'Données personnelles' } },
