@@ -13,6 +13,13 @@ updates:
         update-types:
           - minor
           - patch
+    ignore:
+      # carte-facile declare un peer maplibre-gl ^5.0.0 et importe maplibregl
+      # en export default, supprime en v6. A lever quand carte-facile publie
+      # une version compatible v6 (0.9.0 est la derniere a ce jour).
+      - dependency-name: maplibre-gl
+        update-types:
+          - version-update:semver-major
 
   - package-ecosystem: github-actions
     directory: /
