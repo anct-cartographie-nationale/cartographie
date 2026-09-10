@@ -1,3 +1,10 @@
+## [6.27.2](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.27.1...v6.27.2) (2026-09-10)
+
+
+### Bug Fixes
+
+* **legal:** regenerate accessibility declaration and unify contact email ([cf82496](https://github.com/anct-cartographie-nationale/cartographie/commit/cf82496242662822a29569d879e1afa82254f6c3))
+
 ## [6.27.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.27.0...v6.27.1) (2026-07-10)
 
 
