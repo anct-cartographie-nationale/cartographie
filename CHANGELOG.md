@@ -1,3 +1,10 @@
+## [6.27.3](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.27.2...v6.27.3) (2026-09-10)
+
+
+### Bug Fixes
+
+* **release:** declarer le depot dans package.json ([0c6ad7d](https://github.com/anct-cartographie-nationale/cartographie/commit/0c6ad7df4bdb45f3c0b57785fb1c6abbd6e749d4))
+
 ## [6.27.2](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.27.1...v6.27.2) (2026-09-10)
 
 
