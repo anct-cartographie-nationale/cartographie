@@ -1,3 +1,10 @@
+## [6.28.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.28.0...v6.28.1) (2026-09-10)
+
+
+### Bug Fixes
+
+* **ci:** authentifier le telechargement du plugin pulumi scaleway ([a3d59db](https://github.com/anct-cartographie-nationale/cartographie/commit/a3d59db103ff19909ddf0e882c122590dad36f4e))
+
 # [6.28.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.27.3...v6.28.0) (2026-09-10)
 
 
