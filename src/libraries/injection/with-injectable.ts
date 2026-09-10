@@ -1,11 +1,12 @@
-import { inject, key, provide } from './container';
+import { keyFor } from 'piqure';
+import { inject, provide } from './container';
 
 export const withInjectable = <TKey extends string, TContext, TResult>(
   name: TKey,
   keyName: string,
   importFactory: () => Promise<(ctx: TContext) => TResult>
 ) => {
-  const KEY = key<(ctx: TContext) => TResult>(keyName);
+  const KEY = keyFor<(ctx: TContext) => TResult>(keyName);
   let factoryPromise: Promise<(ctx: TContext) => TResult> | null = null;
 
   const getFactory = async (): Promise<(ctx: TContext) => TResult> => {
