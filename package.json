@@ -2,6 +2,10 @@
   "name": "@gouvfr-anct/cartographie-nationale",
   "version": "6.27.2",
   "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anct-cartographie-nationale/cartographie.git"
+  },
   "packageManager": "pnpm@11.5.2",
   "type": "module",
   "main": "./dist-wc/cartographie.umd.js",
