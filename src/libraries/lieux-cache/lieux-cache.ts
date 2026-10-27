@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { inclusionNumeriqueFetchApi, LIEUX_ROUTE, type LieuxRouteResponse } from '@/libraries/inclusion-numerique-api';
 import { sharedAcrossBundles } from '@/libraries/nextjs/shared-across-bundles';
+import { indexLieuxById } from './index-lieux-by-id';
 import { OpeningHoursCache } from './opening-hours-cache';
 
 type Lieu = LieuxRouteResponse[number];
@@ -56,7 +57,7 @@ const collator = new Intl.Collator('fr', { sensitivity: 'base' });
 
 const buildStore = (data: LieuxRouteResponse): LieuxStore => ({
   all: [...data].sort((a, b) => collator.compare(a.nom, b.nom)),
-  byId: new Map(data.map((lieu) => [lieu.id, lieu])),
+  byId: indexLieuxById(data),
   openingHours: new OpeningHoursCache(data)
 });
 
