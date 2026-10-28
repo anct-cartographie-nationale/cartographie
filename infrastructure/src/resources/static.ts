@@ -8,7 +8,8 @@ const bucket = new object.Bucket(
   {
     tags: Object.fromEntries(config.tags.map((tag) => [tag, tag])),
     name: name('app-static-assets'),
-    region: 'fr-par'
+    region: 'fr-par',
+    corsRules: [{ allowedMethods: ['GET', 'HEAD'], allowedOrigins: ['*'], maxAgeSeconds: 86400 }]
   },
   { provider: scalewayProvider }
 );
