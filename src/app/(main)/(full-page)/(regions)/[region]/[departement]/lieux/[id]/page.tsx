@@ -10,6 +10,7 @@ import { ContactAction } from '@/features/contact';
 import { SEND_CONTACT_MESSAGE_ACTION } from '@/features/contact/abilities/send-message/injection/send-contact-message-action.key';
 import { FicheLieuPage } from '@/features/lieux-inclusion-numerique';
 import { fetchLieuDetails } from '@/features/lieux-inclusion-numerique/abilities/detail-view/query/fetch-lieu-details';
+import { withCanonicalLieuId } from '@/features/lieux-inclusion-numerique/middlewares/page';
 import { toLieuDetails } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-details';
 import { getCacheStatus } from '@/libraries/lieux-cache';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
@@ -56,6 +57,7 @@ export default pageBuilder()
     })
   )
   .use(withRequired('lieu'))
+  .use(withCanonicalLieuId())
   .render(async ({ region, departement, lieu, urlSearchParams }) => {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
     const lieuPath = `/${region.slug}/${departement.slug}/lieux/${encodeURIComponent(lieu.id)}`;
