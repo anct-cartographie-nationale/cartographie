@@ -171,10 +171,10 @@ importers:
         version: 1.2.2(7b9609c7d7b8e777c566214fcaebacad)
       '@arckit/form':
         specifier: ^2.0.1
-        version: 2.0.1(@arckit/daisyui@1.2.2(7b9609c7d7b8e777c566214fcaebacad))(@tanstack/react-form@1.33.5(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(effect@3.22.1)(react@19.3.1)
+        version: 2.0.1(@arckit/daisyui@1.2.2(7b9609c7d7b8e777c566214fcaebacad))(@tanstack/react-form@1.33.5(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(effect@3.22.3)(react@19.3.1)
       '@arckit/nextjs':
         specifier: ^2.2.2
-        version: 2.2.2(54d536ddbe2ed0285ebb85515cd0ef67)
+        version: 2.2.2(a110a185e7d139f6a37676cf83192b3e)
       '@arckit/pipeline':
         specifier: ^1.0.0
         version: 1.0.0(react@19.3.1)
@@ -242,8 +242,8 @@ importers:
         specifier: ^9.4.0
         version: 9.4.0(react@19.3.1)
       effect:
-        specifier: ^3.22.1
-        version: 3.22.1
+        specifier: ^3.22.3
+        version: 3.22.3
       framer-motion:
         specifier: ^14.3.0
         version: 14.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -3846,8 +3846,8 @@ packages:
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  effect@3.22.1:
-    resolution: {integrity: sha512-TNoXushmPOBAjJlthF5d2QwnX2xBPEtcNJr5XKNKbRLbDvBcOYkXlYDfvGfSA0zriwLFuCll5MDtNMAdZL17PQ==}
+  effect@3.22.3:
+    resolution: {integrity: sha512-pQU7KTFcqHCjCbhMsiv2vFLPtCfKMspA3ChglcRfAMt/h7KlGoEtRL4eaM5Bq5chTgIysITM+fUAW87HQFKl3A==}
 
   electron-to-chromium@1.5.459:
     resolution: {integrity: sha512-4SC9HHSFjO/liAhifpdOL5hG9b4BP7/5G3y3UPZVO8trlAXr1CaUEEJL0gWK3kOcYcZrOA5rkwG45Gra/lTIgg==}
@@ -7057,15 +7057,15 @@ snapshots:
       react-icons: 5.7.0(react@19.3.1)
       tailwind-merge: 3.7.0
 
-  '@arckit/form@2.0.1(@arckit/daisyui@1.2.2(7b9609c7d7b8e777c566214fcaebacad))(@tanstack/react-form@1.33.5(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(effect@3.22.1)(react@19.3.1)':
+  '@arckit/form@2.0.1(@arckit/daisyui@1.2.2(7b9609c7d7b8e777c566214fcaebacad))(@tanstack/react-form@1.33.5(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(effect@3.22.3)(react@19.3.1)':
     dependencies:
       '@arckit/daisyui': 1.2.2(7b9609c7d7b8e777c566214fcaebacad)
       '@tanstack/react-form': 1.33.5(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react: 19.3.1
     optionalDependencies:
-      effect: 3.22.1
+      effect: 3.22.3
 
-  '@arckit/nextjs@2.2.2(54d536ddbe2ed0285ebb85515cd0ef67)':
+  '@arckit/nextjs@2.2.2(a110a185e7d139f6a37676cf83192b3e)':
     dependencies:
       '@arckit/daisyui': 1.2.2(7b9609c7d7b8e777c566214fcaebacad)
       '@arckit/pipeline': 1.0.0(react@19.3.1)
@@ -7079,7 +7079,7 @@ snapshots:
     optionalDependencies:
       '@arckit/resultset': 2.1.0
       '@arckit/telemetry': 1.5.0(@opentelemetry/api@1.9.1)(@sentry/nextjs@11.8.0(@babel/core@7.29.7(supports-color@8.1.1))(next@16.4.3(@babel/core@7.29.7(supports-color@8.1.1))(@opentelemetry/api@1.9.1)(@playwright/test@1.64.1)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(webpack@5.107.2(esbuild@0.28.2)(lightningcss@1.33.0)(postcss@8.5.30)(uglify-js@3.19.3)))(pino@10.4.0)
-      effect: 3.22.1
+      effect: 3.22.3
       i18next: 26.5.2(typescript@6.0.3)
 
   '@arckit/pipeline@1.0.0(react@19.3.1)':
@@ -10312,7 +10312,7 @@ snapshots:
 
   eastasianwidth@0.2.0: {}
 
-  effect@3.22.1:
+  effect@3.22.3:
     dependencies:
       '@standard-schema/spec': 1.1.0
       fast-check: 3.23.2
