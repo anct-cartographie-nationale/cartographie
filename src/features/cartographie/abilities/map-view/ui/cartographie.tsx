@@ -3,6 +3,7 @@
 import { addOverlay, mapStyles, Overlay } from 'carte-facile';
 import { Map as MapLibre, NavigationControl, type ViewStateChangeEvent } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import '@/libraries/map/maplibre-worker';
 import { Button, ButtonLink, Loading } from '@arckit/daisyui/primitives';
 import { useTheme } from 'next-themes';
 import type { ReactNode } from 'react';

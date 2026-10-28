@@ -13,6 +13,7 @@ import {
   RiWheelchairLine
 } from 'react-icons/ri';
 import { Map as MapLibre, NavigationControl } from 'react-map-gl/maplibre';
+import '@/libraries/map/maplibre-worker';
 import { LieuMarker } from '@/libraries/ui/map/markers';
 import { Link } from '@/libraries/ui/primitives/link';
 import { ClientOnly } from '@/libraries/utils';
