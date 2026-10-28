@@ -1,3 +1,10 @@
+## [6.29.2](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.29.1...v6.29.2) (2026-10-28)
+
+
+### Bug Fixes
+
+* **infra:** autoriser le chargement entre origines des fichiers statiques ([14a1dfd](https://github.com/anct-cartographie-nationale/cartographie/commit/14a1dfdabf16e6e7d3c568178f943f669661c4f5))
+
 ## [6.29.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.29.0...v6.29.1) (2026-10-28)
 
 
