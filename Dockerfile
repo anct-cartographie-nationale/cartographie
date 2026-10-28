@@ -1,7 +1,7 @@
 # Pin Alpine: on alpine3.24 the lua-resty-* packages pull in openresty, which
 # conflicts with nginx + its geoip2/lua modules (apk error code 8). 3.23 keeps
 # the nginx-compatible package set. Pinning also makes the build reproducible.
-FROM node:22-alpine3.23
+FROM node:24-alpine3.23
 
 RUN apk add --no-cache \
     nginx nginx-mod-http-geoip2 nginx-mod-http-lua nginx-mod-devel-kit lua-resty-http lua-resty-string lua5.1-cjson \
@@ -9,8 +9,8 @@ RUN apk add --no-cache \
     mkdir -p /var/cache/nginx /var/log/nginx /etc/systemd/system
 
 # CrowdSec : install agent + bouncer + bootstrap + cleanup en un seul layer
-ARG CROWDSEC_VERSION=1.6.8
-ARG BOUNCER_VERSION=1.1.1
+ARG CROWDSEC_VERSION=1.8.1
+ARG BOUNCER_VERSION=1.2.3
 RUN wget -qO /tmp/crowdsec.tgz \
       "https://github.com/crowdsecurity/crowdsec/releases/download/v${CROWDSEC_VERSION}/crowdsec-release.tgz" && \
     tar xzf /tmp/crowdsec.tgz -C /tmp && \
