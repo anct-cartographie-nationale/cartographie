@@ -1,3 +1,15 @@
+# [6.29.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.28.1...v6.29.0) (2026-10-28)
+
+
+### Bug Fixes
+
+* **lieux:** resoudre un lieu par son identifiant mednum et par celui du registre ([f480ab1](https://github.com/anct-cartographie-nationale/cartographie/commit/f480ab10702a5cd7e80825a290dee8cf36e4a7a7))
+
+
+### Features
+
+* **lieux:** rediriger une fiche vers son identifiant canonique ([2846cd5](https://github.com/anct-cartographie-nationale/cartographie/commit/2846cd577cd5632911f77c57c82b8bae9a2e2613)), closes [anct-cnum/suite-gestionnaire-numerique#2183](https://github.com/anct-cnum/suite-gestionnaire-numerique/issues/2183)
+
 ## [6.28.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.28.0...v6.28.1) (2026-09-10)
 
 
