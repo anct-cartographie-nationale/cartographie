@@ -23,6 +23,9 @@ updates:
       - dependency-name: piqure
         versions:
           - 2.3.0
+      - dependency-name: typescript
+        update-types:
+          - version-update:semver-major
 
   - package-ecosystem: github-actions
     directory: /

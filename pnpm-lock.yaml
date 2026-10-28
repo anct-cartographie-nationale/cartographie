@@ -78,8 +78,8 @@ importers:
         specifier: ^3.2.0
         version: 3.2.0(date-fns@4.1.0)
       dotenv:
-        specifier: ^17.4.2
-        version: 17.4.2
+        specifier: ^18.0.8
+        version: 18.0.8
       downshift:
         specifier: ^9.4.0
         version: 9.4.0(react@19.3.1)
@@ -287,8 +287,8 @@ importers:
         specifier: ^26.6.5
         version: 26.6.5
       dotenv:
-        specifier: ^17.2.0
-        version: 17.4.2
+        specifier: ^18.0.8
+        version: 18.0.8
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
@@ -3648,6 +3648,11 @@ packages:
   dotenv@17.4.2:
     resolution: {integrity: sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==}
     engines: {node: '>=12'}
+
+  dotenv@18.0.8:
+    resolution: {integrity: sha512-2KDeoFoK/zRtcnbunCDlLG5VWVMcyqeQc6iK65o231nfNAcuGrKoqUQfJFUtBI+QlShk5HKIHxwebBtUl3rEfA==}
+    engines: {node: '>=12'}
+    hasBin: true
 
   downshift@9.4.0:
     resolution: {integrity: sha512-yIwyzRYzycKwMZhvOahsn4BmRr4Ffi0JymdWOtTDhR+LGDEXCZHTcwgUbNBC/oZLT6YrR46iwJe/BrQUS5ClQQ==}
@@ -10198,6 +10203,8 @@ snapshots:
   dotenv@16.6.1: {}
 
   dotenv@17.4.2: {}
+
+  dotenv@18.0.8: {}
 
   downshift@9.4.0(react@19.3.1):
     dependencies:
