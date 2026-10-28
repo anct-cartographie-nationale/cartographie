@@ -1,3 +1,10 @@
+## [6.29.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.29.0...v6.29.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* **map:** indiquer a maplibre-gl 6 l'URL de son worker ([ef44d24](https://github.com/anct-cartographie-nationale/cartographie/commit/ef44d24666354299b3ba35d159ef858689da60bd))
+
 # [6.29.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.28.1...v6.29.0) (2026-10-28)
 
 
