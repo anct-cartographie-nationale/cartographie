@@ -20,6 +20,9 @@ updates:
       - dependency-name: maplibre-gl
         update-types:
           - version-update:semver-major
+      - dependency-name: piqure
+        versions:
+          - 2.3.0
 
   - package-ecosystem: github-actions
     directory: /

@@ -2,14 +2,14 @@
   "name": "cartographie",
   "main": "src/index.ts",
   "devDependencies": {
-    "@types/node": "^26.4.0",
+    "@types/node": "^26.6.5",
     "dotenv": "^17.2.0",
     "typescript": "^6.0.3"
   },
   "dependencies": {
     "@pulumi/command": "^1.0.0",
-    "@pulumi/docker": "^5.1.1",
-    "@pulumi/pulumi": "^3.260.0",
-    "@pulumiverse/scaleway": "^1.54.0"
+    "@pulumi/docker": "^5.2.0",
+    "@pulumi/pulumi": "^3.270.0",
+    "@pulumiverse/scaleway": "^1.58.0"
   }
 }
