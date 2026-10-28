@@ -1,5 +1,5 @@
 import createMDX from '@next/mdx';
-import { withSentryConfig } from '@sentry/nextjs';
+import { withSentryConfig } from '@sentry/nextjs/config';
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
@@ -50,7 +50,7 @@ export default sentryAuthToken
       authToken: sentryAuthToken,
       silent: !process.env['CI'],
       widenClientFileUpload: true,
-      disableLogger: true,
+      webpack: { treeshake: { removeDebugLogging: true } },
       reactComponentAnnotation: { enabled: true },
       sourcemaps: { deleteSourcemapsAfterUpload: true },
       ...(sentryOrg ? { org: sentryOrg } : {}),
