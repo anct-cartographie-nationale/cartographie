@@ -9,11 +9,6 @@ export type LieuxRouteOptions = PaginateOptions &
 
 export type LieuxRouteResponse = {
   id: string;
-  /**
-   * Identifiant mednum, servi par api.carto depuis V188 (ADR-003) a cote de
-   * `id`, qui est desormais celui du registre. Optionnel : absent avant V188,
-   * et nul pour les lieux que mednum n'a jamais references.
-   */
   id_cartographie_nationale?: string | null;
   nom: string;
   pivot: string;
