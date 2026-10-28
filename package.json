@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/anct-cartographie-nationale/cartographie.git"
   },
-  "packageManager": "pnpm@11.5.2",
+  "packageManager": "pnpm@12.14.0",
   "type": "module",
   "main": "./dist-wc/cartographie.umd.js",
   "module": "./dist-wc/cartographie.es.js",
