@@ -25,6 +25,6 @@ export default pageBuilder()
     withMap('region', ({ code }) => regions.find(regionMatchingDepartement({ code })))
   )
   .use(withRequired('departement', 'region'))
-  .redirectTo(({ id, departement, region, urlSearchParams }) =>
-    hrefWithSearchParams(`/${region.slug}/${departement.slug}/lieux/${id}`)(urlSearchParams)
+  .redirectTo(({ lieu, departement, region, urlSearchParams }) =>
+    hrefWithSearchParams(`/${region.slug}/${departement.slug}/lieux/${encodeURIComponent(lieu.id)}`)(urlSearchParams)
   );
