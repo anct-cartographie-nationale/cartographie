@@ -5,7 +5,7 @@ import { memo, Suspense, useEffect, useMemo, useState } from 'react';
 import { Popup } from 'react-map-gl/maplibre';
 import type { ClusterFeature, ClusterProperties, PointFeature } from 'supercluster';
 import { provide } from '@/libraries/injection';
-import { map$ } from '@/libraries/map';
+import { map$, type Position2D, spiderifyOffsets } from '@/libraries/map';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { Link, useSearchParams } from '@/libraries/nextjs/shim';
 import { Subscribe, useSubscribe } from '@/libraries/reactivity/Subscribe';
@@ -22,25 +22,37 @@ const isCluster = (
   feature: PointFeature<Lieu> | ClusterFeature<ClusterProperties>
 ): feature is ClusterFeature<ClusterProperties> => 'cluster_id' in feature.properties;
 
-const LieuMarkerLink = memo(({ feature, searchParams }: { feature: PointFeature<Lieu>; searchParams: URLSearchParams }) => {
-  const [hovered, setHovered] = useState(false);
+const isLieu = (feature: PointFeature<Lieu> | ClusterFeature<ClusterProperties>): feature is PointFeature<Lieu> =>
+  !isCluster(feature);
 
-  return (
-    <Link
-      href={hrefWithSearchParams(`/lieux/${feature.properties.id}`)(searchParams, ['page'])}
-      prefetch={false}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {hovered && (
-        <Popup {...feature.properties} anchor='bottom' offset={[0, -20]} closeButton={false}>
-          <h2 className='font-bold uppercase text-center'>{feature.properties.nom}</h2>
-        </Popup>
-      )}
-      <LieuMarker title={feature.properties.nom} {...feature.properties} />
-    </Link>
-  );
+const toSpiderifyPoint = ({ properties }: PointFeature<Lieu>) => ({
+  id: properties.id,
+  position: [properties.longitude, properties.latitude] satisfies Position2D
 });
+
+const NO_OFFSET: Position2D = [0, 0];
+
+const LieuMarkerLink = memo(
+  ({ feature, offset, searchParams }: { feature: PointFeature<Lieu>; offset: Position2D; searchParams: URLSearchParams }) => {
+    const [hovered, setHovered] = useState(false);
+
+    return (
+      <Link
+        href={hrefWithSearchParams(`/lieux/${feature.properties.id}`)(searchParams, ['page'])}
+        prefetch={false}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        {hovered && (
+          <Popup {...feature.properties} anchor='bottom' offset={[offset[0], offset[1] - 20]} closeButton={false}>
+            <h2 className='font-bold uppercase text-center'>{feature.properties.nom}</h2>
+          </Popup>
+        )}
+        <LieuMarker title={feature.properties.nom} offset={offset} {...feature.properties} />
+      </Link>
+    );
+  }
+);
 
 LieuMarkerLink.displayName = 'LieuMarkerLink';
 
@@ -83,8 +95,10 @@ export const LieuxOnMapContent = () => {
 
   return (
     <Subscribe to$={lieux$Instance}>
-      {({ features }) =>
-        features.map((feature) =>
+      {({ features }) => {
+        const offsets = spiderifyOffsets(features.filter(isLieu).map(toSpiderifyPoint));
+
+        return features.map((feature) =>
           isCluster(feature) ? (
             <button key={feature.id} type='button' onClick={handleSplitCluster(feature)}>
               <ClusterMarker
@@ -95,10 +109,15 @@ export const LieuxOnMapContent = () => {
               </ClusterMarker>
             </button>
           ) : (
-            <LieuMarkerLink key={feature.properties.id} feature={feature} searchParams={searchParams} />
+            <LieuMarkerLink
+              key={feature.properties.id}
+              feature={feature}
+              offset={offsets.get(feature.properties.id) ?? NO_OFFSET}
+              searchParams={searchParams}
+            />
           )
-        )
-      }
+        );
+      }}
     </Subscribe>
   );
 };
