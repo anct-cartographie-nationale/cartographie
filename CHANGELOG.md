@@ -1,3 +1,10 @@
+## [6.29.3](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.29.2...v6.29.3) (2026-10-29)
+
+
+### Bug Fixes
+
+* **map:** ecarter les lieux superposes a la meme adresse ([4c67edc](https://github.com/anct-cartographie-nationale/cartographie/commit/4c67edca5fa1a630f626b4b010681c2c61c556fd)), closes [anct-cnum/suite-gestionnaire-numerique#1958](https://github.com/anct-cnum/suite-gestionnaire-numerique/issues/1958)
+
 ## [6.29.2](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.29.1...v6.29.2) (2026-10-28)
 
 
