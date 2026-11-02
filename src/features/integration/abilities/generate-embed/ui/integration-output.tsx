@@ -22,7 +22,7 @@ type Output = 'url' | 'web-component';
 
 const OUTPUTS: { value: Output; label: string; description: string }[] = [
   { value: 'url', label: 'Lien', description: 'Pour un site, une signature e-mail ou un document.' },
-  { value: 'web-component', label: 'Web component', description: 'Pour afficher la carte dans une page de votre site.' }
+  { value: 'web-component', label: 'Code à intégrer', description: 'Pour afficher la carte dans une page de votre site.' }
 ];
 
 type IntegrationOutputProps = {
