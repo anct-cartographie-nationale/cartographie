@@ -27,7 +27,9 @@ type IntegrationGeneratorProps = {
 const Step = ({ number, title, children }: { number: number; title: string; children: React.ReactNode }) => (
   <section className='flex flex-col gap-4'>
     <h2 className='text-xl font-bold flex items-center gap-3'>
-      <span className='badge badge-primary badge-lg rounded-full'>{number}</span>
+      <span className='flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-primary-content text-base'>
+        {number}
+      </span>
       {title}
     </h2>
     {children}
