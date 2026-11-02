@@ -17,6 +17,8 @@ import { TERRITOIRE_FILTER, type TerritoireType } from '@/shared/injection/keys/
 import { getThemeColors } from '@/shared/ui';
 import { createAppRouter } from './router';
 
+const DEFAULT_SITE_URL = 'https://cartographie.societenumerique.gouv.fr';
+
 type AppProps = {
   apiUrl?: string;
   siteUrl?: string;
@@ -53,7 +55,14 @@ export const App: FC<AppProps> = ({
   provide(API_BASE_URL, apiUrl);
   provide(ERROR_REPORTER, createNoopReporter());
   provide(SITE_URL, siteUrl);
-  provide(NAVBAR_CONFIG, { logoUrl, appName, helpUrl, helpLabel, homeUrl: routeInitiale });
+  provide(NAVBAR_CONFIG, {
+    logoUrl,
+    appName,
+    helpUrl,
+    helpLabel,
+    homeUrl: routeInitiale,
+    integrationUrl: `${siteUrl ?? DEFAULT_SITE_URL}/integrer`
+  });
   provide(MAP_CONFIG, { latitude, longitude, zoom });
   invalidateMapLocationIfChanged({ latitude, longitude, zoom });
   provide(TERRITOIRE_FILTER, {

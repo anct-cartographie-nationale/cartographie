@@ -6,6 +6,7 @@ export type NavbarConfig = {
   helpUrl?: string | undefined;
   helpLabel?: string | undefined;
   homeUrl?: string | undefined;
+  integrationUrl?: string | undefined;
 };
 
 export const NAVBAR_CONFIG = key<NavbarConfig>('navbar-config');

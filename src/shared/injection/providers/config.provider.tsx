@@ -38,7 +38,8 @@ export const ConfigProvider: FC<PropsWithChildren> = ({ children }) => {
   provide(NAVBAR_CONFIG, {
     logoUrl: '/images/app-logo.svg',
     appName: "Lieux d'inclusion numérique",
-    helpLabel: 'Aide'
+    helpLabel: 'Aide',
+    integrationUrl: '/integrer'
   });
   provide(TERRITOIRE_FILTER, {});
   provide(THEME_COLORS, getThemeColors);

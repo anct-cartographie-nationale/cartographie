@@ -22,7 +22,9 @@ export const TrackerAction = {
   LAYER_TOGGLE: 'layer_toggle',
   FULLSCREEN_TOGGLE: 'fullscreen_toggle',
   FILTER_APPLY: 'filter_apply',
-  EMBED_MAP_CLICK: 'embed_map_click'
+  EMBED_MAP_CLICK: 'embed_map_click',
+  EMBED_GENERATE: 'embed_generate',
+  EMBED_COPY: 'embed_copy'
 } as const;
 
 export type TrackerCategoryType = (typeof TrackerCategory)[keyof typeof TrackerCategory];
