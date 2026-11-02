@@ -13,7 +13,8 @@ import {
   territoireFromRegion
 } from '@/features/integration/domain';
 import { type Departement, departements, type Region, regions } from '@/libraries/collectivites';
-import { fetchEpciCommunes, searchCommunes, searchEpcis } from '../query';
+import { inject } from '@/libraries/injection';
+import { TERRITOIRE_SOURCE } from '../injection/territoire-source.key';
 import { TerritoireSearch } from './territoire-search';
 
 const TERRITOIRE_TYPES: { value: TerritoireType; label: string }[] = [
@@ -38,6 +39,7 @@ export const TerritoirePicker = ({ onChange }: TerritoirePickerProps) => {
   const [type, setType] = useState<TerritoireType>('departement');
   const [isPending, setIsPending] = useState(false);
   const selectId = useId();
+  const { searchCommunes, searchEpcis, fetchEpciCommunes } = inject(TERRITOIRE_SOURCE);
 
   const changeType = (nextType: TerritoireType) => {
     setType(nextType);

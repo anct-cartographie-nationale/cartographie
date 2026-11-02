@@ -1,46 +1,16 @@
-import { pipe } from 'effect';
-import { all, type Effect, flatMap, map, runPromise, runSync, sleep, tap } from 'effect/Effect';
-import { get, set, unsafeMake } from 'effect/Ref';
+import { all, type Effect, map } from 'effect/Effect';
 import type { ReactNode } from 'react';
 import type { Address } from '@/libraries/ban';
 import { fetchBanSuggestions } from '@/libraries/ban';
 import { fetchLieuxSuggestions, fetchMediateursSuggestions } from '@/libraries/inclusion-numerique-api/search';
-
-const INPUT_MIN_LENGTH = 3;
-const INPUT_DEBOUNCE_DELAY = 300;
-
-const lastInputRef = unsafeMake('');
-const lastItemsRef = unsafeMake<Address[]>([]);
+import { debouncedSuggestions, loadingSuggestions } from '@/libraries/ui/primitives/debounced-suggestions';
 
 const fetchSuggestionsEffect = (input: string): Effect<Address[], Error> =>
   all([fetchMediateursSuggestions(input), fetchLieuxSuggestions(input), fetchBanSuggestions(input)]).pipe(
     map(([mediateurs, lieux, ban]) => [...mediateurs, ...lieux, ...ban])
   );
 
-type SuggestionsPayload = {
-  isLoading: boolean;
-};
-
-const beforeLoadSuggestions = (): Partial<SuggestionsPayload> => ({
-  isLoading: true
-});
-
-const loadSuggestions = (input: string): Promise<{ items: Address[] } & SuggestionsPayload> =>
-  input.trim().length < INPUT_MIN_LENGTH
-    ? Promise.resolve({ items: [], isLoading: false })
-    : runPromise(
-        pipe(
-          set(lastInputRef, input),
-          flatMap(() => sleep(INPUT_DEBOUNCE_DELAY)),
-          flatMap(() => get(lastInputRef)),
-          flatMap((latestInput: string) => (latestInput !== input ? get(lastItemsRef) : fetchSuggestionsEffect(input))),
-          tap((addresses) => set(lastItemsRef, addresses)),
-          map((addresses: Address[]): { items: Address[] } & SuggestionsPayload => ({
-            items: addresses,
-            isLoading: runSync(get(lastInputRef)) !== input
-          }))
-        )
-      );
+const loadSuggestions = debouncedSuggestions(fetchSuggestionsEffect);
 
 const itemToString = (item: Address | null): string => (item == null ? '' : (item.name ?? item.label));
 
@@ -57,12 +27,12 @@ export const addressCombobox: {
   itemToString: typeof itemToString;
   itemToKey: typeof itemToKey;
   loadSuggestions: typeof loadSuggestions;
-  beforeLoadSuggestions: typeof beforeLoadSuggestions;
+  beforeLoadSuggestions: typeof loadingSuggestions;
 } = {
   itemToString,
   itemToKey,
   loadSuggestions,
-  beforeLoadSuggestions
+  beforeLoadSuggestions: loadingSuggestions
 };
 
 export const addressOptions: { itemToKey: typeof itemToKey; renderItem: typeof renderItem } = {

@@ -1,11 +1,14 @@
 'use client';
 
 import { Button, Input, Loading } from '@arckit/daisyui/primitives';
-import { type ReactNode, useId } from 'react';
+import { tryPromise } from 'effect/Effect';
+import { type ReactNode, useId, useMemo } from 'react';
 import { RiSearchLine } from 'react-icons/ri';
 import { ComboBox } from '@/libraries/ui/primitives/combobox';
+import { debouncedSuggestions, loadingSuggestions } from '@/libraries/ui/primitives/debounced-suggestions';
 import { Options } from '@/libraries/ui/primitives/options';
-import { debouncedSuggestions } from './debounced-suggestions';
+
+const INPUT_MIN_LENGTH = 2;
 
 type Searchable = { code: string; nom: string };
 
@@ -36,11 +39,21 @@ export const TerritoireSearch = <TItem extends Searchable>({
   isPending = false
 }: TerritoireSearchProps<TItem>) => {
   const inputId = useId();
+  const loadSuggestions = useMemo(
+    () =>
+      debouncedSuggestions(
+        (query: string) =>
+          tryPromise({ try: () => search(query), catch: (err) => new Error(`territoire search failed: ${err}`) }),
+        { minLength: INPUT_MIN_LENGTH }
+      ),
+    [search]
+  );
 
   return (
     <ComboBox<TItem, { isLoading: boolean }>
       itemToString={itemToString}
-      loadSuggestions={debouncedSuggestions(search)}
+      beforeLoadSuggestions={loadingSuggestions}
+      loadSuggestions={loadSuggestions}
       onSelectedItemChange={onSelect}
     >
       {({ getLabelProps, getInputProps, getToggleButtonProps, payload, ...options }) => (
@@ -70,7 +83,12 @@ export const TerritoireSearch = <TItem extends Searchable>({
             }
             {...getInputProps()}
           />
-          <Options {...options} itemToKey={itemToKey} renderItem={renderItem} showEmpty={options.inputValue.length >= 2}>
+          <Options
+            {...options}
+            itemToKey={itemToKey}
+            renderItem={renderItem}
+            showEmpty={!payload.isLoading && options.inputValue.trim().length >= INPUT_MIN_LENGTH}
+          >
             <span className='px-4 py-2 text-sm'>Aucun résultat</span>
           </Options>
         </div>
