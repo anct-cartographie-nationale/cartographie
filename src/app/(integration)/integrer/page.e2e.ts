@@ -16,7 +16,7 @@ test.describe('Intégrer la cartographie page', () => {
     await page.goto('/integrer');
 
     await page.getByRole('combobox', { name: 'Département' }).selectOption('29');
-    await page.getByRole('tab', { name: 'Web component' }).click();
+    await page.getByRole('tab', { name: 'Code à intégrer' }).click();
 
     await expect(page.locator('code')).toContainText('<cartographie-inclusion-numerique');
     await expect(page.locator('code')).toContainText('route-initiale="/bretagne/finistere"');
