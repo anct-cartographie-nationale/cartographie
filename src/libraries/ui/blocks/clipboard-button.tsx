@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, type ButtonProps, Tooltip } from '@arckit/daisyui/primitives';
-import { useState } from 'react';
+import { type MouseEvent, useState } from 'react';
 
 type ClipboardButtonProps = ButtonProps & {
   target?: string;
@@ -12,11 +12,12 @@ type ClipboardButtonProps = ButtonProps & {
   duration?: number;
 };
 
-export const ClipboardButton = ({ target, message, duration = 750, ...props }: ClipboardButtonProps) => {
+export const ClipboardButton = ({ target, message, duration = 750, onClick, ...props }: ClipboardButtonProps) => {
   const [open, setOpen] = useState(false);
   const [content, setContent] = useState<string | undefined>();
 
-  const handleCopy = async () => {
+  const handleCopy = async (event: MouseEvent<HTMLButtonElement>) => {
+    onClick?.(event);
     try {
       await navigator.clipboard.writeText(target ?? window.location.href);
       if (message?.success == null) return;

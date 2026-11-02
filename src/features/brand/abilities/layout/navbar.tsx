@@ -66,7 +66,7 @@ const HomeLinkFallback = ({
 );
 
 export const Navbar = ({ searchSlot, filtersSlot }: NavbarProps) => {
-  const { logoUrl, appName, helpLabel, homeUrl = '/' } = inject(NAVBAR_CONFIG);
+  const { logoUrl, appName, helpLabel, homeUrl = '/', integrationUrl } = inject(NAVBAR_CONFIG);
   const ContactAction = inject(CONTACT_ACTION);
 
   const hasAppName = Boolean(appName);
@@ -87,16 +87,17 @@ export const Navbar = ({ searchSlot, filtersSlot }: NavbarProps) => {
                 <RiQuestionFill size={16} />
                 {helpLabel ?? 'Aide'}
               </ContactAction>
-              <ButtonLink
-                href='https://tally.so/r/VLV5K6'
-                kind='btn-link'
-                className='no-underline'
-                target='_blank'
-                onClick={() => trackEvent({ category: TrackerCategory.EMBED, action: TrackerAction.EMBED_MAP_CLICK })}
-              >
-                <RiCodeBlock size={16} />
-                Intégrer la carte sur votre site
-              </ButtonLink>
+              {integrationUrl && (
+                <ButtonLink
+                  href={integrationUrl}
+                  kind='btn-link'
+                  className='no-underline'
+                  onClick={() => trackEvent({ category: TrackerCategory.EMBED, action: TrackerAction.EMBED_MAP_CLICK })}
+                >
+                  <RiCodeBlock size={16} />
+                  Intégrer la carte sur votre site
+                </ButtonLink>
+              )}
               <Button kind='btn-link' className='px-2 lg:hidden' {...toggle}>
                 <RiMenuLine size={24} aria-hidden={true} />
               </Button>

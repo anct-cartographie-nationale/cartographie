@@ -28,6 +28,8 @@ L'intégration par web component est idéale si vous souhaitez :
 
 **Pour un simple partage de lien** sans personnalisation, consultez le [guide d'intégration par URL](./integration-url.md) : c'est plus rapide et ne nécessite aucun code.
 
+> **Le plus simple** : le générateur en ligne [cartographie.societenumerique.gouv.fr/integrer](https://cartographie.societenumerique.gouv.fr/integrer) produit une page HTML complète, déjà filtrée sur votre territoire et à vos couleurs, qu'il ne reste qu'à copier.
+
 ---
 
 ## Avant de commencer

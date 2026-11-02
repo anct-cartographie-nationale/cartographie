@@ -21,6 +21,8 @@ L'intégration par URL est idéale si vous souhaitez :
 
 **Pour une personnalisation complète** (logo, couleurs, tracking), consultez le [guide d'intégration par web component](./integration-web-component.md).
 
+> **Le plus simple** : le générateur en ligne [cartographie.societenumerique.gouv.fr/integrer](https://cartographie.societenumerique.gouv.fr/integrer) construit ce lien pour vous à partir d'une région, d'un département, d'une intercommunalité ou d'une commune.
+
 ---
 
 ## URL de base
