@@ -14,7 +14,8 @@ test.describe('Lieu redirect page', () => {
     await page.goto(`/lieux/${lieuId}`);
 
     await expect(page).toHaveURL(/\/ile-de-france\/seine-et-marne\/lieux\//);
-    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   });
 
   test('should display 404 for unknown lieu', async ({ page }) => {
