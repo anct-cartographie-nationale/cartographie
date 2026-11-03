@@ -1,13 +1,16 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const isCI = !!process.env['CI'];
+
 export default defineConfig({
   testDir: './src',
   testMatch: '**/*.e2e.ts',
   fullyParallel: true,
-  forbidOnly: !!process.env['CI'],
-  retries: process.env['CI'] ? 2 : 0,
-  ...(process.env['CI'] ? { workers: 4 } : {}),
-  reporter: process.env['CI'] ? [['github'], ['html']] : 'html',
+  forbidOnly: isCI,
+  retries: isCI ? 1 : 0,
+  maxFailures: isCI ? 5 : 0,
+  ...(isCI ? { workers: 4 } : {}),
+  reporter: isCI ? [['github'], ['html']] : 'html',
   use: {
     baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
@@ -21,7 +24,8 @@ export default defineConfig({
   ],
   webServer: {
     command: 'pnpm dev',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env['CI']
+    url: 'http://localhost:3000/api/stats/total',
+    timeout: 180_000,
+    reuseExistingServer: !isCI
   }
 });

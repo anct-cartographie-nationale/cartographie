@@ -147,15 +147,29 @@ jobs:
         run: pnpm test:infra
 
   test-e2e:
-    name: Test E2E
+    name: Test E2E (${{ matrix.shard }}/2)
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
       - name: Setup
         uses: ./.github/actions/setup
+      - name: Playwright browsers cache
+        id: playwright-cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
       - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm exec playwright install --with-deps chromium
+      - name: Install Playwright system dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: pnpm exec playwright install-deps chromium
       - name: 'Create env file'
         run: |
           touch .env
@@ -163,7 +177,7 @@ jobs:
           echo INCLUSION_NUMERIQUE_API_TOKEN="${{ secrets.INCLUSION_NUMERIQUE_API_TOKEN }}" >> .env
           echo CACHE_RESET_TOKEN="${{ secrets.CACHE_RESET_TOKEN }}" >> .env
       - name: Run E2E tests
-        run: pnpm test:e2e
+        run: pnpm test:e2e --shard=${{ matrix.shard }}/2
 
   deploy-preview:
     name: Deploy Preview
