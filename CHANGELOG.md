@@ -1,3 +1,12 @@
+# [6.30.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.29.3...v6.30.0) (2026-11-03)
+
+
+### Features
+
+* **integration:** email obligatoire, QR code, iframe et envoi au support ([636ae78](https://github.com/anct-cartographie-nationale/cartographie/commit/636ae78c3183bf062c483aab5ad04863e5f4cf18))
+* **integration:** generer le lien ou le web component depuis la carte ([bbaad2a](https://github.com/anct-cartographie-nationale/cartographie/commit/bbaad2ab6f859ed40a4d811027d1e54fa69eba4d))
+* **integration:** rechercher communes et intercommunalites via la Geoplateforme IGN ([e892a13](https://github.com/anct-cartographie-nationale/cartographie/commit/e892a1324d16c6f74e421b530e8d60a42467ef81))
+
 ## [6.29.3](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.29.2...v6.29.3) (2026-10-29)
 
 
