@@ -1,6 +1,7 @@
 import { type Effect, tryPromise } from 'effect/Effect';
 import type { Feature, FeatureCollection, Point } from 'geojson';
 import type { Address } from './address';
+import { fetchGeocodage } from './geocodage';
 
 type AddressProperties = {
   banId: string;
@@ -23,9 +24,9 @@ type AddressProperties = {
 
 type AddressFeature = Feature<Point, AddressProperties>;
 
-type AddressFeatureCollection = FeatureCollection<Point, AddressFeature['properties']>;
+type AddressFeatureCollection = FeatureCollection<Point, AddressProperties>;
 
-const banFeatureToAddress = (feature: AddressFeature): Address => ({
+const featureToAddress = (feature: AddressFeature): Address => ({
   id: feature.properties.id,
   label: feature.properties.label,
   city: feature.properties.city,
@@ -39,13 +40,11 @@ const banFeatureToAddress = (feature: AddressFeature): Address => ({
 const onlyWithDefinedCoordinates = (address: Address) =>
   address.x != null && address.x !== 0 && address.y != null && address.y !== 0;
 
-export const fetchBanSuggestions = (input: string): Effect<Address[], Error> =>
+export const fetchAddressSuggestions = (input: string): Effect<Address[], Error> =>
   tryPromise({
     try: async () => {
-      const res = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(input)}`);
-      if (!res.ok) throw new Error(res.statusText);
-      const address: AddressFeatureCollection = await res.json();
-      return address.features.map(banFeatureToAddress).filter(onlyWithDefinedCoordinates);
+      const collection = await fetchGeocodage<AddressFeatureCollection>({ q: input });
+      return collection.features.map(featureToAddress).filter(onlyWithDefinedCoordinates);
     },
-    catch: (err) => new Error(`BAN fetch failed: ${err}`)
+    catch: (err) => new Error(`Géoplateforme address fetch failed: ${err}`)
   });

@@ -17,28 +17,33 @@ type TerritoireSearchProps<TItem extends Searchable> = {
   placeholder: string;
   search: (query: string) => Promise<TItem[]>;
   onSelect: (item: TItem) => void;
-  isPending?: boolean;
+  itemToDetail?: (item: TItem) => string;
 };
 
 const itemToString = (item: Searchable | null): string => item?.nom ?? '';
 
 const itemToKey = (item: Searchable): string => item.code;
 
-const renderItem = ({ item }: { item: Searchable }): ReactNode => (
-  <span className='flex flex-col gap-0 items-start'>
-    <span className='font-bold'>{item.nom}</span>
-    <span className='text-xs'>{item.code}</span>
-  </span>
-);
+const codeDetail = (item: Searchable): string => item.code;
+
+const renderItemWith =
+  <TItem extends Searchable>(itemToDetail: (item: TItem) => string) =>
+  ({ item }: { item: TItem }): ReactNode => (
+    <span className='flex flex-col gap-0 items-start'>
+      <span className='font-bold'>{item.nom}</span>
+      <span className='text-xs'>{itemToDetail(item)}</span>
+    </span>
+  );
 
 export const TerritoireSearch = <TItem extends Searchable>({
   label,
   placeholder,
   search,
   onSelect,
-  isPending = false
+  itemToDetail = codeDetail
 }: TerritoireSearchProps<TItem>) => {
   const inputId = useId();
+  const renderItem = useMemo(() => renderItemWith(itemToDetail), [itemToDetail]);
   const loadSuggestions = useMemo(
     () =>
       debouncedSuggestions(
@@ -50,7 +55,7 @@ export const TerritoireSearch = <TItem extends Searchable>({
   );
 
   return (
-    <ComboBox<TItem, { isLoading: boolean }>
+    <ComboBox<TItem, { isLoading: boolean; error?: string }>
       itemToString={itemToString}
       beforeLoadSuggestions={loadingSuggestions}
       loadSuggestions={loadSuggestions}
@@ -68,7 +73,7 @@ export const TerritoireSearch = <TItem extends Searchable>({
             placeholder={placeholder}
             autoComplete='off'
             right={
-              payload.isLoading || isPending ? (
+              payload.isLoading ? (
                 <Loading isLoading />
               ) : (
                 <Button
@@ -89,7 +94,9 @@ export const TerritoireSearch = <TItem extends Searchable>({
             renderItem={renderItem}
             showEmpty={!payload.isLoading && options.inputValue.trim().length >= INPUT_MIN_LENGTH}
           >
-            <span className='px-4 py-2 text-sm'>Aucun résultat</span>
+            <span className='px-4 py-2 text-sm'>
+              {payload.error ? 'La recherche a échoué, veuillez réessayer.' : 'Aucun résultat'}
+            </span>
           </Options>
         </div>
       )}

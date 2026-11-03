@@ -28,6 +28,22 @@ describe('IntegrationRequestEmail', () => {
     expect(html).toContain('&lt;cartographie-inclusion-numerique');
   });
 
+  it('should describe an EPCI by its number of communes', async () => {
+    const html = await render(
+      IntegrationRequestEmail({
+        email: 'marie.dupont@example.fr',
+        territoire: { type: 'epci', code: 'EPCI____0000002150236789', nom: 'Brest Métropole', nombreCommunes: 8 },
+        vue: 'filtree',
+        sortie: 'lien',
+        lien: 'https://carto.test/bretagne/finistere',
+        sentAt: new Date('2026-11-03T15:30:00')
+      })
+    );
+
+    expect(html).toContain('Intercommunalité Brest Métropole (8 communes)');
+    expect(html).not.toContain('EPCI____');
+  });
+
   it('should omit the customisation and code sections for a plain link', async () => {
     const html = await render(
       IntegrationRequestEmail({

@@ -365,11 +365,11 @@ const LIBRARY_DEPENDENCIES = {
   injection: [],
   analytics: ['injection'],
   nextjs: ['injection'],
-  'inclusion-numerique-api': ['api', 'utils', 'collectivites', 'ban', 'injection'],
+  'inclusion-numerique-api': ['api', 'utils', 'collectivites', 'geoplateforme', 'injection'],
   'lieux-cache': ['inclusion-numerique-api', 'collectivites', 'nextjs'],
   collectivites: [],
   map: [],
-  ban: [],
+  geoplateforme: [],
   'react-email': [],
   email: []
 };
