@@ -2,11 +2,12 @@
 
 import { type FC, type PropsWithChildren, Suspense } from 'react';
 import { sendContactMessageAction } from '@/app/_actions/contact/send-contact-message.action';
+import { sendIntegrationRequestAction } from '@/app/_actions/integration/send-integration-request.action';
 import { errorReporter } from '@/configuration/telemetry/error-reporter';
 import { NAVBAR_CONFIG } from '@/features/brand/injection';
 import { ContactAction } from '@/features/contact';
 import { SEND_CONTACT_MESSAGE_ACTION } from '@/features/contact/abilities/send-message/injection/send-contact-message-action.key';
-import { geoApiTerritoireSource, TERRITOIRE_SOURCE } from '@/features/integration';
+import { geoApiTerritoireSource, SEND_INTEGRATION_REQUEST_ACTION, TERRITOIRE_SOURCE } from '@/features/integration';
 import { provide } from '@/libraries/injection';
 import { invalidateMapLocationIfChanged, THEME_COLORS } from '@/libraries/map';
 import { useSearchParams } from '@/libraries/nextjs/shim';
@@ -47,6 +48,7 @@ export const ConfigProvider: FC<PropsWithChildren> = ({ children }) => {
   provide(SEND_CONTACT_MESSAGE_ACTION, sendContactMessageAction);
   provide(CONTACT_ACTION, ContactAction);
   provide(TERRITOIRE_SOURCE, geoApiTerritoireSource);
+  provide(SEND_INTEGRATION_REQUEST_ACTION, sendIntegrationRequestAction);
 
   return (
     <Suspense fallback={<MapPositionProviderFallback>{children}</MapPositionProviderFallback>}>

@@ -83,6 +83,28 @@ Les codes INSEE sont listés dans [codes-territoires.md](./codes-territoires.md)
 | `dispositif_programmes_nationaux` | `Conseillers numériques`, `France Services` |
 | `frais_a_charge` | `Gratuit` |
 
+### Affichage en iframe
+
+| Paramètre | Description | Valeur |
+|-----------|-------------|--------|
+| `integration` | Masque la barre de navigation pour afficher la carte dans un cadre `<iframe>` | `iframe` |
+
+Exemple d'intégration en iframe :
+
+```html
+<iframe
+  src="https://cartographie.societenumerique.gouv.fr/bretagne/finistere?territoire_type=departements&territoires=29&integration=iframe"
+  title="Cartographie des lieux d'inclusion numérique - Finistère"
+  width="100%"
+  height="800"
+  style="border: 0"
+  loading="lazy"
+  allow="geolocation"
+></iframe>
+```
+
+Le générateur disponible sur [/integrer](https://cartographie.societenumerique.gouv.fr/integrer) produit ce code pour votre territoire.
+
 ---
 
 ## Exemples complets
@@ -121,6 +143,7 @@ Les codes INSEE sont listés dans [codes-territoires.md](./codes-territoires.md)
 | `services` | Types de services | `Aide aux démarches administratives` |
 | `dispositif_programmes_nationaux` | Programmes nationaux | `France Services` |
 | `frais_a_charge` | Gratuité | `Gratuit` |
+| `integration` | Affichage en iframe sans barre de navigation | `iframe` |
 
 ---
 
