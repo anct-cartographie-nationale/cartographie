@@ -23,3 +23,13 @@
 ::placeholder {
   font-style: italic;
 }
+
+.select:has(option[value=""]:checked) {
+  color: var(--color-neutral);
+  font-style: italic;
+
+  option {
+    color: var(--color-base-content);
+    font-style: normal;
+  }
+}

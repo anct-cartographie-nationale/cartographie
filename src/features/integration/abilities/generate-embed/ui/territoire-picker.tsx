@@ -84,7 +84,7 @@ export const TerritoirePicker = ({ onChange }: TerritoirePickerProps) => {
           </label>
           <Select
             id={selectId}
-            className='w-full'
+            className='w-full bg-input'
             defaultValue=''
             onChange={(event) => {
               const region = sortedRegions.find(({ code }) => code === event.target.value);
@@ -109,7 +109,7 @@ export const TerritoirePicker = ({ onChange }: TerritoirePickerProps) => {
           </label>
           <Select
             id={selectId}
-            className='w-full'
+            className='w-full bg-input'
             defaultValue=''
             onChange={(event) => {
               const departement = sortedDepartements.find(({ code }) => code === event.target.value);
