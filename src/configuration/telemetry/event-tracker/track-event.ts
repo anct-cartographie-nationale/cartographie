@@ -24,7 +24,9 @@ export const TrackerAction = {
   FILTER_APPLY: 'filter_apply',
   EMBED_MAP_CLICK: 'embed_map_click',
   EMBED_GENERATE: 'embed_generate',
-  EMBED_COPY: 'embed_copy'
+  EMBED_COPY: 'embed_copy',
+  EMBED_QR_DOWNLOAD: 'embed_qr_download',
+  EMBED_REQUEST_SEND: 'embed_request_send'
 } as const;
 
 export type TrackerCategoryType = (typeof TrackerCategory)[keyof typeof TrackerCategory];

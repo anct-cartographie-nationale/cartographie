@@ -370,7 +370,8 @@ const LIBRARY_DEPENDENCIES = {
   collectivites: [],
   map: [],
   ban: [],
-  'react-email': []
+  'react-email': [],
+  email: []
 };
 
 // Generate interdependency rules for each library
