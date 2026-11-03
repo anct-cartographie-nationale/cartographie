@@ -4,12 +4,14 @@ description: 'Install pnpm, Node.js and dependencies'
 runs:
   using: 'composite'
   steps:
+    - name: Install pnpm
+      uses: pnpm/action-setup@v6
     - name: Set up Node.js
       uses: actions/setup-node@v7
       with:
         node-version: '24'
-    - name: Install pnpm
-      uses: pnpm/action-setup@v6
+        cache: 'pnpm'
+        cache-dependency-path: pnpm-lock.yaml
     - name: Install dependencies
       run: pnpm install --frozen-lockfile
       shell: bash
