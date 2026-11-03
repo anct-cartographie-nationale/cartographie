@@ -74,7 +74,12 @@ export const IntegrationGenerator = ({ siteUrl, version }: IntegrationGeneratorP
     startTransition(() => {
       void sendIntegrationRequest({
         email,
-        territoire: { type: territoire.type, code: territoire.code, nom: territoire.nom },
+        territoire: {
+          type: territoire.type,
+          code: territoire.code,
+          nom: territoire.nom,
+          ...(territoire.type === 'epci' ? { nombreCommunes: territoire.filtre.codes.length } : {})
+        },
         vue,
         ...usage
       });

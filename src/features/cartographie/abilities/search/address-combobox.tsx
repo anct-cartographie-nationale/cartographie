@@ -1,12 +1,12 @@
 import { all, type Effect, map } from 'effect/Effect';
 import type { ReactNode } from 'react';
-import type { Address } from '@/libraries/ban';
-import { fetchBanSuggestions } from '@/libraries/ban';
+import type { Address } from '@/libraries/geoplateforme';
+import { fetchAddressSuggestions } from '@/libraries/geoplateforme';
 import { fetchLieuxSuggestions, fetchMediateursSuggestions } from '@/libraries/inclusion-numerique-api/search';
 import { debouncedSuggestions, loadingSuggestions } from '@/libraries/ui/primitives/debounced-suggestions';
 
 const fetchSuggestionsEffect = (input: string): Effect<Address[], Error> =>
-  all([fetchMediateursSuggestions(input), fetchLieuxSuggestions(input), fetchBanSuggestions(input)]).pipe(
+  all([fetchMediateursSuggestions(input), fetchLieuxSuggestions(input), fetchAddressSuggestions(input)]).pipe(
     map(([mediateurs, lieux, ban]) => [...mediateurs, ...lieux, ...ban])
   );
 

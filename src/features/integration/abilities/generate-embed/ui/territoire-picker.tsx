@@ -24,6 +24,8 @@ const TERRITOIRE_TYPES: { value: TerritoireType; label: string }[] = [
   { value: 'commune', label: 'Commune' }
 ];
 
+const epciDetail = ({ communes }: Epci): string => `${communes.length} communes`;
+
 const byNom = (a: { nom: string }, b: { nom: string }) => a.nom.localeCompare(b.nom, 'fr');
 
 const sortedRegions: Region[] = [...regions].sort(byNom);
@@ -37,23 +39,15 @@ type TerritoirePickerProps = {
 
 export const TerritoirePicker = ({ onChange }: TerritoirePickerProps) => {
   const [type, setType] = useState<TerritoireType>('departement');
-  const [isPending, setIsPending] = useState(false);
   const selectId = useId();
-  const { searchCommunes, searchEpcis, fetchEpciCommunes } = inject(TERRITOIRE_SOURCE);
+  const { searchCommunes, searchEpcis } = inject(TERRITOIRE_SOURCE);
 
   const changeType = (nextType: TerritoireType) => {
     setType(nextType);
     onChange(null);
   };
 
-  const selectEpci = async (epci: Epci) => {
-    setIsPending(true);
-    try {
-      onChange(territoireFromEpci(epci, await fetchEpciCommunes(epci.code), departements, regions));
-    } finally {
-      setIsPending(false);
-    }
-  };
+  const selectEpci = (epci: Epci) => onChange(territoireFromEpci(epci, departements, regions));
 
   const selectCommune = (commune: Commune) => onChange(territoireFromCommune(commune, departements, regions));
 
@@ -131,17 +125,17 @@ export const TerritoirePicker = ({ onChange }: TerritoirePickerProps) => {
         <TerritoireSearch
           key='epci'
           label='Intercommunalité (communauté de communes, agglomération, métropole)'
-          placeholder='Nom ou numéro SIREN'
+          placeholder="Nom de l'intercommunalité"
           search={searchEpcis}
           onSelect={selectEpci}
-          isPending={isPending}
+          itemToDetail={epciDetail}
         />
       )}
       {type === 'commune' && (
         <TerritoireSearch
           key='commune'
           label='Commune'
-          placeholder='Nom, code postal ou code INSEE'
+          placeholder='Nom ou code postal'
           search={searchCommunes}
           onSelect={selectCommune}
         />

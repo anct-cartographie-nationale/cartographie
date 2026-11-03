@@ -1,4 +1,10 @@
-import { type Departement, departementMatchingCode, type Region, regionMatchingDepartement } from '@/libraries/collectivites';
+import {
+  type Departement,
+  departementMatchingCode,
+  getDepartementCodeFromInsee,
+  type Region,
+  regionMatchingDepartement
+} from '@/libraries/collectivites';
 
 export type TerritoireType = 'region' | 'departement' | 'epci' | 'commune';
 
@@ -29,11 +35,11 @@ export type Commune = {
   localisation: Localisation;
 };
 
-export type CommuneAvecPopulation = Commune & { population: number };
-
 export type Epci = {
   code: string;
   nom: string;
+  localisation: Localisation;
+  communes: string[];
 };
 
 const COMMUNE_ZOOM = 13;
@@ -77,26 +83,21 @@ export const territoireFromCommune = (commune: Commune, departements: Departemen
   filtre: { type: 'communes', codes: [commune.code] }
 });
 
-const mostRepresentedDepartementCode = (communes: Commune[]): string | undefined => {
+const mostRepresentedDepartementCode = (codesInsee: string[]): string | undefined => {
   const counts = new Map<string, number>();
-  for (const { codeDepartement } of communes) counts.set(codeDepartement, (counts.get(codeDepartement) ?? 0) + 1);
+  for (const codeInsee of codesInsee) {
+    const codeDepartement = getDepartementCodeFromInsee(codeInsee);
+    counts.set(codeDepartement, (counts.get(codeDepartement) ?? 0) + 1);
+  }
   return [...counts.entries()].sort(([, a], [, b]) => b - a)[0]?.[0];
 };
 
-const mostPopulatedCommune = (communes: CommuneAvecPopulation[]): CommuneAvecPopulation | undefined =>
-  [...communes].sort((a, b) => b.population - a.population)[0];
-
-export const territoireFromEpci = (
-  epci: Epci,
-  communes: CommuneAvecPopulation[],
-  departements: Departement[],
-  regions: Region[]
-): Territoire => ({
+export const territoireFromEpci = (epci: Epci, departements: Departement[], regions: Region[]): Territoire => ({
   type: 'epci',
   code: epci.code,
   nom: epci.nom,
-  localisation: mostPopulatedCommune(communes)?.localisation ?? { latitude: 0, longitude: 0 },
+  localisation: epci.localisation,
   zoom: EPCI_ZOOM,
-  path: departementPath(departements.find(departementMatchingCode(mostRepresentedDepartementCode(communes))), regions),
-  filtre: { type: 'communes', codes: communes.map(({ code }) => code) }
+  path: departementPath(departements.find(departementMatchingCode(mostRepresentedDepartementCode(epci.communes))), regions),
+  filtre: { type: 'communes', codes: epci.communes }
 });

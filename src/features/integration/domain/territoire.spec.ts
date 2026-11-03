@@ -71,34 +71,16 @@ describe('territoire', () => {
   });
 
   it('should build a territoire from an EPCI filtered on all its communes', () => {
-    const epci = { code: '242900835', nom: 'CA du Pays de Landerneau-Daoulas' };
-    const communes = [
-      {
-        code: '29103',
-        nom: 'Landerneau',
-        codeDepartement: '29',
-        population: 16000,
-        localisation: { latitude: 48.45, longitude: -4.25 }
-      },
-      {
-        code: '29043',
-        nom: 'Daoulas',
-        codeDepartement: '29',
-        population: 1800,
-        localisation: { latitude: 48.36, longitude: -4.26 }
-      },
-      {
-        code: '29240',
-        nom: 'La Roche-Maurice',
-        codeDepartement: '29',
-        population: 1900,
-        localisation: { latitude: 48.47, longitude: -4.2 }
-      }
-    ];
+    const epci = {
+      code: 'EPCI____0000002150236789',
+      nom: 'CA du Pays de Landerneau-Daoulas',
+      localisation: { latitude: 48.45, longitude: -4.25 },
+      communes: ['29103', '29043', '29240']
+    };
 
-    expect(territoireFromEpci(epci, communes, departements, regions)).toStrictEqual({
+    expect(territoireFromEpci(epci, departements, regions)).toStrictEqual({
       type: 'epci',
-      code: '242900835',
+      code: 'EPCI____0000002150236789',
       nom: 'CA du Pays de Landerneau-Daoulas',
       localisation: { latitude: 48.45, longitude: -4.25 },
       zoom: 11,
@@ -108,7 +90,6 @@ describe('territoire', () => {
   });
 
   it('should attach an EPCI to its most represented departement', () => {
-    const epci = { code: '200000000', nom: 'CC à cheval' };
     const morbihan: Departement = {
       code: '56',
       nom: 'Morbihan',
@@ -116,15 +97,39 @@ describe('territoire', () => {
       zoom: 9,
       localisation: { latitude: 47.8, longitude: -2.8 }
     };
-    const communes = [
-      { code: '56001', nom: 'A', codeDepartement: '56', population: 100, localisation: { latitude: 47.9, longitude: -2.9 } },
-      { code: '56002', nom: 'B', codeDepartement: '56', population: 200, localisation: { latitude: 47.8, longitude: -2.8 } },
-      { code: '29001', nom: 'C', codeDepartement: '29', population: 5000, localisation: { latitude: 48.1, longitude: -4.0 } }
-    ];
+    const epci = {
+      code: 'EPCI____0000000000000001',
+      nom: 'CC à cheval',
+      localisation: { latitude: 47.9, longitude: -3.2 },
+      communes: ['56001', '56002', '29001']
+    };
 
-    const territoire = territoireFromEpci(epci, communes, [finistere, morbihan], regions);
+    expect(territoireFromEpci(epci, [finistere, morbihan], regions).path).toBe('/bretagne/morbihan');
+  });
 
-    expect(territoire.path).toBe('/bretagne/morbihan');
-    expect(territoire.localisation).toStrictEqual({ latitude: 48.1, longitude: -4.0 });
+  it('should attach an overseas EPCI to its three-digit departement', () => {
+    const reunion: Departement = {
+      code: '974',
+      nom: 'La Réunion',
+      slug: 'la-reunion',
+      zoom: 10,
+      localisation: { latitude: -21.1, longitude: 55.5 }
+    };
+    const reunionRegion: Region = {
+      code: '04',
+      departements: ['974'],
+      nom: 'La Réunion',
+      slug: 'la-reunion',
+      zoom: 10,
+      localisation: { latitude: -21.1, longitude: 55.5 }
+    };
+    const epci = {
+      code: 'EPCI____0000000000000002',
+      nom: 'CINOR',
+      localisation: { latitude: -20.9, longitude: 55.5 },
+      communes: ['97411', '97418', '97420']
+    };
+
+    expect(territoireFromEpci(epci, [reunion], [reunionRegion]).path).toBe('/la-reunion/la-reunion');
   });
 });

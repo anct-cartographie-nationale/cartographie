@@ -14,6 +14,11 @@ const VUE_LABELS: Record<IntegrationRequest['vue'], string> = {
   centree: 'Carte centrée sur le territoire'
 };
 
+const territoireLabel = ({ type, nom, code, nombreCommunes }: IntegrationRequest['territoire']): string =>
+  type === 'epci'
+    ? `${TERRITOIRE_LABELS[type]} ${nom} (${nombreCommunes ?? 0} communes)`
+    : `${TERRITOIRE_LABELS[type]} ${nom} (${code})`;
+
 const Field = ({ label, children }: { label: string; children: React.ReactNode }) => (
   <Row className='mb-3'>
     <Column className='w-36 align-top'>
@@ -59,7 +64,7 @@ export const IntegrationRequestEmail = ({
     </Text>
 
     <Section className='bg-[#f6f6f6] rounded p-5 mb-6'>
-      <Field label='Territoire'>{`${TERRITOIRE_LABELS[territoire.type]} ${territoire.nom} (${territoire.code})`}</Field>
+      <Field label='Territoire'>{territoireLabel(territoire)}</Field>
       <Field label='Vue'>{VUE_LABELS[vue]}</Field>
       <Field label='Sortie'>{SORTIE_LABELS[sortie]}</Field>
       {personnalisation && (

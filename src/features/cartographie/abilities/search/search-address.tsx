@@ -4,7 +4,7 @@ import { Button, Input } from '@arckit/daisyui/primitives';
 import { useId } from 'react';
 import { RiCloseCircleFill, RiSearchLine } from 'react-icons/ri';
 import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry/event-tracker';
-import type { Address } from '@/libraries/ban';
+import type { Address } from '@/libraries/geoplateforme';
 import { map$ } from '@/libraries/map';
 import { useRouter } from '@/libraries/nextjs/shim';
 import { useSubscribe } from '@/libraries/reactivity/Subscribe';

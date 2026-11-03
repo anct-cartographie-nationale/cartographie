@@ -1,5 +1,5 @@
 import { type Effect, tryPromise } from 'effect/Effect';
-import type { Address } from '@/libraries/ban';
+import type { Address } from '@/libraries/geoplateforme';
 import { inject } from '@/libraries/injection';
 import { API_BASE_URL } from '@/shared/injection';
 

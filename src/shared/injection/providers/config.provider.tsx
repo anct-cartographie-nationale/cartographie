@@ -7,7 +7,7 @@ import { errorReporter } from '@/configuration/telemetry/error-reporter';
 import { NAVBAR_CONFIG } from '@/features/brand/injection';
 import { ContactAction } from '@/features/contact';
 import { SEND_CONTACT_MESSAGE_ACTION } from '@/features/contact/abilities/send-message/injection/send-contact-message-action.key';
-import { geoApiTerritoireSource, SEND_INTEGRATION_REQUEST_ACTION, TERRITOIRE_SOURCE } from '@/features/integration';
+import { geoplateformeTerritoireSource, SEND_INTEGRATION_REQUEST_ACTION, TERRITOIRE_SOURCE } from '@/features/integration';
 import { provide } from '@/libraries/injection';
 import { invalidateMapLocationIfChanged, THEME_COLORS } from '@/libraries/map';
 import { useSearchParams } from '@/libraries/nextjs/shim';
@@ -47,7 +47,7 @@ export const ConfigProvider: FC<PropsWithChildren> = ({ children }) => {
   provide(THEME_COLORS, getThemeColors);
   provide(SEND_CONTACT_MESSAGE_ACTION, sendContactMessageAction);
   provide(CONTACT_ACTION, ContactAction);
-  provide(TERRITOIRE_SOURCE, geoApiTerritoireSource);
+  provide(TERRITOIRE_SOURCE, geoplateformeTerritoireSource);
   provide(SEND_INTEGRATION_REQUEST_ACTION, sendIntegrationRequestAction);
 
   return (

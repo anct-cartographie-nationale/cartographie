@@ -18,7 +18,8 @@ export const integrationRequestSchema = z.object({
   territoire: z.object({
     type: z.enum(['region', 'departement', 'epci', 'commune']),
     code: z.string().min(1),
-    nom: z.string().min(1)
+    nom: z.string().min(1),
+    nombreCommunes: z.number().int().positive().optional()
   }),
   vue: z.enum(['filtree', 'centree']),
   sortie: sortieSchema,
