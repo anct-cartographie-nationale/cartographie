@@ -23,9 +23,9 @@ export default defineConfig({
     }
   ],
   webServer: {
-    command: 'pnpm dev',
+    command: isCI ? 'pnpm exec next build && pnpm exec next start' : 'pnpm dev',
     url: 'http://localhost:3000/api/stats/total',
-    timeout: 180_000,
+    timeout: 300_000,
     reuseExistingServer: !isCI
   }
 });
