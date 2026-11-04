@@ -20,9 +20,6 @@ updates:
       - dependency-name: typescript
         update-types:
           - version-update:semver-major
-      - dependency-name: effect
-        update-types:
-          - version-update:semver-major
 
   - package-ecosystem: github-actions
     directory: /
@@ -35,3 +32,10 @@ updates:
         update-types:
           - minor
           - patch
+
+  - package-ecosystem: docker-compose
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
