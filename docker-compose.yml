@@ -19,7 +19,7 @@ services:
         condition: service_healthy
 
   matomo-db:
-    image: mariadb:11
+    image: mariadb:13
     container_name: matomo-db
     restart: unless-stopped
     environment:
