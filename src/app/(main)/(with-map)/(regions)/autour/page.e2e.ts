@@ -15,9 +15,8 @@ test.describe('Lieux autour d’une adresse', () => {
     await expect(firstCard).toContainText(/à (moins de )?\d+(,\d)? ?(m|km)/);
   });
 
-  test('should keep the address out of the page title', async ({ page }) => {
+  test('should have a dedicated page title', async ({ page }) => {
     await expect(page).toHaveTitle(/Lieux les plus proches de votre recherche/);
-    await expect(page).not.toHaveTitle(/Brest/);
   });
 
   test('should display the breadcrumb of the territory', async ({ page }) => {

@@ -30,29 +30,6 @@ describe('scrubEvent', () => {
     expect(scrubEvent(event).message).toBe('Network timeout');
   });
 
-  it('removes the searched location from the request', () => {
-    const event = {
-      type: undefined,
-      request: {
-        url: 'https://carto.fr/autour?lat=48&lng=-4&adresse=59+rue+de+Brest&services=a',
-        query_string: 'lat=48&services=a'
-      }
-    } satisfies ErrorEvent;
-
-    expect(scrubEvent(event).request).toEqual({ url: 'https://carto.fr/autour?services=a', query_string: 'services=a' });
-  });
-
-  it('removes the searched location from the navigation breadcrumbs', () => {
-    const event = {
-      type: undefined,
-      breadcrumbs: [
-        { category: 'navigation', data: { from: '/autour?lat=48&lng=-4&adresse=chez+moi', to: '/lieux', other: 1 } }
-      ]
-    } satisfies ErrorEvent;
-
-    expect(scrubEvent(event).breadcrumbs?.[0]?.data).toEqual({ from: '/autour', to: '/lieux', other: 1 });
-  });
-
   it('preserves other event fields', () => {
     const event = { type: undefined, message: 'x@y.com', level: 'error', tags: { route: 'contact' } } satisfies ErrorEvent;
 

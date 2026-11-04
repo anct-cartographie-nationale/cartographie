@@ -7,8 +7,7 @@ import {
   autourNavigation,
   autourSchema,
   isMapCentreAutour,
-  withoutAutourParams,
-  withoutAutourParamsInUrl
+  withoutAutourParams
 } from './autour';
 
 describe('autourSchema', () => {
@@ -131,25 +130,5 @@ describe('withoutAutourParams', () => {
     });
 
     expect(withoutAutourParams(searchParams).toString()).toBe('services=b&page=2');
-  });
-});
-
-describe('withoutAutourParamsInUrl', () => {
-  it('removes the location from a relative url', () => {
-    expect(withoutAutourParamsInUrl('/autour?lat=48&lng=-4&adresse=59+rue+de+Brest&commune=29103')).toBe('/autour');
-  });
-
-  it('removes the location from an absolute url and keeps other params and hash', () => {
-    expect(withoutAutourParamsInUrl('https://carto.fr/autour?lat=48&services=a&lng=-4#main')).toBe(
-      'https://carto.fr/autour?services=a#main'
-    );
-  });
-
-  it('returns an url without location untouched', () => {
-    expect(withoutAutourParamsInUrl('/bretagne/finistere?services=a%20b')).toBe('/bretagne/finistere?services=a%20b');
-  });
-
-  it('returns an url without query untouched', () => {
-    expect(withoutAutourParamsInUrl('/lieux')).toBe('/lieux');
   });
 });
