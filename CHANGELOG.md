@@ -1,3 +1,10 @@
+# [6.31.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.30.0...v6.31.0) (2026-11-04)
+
+
+### Features
+
+* **lieux:** lister les lieux les plus proches apres une recherche d'adresse ([80f4feb](https://github.com/anct-cartographie-nationale/cartographie/commit/80f4feb41950b12f99f652374231b22e6b42d97f))
+
 # [6.30.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.29.3...v6.30.0) (2026-11-03)
 
 
