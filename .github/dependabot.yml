@@ -33,6 +33,13 @@ updates:
           - minor
           - patch
 
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+
   - package-ecosystem: docker-compose
     directory: /
     schedule:
