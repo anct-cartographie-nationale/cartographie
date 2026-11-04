@@ -24,6 +24,7 @@ jobs:
   code-check:
     name: Code check
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -35,6 +36,7 @@ jobs:
   commit-check:
     name: Commit check
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -48,6 +50,7 @@ jobs:
   secret-scan:
     name: Secret scan
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -64,6 +67,7 @@ jobs:
   architecture-check:
     name: Architecture check
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -75,6 +79,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -86,6 +91,7 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -106,6 +112,7 @@ jobs:
   build-web-component:
     name: Build Web Component
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -121,6 +128,7 @@ jobs:
   test-infra:
     name: Test Infrastructure
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -141,12 +149,13 @@ jobs:
         run: pnpm test:infra
 
   test-e2e:
-    name: Test E2E (${{ matrix.shard }}/2)
+    name: Test E2E (${{ matrix.shard }}/4)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2]
+        shard: [1, 2, 3, 4]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -171,12 +180,13 @@ jobs:
           echo INCLUSION_NUMERIQUE_API_TOKEN="${{ secrets.INCLUSION_NUMERIQUE_API_TOKEN }}" >> .env
           echo CACHE_RESET_TOKEN="${{ secrets.CACHE_RESET_TOKEN }}" >> .env
       - name: Run E2E tests
-        run: pnpm test:e2e --shard=${{ matrix.shard }}/2
+        run: pnpm test:e2e --shard=${{ matrix.shard }}/4
 
   deploy-preview:
     name: Deploy Preview
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
