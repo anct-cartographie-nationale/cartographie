@@ -1,8 +1,28 @@
-import { expect, test } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
+
+const waitForHydration = (page: Page) =>
+  page.waitForFunction(() => {
+    const link = document.querySelector('main a');
+    return link != null && Object.keys(link).some((key) => key.startsWith('__reactProps'));
+  });
+
+const highestScrollTop = (page: Page): Promise<number> =>
+  page.evaluate(() => Math.max(...[...document.querySelectorAll('*')].map(({ scrollTop }) => scrollTop)));
 
 test.describe('Department page', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/ile-de-france/seine-et-marne');
+  });
+
+  test('should come back to the very top when changing page', async ({ page }) => {
+    await waitForHydration(page);
+    const secondPage = page.locator('[title="Page 2"]');
+
+    await secondPage.click();
+
+    await expect(secondPage).toHaveClass(/btn-primary/);
+    await expect(page).toHaveURL(/page=2/);
+    expect(await highestScrollTop(page)).toBe(0);
   });
 
   test('should display the department page with lieux list', async ({ page }) => {

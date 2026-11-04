@@ -8,7 +8,7 @@ export default function Loading() {
   return (
     <main id={contentId} className='container mx-auto px-4'>
       <div className='py-6 flex justify-between align-center gap-4'>
-        <Breadcrumbs items={[{ label: 'France', href: '/' }, { label: 'Liste des lieux' }]} />
+        <Breadcrumbs items={[{ label: 'France', href: '/' }, { label: 'Liste des lieux' }]} className='flex-1 min-w-0' />
         <Button color='btn-primary' className='ml-auto' disabled>
           <RiRoadMapLine aria-hidden={true} />
           Afficher la carte

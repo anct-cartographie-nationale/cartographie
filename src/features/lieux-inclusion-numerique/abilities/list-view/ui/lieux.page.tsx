@@ -32,7 +32,7 @@ export const LieuxPage = ({
     <SkipLinksPortal />
     <main id={contentId} className='container mx-auto px-4'>
       <div className='py-6 flex justify-between align-center gap-4'>
-        <Breadcrumbs items={breadcrumbsItems} />
+        <Breadcrumbs items={breadcrumbsItems} className='flex-1 min-w-0' />
         <InternalButtonLink color='btn-primary' href={mapHref} className='ml-auto'>
           <RiRoadMapLine aria-hidden={true} />
           Afficher la carte

@@ -42,6 +42,13 @@ test.describe('Region lieux list page', () => {
     await expect(page.locator('[data-testid="lieu-card"]').first()).toBeVisible();
   });
 
+  test('should display the breadcrumb without horizontal scroll', async ({ page }) => {
+    const breadcrumb = page.locator('nav[aria-label="Breadcrumb"]');
+
+    await expect(breadcrumb).toBeVisible();
+    expect(await breadcrumb.evaluate((nav) => nav.scrollWidth - nav.clientWidth)).toBeLessThanOrEqual(0);
+  });
+
   test('should paginate lieux list without reloading the page', async ({ page }) => {
     await markPageAsLoaded(page);
 
