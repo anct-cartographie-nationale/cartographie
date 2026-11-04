@@ -1,4 +1,3 @@
-import { formatInTimeZone } from 'date-fns-tz';
 import type { LieuxRouteResponse } from '../routes';
 import type { LieuDetails } from '../types';
 import { formatPhoneNumber } from './format-phone-number';
@@ -74,7 +73,7 @@ export const toLieuDetails = ({
     materielInformatique: services.filter((service) => MATERIEL_INFORMATIQUE_SERVICES.includes(service))
   },
   source,
-  dateMiseAJour: formatInTimeZone(date_maj, 'Europe/Paris', "dd/MM/yyyy, H'h'mm"),
+  dateMaj: date_maj,
   typesAccompagnement: modalites_accompagnement ?? [],
   publicsSpecifiques: publics_specifiquement_adresses ?? [],
   fraisACharge: frais_a_charge ?? [],
