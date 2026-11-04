@@ -15,6 +15,9 @@ export type ThrottleDecision =
 
 export const fingerprint = (request: IntegrationRequest): string => JSON.stringify(request);
 
+export const throttleKey = ({ email, territoire }: IntegrationRequest): string =>
+  `${email.toLowerCase()}|${territoire.type}:${territoire.code}`;
+
 export const receiveRequest = (
   entry: ThrottleEntry | undefined,
   request: IntegrationRequest,
