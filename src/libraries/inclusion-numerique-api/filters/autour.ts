@@ -47,13 +47,3 @@ export const autourLocalisation = (autour: Autour): { latitude: number; longitud
 
 export const autourNavigation = (pathname: string, searchParams: URLSearchParams): 'push' | 'replace' =>
   pathname === AUTOUR_PATH && !searchParams.has('adresse') && !searchParams.has('geolocalise') ? 'replace' : 'push';
-
-const URL_PARTS = /^([^?#]*)(?:\?([^#]*))?(#.*)?$/;
-
-export const withoutAutourParamsInUrl = (url: string): string => {
-  const [, path = '', query, hash = ''] = url.match(URL_PARTS) ?? [];
-  const searchParams = new URLSearchParams(query);
-  if (!AUTOUR_PARAMS.some((param) => searchParams.has(param))) return url;
-  const remaining = withoutAutourParams(searchParams).toString();
-  return `${path}${remaining ? `?${remaining}` : ''}${hash}`;
-};
