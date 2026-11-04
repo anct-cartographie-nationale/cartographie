@@ -17,7 +17,7 @@ export type LieuDetails = {
   description?: string;
   labels: string[];
   source: string;
-  dateMiseAJour: string;
+  dateMaj: string;
   services: {
     competences: string[];
     cultureNumerique: string[];

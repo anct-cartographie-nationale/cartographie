@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
 
 test.describe('Lieu detail page', () => {
   test.beforeEach(async ({ page }) => {
@@ -58,5 +58,41 @@ test.describe('Lieu detail page 404', () => {
     await page.goto('/ile-de-france/seine-et-marne/lieux/lieu-inexistant-12345');
 
     await expect(page.getByRole('heading', { name: 'Page non trouvée' })).toBeVisible();
+  });
+});
+
+test.describe('Lieu detail page freshness', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/bretagne/finistere/lieux/269');
+  });
+
+  const badge = (page: Page) => page.getByRole('button', { name: /^(À jour|À surveiller|À vérifier|À actualiser)$/ });
+
+  test('should display the freshness badge and where the information comes from', async ({ page }) => {
+    await expect(badge(page)).toBeVisible();
+    await expect(page.locator('main')).toContainText(/Mise à jour le \d{2}\/\d{2}\/\d{4} · Via /);
+  });
+
+  test('should explain the badge on focus and close the explanation with Escape', async ({ page }) => {
+    const tooltip = page.getByRole('tooltip');
+    await expect(tooltip).toBeHidden();
+
+    await badge(page).focus();
+    await expect(tooltip).toBeVisible();
+    await expect(tooltip).toContainText(/Informations/);
+    await expect(badge(page)).toHaveAttribute('aria-describedby', (await tooltip.getAttribute('id')) ?? '');
+
+    await page.keyboard.press('Escape');
+    await expect(tooltip).toBeHidden();
+  });
+
+  test('should explain the badge on hover and let the pointer reach the explanation', async ({ page }) => {
+    const tooltip = page.getByRole('tooltip');
+
+    await badge(page).hover();
+    await expect(tooltip).toBeVisible();
+
+    await tooltip.hover();
+    await expect(tooltip).toBeVisible();
   });
 });

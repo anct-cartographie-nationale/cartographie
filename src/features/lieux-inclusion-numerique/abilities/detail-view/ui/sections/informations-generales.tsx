@@ -5,13 +5,15 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
 import { ConumLogo, FranceServicesLogo } from '@/libraries/ui/logos';
+import { fraicheurDuLieu, origineDesInformations } from '../../presenter/fraicheur.presenter';
 import { WeekDay } from '../../presenter/opening-hours.presenter';
 import { CurrentlyOpen } from './currently-open';
+import { FraicheurBadge } from './fraicheur-badge';
 import { TimeTable } from './time-table';
 
 type InformationsGeneralesProps = {
   nom: string;
-  dateMiseAJour: string;
+  dateMaj: string;
   source: string;
   osmOpeningHours?: string;
   isFranceServices?: boolean;
@@ -20,18 +22,20 @@ type InformationsGeneralesProps = {
 
 export const InformationsGenerales = ({
   nom,
-  dateMiseAJour,
+  dateMaj,
   source,
   osmOpeningHours,
   isFranceServices = false,
   isConum = false
 }: InformationsGeneralesProps) => {
   const [openHoursIsVisible, setOpenHoursIsVisible] = useState(false);
+  const fraicheur = fraicheurDuLieu(dateMaj, new Date());
 
   return (
     <>
-      <div className='text-sm text-neutral'>
-        Dernière mise à jour&nbsp;:&nbsp;{dateMiseAJour} · Source&nbsp;:&nbsp;{source}
+      <div className='flex flex-wrap items-center gap-2 text-sm text-neutral mb-2'>
+        <FraicheurBadge {...fraicheur} />
+        <span>{origineDesInformations(fraicheur.date, source)}</span>
       </div>
       <div className='flex sm:flex-row flex-col justify-between items-center gap-6'>
         <h1 className='text-4xl text-base-title font-bold'>{nom}</h1>
