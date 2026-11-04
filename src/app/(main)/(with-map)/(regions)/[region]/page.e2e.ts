@@ -40,7 +40,7 @@ test.describe('Region page breadcrumbs', () => {
 
     await expect(page.getByRole('link', { name: 'France' })).toBeVisible();
 
-    await Promise.all([page.waitForURL('http://localhost:3000/'), page.getByRole('link', { name: 'France' }).click()]);
+    await Promise.all([page.waitForURL('/'), page.getByRole('link', { name: 'France' }).click()]);
   });
 });
 

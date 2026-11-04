@@ -37,10 +37,7 @@ test.describe('Department page breadcrumbs', () => {
   });
 
   test('should navigate back to France via breadcrumb', async ({ page }) => {
-    await Promise.all([
-      page.waitForURL('http://localhost:3000/'),
-      page.getByRole('link', { name: 'France', exact: true }).click()
-    ]);
+    await Promise.all([page.waitForURL('/'), page.getByRole('link', { name: 'France', exact: true }).click()]);
   });
 });
 
