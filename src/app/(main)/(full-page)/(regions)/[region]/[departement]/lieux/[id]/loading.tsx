@@ -1,6 +1,6 @@
-import { Breadcrumbs } from '@arckit/daisyui/blocks';
 import { Button, Card } from '@arckit/daisyui/primitives';
 import { RiArrowGoBackLine } from 'react-icons/ri';
+import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import { Skeleton } from '@/libraries/ui/primitives/skeleton';
 

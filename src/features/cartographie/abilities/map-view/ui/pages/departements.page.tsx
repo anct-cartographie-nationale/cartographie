@@ -1,11 +1,11 @@
 'use client';
 
-import { Breadcrumbs } from '@arckit/daisyui/blocks';
-import { ButtonLink } from '@arckit/daisyui/primitives';
 import type { ReactNode } from 'react';
 import type { Departement, Region } from '@/libraries/collectivites';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { useSearchParams } from '@/libraries/nextjs/shim';
+import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
+import { InternalButtonLink } from '@/libraries/ui/primitives/internal-link';
 import { Link } from '@/libraries/ui/primitives/link';
 import { useMapRegionLocation } from './use-map-region-location';
 
@@ -47,14 +47,14 @@ export const DepartementsPage = ({
         ))}
       </div>
       <div className='pt-16 pb-8'>
-        <ButtonLink
+        <InternalButtonLink
           href={hrefWithSearchParams(`/${region.slug}/lieux`)(searchParams)}
           className='border-base-200'
           kind='btn-outline'
           color='btn-primary'
         >
           Afficher la liste des {totalLieux} lieux
-        </ButtonLink>
+        </InternalButtonLink>
       </div>
     </>
   );

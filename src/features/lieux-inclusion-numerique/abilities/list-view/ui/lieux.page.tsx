@@ -1,12 +1,14 @@
-import { Breadcrumbs, NextPageLink, PageLink, Pagination, PreviousPageLink } from '@arckit/daisyui/blocks';
-import { ButtonLink } from '@arckit/daisyui/primitives';
+import { Pagination } from '@arckit/daisyui/blocks';
 import type { Paginated } from '@arckit/resultset';
 import type { ReactNode } from 'react';
 import { RiRoadMapLine } from 'react-icons/ri';
 import type { LieuListItem } from '@/libraries/inclusion-numerique-api';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
+import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
+import { NextPageLink, PageLink, PreviousPageLink } from '@/libraries/ui/blocks/pagination-links';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
+import { InternalButtonLink } from '@/libraries/ui/primitives/internal-link';
 import { ExportLieux } from './export-lieux';
 import { LieuxCount } from './lieux-count';
 import { LieuxList } from './lieux-list';
@@ -31,10 +33,10 @@ export const LieuxPage = ({
     <main id={contentId} className='container mx-auto px-4'>
       <div className='py-6 flex justify-between align-center gap-4'>
         <Breadcrumbs items={breadcrumbsItems} />
-        <ButtonLink color='btn-primary' href={mapHref} className='ml-auto'>
+        <InternalButtonLink color='btn-primary' href={mapHref} className='ml-auto'>
           <RiRoadMapLine aria-hidden={true} />
           Afficher la carte
-        </ButtonLink>
+        </InternalButtonLink>
       </div>
       <div className='flex justify-between items-center gap-2 mb-4'>
         <LieuxCount totalLieux={totalItems} />

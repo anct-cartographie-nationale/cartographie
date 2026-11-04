@@ -4,7 +4,7 @@ import { addOverlay, mapStyles, Overlay } from 'carte-facile';
 import { Map as MapLibre, NavigationControl, type ViewStateChangeEvent } from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '@/libraries/map/maplibre-worker';
-import { Button, ButtonLink, Loading } from '@arckit/daisyui/primitives';
+import { Button, Loading } from '@arckit/daisyui/primitives';
 import { useTheme } from 'next-themes';
 import type { ReactNode } from 'react';
 import { useState } from 'react';
@@ -17,6 +17,7 @@ import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { usePathname, useSearchParams } from '@/libraries/nextjs/shim';
 import { Subscribe } from '@/libraries/reactivity/Subscribe';
 import { DropdownControls } from '@/libraries/ui/map/dropdown-controls';
+import { InternalButtonLink } from '@/libraries/ui/primitives/internal-link';
 import { cn } from '@/libraries/utils';
 import { ClientOnly } from '@/libraries/utils/client-only';
 import { MAP_CONFIG } from '@/shared/injection';
@@ -92,7 +93,7 @@ export const Cartographie = ({
           }
         </Subscribe>
         {selectedRegion && selectedDepartement && (
-          <ButtonLink
+          <InternalButtonLink
             href={hrefWithSearchParams(`/${selectedRegion.slug}/${selectedDepartement.slug}/lieux`)(
               new URLSearchParams(searchParams),
               ['page']
@@ -102,7 +103,7 @@ export const Cartographie = ({
           >
             <RiListUnordered aria-hidden={true} />
             Afficher la liste
-          </ButtonLink>
+          </InternalButtonLink>
         )}
         <div className='absolute right-0 bottom-25 z-1 my-6 mx-2 invisible lg:visible'>
           <Button
