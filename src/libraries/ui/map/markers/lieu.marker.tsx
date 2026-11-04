@@ -2,25 +2,35 @@
 
 import { useId } from 'react';
 import { Marker } from 'react-map-gl/maplibre';
+import { cn } from '@/libraries/utils';
 
 export const LieuMarker = ({
   latitude,
   longitude,
   title,
   className,
+  isHighlighted = false,
   offset = [0, 0]
 }: {
   latitude: number;
   longitude: number;
   title?: string;
   className?: string;
+  isHighlighted?: boolean;
   offset?: [number, number];
 }) => {
   const filterId = useId();
 
   return (
     <Marker latitude={latitude} longitude={longitude} anchor='center' offset={offset} className={className ?? ''}>
-      <svg className='marker' width='36' height='36' viewBox='0 0 36 36' fill='none' xmlns='http://www.w3.org/2000/svg'>
+      <svg
+        className={cn('marker', isHighlighted && 'marker-highlighted')}
+        width='36'
+        height='36'
+        viewBox='0 0 36 36'
+        fill='none'
+        xmlns='http://www.w3.org/2000/svg'
+      >
         <title>{title}</title>
         <g filter={`url(#${filterId})`}>
           <path

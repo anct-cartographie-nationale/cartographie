@@ -12,10 +12,11 @@ import { Link, useSearchParams } from '@/libraries/nextjs/shim';
 import { Subscribe, useSubscribe } from '@/libraries/reactivity/Subscribe';
 import { ClusterMarker, LieuMarker } from '@/libraries/ui/map/markers';
 import { useFilteredSearchParams } from '@/shared/hooks/use-filtered-search-params';
+import { useLieuHighlight } from '@/shared/hooks/use-lieu-highlight';
 import { LIEUX_CACHE, LIEUX_FOR_CHUNK } from '../../../injection';
 import type { Lieu } from '../query/lieu';
 import { lieuxCache } from '../query/lieux.cache';
-import { lieux$ } from '../query/lieux.stream';
+import { lieuxWithHighlight$ } from '../query/lieux.stream';
 import { fetchLieuxForChunk } from '../query/lieux-for-chunk.fetch';
 import { setSearchParams } from '../query/search-params.stream';
 
@@ -36,20 +37,30 @@ const NO_OFFSET: Position2D = [0, 0];
 const LieuMarkerLink = memo(
   ({ feature, offset, searchParams }: { feature: PointFeature<Lieu>; offset: Position2D; searchParams: URLSearchParams }) => {
     const [hovered, setHovered] = useState(false);
+    const { isHighlighted, handlers } = useLieuHighlight(feature.properties.id);
 
     return (
       <Link
         href={hrefWithSearchParams(`/lieux/${feature.properties.id}`)(searchParams, ['page'])}
         prefetch={false}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
+        aria-label={feature.properties.nom}
+        onFocus={handlers.onFocus}
+        onBlur={handlers.onBlur}
+        onMouseEnter={() => {
+          setHovered(true);
+          handlers.onMouseEnter();
+        }}
+        onMouseLeave={() => {
+          setHovered(false);
+          handlers.onMouseLeave();
+        }}
       >
         {hovered && (
           <Popup {...feature.properties} anchor='bottom' offset={[offset[0], offset[1] - 20]} closeButton={false}>
             <h2 className='font-bold uppercase text-center'>{feature.properties.nom}</h2>
           </Popup>
         )}
-        <LieuMarker title={feature.properties.nom} offset={offset} {...feature.properties} />
+        <LieuMarker title={feature.properties.nom} offset={offset} isHighlighted={isHighlighted} {...feature.properties} />
       </Link>
     );
   }
@@ -83,7 +94,7 @@ export const LieuxOnMapContent = () => {
     []
   );
 
-  const lieux$Instance = useMemo(() => lieux$(supercluster), [supercluster]);
+  const lieux$Instance = useMemo(() => lieuxWithHighlight$(supercluster), [supercluster]);
 
   const handleSplitCluster =
     ({ geometry, properties }: ClusterFeature<ClusterProperties>) =>
@@ -99,15 +110,21 @@ export const LieuxOnMapContent = () => {
 
   return (
     <Subscribe to$={lieux$Instance}>
-      {({ features }) => {
+      {({ features, highlightedClusterId }) => {
         const offsets = spiderifyOffsets(features.filter(isLieu).map(toSpiderifyPoint));
 
         return features.map((feature) =>
           isCluster(feature) ? (
-            <button key={feature.id} type='button' onClick={handleSplitCluster(feature)}>
+            <button
+              key={feature.id}
+              type='button'
+              aria-label={`Zoomer sur ce groupe de ${feature.properties.point_count} lieux`}
+              onClick={handleSplitCluster(feature)}
+            >
               <ClusterMarker
                 latitude={feature.geometry.coordinates?.[1] ?? 0}
                 longitude={feature.geometry.coordinates?.[0] ?? 0}
+                isHighlighted={feature.properties.cluster_id === highlightedClusterId}
               >
                 {feature.properties.point_count}
               </ClusterMarker>

@@ -1,8 +1,7 @@
 import type { ReactNode } from 'react';
 import type { LieuListItem } from '@/libraries/inclusion-numerique-api';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
-import { Link } from '@/libraries/ui/primitives/link';
-import { LieuCard } from './lieu-card';
+import { LieuListLink } from './lieu-list-link';
 
 type LieuxListProps = {
   lieux: LieuListItem[];
@@ -16,13 +15,12 @@ export const LieuxList = ({ lieux, size = 'md', searchParams, className }: Lieux
     {lieux.map(
       ({ id, region, departement, ...lieu }): ReactNode => (
         <li key={id}>
-          <Link
-            className='no-underline'
+          <LieuListLink
+            id={id}
             href={hrefWithSearchParams(`/${region}/${departement}/lieux/${id}`)(searchParams, ['page'])}
-            prefetch={false}
-          >
-            <LieuCard className='hover:bg-base-300 h-full' {...lieu} size={size} />
-          </Link>
+            lieu={lieu}
+            size={size}
+          />
         </li>
       )
     )}

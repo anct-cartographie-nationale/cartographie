@@ -302,3 +302,67 @@ test.describe('Lieux autour de la position de l’utilisateur', () => {
     await expectOnSlowRunner(page.getByRole('link', { name: 'Voir tous les lieux du département : Finistère' })).toBeVisible();
   });
 });
+
+test.describe('Survol synchronisé entre la liste et la carte', () => {
+  test.describe.configure({ timeout: 120_000 });
+
+  const QUIMPER = '/autour?lat=47.998695&lng=-4.093228&adresse=Quimper&commune=29232';
+  const highlightedMarkers = (page: Page) => page.locator('.marker-highlighted');
+  const firstCard = (page: Page) => page.locator('[data-testid="lieu-card"]').first();
+  const firstCardName = async (page: Page) => (await firstCard(page).locator('h2').textContent()) ?? '';
+
+  test('should highlight the marker when hovering a card, then stop', async ({ page }) => {
+    await page.goto(QUIMPER);
+    await waitForMapToSettle(page);
+    await expectOnSlowRunner(highlightedMarkers(page)).toHaveCount(0);
+
+    await firstCard(page).hover();
+    await expectOnSlowRunner(highlightedMarkers(page)).toHaveCount(1);
+
+    await page.locator('h1').hover();
+    await expectOnSlowRunner(highlightedMarkers(page)).toHaveCount(0);
+  });
+
+  test('should highlight the marker when focusing a card with the keyboard', async ({ page }) => {
+    await page.goto(QUIMPER);
+    await waitForMapToSettle(page);
+
+    await page.locator('main ul a').first().focus();
+    await expectOnSlowRunner(highlightedMarkers(page)).toHaveCount(1);
+
+    await page.locator('main ul a').first().blur();
+    await expectOnSlowRunner(highlightedMarkers(page)).toHaveCount(0);
+  });
+
+  test('should highlight the group containing a lieu of the list', async ({ page }) => {
+    await page.goto(LANDERNEAU);
+    await waitForMapToSettle(page);
+
+    await firstCard(page).hover();
+
+    await expectOnSlowRunner(highlightedMarkers(page)).toHaveCount(1);
+    await expectOnSlowRunner(page.getByRole('button', { name: /Zoomer sur ce groupe de \d+ lieux/ }).first()).toBeAttached();
+  });
+
+  test('should highlight the card when focusing its marker', async ({ page }) => {
+    await page.goto(QUIMPER);
+    await waitForMapToSettle(page);
+    const name = await firstCardName(page);
+
+    await page.getByRole('link', { name, exact: true }).last().focus();
+
+    await expectOnSlowRunner(firstCard(page)).toHaveClass(/ring-primary/);
+  });
+
+  test('should not move the map nor scroll the list when hovering', async ({ page }) => {
+    await page.goto(QUIMPER);
+    await waitForMapToSettle(page);
+    const before = await page.evaluate(() => sessionStorage.getItem('mapLocation'));
+
+    await firstCard(page).hover();
+    await waitForMapToSettle(page);
+
+    expectOnSlowRunner(await page.evaluate(() => sessionStorage.getItem('mapLocation'))).toBe(before);
+    await expectOnSlowRunner(page).toHaveURL(QUIMPER);
+  });
+});

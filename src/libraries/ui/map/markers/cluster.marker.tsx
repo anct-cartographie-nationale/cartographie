@@ -2,12 +2,14 @@
 
 import type { ReactNode } from 'react';
 import { Marker } from 'react-map-gl/maplibre';
+import { cn } from '@/libraries/utils';
 
 export const ClusterMarker = ({
   latitude,
   longitude,
   title,
   isMuted,
+  isHighlighted = false,
   className,
   children
 }: {
@@ -15,12 +17,13 @@ export const ClusterMarker = ({
   longitude: number;
   title?: string;
   isMuted?: boolean;
+  isHighlighted?: boolean;
   className?: string;
   children?: ReactNode;
 }) => (
   <Marker latitude={latitude} longitude={longitude} anchor='center' className={className ?? ''}>
     <svg
-      className='marker'
+      className={cn('marker', isHighlighted && 'marker-highlighted')}
       width='72'
       height='72'
       viewBox='0 0 64 64'
