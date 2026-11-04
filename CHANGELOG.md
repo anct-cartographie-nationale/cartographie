@@ -1,3 +1,10 @@
+# [6.33.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.32.0...v6.33.0) (2026-11-04)
+
+
+### Features
+
+* **lieux:** synchroniser le survol et le focus entre la carte et la liste ([626eacb](https://github.com/anct-cartographie-nationale/cartographie/commit/626eacb4d94ac6f6dddac588b61d0392ab8e7643))
+
 # [6.32.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.31.0...v6.32.0) (2026-11-04)
 
 
