@@ -1,18 +1,36 @@
 import { collectivitesFromInsee, type Departement, type Region } from '@/libraries/collectivites';
-import type { Autour } from '@/libraries/inclusion-numerique-api/filters/autour';
+import type { LieuListItem } from '@/libraries/inclusion-numerique-api';
+import { type Autour, isMapCentreAutour } from '@/libraries/inclusion-numerique-api/filters/autour';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 
 type BreadcrumbItem = { label: string; href?: string };
 
-const placeLabel = (adresse?: string): string => adresse ?? 'la position recherchée';
+type AutourPlace = Pick<Autour, 'adresse' | 'geolocalise'>;
 
-export const autourTitle = (totalLieux: number, adresse?: string): string => {
-  const place = placeLabel(adresse);
-
-  if (totalLieux === 0) return `Aucun lieu trouvé autour de ${place}`;
-  if (totalLieux === 1) return `Le lieu le plus proche de ${place}`;
-  return `Les ${totalLieux} lieux les plus proches de ${place}`;
+const placeLabel = ({ adresse, geolocalise }: AutourPlace): string => {
+  if (adresse != null) return `de ${adresse}`;
+  return geolocalise != null ? 'de votre position' : 'du centre de la carte';
 };
+
+export const autourTitle = (totalLieux: number, autour: AutourPlace): string => {
+  const place = placeLabel(autour);
+
+  if (totalLieux === 0) return `Aucun lieu trouvé autour ${place}`;
+  if (totalLieux === 1) return `Le lieu le plus proche ${place}`;
+  return `Les ${totalLieux} lieux les plus proches ${place}`;
+};
+
+export const autourStatus = (autour: AutourPlace, nearest?: Pick<LieuListItem, 'nom' | 'adresse'>): string => {
+  if (!isMapCentreAutour(autour)) return '';
+  return nearest
+    ? `Liste triée autour du centre de la carte. Lieu le plus proche : ${nearest.nom}, à ${nearest.adresse.commune}.`
+    : 'Aucun lieu trouvé autour du centre de la carte.';
+};
+
+export const withNearestCommune = (autour: Autour, lieux: Pick<LieuListItem, 'adresse'>[]): Autour => ({
+  ...autour,
+  commune: autour.commune ?? lieux[0]?.adresse.code_insee
+});
 
 const territoireItems = (collectivites: { region: Region; departement: Departement } | undefined, filters: URLSearchParams) =>
   collectivites

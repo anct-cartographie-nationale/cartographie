@@ -8,6 +8,7 @@ import { MapProvider } from 'react-map-gl/maplibre';
 import { Cartographie } from '@/features/cartographie';
 import { LieuxOnMap } from '@/features/lieux-inclusion-numerique';
 import { type Departement, departements, type Region, regions } from '@/libraries/collectivites';
+import { withoutAutourParams } from '@/libraries/inclusion-numerique-api/filters/autour';
 import { cn } from '@/libraries/utils';
 import { useFilteredSearchParams } from '@/shared/hooks';
 import { type AllStats, type DepartementWithCount, fetchAllStats, type RegionWithCount } from '../api';
@@ -25,7 +26,7 @@ const defaultDepartements: DepartementWithCount[] = (departements as Departement
 export const WithMapLayout = () => {
   const [showMap, setShowMap] = useState(false);
   const search = useSearch({ strict: false }) as Record<string, string>;
-  const baseSearchParams = useMemo(() => new URLSearchParams(search), [search]);
+  const baseSearchParams = useMemo(() => withoutAutourParams(new URLSearchParams(search)), [search]);
   const searchParams = useFilteredSearchParams(baseSearchParams);
 
   const defaultStats: AllStats = { regions: defaultRegions, departements: defaultDepartements };

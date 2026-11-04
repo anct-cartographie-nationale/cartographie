@@ -1,5 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import { autourHref, autourSchema, withoutAutourParams, withoutAutourParamsInUrl } from './autour';
+import {
+  AUTOUR_PATH,
+  autourHref,
+  autourKey,
+  autourLocalisation,
+  autourNavigation,
+  autourSchema,
+  isMapCentreAutour,
+  withoutAutourParams,
+  withoutAutourParamsInUrl
+} from './autour';
 
 describe('autourSchema', () => {
   it('parses coordinates, address and commune', () => {
@@ -59,9 +69,66 @@ describe('autourHref', () => {
   });
 });
 
+describe('autourKey', () => {
+  it('identifies a location whatever its label', () => {
+    expect(autourKey({ lat: 48.45, lng: -4.25 })).toBe('48.45,-4.25');
+  });
+
+  it('is the same before and after a round trip through the url', () => {
+    const lieu = autourSchema.parse({ lat: String(48.450798), lng: String(-4.257626) });
+
+    expect(autourKey(lieu)).toBe(autourKey({ lat: 48.450798, lng: -4.257626 }));
+  });
+});
+
+describe('isMapCentreAutour', () => {
+  it('is true without address nor geolocation', () => {
+    expect(isMapCentreAutour({})).toBe(true);
+  });
+
+  it('is false for an address or a geolocation', () => {
+    expect(isMapCentreAutour({ adresse: 'Brest' })).toBe(false);
+    expect(isMapCentreAutour({ geolocalise: '1' })).toBe(false);
+  });
+});
+
+describe('autourLocalisation', () => {
+  it('gives the reference point of an address or a geolocation', () => {
+    expect(autourLocalisation({ lat: 48, lng: -4, adresse: 'Brest' })).toEqual({ latitude: 48, longitude: -4 });
+    expect(autourLocalisation({ lat: 48, lng: -4, geolocalise: '1' })).toEqual({ latitude: 48, longitude: -4 });
+  });
+
+  it('gives no reference point for the centre of the map', () => {
+    expect(autourLocalisation({ lat: 48, lng: -4 })).toBeUndefined();
+  });
+});
+
+describe('autourNavigation', () => {
+  it('adds a history entry when leaving a territory page', () => {
+    expect(autourNavigation('/bretagne/finistere', new URLSearchParams())).toBe('push');
+  });
+
+  it('adds a history entry when leaving an address or a geolocation', () => {
+    expect(autourNavigation(AUTOUR_PATH, new URLSearchParams({ lat: '48', lng: '-4', adresse: 'Brest' }))).toBe('push');
+    expect(autourNavigation(AUTOUR_PATH, new URLSearchParams({ lat: '48', lng: '-4', geolocalise: '1' }))).toBe('push');
+  });
+
+  it('replaces the entry when the map keeps moving', () => {
+    expect(autourNavigation(AUTOUR_PATH, new URLSearchParams({ lat: '48', lng: '-4' }))).toBe('replace');
+  });
+});
+
 describe('withoutAutourParams', () => {
   it('removes the location and keeps everything else', () => {
-    const searchParams = new URLSearchParams({ lat: '1', lng: '2', adresse: 'a', commune: '75056', services: 'b', page: '2' });
+    const searchParams = new URLSearchParams({
+      lat: '1',
+      lng: '2',
+      adresse: 'a',
+      commune: '75056',
+      geolocalise: '1',
+      services: 'b',
+      page: '2'
+    });
 
     expect(withoutAutourParams(searchParams).toString()).toBe('services=b&page=2');
   });

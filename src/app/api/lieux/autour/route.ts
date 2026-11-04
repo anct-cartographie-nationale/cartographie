@@ -2,7 +2,7 @@ import { routeBuilder, withFetch, withMap, withRequired, withSearchParams } from
 import { appendCollectivites } from '@/features/collectivites-territoriales';
 import { fetchLieuxAutour } from '@/features/lieux-inclusion-numerique/abilities/list-view/query/fetch-lieux';
 import { filtersSchema, paginationSchema } from '@/libraries/inclusion-numerique-api';
-import { autourSchema } from '@/libraries/inclusion-numerique-api/filters/autour';
+import { autourLocalisation, autourSchema } from '@/libraries/inclusion-numerique-api/filters/autour';
 import { toLieuListItem } from '@/libraries/inclusion-numerique-api/transfer/to-lieu-list-item';
 
 const PAGE_SIZE = 10;
@@ -17,9 +17,9 @@ export const GET = routeBuilder()
       fetchLieuxAutour({ latitude: lat, longitude: lng })(filters, { page, limit })
     )
   )
-  .handle(async ({ autour: { lat, lng }, lieuxData: { items, totalItems } }) =>
+  .handle(async ({ autour, lieuxData: { items, totalItems } }) =>
     Response.json({
-      lieux: items.map((lieu) => toLieuListItem({ latitude: lat, longitude: lng })(appendCollectivites(lieu))),
+      lieux: items.map((lieu) => toLieuListItem(autourLocalisation(autour))(appendCollectivites(lieu))),
       totalLieux: totalItems
     })
   );

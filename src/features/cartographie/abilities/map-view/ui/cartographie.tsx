@@ -12,7 +12,7 @@ import { RiFullscreenExitLine, RiFullscreenLine, RiListUnordered, RiStackLine } 
 import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry/event-tracker';
 import { type Departement, departementMatchingSlug, france, type Region, regionMatchingSlug } from '@/libraries/collectivites';
 import { inject } from '@/libraries/injection';
-import { load$, setBoundingBox, setMap, setZoom, zoom$ } from '@/libraries/map';
+import { load$, setBoundingBox, setMap, setUserMapMove, setZoom, zoom$ } from '@/libraries/map';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { usePathname, useSearchParams } from '@/libraries/nextjs/shim';
 import { Subscribe } from '@/libraries/reactivity/Subscribe';
@@ -23,6 +23,7 @@ import { MAP_CONFIG } from '@/shared/injection';
 import { DepartementsOnMap } from './departements-on-map';
 import { FragiliteNumeriqueLayers } from './fragilite-numerique-layers';
 import { RegionsOnMap } from './regions-on-map';
+import { useAutourFromMapMoves } from './use-autour-from-map-moves';
 
 const defaultConfig = france.find(({ nom }) => nom === 'France métropolitaine');
 
@@ -34,10 +35,11 @@ const handleZoomEnd = ({ target }: ViewStateChangeEvent) => {
   setZoom(target.getZoom());
 };
 
-const handleMoveEnd = ({ target }: ViewStateChangeEvent) => {
+const handleMoveEnd = ({ target, originalEvent }: ViewStateChangeEvent) => {
   const lngLatBounds = target.getBounds();
   setBoundingBox([lngLatBounds.getWest(), lngLatBounds.getSouth(), lngLatBounds.getEast(), lngLatBounds.getNorth()]);
   saveMapLocation(target.getZoom(), target.getCenter().lng, target.getCenter().lat);
+  if (originalEvent) setUserMapMove({ lat: target.getCenter().lat, lng: target.getCenter().lng, zoom: target.getZoom() });
 };
 
 export const Cartographie = ({
@@ -57,6 +59,8 @@ export const Cartographie = ({
   const [fullScreen, setFullScreen] = useState(false);
   const [fragiliteNumeriqueLayer, setFragiliteNumeriqueLayer] = useState<boolean>(false);
   const { theme } = useTheme();
+
+  useAutourFromMapMoves();
 
   if (defaultConfig == null) return null;
 

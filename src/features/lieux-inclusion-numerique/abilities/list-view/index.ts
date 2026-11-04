@@ -1,2 +1,2 @@
-export { autourBreadcrumbs } from './presenter/autour.presenter';
+export { autourBreadcrumbs, withNearestCommune } from './presenter/autour.presenter';
 export * from './ui';

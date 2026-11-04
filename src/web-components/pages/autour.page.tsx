@@ -2,7 +2,7 @@ import { Page as toPage, PageSize as toPageSize } from '@arckit/resultset';
 import { skipToken, useQuery } from '@tanstack/react-query';
 import { useSearch } from '@tanstack/react-router';
 import { type FC, useMemo } from 'react';
-import { autourBreadcrumbs, LieuxAutourPage } from '@/features/lieux-inclusion-numerique';
+import { autourBreadcrumbs, LieuxAutourPage, withNearestCommune } from '@/features/lieux-inclusion-numerique';
 import { autourSchema, withoutAutourParams } from '@/libraries/inclusion-numerique-api/filters/autour';
 import { useFilteredSearchParams } from '@/shared/hooks';
 import { fetchLieuxAutour } from '../api';
@@ -24,7 +24,9 @@ export const Page: FC = () => {
 
   const filters = withoutAutourParams(searchParams);
   filters.delete('page');
-  const breadcrumbsItems = useBreadcrumbItems(autour ? autourBreadcrumbs(autour, filters) : []);
+  const breadcrumbsItems = useBreadcrumbItems(
+    autour ? autourBreadcrumbs(withNearestCommune(autour, data?.lieux ?? []), filters) : []
+  );
 
   if (!autour) {
     return <div>Page non trouvée</div>;
