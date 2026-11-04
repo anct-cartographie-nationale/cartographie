@@ -6,7 +6,7 @@ import { RiCloseCircleFill, RiSearchLine } from 'react-icons/ri';
 import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry/event-tracker';
 import { collectivitesFromInsee } from '@/libraries/collectivites';
 import type { Address } from '@/libraries/geoplateforme';
-import { AUTOUR_PATH, autourHref, withoutAutourParams } from '@/libraries/inclusion-numerique-api/filters/autour';
+import { AUTOUR_PATH, autourHref, autourKey, withoutAutourParams } from '@/libraries/inclusion-numerique-api/filters/autour';
 import { map$ } from '@/libraries/map';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { usePathname, useRouter, useSearchParams } from '@/libraries/nextjs/shim';
@@ -49,7 +49,7 @@ export const SearchAddress = ({ className }: { className?: string }) => {
           return;
         }
         if (address.x && address.y) {
-          requestResultsFocus(address.label);
+          requestResultsFocus(autourKey({ lat: address.x, lng: address.y }));
           router.push(
             autourHref(
               { lat: address.x, lng: address.y, adresse: address.label, commune: address.citycode },

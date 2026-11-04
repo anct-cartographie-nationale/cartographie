@@ -2,11 +2,13 @@
 
 import { Button } from '@arckit/daisyui/primitives';
 import { RiCrosshair2Line } from 'react-icons/ri';
-import { map$ } from '@/libraries/map';
-import { useSubscribe } from '@/libraries/reactivity/Subscribe';
+import { autourHref, autourKey } from '@/libraries/inclusion-numerique-api/filters/autour';
+import { useRouter, useSearchParams } from '@/libraries/nextjs/shim';
+import { requestResultsFocus } from '@/shared/ui/results-focus.stream';
 
 export const Geolocate = () => {
-  const [map] = useSubscribe(map$);
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handleGeolocate = () => {
     if (!navigator.geolocation) {
@@ -16,13 +18,10 @@ export const Geolocate = () => {
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        const { latitude, longitude } = position.coords;
+        const { latitude: lat, longitude: lng } = position.coords;
 
-        map?.flyTo({
-          center: [longitude, latitude],
-          zoom: 13,
-          duration: 400
-        });
+        requestResultsFocus(autourKey({ lat, lng }));
+        router.push(autourHref({ lat, lng, geolocalise: '1' }, new URLSearchParams(searchParams)));
       },
       (error) => {
         console.warn('Erreur de géolocalisation :', error.message);

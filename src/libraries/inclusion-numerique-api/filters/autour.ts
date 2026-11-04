@@ -10,14 +10,15 @@ export const autourSchema = z.object({
     .string()
     .regex(/^(\d{5}|2[AB]\d{3})$/)
     .optional()
-    .catch(undefined)
+    .catch(undefined),
+  geolocalise: z.literal('1').optional().catch(undefined)
 });
 
 export type Autour = z.infer<typeof autourSchema>;
 
 export const AUTOUR_PATH = '/autour';
 
-const AUTOUR_PARAMS = ['lat', 'lng', 'adresse', 'commune'] as const;
+const AUTOUR_PARAMS = ['lat', 'lng', 'adresse', 'commune', 'geolocalise'] as const;
 
 export const withoutAutourParams = (searchParams: URLSearchParams): URLSearchParams => {
   const remaining = new URLSearchParams(searchParams);
@@ -25,15 +26,27 @@ export const withoutAutourParams = (searchParams: URLSearchParams): URLSearchPar
   return remaining;
 };
 
-export const autourHref = ({ lat, lng, adresse, commune }: Autour, searchParams: URLSearchParams): string => {
+export const autourHref = ({ lat, lng, adresse, commune, geolocalise }: Autour, searchParams: URLSearchParams): string => {
   const params = withoutAutourParams(searchParams);
   params.delete('page');
   params.set('lat', String(lat));
   params.set('lng', String(lng));
   if (adresse != null) params.set('adresse', adresse);
   if (commune != null) params.set('commune', commune);
+  if (geolocalise != null) params.set('geolocalise', geolocalise);
   return `${AUTOUR_PATH}?${params}`;
 };
+
+export const autourKey = ({ lat, lng }: Pick<Autour, 'lat' | 'lng'>): string => `${lat},${lng}`;
+
+export const isMapCentreAutour = ({ adresse, geolocalise }: Pick<Autour, 'adresse' | 'geolocalise'>): boolean =>
+  adresse == null && geolocalise == null;
+
+export const autourLocalisation = (autour: Autour): { latitude: number; longitude: number } | undefined =>
+  isMapCentreAutour(autour) ? undefined : { latitude: autour.lat, longitude: autour.lng };
+
+export const autourNavigation = (pathname: string, searchParams: URLSearchParams): 'push' | 'replace' =>
+  pathname === AUTOUR_PATH && !searchParams.has('adresse') && !searchParams.has('geolocalise') ? 'replace' : 'push';
 
 const URL_PARTS = /^([^?#]*)(?:\?([^#]*))?(#.*)?$/;
 

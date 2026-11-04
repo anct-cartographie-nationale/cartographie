@@ -1,9 +1,10 @@
 'use client';
 
 import Supercluster from 'mutable-supercluster';
-import { memo, Suspense, useEffect, useMemo, useState } from 'react';
+import { type MouseEvent, memo, Suspense, useEffect, useMemo, useState } from 'react';
 import { Popup } from 'react-map-gl/maplibre';
 import type { ClusterFeature, ClusterProperties, PointFeature } from 'supercluster';
+import { withoutAutourParams } from '@/libraries/inclusion-numerique-api/filters/autour';
 import { provide } from '@/libraries/injection';
 import { map$, type Position2D, spiderifyOffsets } from '@/libraries/map';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
@@ -63,7 +64,7 @@ export const LieuxOnMapContent = () => {
   }, []);
 
   const urlSearchParams = useSearchParams();
-  const baseSearchParams: URLSearchParams = useMemo(() => new URLSearchParams(urlSearchParams), [urlSearchParams]);
+  const baseSearchParams: URLSearchParams = useMemo(() => withoutAutourParams(urlSearchParams), [urlSearchParams]);
   const searchParams = useFilteredSearchParams(baseSearchParams);
 
   useEffect(() => {
@@ -86,12 +87,15 @@ export const LieuxOnMapContent = () => {
 
   const handleSplitCluster =
     ({ geometry, properties }: ClusterFeature<ClusterProperties>) =>
-    () =>
-      map?.flyTo({
-        center: [geometry.coordinates?.[0] ?? 0, geometry.coordinates?.[1] ?? 0],
-        zoom: supercluster.getClusterExpansionZoom(properties.cluster_id),
-        duration: 400
-      });
+    ({ nativeEvent }: MouseEvent) =>
+      map?.flyTo(
+        {
+          center: [geometry.coordinates?.[0] ?? 0, geometry.coordinates?.[1] ?? 0],
+          zoom: supercluster.getClusterExpansionZoom(properties.cluster_id),
+          duration: 400
+        },
+        { originalEvent: nativeEvent }
+      );
 
   return (
     <Subscribe to$={lieux$Instance}>
