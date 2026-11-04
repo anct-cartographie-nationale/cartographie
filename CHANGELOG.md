@@ -1,3 +1,15 @@
+# [6.32.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.31.0...v6.32.0) (2026-11-04)
+
+
+### Bug Fixes
+
+* **carte:** ne plus remonter la page lors des navigations depuis la carte ([43c588a](https://github.com/anct-cartographie-nationale/cartographie/commit/43c588a907a4cc4eb913dc5834e4294b71c78547))
+
+
+### Features
+
+* **lieux:** trier la liste au deplacement de la carte et a la geolocalisation ([b79745f](https://github.com/anct-cartographie-nationale/cartographie/commit/b79745fcf7bab1c2ce11d5f3354e3e6d5ec2985d))
+
 # [6.31.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.30.0...v6.31.0) (2026-11-04)
 
 
