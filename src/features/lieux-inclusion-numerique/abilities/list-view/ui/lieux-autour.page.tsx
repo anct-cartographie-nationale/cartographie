@@ -1,6 +1,6 @@
 'use client';
 
-import { Breadcrumbs, NextPageLink, PageLink, Pagination, PreviousPageLink } from '@arckit/daisyui/blocks';
+import { Pagination } from '@arckit/daisyui/blocks';
 import type { Paginated } from '@arckit/resultset';
 import { type ReactNode, useMemo, useRef } from 'react';
 import { filter } from 'rxjs';
@@ -9,6 +9,8 @@ import { type Autour, autourKey, withoutAutourParams } from '@/libraries/inclusi
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { useSearchParams } from '@/libraries/nextjs/shim';
 import { useTap } from '@/libraries/reactivity/Subscribe';
+import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
+import { NextPageLink, PageLink, PreviousPageLink } from '@/libraries/ui/blocks/pagination-links';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import SkipLinksPortal from '@/libraries/ui/blocks/skip-links/skip-links-portal';
 import { Link } from '@/libraries/ui/primitives/link';

@@ -1,6 +1,6 @@
-import { Breadcrumbs } from '@arckit/daisyui/blocks';
 import { Button } from '@arckit/daisyui/primitives';
 import { RiRoadMapLine } from 'react-icons/ri';
+import { Breadcrumbs } from '@/libraries/ui/blocks/breadcrumbs';
 import { LieuxListSkeleton } from '@/libraries/ui/blocks/loading';
 import { contentId } from '@/libraries/ui/blocks/skip-links/skip-links';
 

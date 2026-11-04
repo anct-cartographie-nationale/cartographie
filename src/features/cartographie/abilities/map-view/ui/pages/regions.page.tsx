@@ -1,10 +1,10 @@
 'use client';
 
-import { ButtonLink } from '@arckit/daisyui/primitives';
 import type { ReactNode } from 'react';
 import type { Region } from '@/libraries/collectivites';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { Link, useSearchParams } from '@/libraries/nextjs/shim';
+import { InternalButtonLink } from '@/libraries/ui/primitives/internal-link';
 import { useMapInitialLocation } from './use-map-initial-location';
 
 export const RegionsPage = ({
@@ -38,14 +38,14 @@ export const RegionsPage = ({
         ))}
       </div>
       <div className='pt-16 pb-8'>
-        <ButtonLink
+        <InternalButtonLink
           className='border-base-200'
           kind='btn-outline'
           color='btn-primary'
           href={hrefWithSearchParams('/lieux')(searchParams)}
         >
           Afficher la liste des {totalLieux} lieux
-        </ButtonLink>
+        </InternalButtonLink>
       </div>
     </>
   );

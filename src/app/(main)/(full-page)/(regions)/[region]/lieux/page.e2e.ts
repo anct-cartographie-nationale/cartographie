@@ -1,4 +1,16 @@
-import { expect, test } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
+
+const markPageAsLoaded = async (page: Page) => {
+  await page.waitForFunction(() => {
+    const link = document.querySelector('main a');
+    return link != null && Object.keys(link).some((key) => key.startsWith('__reactProps'));
+  });
+  await page.evaluate(() => {
+    document.documentElement.dataset['loaded'] = 'true';
+  });
+};
+
+const expectNoPageReload = (page: Page) => expect(page.locator('html')).toHaveAttribute('data-loaded', 'true');
 
 test.describe('Region lieux list page', () => {
   test.beforeEach(async ({ page }) => {
@@ -28,6 +40,25 @@ test.describe('Region lieux list page', () => {
     await Promise.all([page.waitForURL(/page=2/), page.click('[title="Page 2"]')]);
 
     await expect(page.locator('[data-testid="lieu-card"]').first()).toBeVisible();
+  });
+
+  test('should paginate lieux list without reloading the page', async ({ page }) => {
+    await markPageAsLoaded(page);
+
+    await Promise.all([page.waitForURL(/page=2/), page.click('[title="Page 2"]')]);
+
+    await expectNoPageReload(page);
+  });
+
+  test('should navigate to map view without reloading the page', async ({ page }) => {
+    await markPageAsLoaded(page);
+
+    await Promise.all([
+      page.waitForURL(/\/ile-de-france(\?|$)/),
+      page.getByRole('link', { name: /Afficher la carte/ }).click()
+    ]);
+
+    await expectNoPageReload(page);
   });
 
   test('should navigate to map view', async ({ page }) => {

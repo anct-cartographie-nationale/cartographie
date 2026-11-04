@@ -1,10 +1,10 @@
 'use client';
 
-import { ButtonLink, type ButtonLinkProps } from '@arckit/daisyui/primitives';
 import type { MouseEvent, ReactNode } from 'react';
 import { useRouter } from '@/libraries/nextjs/shim';
+import { InternalButtonLink, type InternalButtonLinkProps } from './internal-link';
 
-export const BackButtonLink = ({ onClick, ...props }: ButtonLinkProps): ReactNode => {
+export const BackButtonLink = ({ onClick, ...props }: InternalButtonLinkProps): ReactNode => {
   const router = useRouter();
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
@@ -19,5 +19,5 @@ export const BackButtonLink = ({ onClick, ...props }: ButtonLinkProps): ReactNod
     onClick?.(e);
   };
 
-  return <ButtonLink {...props} onClick={handleClick} />;
+  return <InternalButtonLink {...props} onClick={handleClick} />;
 };
