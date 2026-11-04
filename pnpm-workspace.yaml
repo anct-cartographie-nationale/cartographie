@@ -26,3 +26,6 @@ allowBuilds:
   protobufjs: true
   sharp: true
   ssh2: true
+
+overrides:
+  postcss-selector-parser@6: ^6.1.5
