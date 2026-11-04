@@ -1,3 +1,10 @@
+# [6.35.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.34.0...v6.35.0) (2026-11-04)
+
+
+### Features
+
+* **lieux:** afficher la fraicheur des informations sur la fiche d'un lieu ([4dcd8ed](https://github.com/anct-cartographie-nationale/cartographie/commit/4dcd8ed580efaf9a3045af8d2584c90c9b4bb0b8))
+
 # [6.34.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.33.0...v6.34.0) (2026-11-04)
 
 
