@@ -1,5 +1,5 @@
+import { Tooltip } from '@/libraries/ui/primitives/tooltip';
 import { cn } from '@/libraries/utils';
-import { Tooltip } from '@/shared/ui/tooltip';
 import type { Fraicheur, NiveauFraicheur } from '../../presenter/fraicheur.presenter';
 
 const COULEURS: Record<NiveauFraicheur, { badge: string; pastille: string }> = {
@@ -10,14 +10,16 @@ const COULEURS: Record<NiveauFraicheur, { badge: string; pastille: string }> = {
 };
 
 export const FraicheurBadge = ({ niveau, libelle, explication }: Pick<Fraicheur, 'niveau' | 'libelle' | 'explication'>) => (
-  <Tooltip
-    content={explication}
-    className={cn(
-      'inline-flex items-center gap-1.5 rounded px-2 py-0.5 text-sm font-bold cursor-help focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
-      COULEURS[niveau].badge
-    )}
-  >
-    <span aria-hidden={true} className={cn('size-2 rounded-full', COULEURS[niveau].pastille)} />
-    {libelle}
+  <Tooltip content={explication}>
+    <button
+      type='button'
+      className={cn(
+        'inline-flex items-center gap-1.5 rounded px-2 py-0.5 text-sm font-bold cursor-help focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
+        COULEURS[niveau].badge
+      )}
+    >
+      <span aria-hidden={true} className={cn('size-2 rounded-full', COULEURS[niveau].pastille)} />
+      {libelle}
+    </button>
   </Tooltip>
 );

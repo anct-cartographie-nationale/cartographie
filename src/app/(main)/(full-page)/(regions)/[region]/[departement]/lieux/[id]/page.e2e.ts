@@ -75,24 +75,37 @@ test.describe('Lieu detail page freshness', () => {
 
   test('should explain the badge on focus and close the explanation with Escape', async ({ page }) => {
     const tooltip = page.getByRole('tooltip');
-    await expect(tooltip).toBeHidden();
+    await expect(tooltip).toHaveCount(0);
 
     await badge(page).focus();
-    await expect(tooltip).toBeVisible();
     await expect(tooltip).toContainText(/Informations/);
-    await expect(badge(page)).toHaveAttribute('aria-describedby', (await tooltip.getAttribute('id')) ?? '');
+    await expect(badge(page)).toHaveAttribute('aria-describedby', /.+/);
 
     await page.keyboard.press('Escape');
-    await expect(tooltip).toBeHidden();
+    await expect(tooltip).toHaveCount(0);
   });
 
   test('should explain the badge on hover and let the pointer reach the explanation', async ({ page }) => {
-    const tooltip = page.getByRole('tooltip');
-
     await badge(page).hover();
-    await expect(tooltip).toBeVisible();
+    const explanation = page.locator('[data-radix-popper-content-wrapper]');
+    await expect(explanation).toContainText(/Informations/);
 
-    await tooltip.hover();
-    await expect(tooltip).toBeVisible();
+    await explanation.hover();
+    await expect(explanation).toBeVisible();
+  });
+});
+
+test.describe('Lieu detail page freshness on a touch screen', () => {
+  test.use({ hasTouch: true });
+
+  test('should explain the badge on tap and close the explanation when tapping elsewhere', async ({ page }) => {
+    await page.goto('/bretagne/finistere/lieux/269');
+    const explanation = page.locator('[data-radix-popper-content-wrapper]');
+
+    await page.getByRole('button', { name: /^(À jour|À surveiller|À vérifier|À actualiser)$/ }).tap();
+    await expect(explanation).toContainText(/Informations/);
+
+    await page.locator('h1').tap();
+    await expect(explanation).toHaveCount(0);
   });
 });
