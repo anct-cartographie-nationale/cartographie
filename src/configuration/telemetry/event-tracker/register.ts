@@ -1,7 +1,10 @@
 import { initMatomoBrowser, matomoBrowserPageView } from '@arckit/telemetry/event-tracker';
 import { clientEnv } from '@/env.client';
+import { withoutAutourParamsInUrl } from '@/libraries/inclusion-numerique-api/filters/autour';
 
-export const trackPageView = matomoBrowserPageView();
+const pageView = matomoBrowserPageView();
+
+export const trackPageView = (url: string = window.location.href) => pageView(withoutAutourParamsInUrl(url));
 
 export const register = (): void => {
   initMatomoBrowser({

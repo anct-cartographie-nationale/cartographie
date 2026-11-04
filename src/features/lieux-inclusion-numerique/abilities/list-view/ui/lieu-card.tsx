@@ -5,6 +5,7 @@ import type { LieuListItem } from '@/libraries/inclusion-numerique-api';
 import { ConumLogo, FranceServicesLogo } from '@/libraries/ui/logos';
 import { LieuLogo } from '@/libraries/ui/logos/lieu.logo';
 import { cn } from '@/libraries/utils';
+import { distanceLabel } from '../presenter/distance.presenter';
 import { OpenBadge } from './open-badge';
 
 type LieuCardProps = Omit<LieuListItem, 'id' | 'region' | 'departement'> & {
@@ -49,7 +50,7 @@ export const LieuCard = ({
       {size === 'md' && (
         <div className='flex gap-1 justify-between text-neutral'>
           <div>{adresse.commune}</div>
-          {distance && <div>à {distance} Km</div>}
+          {distance && <div>{distanceLabel(distance)}</div>}
         </div>
       )}
       {size === 'lg' && (

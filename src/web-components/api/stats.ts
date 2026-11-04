@@ -61,6 +61,20 @@ export const fetchDepartementLieux = async (
   return response.json();
 };
 
+export const fetchLieuxAutour = async (
+  page: number = 1,
+  limit: number = 10,
+  searchParams?: URLSearchParams
+): Promise<DepartementLieuxResponse> => {
+  const params = new URLSearchParams(searchParams);
+  params.set('page', String(page));
+  params.set('limit', String(limit));
+
+  const response = await fetch(buildUrl('/lieux/autour', params));
+  if (!response.ok) throw new Error('Failed to fetch lieux autour');
+  return response.json();
+};
+
 export type LieuxResponse = {
   lieux: LieuListItem[];
   totalLieux: number;

@@ -3,6 +3,7 @@
 import { initMatomoBrowser, matomoBrowserPageView } from '@arckit/telemetry/event-tracker';
 import { useLocation } from '@tanstack/react-router';
 import { useEffect } from 'react';
+import { withoutAutourParamsInUrl } from '@/libraries/inclusion-numerique-api/filters/autour';
 import { inject } from '@/libraries/injection';
 import { EVENT_TRACKER_CONFIG } from './event-tracker-config.key';
 
@@ -14,7 +15,7 @@ export const EventTracker = (): null => {
 
   useEffect(() => {
     initMatomoBrowser({ url: config?.url, siteId: config?.siteId, disableCookies: true });
-    trackPageView(url);
+    trackPageView(withoutAutourParamsInUrl(url));
   }, [config, url]);
 
   return null;
