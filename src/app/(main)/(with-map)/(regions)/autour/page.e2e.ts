@@ -111,19 +111,27 @@ const dragMap = async (page: Page, by: { x: number; y: number }) => {
 
 const expectOnSlowRunner = expect.configure({ timeout: 30_000 });
 
+const STABLE_POLLS_BEFORE_SETTLED = 3;
+
 const waitForMapToSettle = async (page: Page) => {
   await page.locator('.maplibregl-marker').first().waitFor({ timeout: 45_000 });
 
+  const expectedLatitude = new URL(page.url()).searchParams.get('lat');
   let previousLocation: string | null | undefined;
+  let stablePolls = 0;
+
   await expect
     .poll(
       async () => {
         const location = await page.evaluate(() => sessionStorage.getItem('mapLocation'));
-        const isStable = location === previousLocation;
+        stablePolls = location === previousLocation ? stablePolls + 1 : 0;
         previousLocation = location;
-        return isStable;
+        const isOnExpectedLocation =
+          expectedLatitude == null ||
+          (location != null && Math.abs(JSON.parse(location).lat - Number(expectedLatitude)) < 0.05);
+        return isOnExpectedLocation && stablePolls >= STABLE_POLLS_BEFORE_SETTLED;
       },
-      { timeout: 30_000, intervals: [1000] }
+      { timeout: 45_000, intervals: [700] }
     )
     .toBe(true);
 };
