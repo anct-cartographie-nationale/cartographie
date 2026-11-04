@@ -265,10 +265,9 @@ test.describe('Liste qui suit la carte', () => {
       if (request.url().includes('/api/lieux/chunk')) chunkRequests.push(request.url());
     });
 
-    await page.goto(LANDERNEAU);
-    await waitForMapToSettle(page);
-
-    expectOnSlowRunner(chunkRequests.length).toBeGreaterThan(0);
+    await page.goto('/autour?lat=47.998695&lng=-4.093228&adresse=Quimper&commune=29232');
+    await expectOnSlowRunner.poll(() => chunkRequests.length).toBeGreaterThan(0);
+    await expectOnSlowRunner(page.locator('a[href^="/lieux/"]').first()).toBeAttached();
     expectOnSlowRunner(chunkRequests.filter((url) => /[?&](lat|lng|adresse|commune)=/.test(url))).toEqual([]);
     const markerHrefs = await page
       .locator('a[href^="/lieux/"]')
