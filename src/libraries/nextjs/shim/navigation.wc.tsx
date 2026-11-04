@@ -3,6 +3,8 @@
 import { useLocation, useNavigate, useSearch, useRouter as useTanStackRouter } from '@tanstack/react-router';
 import { useMemo } from 'react';
 
+type NavigateOptions = { scroll?: boolean };
+
 export const usePathname = (): string => {
   const location = useLocation();
   return location.pathname;
@@ -19,8 +21,9 @@ export const useRouter = () => {
 
   return useMemo(
     () => ({
-      push: (url: string) => navigate({ to: url }),
-      replace: (url: string) => navigate({ to: url, replace: true }),
+      push: (url: string, options?: NavigateOptions) => navigate({ to: url, resetScroll: options?.scroll ?? true }),
+      replace: (url: string, options?: NavigateOptions) =>
+        navigate({ to: url, replace: true, resetScroll: options?.scroll ?? true }),
       back: () => window.history.back(),
       refresh: () => router.invalidate()
     }),

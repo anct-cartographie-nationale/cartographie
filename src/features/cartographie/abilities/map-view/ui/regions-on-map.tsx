@@ -16,6 +16,7 @@ export const RegionsOnMap = ({
 
   return regions.map(({ code, localisation, slug, nom, nombreLieux }) => (
     <Link
+      scroll={false}
       href={hrefWithSearchParams(`/${slug}`)(searchParams, ['page'])}
       key={code}
       prefetch={false}

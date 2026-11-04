@@ -54,7 +54,8 @@ export const SearchAddress = ({ className }: { className?: string }) => {
             autourHref(
               { lat: address.x, lng: address.y, adresse: address.label, commune: address.citycode },
               new URLSearchParams(searchParams)
-            )
+            ),
+            { scroll: false }
           );
         }
       }}
@@ -82,7 +83,8 @@ export const SearchAddress = ({ className }: { className?: string }) => {
                       const commune = options.selectedItem?.citycode;
                       options.reset();
                       map && removeHighlightDecoupageAdministratif(map);
-                      if (pathname === AUTOUR_PATH) router.push(territoireHref(commune, new URLSearchParams(searchParams)));
+                      if (pathname === AUTOUR_PATH)
+                        router.push(territoireHref(commune, new URLSearchParams(searchParams)), { scroll: false });
                     }}
                   >
                     <RiCloseCircleFill size={24} />

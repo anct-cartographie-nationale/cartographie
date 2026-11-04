@@ -201,6 +201,39 @@ test.describe('Liste qui suit la carte', () => {
     await expect(mapCanvas(page)).toBeFocused();
   });
 
+  test('should not scroll the page when the list follows the map', async ({ page }) => {
+    await page.goto('/bretagne/finistere');
+    await waitForMapToSettle(page);
+    await page.evaluate(() => window.scrollTo(0, 120));
+    const scrollBefore = await page.evaluate(() => window.scrollY);
+
+    await dragMap(page, { x: -150, y: 0 });
+    await expect(page.locator('h1')).toHaveText(/centre de la carte/);
+    await waitForMapToSettle(page);
+
+    expect(scrollBefore).toBeGreaterThan(0);
+    expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
+
+    await dragMap(page, { x: -150, y: 40 });
+    await waitForMapToSettle(page);
+
+    expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
+  });
+
+  test('should not scroll the page when clicking a region on the map', async ({ page }) => {
+    await page.goto('/');
+    await waitForMapToSettle(page);
+    await page.evaluate(() => window.scrollTo(0, 120));
+    const scrollBefore = await page.evaluate(() => window.scrollY);
+
+    await page.locator('.maplibregl-marker', { hasText: 'Bretagne' }).click();
+    await page.waitForURL('/bretagne');
+    await waitForMapToSettle(page);
+
+    expect(scrollBefore).toBeGreaterThan(0);
+    expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
+  });
+
   test('should keep the filters when the list follows the map', async ({ page }) => {
     await page.goto('/bretagne/finistere?services=Aide+aux+d%C3%A9marches+administratives');
     await waitForMapToSettle(page);
