@@ -1,4 +1,5 @@
 export { boundingBox$, setBoundingBox } from './bounding-box.stream';
+export { hoveredLieu$, hoverLieu, isLieuHovered$, leaveLieu } from './hovered-lieu.stream';
 export { endLoad, load$, startLoad } from './load.stream';
 export { map$, setMap } from './map.stream';
 export {

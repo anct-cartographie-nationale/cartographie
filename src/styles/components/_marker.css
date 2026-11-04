@@ -7,6 +7,7 @@
   transform-origin: center;
 }
 
+.marker-highlighted .marker-shape,
 .marker:hover .marker-shape {
   transform: scale(1.2);
 }
@@ -23,10 +24,30 @@
   transition: stroke-width 0.2s ease;
 }
 
+.marker-highlighted .marker-border-shrink,
 .marker:hover .marker-border-shrink {
   stroke-width: 0;
 }
 
+.marker-highlighted .marker-border-grow,
 .marker:hover .marker-border-grow {
   stroke-width: 6;
+}
+
+.marker-highlighted {
+  transform: scale(1.3);
+  transition: transform 0.2s ease;
+}
+
+.maplibregl-marker:has(.marker-highlighted) {
+  z-index: 10;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marker-shape,
+  .marker-border-shrink,
+  .marker-border-grow,
+  .marker-highlighted {
+    transition: none;
+  }
 }

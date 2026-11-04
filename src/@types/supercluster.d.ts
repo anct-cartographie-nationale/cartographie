@@ -14,6 +14,7 @@ declare module 'mutable-supercluster' {
     });
     load(points: Feature<Point, P>[]): this;
     getClusters(bbox: BBox, zoom: number): (Feature<Point, P> | Feature<Point, C>)[];
+    getLeaves(clusterId: number, limit?: number, offset?: number): Feature<Point, P>[];
     getClusterExpansionZoom: (clusterId: number) => number;
   }
 }

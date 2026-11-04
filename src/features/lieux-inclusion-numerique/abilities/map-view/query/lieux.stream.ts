@@ -14,8 +14,17 @@ import {
 } from 'rxjs';
 import type { ClusterFeature, ClusterProperties, PointFeature } from 'supercluster';
 import { inject } from '@/libraries/injection';
-import { boundingBox$, boundingBoxCenter, MAP_CHUNK_OPTIONS, type Position2D, splitBondingBox, zoom$ } from '@/libraries/map';
+import {
+  boundingBox$,
+  boundingBoxCenter,
+  hoveredLieu$,
+  MAP_CHUNK_OPTIONS,
+  type Position2D,
+  splitBondingBox,
+  zoom$
+} from '@/libraries/map';
 import { LIEUX_CACHE, LIEUX_FOR_CHUNK } from '../../../injection';
+import { clusterContainingLieu } from './cluster-containing-lieu';
 import type { Lieu } from './lieu';
 import { touchCache } from './lieux.cache';
 import { searchParams$ } from './search-params.stream';
@@ -83,4 +92,21 @@ export const lieux$ = (
             }))
           );
     })
+  );
+
+export const lieuxWithHighlight$ = (
+  supercluster: Supercluster<Lieu, ClusterProperties>
+): Observable<{
+  features: (PointFeature<Lieu> | ClusterFeature<ClusterProperties>)[];
+  highlightedClusterId: number | undefined;
+}> =>
+  lieux$(supercluster).pipe(
+    switchMap(({ features }) =>
+      hoveredLieu$.pipe(
+        map((lieuId) => ({
+          features,
+          highlightedClusterId: lieuId ? clusterContainingLieu(supercluster, features, lieuId) : undefined
+        }))
+      )
+    )
   );
