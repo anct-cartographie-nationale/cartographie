@@ -1,3 +1,4 @@
+export * from './collectivites-from-insee';
 export * from './departement';
 export * from './filter-by-territoire';
 export * from './get-departement-code';

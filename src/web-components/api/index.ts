@@ -17,6 +17,7 @@ export {
   fetchDepartementLieux,
   fetchDepartementsStats,
   fetchLieu,
+  fetchLieuxAutour,
   fetchLieuxForChunk,
   fetchLieuxSearch,
   fetchMediateursSearch,

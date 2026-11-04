@@ -2,6 +2,7 @@ import { createMemoryHistory, createRootRoute, createRoute, createRouter, Outlet
 import { zodSearchValidator } from '@tanstack/router-zod-adapter';
 import { WebComponentLayout } from './layout';
 import { WithMapLayout } from './layouts/with-map.layout';
+import { Page as AutourPage } from './pages/autour.page';
 import { Page as DepartementPage } from './pages/departement.page';
 import { Page as DepartementLieuxPage } from './pages/departement-lieux.page';
 import { Page as DepartementsPage } from './pages/departements.page';
@@ -30,6 +31,13 @@ const homeRoute = createRoute({
   getParentRoute: () => withMapRoute,
   path: '/',
   component: RegionsPage
+});
+
+const autourRoute = createRoute({
+  getParentRoute: () => withMapRoute,
+  path: '/autour',
+  component: AutourPage,
+  validateSearch: zodSearchValidator(paginationSearchSchema)
 });
 
 const regionRoute = createRoute({
@@ -79,7 +87,7 @@ const lieuRoute = createRoute({
 });
 
 const routeTree = rootRoute.addChildren([
-  withMapRoute.addChildren([homeRoute, regionRoute, departementRoute]),
+  withMapRoute.addChildren([homeRoute, autourRoute, regionRoute, departementRoute]),
   lieuxRoute,
   lieuRedirectRoute,
   regionLieuxRoute,
