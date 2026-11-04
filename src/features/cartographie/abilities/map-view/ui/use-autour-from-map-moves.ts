@@ -12,6 +12,6 @@ export const useAutourFromMapMoves = () => {
 
   useTap(userMapCentre$, (centre) => {
     const currentParams = new URLSearchParams(searchParams);
-    router[autourNavigation(pathname, currentParams)](autourHref(centre, currentParams));
+    router[autourNavigation(pathname, currentParams)](autourHref(centre, currentParams), { scroll: false });
   });
 };

@@ -19,6 +19,7 @@ export const DepartementsOnMap = ({
 
   return departements.map(({ code, localisation, slug, nom, nombreLieux }) => (
     <Link
+      scroll={false}
       href={hrefWithSearchParams(`/${regions.find(regionMatchingDepartement({ code }))?.slug}/${slug}`)(searchParams, ['page'])}
       key={code}
       prefetch={false}

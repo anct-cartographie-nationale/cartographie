@@ -21,7 +21,7 @@ export const Geolocate = () => {
         const { latitude: lat, longitude: lng } = position.coords;
 
         requestResultsFocus(autourKey({ lat, lng }));
-        router.push(autourHref({ lat, lng, geolocalise: '1' }, new URLSearchParams(searchParams)));
+        router.push(autourHref({ lat, lng, geolocalise: '1' }, new URLSearchParams(searchParams)), { scroll: false });
       },
       (error) => {
         console.warn('Erreur de géolocalisation :', error.message);

@@ -5,11 +5,12 @@ import type { AnchorHTMLAttributes, ReactNode } from 'react';
 
 export type LinkProps = {
   href: string;
+  scroll?: boolean;
   children?: ReactNode;
 } & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>;
 
-export const Link = ({ href, children, target, ...props }: LinkProps) => (
-  <TanStackLink to={href} {...(target != null ? { target } : {})} {...props}>
+export const Link = ({ href, scroll = true, children, target, ...props }: LinkProps) => (
+  <TanStackLink to={href} resetScroll={scroll} {...(target != null ? { target } : {})} {...props}>
     {children}
   </TanStackLink>
 );
