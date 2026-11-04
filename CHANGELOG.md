@@ -1,3 +1,10 @@
+# [6.34.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.33.0...v6.34.0) (2026-11-04)
+
+
+### Features
+
+* **integration:** envoyer un mail par territoire et preciser l'objet ([d366157](https://github.com/anct-cartographie-nationale/cartographie/commit/d366157b6210689a968bf04d6f3ac578b069c29c))
+
 # [6.33.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.32.0...v6.33.0) (2026-11-04)
 
 
