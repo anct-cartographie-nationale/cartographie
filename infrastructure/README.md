@@ -26,17 +26,21 @@ cp .env.example .env
 1. Installer Pulumi si ce n’est pas déjà fait : https://www.pulumi.com/docs/get-started/install/
 2. Aller dans le répertoire `infrastructure`
 3. Installer les dépendances :
-    ```bash
-    npm install
-    ```
+
+   ```bash
+   npm install
+   ```
 4. Se connecter à Pulumi (un compte gratuit peut être créé si nécessaire) :
-    ```bash
-    pulumi login
-    ```
+
+   ```bash
+   pulumi login
+   ```
 5. Initialiser les stacks `dev` et `prod` :
+
    ```bash
    pulumi stack init dev
    ```
+
    ```bash
    pulumi stack init prod
    ```
