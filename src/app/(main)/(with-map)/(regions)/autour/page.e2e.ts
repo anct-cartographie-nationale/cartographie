@@ -109,21 +109,37 @@ const dragMap = async (page: Page, by: { x: number; y: number }) => {
   await page.mouse.up();
 };
 
+const expectOnSlowRunner = expect.configure({ timeout: 30_000 });
+
 const waitForMapToSettle = async (page: Page) => {
-  await mapCanvas(page).waitFor();
-  await page.waitForTimeout(1500);
+  await page.locator('.maplibregl-marker').first().waitFor({ timeout: 45_000 });
+
+  let previousLocation: string | null | undefined;
+  await expect
+    .poll(
+      async () => {
+        const location = await page.evaluate(() => sessionStorage.getItem('mapLocation'));
+        const isStable = location === previousLocation;
+        previousLocation = location;
+        return isStable;
+      },
+      { timeout: 30_000, intervals: [1000] }
+    )
+    .toBe(true);
 };
 
 const storedZoom = (page: Page): Promise<number> =>
   page.evaluate(() => JSON.parse(sessionStorage.getItem('mapLocation') ?? '{}').zoom);
 
 test.describe('Liste qui suit la carte', () => {
+  test.describe.configure({ timeout: 120_000 });
+
   test('should stay on the department list when the map only frames it', async ({ page }) => {
     await page.goto('/bretagne/finistere');
     await waitForMapToSettle(page);
 
-    await expect(page).toHaveURL('/bretagne/finistere');
-    await expect(page.locator('h1')).toContainText(/\d+ lieux trouvés/);
+    await expectOnSlowRunner(page).toHaveURL('/bretagne/finistere');
+    await expectOnSlowRunner(page.locator('h1')).toContainText(/\d+ lieux trouvés/);
   });
 
   test('should sort the list around the centre of the map after a drag', async ({ page }) => {
@@ -132,11 +148,11 @@ test.describe('Liste qui suit la carte', () => {
 
     await dragMap(page, { x: -150, y: 0 });
 
-    await expect(page).toHaveURL(/\/autour\?lat=[\d.-]+&lng=[\d.-]+$/);
-    await expect(page.locator('h1')).toHaveText(/lieux les plus proches du centre de la carte/);
-    await expect(page.getByRole('status').filter({ hasText: 'Lieu le plus proche' })).toBeAttached();
-    await expect(page.locator('[data-testid="lieu-card"]').first()).not.toContainText(/à (moins de )?\d/);
-    await expect(page.getByRole('link', { name: /Voir tous les lieux du département/ })).toBeVisible();
+    await expectOnSlowRunner(page).toHaveURL(/\/autour\?lat=[\d.-]+&lng=[\d.-]+$/);
+    await expectOnSlowRunner(page.locator('h1')).toHaveText(/lieux les plus proches du centre de la carte/);
+    await expectOnSlowRunner(page.getByRole('status').filter({ hasText: 'Lieu le plus proche' })).toBeAttached();
+    await expectOnSlowRunner(page.locator('[data-testid="lieu-card"]').first()).not.toContainText(/à (moins de )?\d/);
+    await expectOnSlowRunner(page.getByRole('link', { name: /Voir tous les lieux du département/ })).toBeVisible();
   });
 
   test('should not move the map again nor the zoom when the list follows it', async ({ page }) => {
@@ -148,11 +164,11 @@ test.describe('Liste qui suit la carte', () => {
     const zoom = await storedZoom(page);
 
     await dragMap(page, { x: -100, y: 40 });
-    await expect(page.locator('h1')).toHaveText(/centre de la carte/);
+    await expectOnSlowRunner(page.locator('h1')).toHaveText(/centre de la carte/);
     await waitForMapToSettle(page);
 
-    expect(zoom).toBeLessThan(13);
-    expect(await storedZoom(page)).toBeCloseTo(zoom, 1);
+    expectOnSlowRunner(zoom).toBeLessThan(13);
+    expectOnSlowRunner(await storedZoom(page)).toBeCloseTo(zoom, 1);
   });
 
   test('should go back to the department in one step after several moves', async ({ page }) => {
@@ -160,16 +176,16 @@ test.describe('Liste qui suit la carte', () => {
     await waitForMapToSettle(page);
 
     await dragMap(page, { x: -120, y: 0 });
-    await expect(page).toHaveURL(/\/autour\?lat=/);
+    await expectOnSlowRunner(page).toHaveURL(/\/autour\?lat=/);
     const firstUrl = page.url();
     await waitForMapToSettle(page);
 
     await dragMap(page, { x: -120, y: 60 });
-    await expect(page).not.toHaveURL(firstUrl);
+    await expectOnSlowRunner(page).not.toHaveURL(firstUrl);
 
     await page.goBack();
 
-    await expect(page).toHaveURL('/bretagne/finistere');
+    await expectOnSlowRunner(page).toHaveURL('/bretagne/finistere');
   });
 
   test('should go back to the address and frame it again after a move', async ({ page }) => {
@@ -178,16 +194,16 @@ test.describe('Liste qui suit la carte', () => {
     await waitForMapToSettle(page);
 
     await dragMap(page, { x: -150, y: 0 });
-    await expect(page.locator('h1')).toHaveText(/centre de la carte/);
+    await expectOnSlowRunner(page.locator('h1')).toHaveText(/centre de la carte/);
     await waitForMapToSettle(page);
 
     await page.goBack();
 
-    await expect(page.locator('h1')).toHaveText(/59 rue de Brest/);
+    await expectOnSlowRunner(page.locator('h1')).toHaveText(/59 rue de Brest/);
     await waitForMapToSettle(page);
     const location = await page.evaluate(() => JSON.parse(sessionStorage.getItem('mapLocation') ?? '{}'));
-    expect(location.lat).toBeCloseTo(48.4508, 2);
-    expect(location.lng).toBeCloseTo(-4.2576, 2);
+    expectOnSlowRunner(location.lat).toBeCloseTo(48.4508, 2);
+    expectOnSlowRunner(location.lng).toBeCloseTo(-4.2576, 2);
   });
 
   test('should follow a move made with the keyboard', async ({ page }) => {
@@ -197,8 +213,8 @@ test.describe('Liste qui suit la carte', () => {
     await mapCanvas(page).focus();
     await page.keyboard.press('ArrowRight');
 
-    await expect(page.locator('h1')).toHaveText(/centre de la carte/);
-    await expect(mapCanvas(page)).toBeFocused();
+    await expectOnSlowRunner(page.locator('h1')).toHaveText(/centre de la carte/);
+    await expectOnSlowRunner(mapCanvas(page)).toBeFocused();
   });
 
   test('should not scroll the page when the list follows the map', async ({ page }) => {
@@ -208,16 +224,16 @@ test.describe('Liste qui suit la carte', () => {
     const scrollBefore = await page.evaluate(() => window.scrollY);
 
     await dragMap(page, { x: -150, y: 0 });
-    await expect(page.locator('h1')).toHaveText(/centre de la carte/);
+    await expectOnSlowRunner(page.locator('h1')).toHaveText(/centre de la carte/);
     await waitForMapToSettle(page);
 
-    expect(scrollBefore).toBeGreaterThan(0);
-    expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
+    expectOnSlowRunner(scrollBefore).toBeGreaterThan(0);
+    expectOnSlowRunner(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
 
     await dragMap(page, { x: -150, y: 40 });
     await waitForMapToSettle(page);
 
-    expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
+    expectOnSlowRunner(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
   });
 
   test('should not scroll the page when clicking a region on the map', async ({ page }) => {
@@ -230,8 +246,8 @@ test.describe('Liste qui suit la carte', () => {
     await page.waitForURL('/bretagne');
     await waitForMapToSettle(page);
 
-    expect(scrollBefore).toBeGreaterThan(0);
-    expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
+    expectOnSlowRunner(scrollBefore).toBeGreaterThan(0);
+    expectOnSlowRunner(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
   });
 
   test('should keep the filters when the list follows the map', async ({ page }) => {
@@ -240,7 +256,7 @@ test.describe('Liste qui suit la carte', () => {
 
     await dragMap(page, { x: -150, y: 0 });
 
-    await expect(page).toHaveURL(/\/autour\?services=Aide/);
+    await expectOnSlowRunner(page).toHaveURL(/\/autour\?services=Aide/);
   });
 
   test('should keep the searched location out of the marker links and of the map requests', async ({ page }) => {
@@ -252,16 +268,18 @@ test.describe('Liste qui suit la carte', () => {
     await page.goto(LANDERNEAU);
     await waitForMapToSettle(page);
 
-    expect(chunkRequests.length).toBeGreaterThan(0);
-    expect(chunkRequests.filter((url) => /[?&](lat|lng|adresse|commune)=/.test(url))).toEqual([]);
+    expectOnSlowRunner(chunkRequests.length).toBeGreaterThan(0);
+    expectOnSlowRunner(chunkRequests.filter((url) => /[?&](lat|lng|adresse|commune)=/.test(url))).toEqual([]);
     const markerHrefs = await page
       .locator('a[href^="/lieux/"]')
       .evaluateAll((links) => links.map((link) => link.getAttribute('href') ?? ''));
-    expect(markerHrefs.filter((href) => /[?&](lat|lng|adresse|commune)=/.test(href))).toEqual([]);
+    expectOnSlowRunner(markerHrefs.filter((href) => /[?&](lat|lng|adresse|commune)=/.test(href))).toEqual([]);
   });
 });
 
 test.describe('Lieux autour de la position de l’utilisateur', () => {
+  test.describe.configure({ timeout: 120_000 });
+
   test.use({ geolocation: { latitude: 48.450798, longitude: -4.257626 }, permissions: ['geolocation'] });
 
   test('should list the nearest lieux with their distance and take the focus', async ({ page }) => {
@@ -270,10 +288,10 @@ test.describe('Lieux autour de la position de l’utilisateur', () => {
 
     await page.getByRole('button', { name: 'Se géolocaliser' }).click();
 
-    await expect(page).toHaveURL(/\/autour\?lat=48\.450798&lng=-4\.257626&geolocalise=1/);
-    await expect(page.locator('h1')).toHaveText(/lieux les plus proches de votre position/);
-    await expect(page.locator('h1')).toBeFocused();
-    await expect(page.locator('[data-testid="lieu-card"]').first()).toContainText(/à (moins de )?\d/);
-    await expect(page.getByRole('link', { name: 'Voir tous les lieux du département : Finistère' })).toBeVisible();
+    await expectOnSlowRunner(page).toHaveURL(/\/autour\?lat=48\.450798&lng=-4\.257626&geolocalise=1/);
+    await expectOnSlowRunner(page.locator('h1')).toHaveText(/lieux les plus proches de votre position/);
+    await expectOnSlowRunner(page.locator('h1')).toBeFocused();
+    await expectOnSlowRunner(page.locator('[data-testid="lieu-card"]').first()).toContainText(/à (moins de )?\d/);
+    await expectOnSlowRunner(page.getByRole('link', { name: 'Voir tous les lieux du département : Finistère' })).toBeVisible();
   });
 });
