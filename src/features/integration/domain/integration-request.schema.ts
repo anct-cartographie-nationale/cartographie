@@ -35,3 +35,13 @@ export const integrationRequestSchema = z.object({
 });
 
 export type IntegrationRequest = z.infer<typeof integrationRequestSchema>;
+
+const SORTIE_SUBJECTS: Record<Sortie, string> = {
+  lien: 'via un copier / coller',
+  'qr-code': 'via le QR Code',
+  iframe: 'via une intégration',
+  'web-component': 'via une intégration'
+};
+
+export const integrationRequestSubject = ({ sortie, territoire }: Pick<IntegrationRequest, 'sortie' | 'territoire'>): string =>
+  `[Cartographie] Nouvelle intégration de la cartographie ${SORTIE_SUBJECTS[sortie]} - ${territoire.nom}`;

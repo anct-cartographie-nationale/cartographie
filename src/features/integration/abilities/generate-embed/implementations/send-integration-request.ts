@@ -1,6 +1,6 @@
 import { render } from 'react-email';
 import { serverEnv } from '@/env.server';
-import { type IntegrationRequest, SORTIE_LABELS } from '@/features/integration/domain';
+import { type IntegrationRequest, integrationRequestSubject } from '@/features/integration/domain';
 import { smtpTransporter } from '@/libraries/email';
 import { IntegrationRequestEmail } from './integration-request.email';
 
@@ -18,7 +18,7 @@ export const sendIntegrationRequest = async (request: IntegrationRequest): Promi
     from: serverEnv.CONTACT_EMAIL_FROM,
     to: serverEnv.CONTACT_EMAIL_TO,
     replyTo: request.email,
-    subject: `[Cartographie] Intégration — ${request.territoire.nom} (${SORTIE_LABELS[request.sortie]})`,
+    subject: integrationRequestSubject(request),
     html
   });
 };

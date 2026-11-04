@@ -1,4 +1,10 @@
-import { flushPending, type IntegrationRequest, receiveRequest, type ThrottleEntry } from '@/features/integration/domain';
+import {
+  flushPending,
+  type IntegrationRequest,
+  receiveRequest,
+  type ThrottleEntry,
+  throttleKey
+} from '@/features/integration/domain';
 
 type Send = (request: IntegrationRequest) => Promise<void>;
 
@@ -15,7 +21,7 @@ const globalState = (): ThrottleState => {
 export const throttledIntegrationRequest =
   (send: Send, state: ThrottleState = globalState()) =>
   async (request: IntegrationRequest): Promise<void> => {
-    const key = request.email.toLowerCase();
+    const key = throttleKey(request);
     const current = state.get(key);
     const decision = receiveRequest(current?.entry, request, Date.now());
 

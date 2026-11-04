@@ -1,5 +1,5 @@
 import { Column, Hr, Link, Row, Section, Text } from 'react-email';
-import { type IntegrationRequest, SORTIE_LABELS } from '@/features/integration/domain';
+import { type IntegrationRequest, integrationRequestSubject, SORTIE_LABELS } from '@/features/integration/domain';
 import { EmailLayout } from '@/libraries/react-email';
 
 const TERRITOIRE_LABELS: Record<IntegrationRequest['territoire']['type'], string> = {
@@ -54,7 +54,7 @@ export const IntegrationRequestEmail = ({
   code,
   sentAt = new Date()
 }: IntegrationRequestEmailProps) => (
-  <EmailLayout preview={`Intégration — ${territoire.nom} (${SORTIE_LABELS[sortie]})`}>
+  <EmailLayout preview={integrationRequestSubject({ sortie, territoire })}>
     <Text className='text-lg font-bold mt-6 mb-2'>Nouvelle intégration de la cartographie</Text>
     <Text className='text-sm text-neutral mb-6'>
       Demande de{' '}

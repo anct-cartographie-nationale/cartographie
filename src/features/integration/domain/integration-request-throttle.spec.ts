@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { IntegrationRequest } from './integration-request.schema';
-import { flushPending, receiveRequest, THROTTLE_WINDOW_MS } from './integration-request-throttle';
+import { flushPending, receiveRequest, THROTTLE_WINDOW_MS, throttleKey } from './integration-request-throttle';
 
 const request: IntegrationRequest = {
   email: 'marie@example.fr',
@@ -11,6 +11,31 @@ const request: IntegrationRequest = {
 };
 
 const changed: IntegrationRequest = { ...request, sortie: 'qr-code' };
+
+describe('throttleKey', () => {
+  it('should differ when the territory changes', () => {
+    const otherTerritoire: IntegrationRequest = {
+      ...request,
+      territoire: { type: 'departement', code: '22', nom: 'Côtes-d’Armor' }
+    };
+
+    expect(throttleKey(otherTerritoire)).not.toBe(throttleKey(request));
+  });
+
+  it('should differ between two kinds of territory sharing a code', () => {
+    const otherType: IntegrationRequest = { ...request, territoire: { type: 'region', code: '29', nom: 'Autre' } };
+
+    expect(throttleKey(otherType)).not.toBe(throttleKey(request));
+  });
+
+  it('should stay the same when only the output changes', () => {
+    expect(throttleKey(changed)).toBe(throttleKey(request));
+  });
+
+  it('should ignore the case of the email', () => {
+    expect(throttleKey({ ...request, email: 'Marie@Example.fr' })).toBe(throttleKey(request));
+  });
+});
 
 describe('integration request throttle', () => {
   it('should dispatch the first request immediately', () => {
