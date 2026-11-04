@@ -1,6 +1,6 @@
 import { pipe } from 'effect';
-import { catchAll, type Effect, flatMap, map, runPromise, sleep, succeed } from 'effect/Effect';
-import { get, set, unsafeMake } from 'effect/Ref';
+import { catch as catchError, type Effect, flatMap, map, runPromise, sleep, succeed } from 'effect/Effect';
+import { get, makeUnsafe, set } from 'effect/Ref';
 
 export type Suggestions<TItem> = { items: TItem[]; isLoading: boolean; error?: string };
 
@@ -20,9 +20,9 @@ export const debouncedSuggestions = <TItem>(
   search: (input: string) => Effect<TItem[], Error>,
   { minLength = DEFAULT_MIN_LENGTH, delay = DEFAULT_DELAY }: DebounceOptions = {}
 ): ((input: string) => Promise<Suggestions<TItem>>) => {
-  const latestInputRef = unsafeMake('');
-  const settledInputRef = unsafeMake('');
-  const settledItemsRef = unsafeMake<TItem[]>([]);
+  const latestInputRef = makeUnsafe('');
+  const settledInputRef = makeUnsafe('');
+  const settledItemsRef = makeUnsafe<TItem[]>([]);
 
   const staleSuggestions = (): Effect<Suggestions<TItem>> =>
     pipe(
@@ -48,7 +48,7 @@ export const debouncedSuggestions = <TItem>(
     pipe(
       search(input),
       map((items): SearchOutcome<TItem> => ({ items })),
-      catchAll((error) => succeed<SearchOutcome<TItem>>({ error: error.message })),
+      catchError((error) => succeed<SearchOutcome<TItem>>({ error: error.message })),
       flatMap((outcome) =>
         get(latestInputRef).pipe(flatMap((latest) => (latest === input ? settle(input, outcome) : staleSuggestions())))
       )

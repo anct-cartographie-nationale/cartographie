@@ -174,10 +174,10 @@ importers:
         version: 1.2.2(7b9609c7d7b8e777c566214fcaebacad)
       '@arckit/form':
         specifier: ^2.0.1
-        version: 2.0.1(@arckit/daisyui@1.2.2(7b9609c7d7b8e777c566214fcaebacad))(@tanstack/react-form@1.33.5(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(effect@3.22.4)(react@19.3.1)
+        version: 2.0.1(@arckit/daisyui@1.2.2(7b9609c7d7b8e777c566214fcaebacad))(@tanstack/react-form@1.33.5(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(effect@4.0.6)(react@19.3.1)
       '@arckit/nextjs':
         specifier: ^2.2.2
-        version: 2.2.2(@arckit/daisyui@1.2.2(7b9609c7d7b8e777c566214fcaebacad))(@arckit/pipeline@1.0.0(react@19.3.1))(@arckit/resultset@2.1.0)(@arckit/telemetry@1.5.0(@opentelemetry/api@1.10.0)(@sentry/nextjs@11.9.0(next@16.4.5(@opentelemetry/api@1.10.0)(@playwright/test@1.64.1)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)))(pino@10.4.0))(effect@3.22.4)(i18next@26.5.10(typescript@6.0.3))(next@16.4.5(@opentelemetry/api@1.10.0)(@playwright/test@1.64.1)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(piqure@2.2.1)(react-dom@19.3.1(react@19.3.1))(react-hot-toast@2.6.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-icons@5.7.0(react@19.3.1))(react@19.3.1)
+        version: 2.2.2(@arckit/daisyui@1.2.2(7b9609c7d7b8e777c566214fcaebacad))(@arckit/pipeline@1.0.0(react@19.3.1))(@arckit/resultset@2.1.0)(@arckit/telemetry@1.5.0(@opentelemetry/api@1.10.0)(@sentry/nextjs@11.9.0(next@16.4.5(@opentelemetry/api@1.10.0)(@playwright/test@1.64.1)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)))(pino@10.4.0))(effect@4.0.6)(i18next@26.5.10(typescript@6.0.3))(next@16.4.5(@opentelemetry/api@1.10.0)(@playwright/test@1.64.1)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(piqure@2.2.1)(react-dom@19.3.1(react@19.3.1))(react-hot-toast@2.6.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-icons@5.7.0(react@19.3.1))(react@19.3.1)
       '@arckit/pipeline':
         specifier: ^1.0.0
         version: 1.0.0(react@19.3.1)
@@ -245,8 +245,8 @@ importers:
         specifier: ^9.4.0
         version: 9.4.0(react@19.3.1)
       effect:
-        specifier: ^3.22.4
-        version: 3.22.4
+        specifier: ^4.0.6
+        version: 4.0.6
       framer-motion:
         specifier: ^14.6.0
         version: 14.6.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -3753,8 +3753,8 @@ packages:
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
 
-  effect@3.22.4:
-    resolution: {integrity: sha512-RNshu7AXVxxDh6aS4lothhJ+QoZ4xSykbWNaaVdvDN72RMyVwhCGdALkyl1TbEydgAmRIdD1eTyJqBUGwSBGDA==}
+  effect@4.0.6:
+    resolution: {integrity: sha512-Tc3mkzuLR6t6P9dhLt0D2GrxYtmU5td4XEJEiXCmILz53IRIfJyHsKZWjTA3xEjiwpNTtXBgI4iqYPxMztBDrw==}
 
   electron-to-chromium@1.5.464:
     resolution: {integrity: sha512-nRa65aFge40viPAKxMKULIY8tcXKwKboJWNn4RoKwyWXJ6SP7BnrDGKUTzc64818jIciH0PK7LSF8QzZes19GA==}
@@ -3920,10 +3920,6 @@ packages:
 
   extend@3.0.2:
     resolution: {integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==}
-
-  fast-check@3.23.2:
-    resolution: {integrity: sha512-h5+1OzzfCC3Ef7VbtKdcv7zsstUQwUDlYpUTvjeUsJAssPgLn7QzbboPtL5ro04Mq0rPOsMzl7q5hIbRs2wD1A==}
-    engines: {node: '>=8.0.0'}
 
   fast-deep-equal@3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
@@ -5611,9 +5607,6 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
-  pure-rand@6.1.0:
-    resolution: {integrity: sha512-bVWawvoZoBYpp6yIoQtQXHZjmz35RSVHnUOTefl8Vcjr8snTPY1wnpSPMWekcFwbxI6gtmT7rSYPFvz71ldiOA==}
-
   qrcode@1.5.4:
     resolution: {integrity: sha512-1ca71Zgiu6ORjHqFBDpnSMTR2ReToX4l1Au1VFLyVeBTFavzQnv5JxMFr3ukHVKpSrSA2MCk0lNJSykjUfz7Zg==}
     engines: {node: '>=10.13.0'}
@@ -6906,15 +6899,15 @@ snapshots:
       react-icons: 5.7.0(react@19.3.1)
       tailwind-merge: 3.7.0
 
-  '@arckit/form@2.0.1(@arckit/daisyui@1.2.2(7b9609c7d7b8e777c566214fcaebacad))(@tanstack/react-form@1.33.5(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(effect@3.22.4)(react@19.3.1)':
+  '@arckit/form@2.0.1(@arckit/daisyui@1.2.2(7b9609c7d7b8e777c566214fcaebacad))(@tanstack/react-form@1.33.5(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(effect@4.0.6)(react@19.3.1)':
     dependencies:
       '@arckit/daisyui': 1.2.2(7b9609c7d7b8e777c566214fcaebacad)
       '@tanstack/react-form': 1.33.5(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react: 19.3.1
     optionalDependencies:
-      effect: 3.22.4
+      effect: 4.0.6
 
-  '@arckit/nextjs@2.2.2(@arckit/daisyui@1.2.2(7b9609c7d7b8e777c566214fcaebacad))(@arckit/pipeline@1.0.0(react@19.3.1))(@arckit/resultset@2.1.0)(@arckit/telemetry@1.5.0(@opentelemetry/api@1.10.0)(@sentry/nextjs@11.9.0(next@16.4.5(@opentelemetry/api@1.10.0)(@playwright/test@1.64.1)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)))(pino@10.4.0))(effect@3.22.4)(i18next@26.5.10(typescript@6.0.3))(next@16.4.5(@opentelemetry/api@1.10.0)(@playwright/test@1.64.1)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(piqure@2.2.1)(react-dom@19.3.1(react@19.3.1))(react-hot-toast@2.6.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-icons@5.7.0(react@19.3.1))(react@19.3.1)':
+  '@arckit/nextjs@2.2.2(@arckit/daisyui@1.2.2(7b9609c7d7b8e777c566214fcaebacad))(@arckit/pipeline@1.0.0(react@19.3.1))(@arckit/resultset@2.1.0)(@arckit/telemetry@1.5.0(@opentelemetry/api@1.10.0)(@sentry/nextjs@11.9.0(next@16.4.5(@opentelemetry/api@1.10.0)(@playwright/test@1.64.1)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)))(pino@10.4.0))(effect@4.0.6)(i18next@26.5.10(typescript@6.0.3))(next@16.4.5(@opentelemetry/api@1.10.0)(@playwright/test@1.64.1)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(piqure@2.2.1)(react-dom@19.3.1(react@19.3.1))(react-hot-toast@2.6.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react-icons@5.7.0(react@19.3.1))(react@19.3.1)':
     dependencies:
       '@arckit/daisyui': 1.2.2(7b9609c7d7b8e777c566214fcaebacad)
       '@arckit/pipeline': 1.0.0(react@19.3.1)
@@ -6928,7 +6921,7 @@ snapshots:
     optionalDependencies:
       '@arckit/resultset': 2.1.0
       '@arckit/telemetry': 1.5.0(@opentelemetry/api@1.10.0)(@sentry/nextjs@11.9.0(next@16.4.5(@opentelemetry/api@1.10.0)(@playwright/test@1.64.1)(@types/node@26.6.5)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(react@19.3.1)(vite@8.3.5(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)))(pino@10.4.0)
-      effect: 3.22.4
+      effect: 4.0.6
       i18next: 26.5.10(typescript@6.0.3)
 
   '@arckit/pipeline@1.0.0(react@19.3.1)':
@@ -9970,10 +9963,7 @@ snapshots:
 
   eastasianwidth@0.2.0: {}
 
-  effect@3.22.4:
-    dependencies:
-      '@standard-schema/spec': 1.1.0
-      fast-check: 3.23.2
+  effect@4.0.6: {}
 
   electron-to-chromium@1.5.464: {}
 
@@ -10203,10 +10193,6 @@ snapshots:
       is-extendable: 1.0.1
 
   extend@3.0.2: {}
-
-  fast-check@3.23.2:
-    dependencies:
-      pure-rand: 6.1.0
 
   fast-deep-equal@3.1.3: {}
 
@@ -12008,8 +11994,6 @@ snapshots:
       once: 1.4.0
 
   punycode@2.3.1: {}
-
-  pure-rand@6.1.0: {}
 
   qrcode@1.5.4:
     dependencies:
