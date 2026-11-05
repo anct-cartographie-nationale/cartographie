@@ -32,5 +32,5 @@ export const ConfigProvider: FC<PropsWithChildren> = ({ children }) => {
   provide(TERRITOIRE_SOURCE, geoplateformeTerritoireSource);
   provide(SEND_INTEGRATION_REQUEST_ACTION, sendIntegrationRequestAction);
 
-  return <>{children}</>;
+  return children;
 };
