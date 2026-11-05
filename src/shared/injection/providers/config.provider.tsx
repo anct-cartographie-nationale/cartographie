@@ -1,6 +1,6 @@
 'use client';
 
-import { type FC, type PropsWithChildren, Suspense } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import { sendContactMessageAction } from '@/app/_actions/contact/send-contact-message.action';
 import { sendIntegrationRequestAction } from '@/app/_actions/integration/send-integration-request.action';
 import { errorReporter } from '@/configuration/telemetry/error-reporter';
@@ -9,30 +9,12 @@ import { ContactAction } from '@/features/contact';
 import { SEND_CONTACT_MESSAGE_ACTION } from '@/features/contact/abilities/send-message/injection/send-contact-message-action.key';
 import { geoplateformeTerritoireSource, SEND_INTEGRATION_REQUEST_ACTION, TERRITOIRE_SOURCE } from '@/features/integration';
 import { provide } from '@/libraries/injection';
-import { invalidateMapLocationIfChanged, THEME_COLORS } from '@/libraries/map';
-import { useSearchParams } from '@/libraries/nextjs/shim';
+import { THEME_COLORS } from '@/libraries/map';
 import { getThemeColors } from '@/shared/ui';
 import { API_BASE_URL } from '../keys/api-base-url.key';
 import { CONTACT_ACTION } from '../keys/contact-action.key';
 import { ERROR_REPORTER } from '../keys/error-reporter.key';
-import { MAP_CONFIG } from '../keys/map-config.key';
-import { mapPositionSchema } from '../keys/map-position.schema';
 import { TERRITOIRE_FILTER } from '../keys/territoire-filter.key';
-
-const MapPositionProvider: FC<PropsWithChildren> = ({ children }) => {
-  const searchParams = useSearchParams();
-  const mapPosition = mapPositionSchema.parse(Object.fromEntries(searchParams));
-
-  provide(MAP_CONFIG, mapPosition);
-  invalidateMapLocationIfChanged(mapPosition);
-
-  return <>{children}</>;
-};
-
-const MapPositionProviderFallback: FC<PropsWithChildren> = ({ children }) => {
-  provide(MAP_CONFIG, {});
-  return <>{children}</>;
-};
 
 export const ConfigProvider: FC<PropsWithChildren> = ({ children }) => {
   provide(API_BASE_URL, '/api');
@@ -50,9 +32,5 @@ export const ConfigProvider: FC<PropsWithChildren> = ({ children }) => {
   provide(TERRITOIRE_SOURCE, geoplateformeTerritoireSource);
   provide(SEND_INTEGRATION_REQUEST_ACTION, sendIntegrationRequestAction);
 
-  return (
-    <Suspense fallback={<MapPositionProviderFallback>{children}</MapPositionProviderFallback>}>
-      <MapPositionProvider>{children}</MapPositionProvider>
-    </Suspense>
-  );
+  return <>{children}</>;
 };

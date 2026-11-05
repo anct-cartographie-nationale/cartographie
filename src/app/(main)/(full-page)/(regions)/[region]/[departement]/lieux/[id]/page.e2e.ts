@@ -1,5 +1,16 @@
 import { expect, type Page, test } from '@playwright/test';
 
+test.describe('Lieu detail HTML', () => {
+  test('should send the lieu only once', async ({ page, request }) => {
+    await page.goto('/ile-de-france/seine-et-marne/lieux');
+    const href = await page.locator('a:has([data-testid="lieu-card"])').first().getAttribute('href');
+
+    const html = await (await request.get(href ?? '')).text();
+
+    expect(html.match(/<h1/g)).toHaveLength(1);
+  });
+});
+
 test.describe('Lieu detail page', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to a lieu detail from the list

@@ -16,6 +16,7 @@ import { Footer, FooterLegal } from '@/libraries/ui/blocks/footer';
 import { footerId, skipLinksId } from '@/libraries/ui/blocks/skip-links/skip-links';
 import { RepubliqueFrancaiseLogo } from '@/libraries/ui/logos';
 import { Link } from '@/libraries/ui/primitives/link';
+import { MapPositionProvider } from '@/shared/injection/providers/map-position.provider';
 import { metadata as appMetadata } from './metadata';
 
 export const metadata: Metadata = appMetadata;
@@ -48,7 +49,7 @@ export default layoutBuilder()
               }
             />
           )}
-          {children}
+          <MapPositionProvider>{children}</MapPositionProvider>
         </div>
         <div className='border-t-2 border-solid border-primary text-neutral' id={footerId}>
           <Footer>
