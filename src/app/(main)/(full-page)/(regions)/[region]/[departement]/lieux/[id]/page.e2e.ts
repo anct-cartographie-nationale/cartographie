@@ -96,7 +96,16 @@ test.describe('Lieu detail page freshness', () => {
     await expect(tooltip).toHaveCount(0);
   });
 
+  const waitForBadgeHydration = (page: Page) =>
+    expect
+      .poll(() => badge(page).evaluate((button) => Object.keys(button).some((key) => key.startsWith('__reactProps'))), {
+        timeout: 30_000
+      })
+      .toBe(true);
+
   test('should explain the badge on hover and let the pointer reach the explanation', async ({ page }) => {
+    await waitForBadgeHydration(page);
+
     await badge(page).hover();
     const explanation = page.locator('[data-radix-popper-content-wrapper]');
     await expect(explanation).toContainText(/Informations/);
