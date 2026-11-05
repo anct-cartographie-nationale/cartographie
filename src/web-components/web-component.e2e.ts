@@ -70,6 +70,19 @@ test.describe('Web component', () => {
     await expect(page.locator('html')).toHaveAttribute('data-loaded', 'true');
   });
 
+  test('should update the region counters on the map when applying a filter', async ({ page, request }) => {
+    await openAt(page, '/');
+    const bretagne = page.locator('a[aria-label^="Bretagne :"]');
+    await expect(bretagne).toHaveAttribute('aria-label', /[1-9]\d* lieux/, { timeout: 30_000 });
+
+    await applyFilter(page);
+
+    const services = 'Maîtrise des outils numériques du quotidien';
+    const stats = await (await request.get('http://localhost:3000/api/stats', { params: { services } })).json();
+    const expected = stats.regions.find(({ slug }: { slug: string }) => slug === 'bretagne').nombreLieux;
+    await expect(bretagne).toHaveAttribute('aria-label', `Bretagne : ${expected} lieux`, { timeout: 30_000 });
+  });
+
   test('should not scroll the host page when following a link and coming back', async ({ page }) => {
     await openAt(page, DEPARTEMENT);
     const card = page.locator('[data-testid="lieu-card"]').first();

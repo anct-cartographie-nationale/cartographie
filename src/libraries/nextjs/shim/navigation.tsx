@@ -16,7 +16,10 @@ export const useRouter = () => {
         const documentEntry = performance.getEntriesByType('navigation')[0];
         return hasNavigatedWithinApp(documentEntry?.name, window.location.href);
       },
-      refresh: () => router.replace(`${window.location.pathname}${window.location.search}`, { scroll: false })
+      refresh: () => {
+        router.replace(`${window.location.pathname}${window.location.search}`, { scroll: false });
+        router.refresh();
+      }
     }),
     [router]
   );
