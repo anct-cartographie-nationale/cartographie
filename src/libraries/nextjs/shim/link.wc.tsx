@@ -2,6 +2,7 @@
 
 import { Link as TanStackLink } from '@tanstack/react-router';
 import type { AnchorHTMLAttributes, ReactNode } from 'react';
+import { splitHref } from '../split-href';
 
 export type LinkProps = {
   href: string;
@@ -9,8 +10,8 @@ export type LinkProps = {
   children?: ReactNode;
 } & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>;
 
-export const Link = ({ href, scroll = true, children, target, ...props }: LinkProps) => (
-  <TanStackLink to={href} resetScroll={scroll} {...(target != null ? { target } : {})} {...props}>
+export const Link = ({ href, scroll: _scroll, children, target, ...props }: LinkProps) => (
+  <TanStackLink {...splitHref(href)} {...(target != null ? { target } : {})} {...props}>
     {children}
   </TanStackLink>
 );

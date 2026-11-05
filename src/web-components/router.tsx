@@ -95,11 +95,18 @@ const routeTree = rootRoute.addChildren([
   lieuRoute
 ]);
 
-export const createAppRouter = (initialRoute: string = '/') =>
-  createRouter({
+export const createAppRouter = (initialRoute: string = '/') => {
+  const router = createRouter({
     routeTree,
     history: createMemoryHistory({ initialEntries: [initialRoute] })
   });
+
+  router.subscribe('onBeforeRouteMount', () => {
+    router._scroll.n = false;
+  });
+
+  return router;
+};
 
 export type AppRouter = ReturnType<typeof createAppRouter>;
 
