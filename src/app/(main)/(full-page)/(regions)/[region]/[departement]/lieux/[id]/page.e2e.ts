@@ -72,6 +72,27 @@ test.describe('Lieu detail page 404', () => {
   });
 });
 
+test.describe('Lieu detail page opened directly', () => {
+  test('should go back to the filtered list after applying a filter on the fiche', async ({ page }) => {
+    await page.goto('/bretagne/finistere/lieux/269');
+    const filter = page.getByRole('button', { name: 'Besoins' });
+    await expect
+      .poll(() => filter.evaluate((button) => Object.keys(button).some((key) => key.startsWith('__reactProps'))))
+      .toBe(true);
+
+    await filter.click();
+    await page.locator('#services-maitrise-des-outils-numeriques-du-quotidien').check();
+    await page.keyboard.press('Escape');
+    await expect(page).toHaveURL(/\/lieux\/269\?services=/);
+
+    const backLink = page.getByRole('link', { name: /Retour à la liste/ });
+    await expect(backLink).toHaveAttribute('href', /services=/);
+    await backLink.click();
+
+    await expect(page).toHaveURL(/\/bretagne\/finistere\?services=/);
+  });
+});
+
 test.describe('Lieu detail page freshness', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/bretagne/finistere/lieux/269');
