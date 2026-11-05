@@ -242,6 +242,64 @@ test.describe('Liste qui suit la carte', () => {
     expectOnSlowRunner(after.lat).toBeCloseTo(before.lat, 1);
   });
 
+  for (const { name, link } of [
+    {
+      name: 'the link to every lieu',
+      link: (page: Page) => page.getByRole('link', { name: /Voir tous les lieux du département/ })
+    },
+    {
+      name: 'the breadcrumb',
+      link: (page: Page) => page.getByRole('navigation', { name: 'Breadcrumb' }).getByRole('link', { name: 'Finistère' })
+    }
+  ]) {
+    test(`should frame the department again from ${name}`, async ({ page }) => {
+      await page.goto('/bretagne/finistere');
+      await waitForMapToSettle(page);
+      const departementZoom = await storedZoom(page);
+
+      await dragMap(page, { x: -150, y: 0 });
+      await expectOnSlowRunner(page.locator('h1')).toHaveText(/centre de la carte/);
+      await waitForMapToSettle(page);
+      await mapCanvas(page).focus();
+      await page.keyboard.press('Equal');
+      await waitForMapToSettle(page);
+      expectOnSlowRunner(await storedZoom(page)).toBeGreaterThan(departementZoom);
+
+      await Promise.all([page.waitForURL('/bretagne/finistere'), link(page).click()]);
+
+      await expect.poll(() => storedZoom(page), { timeout: 30_000 }).toBeCloseTo(departementZoom, 1);
+    });
+  }
+
+  for (const { territoire, href } of [
+    { territoire: 'Finistère', href: '/bretagne/finistere' },
+    { territoire: 'Bretagne', href: '/bretagne' }
+  ]) {
+    test(`should centre the map on the list when going back from ${territoire}`, async ({ page }) => {
+      await page.goto('/bretagne/finistere');
+      await waitForMapToSettle(page);
+
+      await dragMap(page, { x: -150, y: 0 });
+      await expectOnSlowRunner(page.locator('h1')).toHaveText(/centre de la carte/);
+      await waitForMapToSettle(page);
+      const longitude = Number(new URL(page.url()).searchParams.get('lng'));
+
+      await Promise.all([
+        page.waitForURL(href),
+        page.getByRole('navigation', { name: 'Breadcrumb' }).getByRole('link', { name: territoire }).click()
+      ]);
+      await expect
+        .poll(() => page.evaluate(() => JSON.parse(sessionStorage.getItem('mapLocation') ?? '{}').lng), { timeout: 30_000 })
+        .not.toBeCloseTo(longitude, 1);
+
+      await page.goBack();
+
+      await expect
+        .poll(() => page.evaluate(() => JSON.parse(sessionStorage.getItem('mapLocation') ?? '{}').lng), { timeout: 30_000 })
+        .toBeCloseTo(longitude, 1);
+    });
+  }
+
   test('should follow a move made with the keyboard', async ({ page }) => {
     await page.goto(LANDERNEAU);
     await waitForMapToSettle(page);
