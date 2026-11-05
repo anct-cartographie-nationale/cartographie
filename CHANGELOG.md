@@ -1,3 +1,14 @@
+## [6.35.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.35.0...v6.35.1) (2026-11-05)
+
+
+### Bug Fixes
+
+* **carte:** recadrer sur le departement depuis la page autour ([f820067](https://github.com/anct-cartographie-nationale/cartographie/commit/f820067eb5fc58f7753ed3b2ccc50fbc6b4ee41b))
+* **carte:** retrouver la carte et ses marqueurs au retour de la fiche d'un lieu ([365500d](https://github.com/anct-cartographie-nationale/cartographie/commit/365500d1f8cdf22917349e2d272ed2206dbaf89e))
+* **config:** ne plus envoyer deux fois la page dans le HTML ([b4c9075](https://github.com/anct-cartographie-nationale/cartographie/commit/b4c90752e3b3325cd5070c852afae92c477ce207))
+* **lieux:** revenir tout en haut a la pagination et retirer la scrollbar du fil d'Ariane ([a1d7c76](https://github.com/anct-cartographie-nationale/cartographie/commit/a1d7c76577ccacff3b88795bd8e80594d915e324))
+* **navigation:** naviguer sans recharger la page depuis le fil d'Ariane et les boutons ([70a2913](https://github.com/anct-cartographie-nationale/cartographie/commit/70a29138cd65c4784852d72494ae2bf96af5af41))
+
 # [6.35.0](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.34.0...v6.35.0) (2026-11-04)
 
 
