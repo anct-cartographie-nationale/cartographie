@@ -45,7 +45,7 @@ export const SearchAddress = ({ className }: { className?: string }) => {
             highlightCommune(map, address.citycode);
             map.flyTo({ center: [address.y, address.x], zoom: 13, duration: 400 });
           }
-          router.push(`/lieux/${address.lieuId}`);
+          router.push(`/lieux/${address.lieuId}`, { scroll: false });
           return;
         }
         if (address.x && address.y) {
