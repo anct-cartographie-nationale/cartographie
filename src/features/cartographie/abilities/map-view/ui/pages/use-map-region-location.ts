@@ -2,7 +2,7 @@
 
 import type { Region } from '@/libraries/collectivites';
 import { inject } from '@/libraries/injection';
-import { map$, setZoom } from '@/libraries/map';
+import { forgetUserMapCentre, map$, setZoom } from '@/libraries/map';
 import { useTap } from '@/libraries/reactivity/Subscribe';
 import { MAP_CONFIG } from '@/shared/injection';
 import { highlightRegion } from '@/shared/ui/highlight-decoupage-administratif';
@@ -19,6 +19,7 @@ export const useMapRegionLocation = (region: Region) => {
   };
 
   useTap(map$, (map) => {
+    forgetUserMapCentre();
     setZoom(initialLocation.zoom);
     if (!map) return;
     map.flyTo({

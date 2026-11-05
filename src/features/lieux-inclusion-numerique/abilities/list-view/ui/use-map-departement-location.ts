@@ -2,13 +2,12 @@
 
 import type { Departement } from '@/libraries/collectivites';
 import { inject } from '@/libraries/injection';
-import { map$, setZoom, useMapLocation } from '@/libraries/map';
+import { forgetUserMapCentre, map$, setZoom } from '@/libraries/map';
 import { useTap } from '@/libraries/reactivity/Subscribe';
 import { MAP_CONFIG, TERRITOIRE_FILTER } from '@/shared/injection';
 import { highlightDepartement } from '@/shared/ui/highlight-decoupage-administratif';
 
 export const useMapDepartementLocation = (departement: Departement) => {
-  const location = useMapLocation();
   const customLocation = inject(MAP_CONFIG);
   const territoireFilter = inject(TERRITOIRE_FILTER);
 
@@ -16,7 +15,7 @@ export const useMapDepartementLocation = (departement: Departement) => {
   const customZoom = customLocation.zoom;
   const isCustomZoomValid = !isRegionFilter && customZoom != null && customZoom > departement.zoom;
 
-  const defaultLocation = {
+  const initialLocation = {
     zoom: isCustomZoomValid ? customZoom : departement.zoom,
     latitude: isRegionFilter
       ? departement.localisation.latitude
@@ -26,9 +25,8 @@ export const useMapDepartementLocation = (departement: Departement) => {
       : (customLocation.longitude ?? departement.localisation.longitude)
   };
 
-  const initialLocation = (location?.zoom ?? 0) > 9 ? { ...defaultLocation, ...location } : defaultLocation;
-
   useTap(map$, (map) => {
+    forgetUserMapCentre();
     setZoom(initialLocation.zoom);
     if (!map) return;
     map.flyTo({
