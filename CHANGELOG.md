@@ -1,3 +1,12 @@
+## [6.35.2](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.35.1...v6.35.2) (2026-11-05)
+
+
+### Bug Fixes
+
+* **filtres:** ne plus faire defiler la page quand un filtre s'applique ([5cfad05](https://github.com/anct-cartographie-nationale/cartographie/commit/5cfad057bf5fbb099b7a59c97ba25590b02484f0))
+* **navigation:** revenir a la liste depuis une fiche ouverte directement puis filtree ([d50c504](https://github.com/anct-cartographie-nationale/cartographie/commit/d50c5045db8367a29a2cbab15d33a31f96e2de0f))
+* **web-component:** ne plus remonter la page hote et aligner le retour sur Next ([f308b1a](https://github.com/anct-cartographie-nationale/cartographie/commit/f308b1a9beb530257dfa07890b472de1d9ec34cb))
+
 ## [6.35.1](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.35.0...v6.35.1) (2026-11-05)
 
 
