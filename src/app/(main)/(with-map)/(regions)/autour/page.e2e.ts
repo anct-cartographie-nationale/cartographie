@@ -213,6 +213,35 @@ test.describe('Liste qui suit la carte', () => {
     expectOnSlowRunner(location.lng).toBeCloseTo(-4.2576, 2);
   });
 
+  test('should find the map as it was when coming back from the fiche of a lieu', async ({ page }) => {
+    await page.goto('/bretagne/finistere');
+    await waitForMapToSettle(page);
+
+    await dragMap(page, { x: -150, y: 0 });
+    await expectOnSlowRunner(page.locator('h1')).toHaveText(/centre de la carte/);
+    await waitForMapToSettle(page);
+    const before = await page.evaluate(() => JSON.parse(sessionStorage.getItem('mapLocation') ?? '{}'));
+    const markers = await page.locator('.maplibregl-marker').count();
+    expect(markers).toBeGreaterThan(1);
+
+    await Promise.all([
+      page.waitForURL(/\/lieux\/.+$/),
+      page.locator('.maplibregl-marker').filter({ hasNotText: /\d/ }).first().click({ force: true })
+    ]);
+    await Promise.all([page.waitForURL(/\/autour\?lat=/), page.getByRole('link', { name: /Retour à la liste/ }).click()]);
+    await waitForMapToSettle(page);
+
+    await expectOnSlowRunner(page.locator('.maplibregl-marker')).toHaveCount(markers);
+
+    await mapCanvas(page).focus();
+    await page.keyboard.press('ArrowRight');
+    await waitForMapToSettle(page);
+
+    const after = await page.evaluate(() => JSON.parse(sessionStorage.getItem('mapLocation') ?? '{}'));
+    expectOnSlowRunner(after.zoom).toBeCloseTo(before.zoom, 1);
+    expectOnSlowRunner(after.lat).toBeCloseTo(before.lat, 1);
+  });
+
   test('should follow a move made with the keyboard', async ({ page }) => {
     await page.goto(LANDERNEAU);
     await waitForMapToSettle(page);
