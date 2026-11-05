@@ -22,6 +22,8 @@ export const forgetUserMapCentre = () => lastUserMapCentreSubject$.next(undefine
 
 export const lastUserMapCentre$ = lastUserMapCentreSubject$.asObservable();
 
+export const isLastUserMapCentre = (centre: MapCentre): boolean => isSameCentre(lastUserMapCentreSubject$.value, centre);
+
 export const userMapCentre$ = userMapMoveSubject$.pipe(
   filter(({ zoom }) => zoom > LIEUX_MIN_ZOOM),
   debounceTime(SETTLE_DELAY_MS),

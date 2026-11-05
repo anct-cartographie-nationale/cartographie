@@ -4,6 +4,7 @@ export { endLoad, load$, startLoad } from './load.stream';
 export { map$, setMap } from './map.stream';
 export {
   forgetUserMapCentre,
+  isLastUserMapCentre,
   isSameCentre,
   lastUserMapCentre$,
   type MapCentre,

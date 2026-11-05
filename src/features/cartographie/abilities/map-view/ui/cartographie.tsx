@@ -12,7 +12,16 @@ import { RiFullscreenExitLine, RiFullscreenLine, RiListUnordered, RiStackLine } 
 import { TrackerAction, TrackerCategory, trackEvent } from '@/configuration/telemetry/event-tracker';
 import { type Departement, departementMatchingSlug, france, type Region, regionMatchingSlug } from '@/libraries/collectivites';
 import { inject } from '@/libraries/injection';
-import { load$, setBoundingBox, setMap, setUserMapMove, setZoom, zoom$ } from '@/libraries/map';
+import {
+  isLastUserMapCentre,
+  load$,
+  setBoundingBox,
+  setMap,
+  setUserMapMove,
+  setZoom,
+  useMapLocation,
+  zoom$
+} from '@/libraries/map';
 import { hrefWithSearchParams } from '@/libraries/nextjs';
 import { usePathname, useSearchParams } from '@/libraries/nextjs/shim';
 import { Subscribe } from '@/libraries/reactivity/Subscribe';
@@ -32,13 +41,17 @@ export const saveMapLocation = (zoom: number, lng: number, lat: number) => {
   sessionStorage.setItem('mapLocation', JSON.stringify({ zoom, lng, lat }));
 };
 
+const publishBoundingBox = (target: ViewStateChangeEvent['target']) => {
+  const lngLatBounds = target.getBounds();
+  setBoundingBox([lngLatBounds.getWest(), lngLatBounds.getSouth(), lngLatBounds.getEast(), lngLatBounds.getNorth()]);
+};
+
 const handleZoomEnd = ({ target }: ViewStateChangeEvent) => {
   setZoom(target.getZoom());
 };
 
 const handleMoveEnd = ({ target, originalEvent }: ViewStateChangeEvent) => {
-  const lngLatBounds = target.getBounds();
-  setBoundingBox([lngLatBounds.getWest(), lngLatBounds.getSouth(), lngLatBounds.getEast(), lngLatBounds.getNorth()]);
+  publishBoundingBox(target);
   saveMapLocation(target.getZoom(), target.getCenter().lng, target.getCenter().lat);
   if (originalEvent) setUserMapMove({ lat: target.getCenter().lat, lng: target.getCenter().lng, zoom: target.getZoom() });
 };
@@ -60,19 +73,30 @@ export const Cartographie = ({
   const [fullScreen, setFullScreen] = useState(false);
   const [fragiliteNumeriqueLayer, setFragiliteNumeriqueLayer] = useState<boolean>(false);
   const { theme } = useTheme();
+  const savedLocation = useMapLocation();
 
   useAutourFromMapMoves();
 
   if (defaultConfig == null) return null;
 
   const mapConfig = inject(MAP_CONFIG);
-  const config = {
-    zoom: mapConfig?.zoom ?? defaultConfig?.zoom,
-    localisation: {
-      latitude: mapConfig?.latitude ?? defaultConfig.localisation.latitude,
-      longitude: mapConfig?.longitude ?? defaultConfig.localisation.longitude
-    }
-  };
+  const isBackOnLastUserMove = isLastUserMapCentre({
+    lat: Number(searchParams.get('lat')),
+    lng: Number(searchParams.get('lng'))
+  });
+  const config =
+    isBackOnLastUserMove && savedLocation
+      ? {
+          zoom: savedLocation.zoom,
+          localisation: { latitude: savedLocation.latitude, longitude: savedLocation.longitude }
+        }
+      : {
+          zoom: mapConfig?.zoom ?? defaultConfig?.zoom,
+          localisation: {
+            latitude: mapConfig?.latitude ?? defaultConfig.localisation.latitude,
+            longitude: mapConfig?.longitude ?? defaultConfig.localisation.longitude
+          }
+        };
 
   return (
     <ClientOnly>
@@ -130,6 +154,7 @@ export const Cartographie = ({
               onLoad={({ target: map }) => {
                 addOverlay(map, Overlay.administrativeBoundaries);
                 setMap(map);
+                publishBoundingBox(map);
               }}
               initialViewState={{ ...config.localisation, zoom }}
               style={{ width: '100%', height: '100%' }}
