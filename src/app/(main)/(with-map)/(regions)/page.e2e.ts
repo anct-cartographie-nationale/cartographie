@@ -55,3 +55,30 @@ test.describe('Geographic Navigation', () => {
     await Promise.all([page.waitForURL(/\/ile-de-france\/seine-et-marne(\?|$)/), page.click('text=Seine-et-Marne')]);
   });
 });
+
+test.describe('Homepage filters', () => {
+  test.use({ viewport: { width: 1280, height: 600 } });
+
+  test('should update the region counters on the map without scrolling anything', async ({ page, request }) => {
+    await page.goto('/');
+    const bretagne = page.locator('a[aria-label^="Bretagne :"]');
+    await expect(bretagne).toHaveAttribute('aria-label', /[1-9]\d* lieux/, { timeout: 30_000 });
+    const filter = page.getByRole('button', { name: 'Besoins' });
+    await expect
+      .poll(() => filter.evaluate((button) => Object.keys(button).some((key) => key.startsWith('__reactProps'))))
+      .toBe(true);
+
+    await filter.click();
+    await page.locator('#services-maitrise-des-outils-numeriques-du-quotidien').check();
+    await page.keyboard.press('Escape');
+    await expect(page).toHaveURL(/services=/);
+
+    const stats = await (await request.get(`/api/stats${new URL(page.url()).search}`)).json();
+    const expected = stats.regions.find(({ slug }: { slug: string }) => slug === 'bretagne').nombreLieux;
+    await expect(bretagne).toHaveAttribute('aria-label', `Bretagne : ${expected} lieux`, { timeout: 30_000 });
+    const scrolledElements = await page.evaluate(
+      () => [...document.querySelectorAll('*')].filter((element) => element.scrollTop > 0).length
+    );
+    expect(scrolledElements).toBe(0);
+  });
+});
