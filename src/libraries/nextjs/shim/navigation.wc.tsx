@@ -2,8 +2,7 @@
 
 import { useLocation, useNavigate, useSearch, useRouter as useTanStackRouter } from '@tanstack/react-router';
 import { useMemo } from 'react';
-
-type NavigateOptions = { scroll?: boolean };
+import { splitHref } from '../split-href';
 
 export const usePathname = (): string => {
   const location = useLocation();
@@ -21,10 +20,10 @@ export const useRouter = () => {
 
   return useMemo(
     () => ({
-      push: (url: string, options?: NavigateOptions) => navigate({ to: url, resetScroll: options?.scroll ?? true }),
-      replace: (url: string, options?: NavigateOptions) =>
-        navigate({ to: url, replace: true, resetScroll: options?.scroll ?? true }),
-      back: () => window.history.back(),
+      push: (url: string, _options?: { scroll?: boolean }) => navigate(splitHref(url)),
+      replace: (url: string, _options?: { scroll?: boolean }) => navigate({ ...splitHref(url), replace: true }),
+      back: () => router.history.back(),
+      canGoBack: () => router.history.canGoBack(),
       refresh: () => router.invalidate()
     }),
     [navigate, router]

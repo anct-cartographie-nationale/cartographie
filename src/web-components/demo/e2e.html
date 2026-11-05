@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Cartographie Web Component - E2E</title>
+</head>
+<body style="margin: 0">
+  <div style="height: 100vh">
+    <cartographie-inclusion-numerique api-url="http://localhost:3000/api" app-name="E2E"></cartographie-inclusion-numerique>
+  </div>
+  <div style="height: 1500px"></div>
+  <script>
+    new URLSearchParams(location.search).forEach((value, name) => {
+      document.querySelector('cartographie-inclusion-numerique').setAttribute(name, value);
+    });
+  </script>
+  <script type="module" src="./main.ts"></script>
+</body>
+</html>
