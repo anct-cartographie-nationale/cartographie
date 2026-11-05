@@ -1,3 +1,10 @@
+## [6.35.3](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.35.2...v6.35.3) (2026-11-05)
+
+
+### Bug Fixes
+
+* **filtres:** mettre a jour les compteurs de la carte quand un filtre s'applique ([7e2548e](https://github.com/anct-cartographie-nationale/cartographie/commit/7e2548e9c62ce6a7cf1044dba9a0f461e6a614e5))
+
 ## [6.35.2](https://github.com/anct-cartographie-nationale/cartographie/compare/v6.35.1...v6.35.2) (2026-11-05)
 
 
