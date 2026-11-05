@@ -47,6 +47,34 @@ test.describe('Department page', () => {
   });
 });
 
+test.describe('Department page filters', () => {
+  test('should update the list without scrolling anything', async ({ page }) => {
+    await page.goto('/ile-de-france/seine-et-marne');
+    const title = page.locator('h1');
+    await expect(title).toContainText(/\d+ lieux/);
+    const titleBefore = await title.textContent();
+    await expect
+      .poll(() =>
+        page
+          .getByRole('button', { name: 'Besoins' })
+          .evaluate((button) => Object.keys(button).some((key) => key.startsWith('__reactProps')))
+      )
+      .toBe(true);
+
+    await page.getByRole('button', { name: 'Besoins' }).click();
+    await page.locator('#services-maitrise-des-outils-numeriques-du-quotidien').check();
+    await page.keyboard.press('Escape');
+
+    await expect(page).toHaveURL(/services=/);
+    await expect(title).not.toHaveText(titleBefore ?? '');
+    await page.waitForTimeout(500);
+    const scrolledElements = await page.evaluate(
+      () => [...document.querySelectorAll('*')].filter((e) => e.scrollTop > 0).length
+    );
+    expect(scrolledElements).toBe(0);
+  });
+});
+
 test.describe('Department page breadcrumbs', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/ile-de-france/seine-et-marne');
