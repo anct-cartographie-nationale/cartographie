@@ -14,5 +14,5 @@ export const MapPositionProvider: FC<PropsWithChildren> = ({ children }) => {
   provide(MAP_CONFIG, mapPosition);
   invalidateMapLocationIfChanged(mapPosition);
 
-  return <>{children}</>;
+  return children;
 };
